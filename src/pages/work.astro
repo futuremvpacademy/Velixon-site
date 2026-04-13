@@ -1,0 +1,26 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import { seo, siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta } = siteContent;
+---
+
+<MainLayout title={`${seo.title} | Work`} description={seo.description}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/work" />
+
+  <main class="work-page">
+    <div class="work-content">
+      <section class="work-status">
+        <img src={logo} class="intro-logo work-logo" alt="Velixon logo" />
+        <div class="tech-label">STATUS</div>
+        <h1>Work module offline</h1>
+        <p>Rebuild in progress</p>
+      </section>
+
+      <section class="work-contact">
+        <a href="/contact" class="work-contact-button">Contact now</a>
+      </section>
+    </div>
+  </main>
+</MainLayout>

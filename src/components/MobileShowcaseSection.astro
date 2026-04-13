@@ -1,0 +1,42 @@
+---
+interface MobileItem {
+  label: string;
+  alt: string;
+  position: string;
+}
+
+interface Props {
+  mobileShowcase: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    image: string;
+    items: MobileItem[];
+  };
+}
+
+const { mobileShowcase } = Astro.props;
+---
+
+<section class="mobile-showcase-section">
+  <div class="container">
+    <div class="section-intro mobile-showcase-intro">
+      <p class="eyebrow">{mobileShowcase.eyebrow}</p>
+      <h2>{mobileShowcase.title}</h2>
+    </div>
+
+    <div class="mobile-showcase-labels">
+      {mobileShowcase.items.map((item) => <p class="mobile-showcase-label">{item.label}</p>)}
+    </div>
+
+    <div class="mobile-comparison-frame">
+      <img
+        src={mobileShowcase.image}
+        alt="Before and after mobile website redesign comparison"
+        class="mobile-comparison-image"
+      />
+    </div>
+
+    <p class="mobile-showcase-support">{mobileShowcase.description}</p>
+  </div>
+</section>

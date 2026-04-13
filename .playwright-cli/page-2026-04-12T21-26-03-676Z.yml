@@ -1,0 +1,163 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4] [cursor=pointer]:
+      - img [ref=e5]
+      - paragraph [ref=e6]: Are you ready to get a website
+      - paragraph [ref=e7]: Tap anywhere to enter
+    - banner [ref=e8]:
+      - generic [ref=e9]:
+        - link "Velixon home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Velixon logo" [ref=e11]
+          - generic [ref=e12]: Velixon
+        - navigation "Primary navigation" [ref=e13]:
+          - link "Services" [ref=e14] [cursor=pointer]:
+            - /url: /services
+          - link "Work" [ref=e15] [cursor=pointer]:
+            - /url: /work
+          - link "Pricing" [ref=e16] [cursor=pointer]:
+            - /url: /pricing
+          - link "About" [ref=e17] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=e18] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e19]:
+          - generic [ref=e20]: Available for projects
+          - link "Start Your Project" [ref=e21] [cursor=pointer]:
+            - /url: /contact
+    - main [ref=e22]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: SYSTEM
+          - heading "High-performance websites designed to scale" [level=1] [ref=e27]:
+            - text: High-performance websites
+            - text: designed to scale
+          - paragraph [ref=e28]:
+            - text: Built clean. Delivered fast.
+            - text: Optimized for performance.
+          - generic [ref=e29]:
+            - link "Get started" [ref=e30] [cursor=pointer]:
+              - /url: /contact
+            - link "View pricing" [ref=e31] [cursor=pointer]:
+              - /url: /pricing
+        - generic "Velixon preview" [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e39]: Performance-focused build
+            - generic [ref=e40]:
+              - generic [ref=e41]:
+                - img [ref=e42]
+                - generic [ref=e43]: Velixon
+              - generic [ref=e44]:
+                - generic [ref=e45]:
+                  - paragraph [ref=e46]: Premium launch system
+                  - heading "Sharp UI. Fast load. Better trust." [level=2] [ref=e47]
+                  - paragraph [ref=e48]: A cleaner, faster website system built to look premium and guide people toward action.
+                - generic [ref=e49]:
+                  - generic [ref=e50]:
+                    - strong [ref=e51]: Fast
+                    - text: lightweight delivery
+                  - generic [ref=e52]:
+                    - strong [ref=e53]: Clean
+                    - text: structured layout system
+                  - generic [ref=e54]:
+                    - strong [ref=e55]: Focused
+                    - text: conversion-first flow
+              - generic [ref=e56]:
+                - generic [ref=e57]: Minimal layout
+                - generic [ref=e58]: Premium dark UI
+                - generic [ref=e59]: Soft purple glow
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - paragraph [ref=e63]: BUILD
+          - heading "Core services" [level=2] [ref=e64]
+        - generic [ref=e65]:
+          - article [ref=e66]:
+            - heading "Design" [level=3] [ref=e67]
+            - paragraph [ref=e68]: Clean, structured layouts
+          - article [ref=e69]:
+            - heading "Development" [level=3] [ref=e70]
+            - paragraph [ref=e71]: Fast, responsive builds
+          - article [ref=e72]:
+            - heading "Maintenance" [level=3] [ref=e73]
+            - paragraph [ref=e74]: Ongoing updates and support
+        - link "View Services" [ref=e76] [cursor=pointer]:
+          - /url: /services
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - paragraph [ref=e80]: Work preview
+          - heading "Placeholder website directions that show the kind of polished work Velixon can build." [level=2] [ref=e81]
+          - paragraph [ref=e82]: Three sample website directions designed to feel like real small-business projects with stronger presentation, better structure, and cleaner lead flow.
+        - generic [ref=e83]:
+          - article [ref=e84]:
+            - generic [ref=e85]:
+              - generic [ref=e86]: Service business
+              - generic [ref=e87]: Desktop + mobile
+            - heading "Local contractor website" [level=3] [ref=e107]
+            - paragraph [ref=e108]: A cleaner, more trustworthy site direction with stronger calls-to-action and a more professional first impression.
+          - article [ref=e109]:
+            - generic [ref=e110]:
+              - generic [ref=e111]: REDESIGN
+              - generic [ref=e112]: BEFORE + AFTER
+            - img "Before and after website redesign" [ref=e114]
+            - heading "Before and after redesign" [level=3] [ref=e115]
+            - paragraph [ref=e116]: A direct before-and-after comparison showing how a dated website can be turned into a cleaner, more premium, more conversion-focused direction.
+          - article [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e119]: Lead generation
+              - generic [ref=e120]: Conversion-focused
+            - heading "Service landing page" [level=3] [ref=e140]
+            - paragraph [ref=e141]: A focused landing page concept built around one offer, one audience, and a more direct path to inquiries.
+        - link "View Work" [ref=e143] [cursor=pointer]:
+          - /url: /work
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - paragraph [ref=e148]: Pricing preview
+          - heading "Simple pricing that starts with a one-time build, then optional monthly support." [level=2] [ref=e149]
+          - paragraph [ref=e150]: Start with a $500 custom website build, then choose the level of updates and support your business needs.
+        - generic [ref=e151]:
+          - generic [ref=e152]: $500 one-time build
+          - generic [ref=e153]: Monthly plans from $100/mo
+          - generic [ref=e154]: No contracts. Cancel anytime.
+        - link "View Pricing" [ref=e156] [cursor=pointer]:
+          - /url: /pricing
+      - generic [ref=e159]:
+        - paragraph [ref=e160]: Ready when you are
+        - heading "Ready to get your website?" [level=2] [ref=e161]
+        - paragraph [ref=e162]: Get a clean, modern website built for your business, then let us handle the updates, fixes, and improvements.
+        - paragraph [ref=e163]: Fast turnaround. Affordable pricing. No contracts.
+        - generic [ref=e164]:
+          - link "Start My Website" [ref=e165] [cursor=pointer]:
+            - /url: /contact
+          - link "Contact Velixon" [ref=e166] [cursor=pointer]:
+            - /url: /contact
+    - contentinfo [ref=e167]:
+      - generic [ref=e168]:
+        - generic [ref=e169]:
+          - paragraph [ref=e170]: Velixon
+          - paragraph [ref=e171]: Velixon designs modern websites for local businesses that need a stronger first impression, clearer messaging, and more customer inquiries.
+        - navigation "Footer navigation" [ref=e172]:
+          - link "Services" [ref=e173] [cursor=pointer]:
+            - /url: /services
+          - link "Work" [ref=e174] [cursor=pointer]:
+            - /url: /work
+          - link "Pricing" [ref=e175] [cursor=pointer]:
+            - /url: /pricing
+          - link "About" [ref=e176] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=e177] [cursor=pointer]:
+            - /url: /contact
+        - link "Velixon.web@gmail.com" [ref=e178] [cursor=pointer]:
+          - /url: mailto:Velixon.web@gmail.com
+  - generic [ref=e181]:
+    - button "Menu" [ref=e182]:
+      - img [ref=e184]
+      - generic: Menu
+    - button "Inspect" [ref=e188]:
+      - img [ref=e190]
+      - generic: Inspect
+    - button "Audit" [ref=e192]:
+      - img [ref=e194]
+      - generic: Audit
+    - button "Settings" [ref=e197]:
+      - img [ref=e199]
+      - generic: Settings

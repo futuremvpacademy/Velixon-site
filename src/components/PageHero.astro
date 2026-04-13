@@ -1,0 +1,33 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  cta?: string;
+  ctaHref?: string;
+  secondaryCta?: string;
+  secondaryCtaHref?: string;
+  helper?: string;
+}
+
+const { eyebrow, title, description, cta, ctaHref, secondaryCta, secondaryCtaHref, helper } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="page-hero-orb page-hero-orb-one" aria-hidden="true"></div>
+  <div class="page-hero-orb page-hero-orb-two" aria-hidden="true"></div>
+  <div class="container page-hero-shell">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="page-hero-text">{description}</p>
+
+    {(cta || secondaryCta) && (
+      <div class="page-hero-actions">
+        {cta && ctaHref && <a class="button" href={ctaHref}>{cta}</a>}
+        {secondaryCta && secondaryCtaHref && <a class="button button-secondary" href={secondaryCtaHref}>{secondaryCta}</a>}
+      </div>
+    )}
+
+    {helper && <p class="page-hero-helper">{helper}</p>}
+  </div>
+</section>

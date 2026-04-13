@@ -1,0 +1,34 @@
+---
+interface Props {
+  pricingPreview: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    bullets: string[];
+    cta: string;
+    href: string;
+  };
+}
+
+const { pricingPreview } = Astro.props;
+---
+
+<section class="pricing-preview-section">
+  <div class="container">
+    <div class="pricing-preview-shell">
+      <div class="section-intro">
+        <p class="eyebrow">{pricingPreview.eyebrow}</p>
+        <h2>{pricingPreview.title}</h2>
+        <p>{pricingPreview.description}</p>
+      </div>
+
+      <div class="pricing-preview-points">
+        {pricingPreview.bullets.map((bullet) => <span>{bullet}</span>)}
+      </div>
+
+      <div class="section-link-row section-link-row-left">
+        <a class="button" href={pricingPreview.href}>{pricingPreview.cta}</a>
+      </div>
+    </div>
+  </div>
+</section>

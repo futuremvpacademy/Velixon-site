@@ -1,0 +1,95 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import CardSection from "../components/CardSection.astro";
+import { seo, siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const page = siteContent.pages.contact;
+---
+
+<MainLayout title={`${seo.title} | Contact`} description={seo.description}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/contact" />
+  <main>
+    <PageHero
+      eyebrow={page.hero.eyebrow}
+      title={page.hero.title}
+      description={page.hero.description}
+      helper={page.helper}
+    />
+
+    <section class="page-section">
+      <div class="container contact-page-grid">
+        <form class="contact-form-card">
+          <div class="contact-form-intro">
+            <p class="tech-label">Start here</p>
+            <h2>Tell us what you need</h2>
+            <p>The more context you share, the easier it is for us to recommend the right site and the fastest next step.</p>
+          </div>
+          <div class="contact-direct">
+            <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+            <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}>{contactInfo.phone}</a>
+          </div>
+          <div class="contact-form-row">
+            <label>
+              First Name
+              <input type="text" placeholder="First name" />
+            </label>
+            <label>
+              Last Name
+              <input type="text" placeholder="Last name" />
+            </label>
+          </div>
+          <label>
+            Business Name
+            <input type="text" placeholder="Business name" />
+          </label>
+          <label>
+            Email Address
+            <input type="email" placeholder="you@example.com" />
+          </label>
+          <label>
+            Existing Business Website
+            <input type="url" placeholder="https://yourwebsite.com (optional)" />
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" placeholder="(555) 555-5555" />
+          </label>
+          <label>
+            Project Wants
+            <input type="text" placeholder="New website, redesign, landing page, ongoing updates..." />
+          </label>
+          <label>
+            Project details
+            <textarea rows="6" placeholder="Tell us what kind of site you need, what feels weak right now, and what you want the site to help you do"></textarea>
+          </label>
+          <div class="contact-reassurance">
+            <span>Fast reply</span>
+            <span>Clear next step</span>
+            <span>No pressure</span>
+          </div>
+          <button class="button" type="button">Get My Website</button>
+          <p class="contact-note">We’ll respond quickly and map out the right site for you.</p>
+          <p class="contact-note contact-note-strong">Simple process. Clear communication. Built for real businesses.</p>
+        </form>
+
+        <div class="contact-side">
+          <CardSection
+            eyebrow="What to send"
+            title="What helps us give you the best next step"
+            description="A short message is enough. These details just help us point you in the right direction faster."
+            items={page.whatToSend}
+          />
+          <CardSection
+            eyebrow="What happens next"
+            title="What you can expect after reaching out"
+            description="The goal is a low-friction start: quick communication, clear direction, and no unnecessary back-and-forth."
+            items={page.nextSteps}
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

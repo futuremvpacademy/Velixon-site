@@ -1,0 +1,34 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import ResultsSection from "../components/ResultsSection.astro";
+import CardSection from "../components/CardSection.astro";
+import FinalCtaSection from "../components/FinalCtaSection.astro";
+import { seo, siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta, ctaHref, results } = siteContent;
+const page = siteContent.pages.results;
+---
+
+<MainLayout title={`${seo.title} | Results`} description={seo.description}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/results" />
+  <main>
+    <PageHero
+      eyebrow={page.hero.eyebrow}
+      title={page.hero.title}
+      description={page.hero.description}
+      cta={cta}
+      ctaHref={ctaHref}
+      helper="A better website should make the business decision easier for your next customer."
+    />
+    <ResultsSection results={results} />
+    <CardSection
+      eyebrow="Why it matters"
+      title="Why a better website changes the customer decision"
+      description="These are the practical gains businesses feel when the site is clearer, more polished, and easier to act on."
+      items={page.details}
+    />
+    <FinalCtaSection cta={page.cta} />
+  </main>
+</MainLayout>

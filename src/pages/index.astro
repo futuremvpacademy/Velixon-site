@@ -1,0 +1,68 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import IntroOverlay from "../components/IntroOverlay.astro";
+import Navbar from "../components/Navbar.astro";
+import HeroSection from "../components/HeroSection.astro";
+import ServicesSection from "../components/ServicesSection.astro";
+import WorkPreviewSection from "../components/WorkPreviewSection.astro";
+import MobileShowcaseSection from "../components/MobileShowcaseSection.astro";
+import WalkthroughSection from "../components/WalkthroughSection.astro";
+import PricingPreviewSection from "../components/PricingPreviewSection.astro";
+import ClosingCtaSection from "../components/ClosingCtaSection.astro";
+import { seo, siteContent } from "../data/site";
+
+const {
+  companyName,
+  intro,
+  logo,
+  home,
+  cta,
+  ctaHref,
+  secondaryCta,
+  secondaryCtaHref,
+  homeServicesPreview,
+  workPreview,
+  mobileShowcase,
+  walkthrough,
+  homePreviews,
+  closingCta,
+  nav
+} =
+  siteContent;
+
+const showIntroOverlay = Boolean(intro.video);
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  {showIntroOverlay && <IntroOverlay intro={intro} />}
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/" />
+
+  <main>
+    <HeroSection
+      eyebrow={home.eyebrow}
+      headline={home.headline}
+      subheadline={home.subheadline}
+      cta={home.primaryCta}
+      ctaHref={home.primaryCtaHref}
+      secondaryCta={home.secondaryCta}
+      secondaryCtaHref={home.secondaryCtaHref}
+      heroPreview={home.heroPreview}
+      logo={logo}
+    />
+    <ServicesSection
+      eyebrow={homeServicesPreview.eyebrow}
+      title={homeServicesPreview.title}
+      description=""
+      items={homeServicesPreview.items}
+      ctaLabel={homePreviews.services.cta}
+      ctaHref={homePreviews.services.href}
+      gridClass="services-grid-preview"
+      showIndex={false}
+    />
+    <WorkPreviewSection workPreview={workPreview} ctaLabel={homePreviews.work.cta} ctaHref={homePreviews.work.href} />
+    <MobileShowcaseSection mobileShowcase={mobileShowcase} />
+    <WalkthroughSection walkthrough={walkthrough} />
+    <PricingPreviewSection pricingPreview={homePreviews.pricing} />
+    <ClosingCtaSection cta={closingCta} />
+  </main>
+</MainLayout>

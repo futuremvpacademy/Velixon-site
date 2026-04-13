@@ -1,0 +1,52 @@
+---
+interface Service {
+  meta?: string;
+  title: string;
+  description: string;
+  outcome?: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  items: Service[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  sectionClass?: string;
+  gridClass?: string;
+  showIndex?: boolean;
+}
+
+const { eyebrow, title, description, items, ctaLabel, ctaHref, sectionClass, gridClass, showIndex = true } = Astro.props;
+---
+
+<section class:list={["services-section", sectionClass]} id="services">
+  <div class="container">
+    <div class="section-intro">
+      <p class="tech-label">{eyebrow}</p>
+      <h2>{title}</h2>
+      {description && <p>{description}</p>}
+    </div>
+
+    <div class:list={["services-grid", gridClass]}>
+      {
+        items.map((item, index) => (
+          <article class="service-card">
+            {showIndex && <span class="service-index">0{index + 1}</span>}
+            {item.meta && <p class="service-meta">{item.meta}</p>}
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            {item.outcome && <p class="service-outcome">{item.outcome}</p>}
+          </article>
+        ))
+      }
+    </div>
+
+    {ctaLabel && ctaHref && (
+      <div class="section-link-row">
+        <a class="button button-secondary" href={ctaHref}>{ctaLabel}</a>
+      </div>
+    )}
+  </div>
+</section>

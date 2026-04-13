@@ -1,0 +1,27 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import PricingPlansSection from "../components/PricingPlansSection.astro";
+import ClosingCtaSection from "../components/ClosingCtaSection.astro";
+import { seo, siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta, ctaHref, pricingPlans, closingCta } = siteContent;
+const page = siteContent.pages.pricing;
+---
+
+<MainLayout title={`${seo.title} | Pricing`} description={seo.description}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/pricing" />
+  <main>
+    <PageHero
+      eyebrow={page.hero.eyebrow}
+      title={page.hero.title}
+      description={page.hero.description}
+      cta={cta}
+      ctaHref={ctaHref}
+      helper="Tell us what you need and we’ll recommend the right scope before anything starts."
+    />
+    <PricingPlansSection pricingPlans={pricingPlans} />
+    <ClosingCtaSection cta={closingCta} />
+  </main>
+</MainLayout>

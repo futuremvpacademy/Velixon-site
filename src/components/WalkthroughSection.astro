@@ -1,0 +1,40 @@
+---
+import { existsSync } from "node:fs";
+
+interface Props {
+  walkthrough: {
+    title: string;
+    video: string;
+    description: string;
+  };
+}
+
+const { walkthrough } = Astro.props;
+const videoFile = new URL(`../../public${walkthrough.video}`, import.meta.url);
+const hasVideo = existsSync(videoFile);
+---
+
+{hasVideo && (
+  <section class="walkthrough-section">
+    <div class="container">
+      <section class="walkthrough">
+        <h2>{walkthrough.title}</h2>
+
+        <div class="video-wrap">
+          <video
+            src={walkthrough.video}
+            autoplay
+            muted
+            loop
+            playsinline
+            controls
+          ></video>
+        </div>
+
+        <p class="walkthrough-text">
+          {walkthrough.description}
+        </p>
+      </section>
+    </div>
+  </section>
+)}

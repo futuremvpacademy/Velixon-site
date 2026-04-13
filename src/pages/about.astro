@@ -1,0 +1,40 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import CardSection from "../components/CardSection.astro";
+import WhyVelixonSection from "../components/WhyVelixonSection.astro";
+import ClosingCtaSection from "../components/ClosingCtaSection.astro";
+import { seo, siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta, ctaHref, whyVelixon, closingCta } = siteContent;
+const page = siteContent.pages.about;
+---
+
+<MainLayout title={`${seo.title} | About`} description={seo.description}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/about" />
+  <main>
+    <PageHero
+      eyebrow={page.hero.eyebrow}
+      title={page.hero.title}
+      description={page.hero.description}
+      cta={cta}
+      ctaHref={ctaHref}
+      helper="A focused, premium web design approach built around what small businesses actually need."
+    />
+    <CardSection
+      eyebrow="The story"
+      title="Why Velixon exists"
+      description="Small businesses deserve websites that look more professional, feel easier to trust, and don’t come with agency-style friction."
+      items={page.story}
+    />
+    <WhyVelixonSection whyVelixon={whyVelixon} />
+    <CardSection
+      eyebrow="What makes it different"
+      title="A cleaner process with more practical value"
+      description="The difference is simple: premium presentation, clearer pricing, faster communication, and websites built to support real business growth."
+      items={page.difference}
+    />
+    <ClosingCtaSection cta={closingCta} />
+  </main>
+</MainLayout>

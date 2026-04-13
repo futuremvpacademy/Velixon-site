@@ -1,0 +1,42 @@
+---
+interface FinalCta {
+  eyebrow: string;
+  title: string;
+  description: string;
+  points: string[];
+  primary: string;
+  primaryHref: string;
+  secondary: string;
+  secondaryHref: string;
+  helper: string;
+}
+
+interface Props {
+  cta: FinalCta;
+}
+
+const { cta } = Astro.props;
+---
+
+<section class="final-cta" id="contact">
+  <div class="container">
+    <div class="final-cta-shell">
+      <div class="final-cta-copy">
+        <p class="eyebrow">{cta.eyebrow}</p>
+        <h2>{cta.title}</h2>
+        <p>{cta.description}</p>
+      </div>
+
+      <div class="final-cta-side">
+        <div class="final-cta-points">
+          {cta.points.map((point) => <span>{point}</span>)}
+        </div>
+        <div class="final-cta-actions">
+          <a class="button" href={cta.primaryHref}>{cta.primary}</a>
+          <a class="button button-secondary" href={cta.secondaryHref}>{cta.secondary}</a>
+        </div>
+        <p class="final-cta-helper">{cta.helper}</p>
+      </div>
+    </div>
+  </div>
+</section>

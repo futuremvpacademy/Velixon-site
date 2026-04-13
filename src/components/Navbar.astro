@@ -1,0 +1,52 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  companyName: string;
+  logo: string;
+  nav: NavItem[];
+  cta: string;
+  currentPath?: string;
+}
+
+const { companyName, logo, nav, cta, currentPath = "/" } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container nav-shell">
+    <a class="brand" href="/" aria-label={`${companyName} home`}>
+      <img class="brand-logo" src={logo} alt={`${companyName} logo`} />
+      <span class="brand-name">{companyName}</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="nav-cta-wrap">
+      <span class="nav-status">Available for projects</span>
+      <a class="button button-small" href="/contact">{cta}</a>
+    </div>
+  </div>
+
+  <div class="container mobile-nav-wrap">
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

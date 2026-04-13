@@ -1,0 +1,63 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface SocialItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  logo: string;
+  companyName: string;
+  nav: NavItem[];
+  footer: {
+    blurb: string;
+    designedBy: string;
+    email: string;
+    socials: SocialItem[];
+  };
+  phone: string;
+}
+
+const { logo, companyName, nav, footer, phone } = Astro.props;
+const phoneHref = `tel:${phone.replace(/[^0-9+]/g, "")}`;
+---
+
+<footer class="site-footer">
+  <div class="container footer-shell">
+    <div class="footer-brand">
+      <div class="footer-brand-top">
+        <img class="footer-brand-logo" src={logo} alt={`${companyName} logo`} />
+        <p class="footer-title">{companyName}</p>
+      </div>
+      <p class="footer-description">{footer.blurb}</p>
+      <div class="footer-credit-signature">
+        <img class="footer-credit-logo" src={logo} alt={`${companyName} logo`} />
+        <p class="footer-credit">{footer.designedBy}</p>
+      </div>
+    </div>
+
+    <div class="footer-column">
+      <p class="footer-heading">Navigate</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+
+    <div class="footer-column footer-contact">
+      <p class="footer-heading">Connect</p>
+      <a class="footer-link" href={`mailto:${footer.email}`}>{footer.email}</a>
+      <a class="footer-link" href={phoneHref}>{phone}</a>
+      <div class="footer-socials" aria-label="Social links">
+        {footer.socials.map((item) => (
+          <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>

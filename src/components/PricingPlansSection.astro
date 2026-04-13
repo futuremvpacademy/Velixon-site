@@ -1,0 +1,149 @@
+---
+interface Plan {
+  name: string;
+  price: string;
+  featured: boolean;
+  cta: string;
+  description: string;
+  starterFeatures?: string[];
+  standardFeatures?: string[];
+  premiumFeatures?: string[];
+}
+
+interface Props {
+  pricingPlans: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    build: {
+      title: string;
+      price: string;
+      cadence: string;
+      cta: string;
+      bullets: string[];
+    };
+    monthlyTitle: string;
+    monthlyDescription: string;
+    sharedFeatures: string[];
+    plans: Plan[];
+    allPlansTitle: string;
+    allPlansFeatures: string[];
+  };
+}
+
+const { pricingPlans } = Astro.props;
+const supersededStarterFeatures = ["Up to 3 update requests per month", "48–72 hour turnaround"];
+const baseFeaturesForHigherTiers = pricingPlans.sharedFeatures.filter(
+  (feature) => !supersededStarterFeatures.includes(feature)
+);
+---
+
+<section class="pricing-plans-section" id="pricing">
+  <div class="container">
+    <div class="section-intro">
+      <p class="eyebrow">{pricingPlans.eyebrow}</p>
+      <h2>{pricingPlans.title}</h2>
+      <p>{pricingPlans.description}</p>
+    </div>
+
+    <div class="pricing-build-shell">
+      <div class="pricing-build-copy">
+        <p class="pricing-block-label">Website Build</p>
+        <h3>{pricingPlans.build.title}</h3>
+        <p class="pricing-build-price">
+          <span>{pricingPlans.build.price}</span>
+          <small>{pricingPlans.build.cadence}</small>
+        </p>
+      </div>
+
+      <div class="pricing-build-list">
+        {pricingPlans.build.bullets.map((bullet) => <span>{bullet}</span>)}
+      </div>
+
+      <div class="pricing-build-actions">
+        <div class="pricing-cta-stack">
+          <a class="button" href="/contact">{pricingPlans.build.cta}</a>
+          <p class="pricing-cta-note">Takes less than 2 minutes</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-section-divider" aria-hidden="true"></div>
+
+    <div class="pricing-monthly-intro">
+      <p class="pricing-block-label">Monthly Maintenance</p>
+      <h3>{pricingPlans.monthlyTitle}</h3>
+      <p>{pricingPlans.monthlyDescription}</p>
+      <p class="pricing-monthly-helper">We handle updates, fixes, and improvements so you don’t have to.</p>
+    </div>
+
+    <div class="pricing-plans-grid">
+      {
+        pricingPlans.plans.map((plan, index) => (
+          <article class:list={["pricing-plan-card", plan.featured && "pricing-plan-card-featured", index === 2 && "pricing-plan-card-premium"]}>
+            {plan.featured && <span class="pricing-plan-badge">Most Popular</span>}
+            <div class="pricing-plan-header">
+              <h3>{plan.name}</h3>
+              <p class="pricing-plan-price">{plan.price}</p>
+              <p class="pricing-plan-summary">{plan.description}</p>
+            </div>
+
+            <div class="pricing-plan-divider"></div>
+            <div class="pricing-plan-list">
+              {index === 0 && (
+                <>
+                  {pricingPlans.sharedFeatures.map((feature) => <span class="pricing-plan-feature is-base">{feature}</span>)}
+                  {(plan.starterFeatures ?? []).map((feature) => <span class="pricing-plan-feature is-base">{feature}</span>)}
+                </>
+              )}
+
+              {index === 1 && (
+                <>
+                  {baseFeaturesForHigherTiers.map((feature) => <span class="pricing-plan-feature is-base">{feature}</span>)}
+                  {(plan.standardFeatures ?? []).map((feature) => (
+                    <span class="pricing-plan-feature is-standard">
+                      <span class="pricing-plan-plus" aria-hidden="true">+</span>
+                      {feature}
+                    </span>
+                  ))}
+                </>
+              )}
+
+              {index === 2 && (
+                <>
+                  {baseFeaturesForHigherTiers.map((feature) => <span class="pricing-plan-feature is-base">{feature}</span>)}
+                  {(plan.standardFeatures ?? []).map((feature) => (
+                    <span class="pricing-plan-feature is-standard">
+                      <span class="pricing-plan-plus" aria-hidden="true">+</span>
+                      {feature}
+                    </span>
+                  ))}
+                  {(plan.premiumFeatures ?? []).map((feature) => (
+                    <span class="pricing-plan-feature is-premium">
+                      <span class="pricing-plan-plus pricing-plan-plus-premium" aria-hidden="true">++</span>
+                      {feature}
+                    </span>
+                  ))}
+                </>
+              )}
+            </div>
+
+            <div class="pricing-cta-stack">
+              <a class="button" href="/contact">{plan.cta}</a>
+              <p class="pricing-cta-note">Takes less than 2 minutes</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="pricing-included-shell">
+      <p class="pricing-block-label">{pricingPlans.allPlansTitle}</p>
+      <div class="pricing-included-list">
+        {pricingPlans.allPlansFeatures.map((feature) => <span>{feature}</span>)}
+      </div>
+    </div>
+
+    <p class="pricing-trust-line">No contracts. Cancel anytime. We handle everything for you.</p>
+  </div>
+</section>

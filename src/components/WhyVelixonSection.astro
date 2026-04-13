@@ -1,0 +1,39 @@
+---
+interface WhyItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  whyVelixon: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    items: WhyItem[];
+  };
+}
+
+const { whyVelixon } = Astro.props;
+---
+
+<section class="why-velixon-section">
+  <div class="container why-velixon-shell">
+    <div class="section-intro why-velixon-intro">
+      <p class="eyebrow">{whyVelixon.eyebrow}</p>
+      <h2>{whyVelixon.title}</h2>
+      <p>{whyVelixon.description}</p>
+    </div>
+
+    <div class="why-velixon-grid">
+      {
+        whyVelixon.items.map((item, index) => (
+          <article class="why-velixon-card">
+            <span class="why-velixon-index">0{index + 1}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import ServicesSection from "../components/ServicesSection.astro";
+import CardSection from "../components/CardSection.astro";
+import ProcessSection from "../components/ProcessSection.astro";
+import FinalCtaSection from "../components/FinalCtaSection.astro";
+import { seo, siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta, ctaHref, secondaryCta, secondaryCtaHref, process } = siteContent;
+const page = siteContent.pages.services;
+---
+
+<MainLayout title={`${seo.title} | Services`} description={seo.description}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/services" />
+  <main>
+    <PageHero
+      eyebrow={page.hero.eyebrow}
+      title={page.hero.title}
+      description={page.hero.description}
+      cta={cta}
+      ctaHref={ctaHref}
+      secondaryCta={secondaryCta}
+      secondaryCtaHref={secondaryCtaHref}
+      helper="Tell us what you need and we’ll recommend the right type of site for your business."
+    />
+    <ServicesSection
+      eyebrow="Core offers"
+      title="What Velixon can build for your business"
+      description="Focused website services for businesses that need a better first impression, stronger trust, and a cleaner path to leads."
+      items={page.breakdown}
+      sectionClass="services-section-balanced"
+    />
+    <CardSection
+      eyebrow="Best fit"
+      title="A strong fit for businesses that need a more credible online presence"
+      description="These projects work best when the goal is clearer messaging, stronger trust, and a website that finally matches the quality of the business."
+      items={page.fit}
+    />
+    <ProcessSection process={process} />
+    <FinalCtaSection cta={page.cta} />
+  </main>
+</MainLayout>

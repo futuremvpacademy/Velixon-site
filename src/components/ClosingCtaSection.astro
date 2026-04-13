@@ -1,0 +1,31 @@
+---
+interface Props {
+  cta: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    trustLine: string;
+    primary: string;
+    primaryHref: string;
+    secondary: string;
+    secondaryHref: string;
+  };
+}
+
+const { cta } = Astro.props;
+---
+
+<section class="closing-cta-section">
+  <div class="container">
+    <div class="closing-cta-shell">
+      <p class="eyebrow">{cta.eyebrow}</p>
+      <h2>{cta.title}</h2>
+      <p class="closing-cta-text">{cta.description}</p>
+      <p class="closing-cta-trust">{cta.trustLine}</p>
+      <div class="closing-cta-actions">
+        <a class="button" href={cta.primaryHref}>{cta.primary}</a>
+        <a class="button button-secondary" href={cta.secondaryHref}>{cta.secondary}</a>
+      </div>
+    </div>
+  </div>
+</section>

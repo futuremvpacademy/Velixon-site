@@ -1,0 +1,39 @@
+---
+interface Step {
+  title: string;
+  description: string;
+}
+
+interface Process {
+  eyebrow: string;
+  title: string;
+  steps: Step[];
+}
+
+interface Props {
+  process: Process;
+}
+
+const { process } = Astro.props;
+---
+
+<section class="process-section">
+  <div class="container">
+    <div class="section-intro">
+      <p class="eyebrow">{process.eyebrow}</p>
+      <h2>{process.title}</h2>
+    </div>
+
+    <div class="process-grid">
+      {
+        process.steps.map((step, index) => (
+          <article class="process-card">
+            <span class="process-index">0{index + 1}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
