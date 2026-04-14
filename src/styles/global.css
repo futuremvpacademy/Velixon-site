@@ -53,24 +53,6 @@ body {
   overflow-x: hidden;
 }
 
-.motion-js body {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 360ms ease,
-    transform 360ms ease;
-}
-
-.motion-js body.page-is-ready {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.motion-js body.page-is-transitioning {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
 h1,
 h2,
 h3,
@@ -114,18 +96,9 @@ textarea {
 }
 
 [data-reveal] {
-  opacity: 0;
-  transform: translateY(28px) scale(0.985);
-  transition:
-    opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-[data-reveal].is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: none;
+  transition: none;
 }
 
 .site-shell {
@@ -3035,11 +3008,7 @@ h2,
     scroll-behavior: auto;
   }
 
-  .motion-js body,
-  .motion-js body.page-is-ready,
-  .motion-js body.page-is-transitioning,
   [data-reveal],
-  [data-reveal].is-visible,
   .walkthrough.is-visible .video-wrap {
     opacity: 1 !important;
     transform: none !important;
