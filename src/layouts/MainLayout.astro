@@ -10,6 +10,8 @@ interface Props {
 
 const { title, description } = Astro.props;
 const { logo, companyName, footer, footerNav, contactInfo } = siteContent;
+const siteUrl = "https://velixon.net";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 ---
 
 <!doctype html>
@@ -19,8 +21,20 @@ const { logo, companyName, footer, footerNav, contactInfo } = siteContent;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="google-site-verification" content="dGkUQvJiuJnXuZ91zKH9JoP3fADKym0_TzAcCa90PtY" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B68W7DF2RB"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-B68W7DF2RB");
+    </script>
   </head>
   <body>
     <div class="site-shell">
