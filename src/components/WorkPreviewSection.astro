@@ -1,24 +1,19 @@
 ---
-interface WorkItem {
-  tag: string;
-  title: string;
-  description: string;
-  accent: string;
-}
-
 interface Props {
   workPreview: {
     eyebrow: string;
     title: string;
     description: string;
-    items: WorkItem[];
+    cardTag: string;
+    cardAccent: string;
+    cardTitle: string;
+    cardDescription: string;
   };
   ctaLabel?: string;
   ctaHref?: string;
 }
 
 const { workPreview, ctaLabel, ctaHref } = Astro.props;
-const redesignItem = workPreview.items.find((item) => item.tag === "Redesign");
 ---
 
 <section class="work-preview-section">
@@ -29,52 +24,47 @@ const redesignItem = workPreview.items.find((item) => item.tag === "Redesign");
       <p>{workPreview.description}</p>
     </div>
 
-    {redesignItem && (
-      <div class="work-preview-grid">
-        <article class="work-preview-card work-preview-card-showcase">
-          <div class="work-preview-top">
-            <span class="work-preview-tag">REDESIGN</span>
-            <span class="work-preview-accent">BEFORE + AFTER</span>
+    <div class="work-preview-grid">
+      <article class="work-preview-card work-preview-card-showcase">
+        <div class="work-preview-top">
+          <span class="work-preview-tag">{workPreview.cardTag}</span>
+          <span class="work-preview-accent">{workPreview.cardAccent}</span>
+        </div>
+
+        <h3>{workPreview.cardTitle}</h3>
+
+        <div class="work-preview-image-shell work-preview-compare" data-compare-root>
+          <div
+            class="work-preview-compare-panel work-preview-compare-after"
+            style={`background-image: url('/images/prism-before-after.png');`}
+            aria-hidden="true"
+          ></div>
+          <div
+            class="work-preview-compare-panel work-preview-compare-before"
+            data-compare-before
+            style={`background-image: url('/images/prism-before-after.png');`}
+            aria-hidden="true"
+          ></div>
+          <div class="work-preview-compare-divider" data-compare-divider aria-hidden="true">
+            <span></span>
           </div>
+          <div class="work-preview-compare-label work-preview-compare-label-before">Before</div>
+          <div class="work-preview-compare-label work-preview-compare-label-after">After</div>
+          <input
+            class="work-preview-compare-range"
+            data-compare-range
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            aria-label="Compare the before and after website redesign"
+          />
+          <div class="work-preview-image-overlay"></div>
+        </div>
 
-          <h3>Before and after redesign</h3>
-
-          <div class="work-preview-image-shell work-preview-compare" data-compare-root>
-            <div
-              class="work-preview-compare-panel work-preview-compare-after"
-              style={`background-image: url('/images/prism-before-after.png');`}
-              aria-hidden="true"
-            ></div>
-            <div
-              class="work-preview-compare-panel work-preview-compare-before"
-              data-compare-before
-              style={`background-image: url('/images/prism-before-after.png');`}
-              aria-hidden="true"
-            ></div>
-            <div class="work-preview-compare-divider" data-compare-divider aria-hidden="true">
-              <span></span>
-            </div>
-            <div class="work-preview-compare-label work-preview-compare-label-before">Before</div>
-            <div class="work-preview-compare-label work-preview-compare-label-after">After</div>
-            <input
-              class="work-preview-compare-range"
-              data-compare-range
-              type="range"
-              min="0"
-              max="100"
-              value="50"
-              aria-label="Compare the before and after website redesign"
-            />
-            <div class="work-preview-image-overlay"></div>
-          </div>
-
-          <p>
-            A direct before-and-after comparison showing how a dated website can be turned into a cleaner, more
-            premium, more conversion-focused direction.
-          </p>
-        </article>
-      </div>
-    )}
+        <p>{workPreview.cardDescription}</p>
+      </article>
+    </div>
 
     {ctaLabel && ctaHref && (
       <div class="section-link-row">

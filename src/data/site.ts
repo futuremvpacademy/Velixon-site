@@ -1,12 +1,6 @@
 export const siteContent = {
   companyName: "Velixon",
   logo: "/velixon-logo.png",
-  intro: {
-    logo: "/velixon-logo.png",
-    headline: "Are you ready to get a website",
-    helper: "Tap anywhere to enter",
-    video: ""
-  },
   cta: "Start Your Project",
   ctaHref: "/contact",
   secondaryCta: "View Pricing",
@@ -77,12 +71,6 @@ export const siteContent = {
       }
     ]
   },
-  servicesSection: {
-    eyebrow: "Services",
-    title: "Website services built to help your business look better and convert better.",
-    description:
-      "Four focused website services designed to improve trust, modernize your presentation, and make it easier for customers to reach out."
-  },
   homePreviews: {
     services: {
       cta: "View Services",
@@ -100,30 +88,8 @@ export const siteContent = {
       bullets: ["$500 one-time build", "Monthly plans from $100/mo", "No contracts. Cancel anytime."],
       cta: "View Pricing",
       href: "/pricing"
-    },
-    finalCta: {
-      primary: "Start My Website",
-      secondary: "Contact Velixon"
     }
   },
-  trustItems: [
-    {
-      title: "Clean modern design",
-      detail: "Polished layouts that help your business look established and professional from the first visit."
-    },
-    {
-      title: "Mobile optimized",
-      detail: "Built to look sharp and work smoothly across phones, tablets, and desktop screens."
-    },
-    {
-      title: "Built for conversions",
-      detail: "Clear structure and stronger calls-to-action make it easier for visitors to reach out."
-    },
-    {
-      title: "Affordable and fast",
-      detail: "Straightforward scope and focused delivery keep the process practical for small businesses."
-    }
-  ],
   services: [
     {
       title: "Web Design",
@@ -155,26 +121,11 @@ export const siteContent = {
     title: "A real redesign example that shows how Velixon sharpens presentation and trust.",
     description:
       "A focused before-and-after comparison showing how a dated website can be rebuilt into something cleaner, more premium, and easier to trust.",
-    items: [
-      {
-        tag: "Service business",
-        title: "Local contractor website",
-        description: "A cleaner, more trustworthy site direction with stronger calls-to-action and a more professional first impression.",
-        accent: "Desktop + mobile"
-      },
-      {
-        tag: "Redesign",
-        title: "Business redesign concept",
-        description: "A placeholder redesign mockup that turns an outdated site into a cleaner, more premium lead-generation experience.",
-        accent: "Visual trust upgrade"
-      },
-      {
-        tag: "Lead generation",
-        title: "Service landing page",
-        description: "A focused landing page concept built around one offer, one audience, and a more direct path to inquiries.",
-        accent: "Conversion-focused"
-      }
-    ]
+    cardTag: "REDESIGN",
+    cardAccent: "BEFORE + AFTER",
+    cardTitle: "Before and after redesign",
+    cardDescription:
+      "A direct before-and-after comparison showing how a dated website can be turned into a cleaner, more premium, more conversion-focused direction."
   },
   mobileShowcase: {
     eyebrow: "Mobile Experience Upgrade",
@@ -366,12 +317,6 @@ export const siteContent = {
       }
     ]
   },
-  pricingClarity: {
-    eyebrow: "Pricing clarity",
-    title: "Clear, straightforward pricing",
-    description: "Most websites fall between $300-$800 depending on scope.",
-    bullets: ["No hidden fees", "Fast turnaround", "Built for real business use"]
-  },
   finalCta: {
     eyebrow: "Ready to Get More Customers?",
     title: "Make your next website a smart business decision.",
@@ -444,28 +389,6 @@ export const siteContent = {
         secondaryHref: "/pricing",
         helper: "We’ll respond quickly and map out the right site for you."
       }
-    },
-    work: {
-      hero: {
-        eyebrow: "Work",
-        title: "Website directions that feel clean, modern, and built to convert.",
-        description:
-          "A focused showcase of placeholder project directions that show the kind of polished, lead-driven work Velixon can create for small businesses."
-      },
-      details: [
-        {
-          title: "Designed for trust",
-          description: "Each concept focuses on clean structure, stronger messaging, and a more credible first impression."
-        },
-        {
-          title: "Built to be responsive",
-          description: "Layouts are designed to feel sharp on desktop and mobile instead of treating mobile as an afterthought."
-        },
-        {
-          title: "Focused on action",
-          description: "Calls-to-action, forms, and page hierarchy are built around helping more visitors reach out."
-        }
-      ]
     },
     results: {
       hero: {

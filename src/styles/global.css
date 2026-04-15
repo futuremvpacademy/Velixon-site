@@ -914,7 +914,6 @@ h2,
 }
 
 .preview-shell,
-.trust-item,
 .final-cta-shell {
   position: relative;
   border: 1px solid var(--border);
@@ -924,7 +923,6 @@ h2,
 }
 
 .preview-shell::before,
-.trust-item::before,
 .final-cta-shell::before {
   content: "";
   position: absolute;
@@ -1069,76 +1067,6 @@ h2,
   font-size: 0.92rem;
 }
 
-.trust-strip {
-  position: relative;
-  padding: calc(var(--section-space) - 0.8rem) 0 var(--section-space);
-}
-
-.trust-strip::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0));
-  pointer-events: none;
-}
-
-.trust-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.2rem;
-}
-
-.trust-item {
-  display: grid;
-  align-content: start;
-  gap: 0.34rem;
-  padding: 1.45rem;
-  text-align: left;
-  min-height: 100%;
-  background:
-    radial-gradient(circle at top left, rgba(203, 189, 242, 0.09), transparent 30%),
-    linear-gradient(180deg, rgba(17, 13, 27, 0.94), rgba(9, 7, 15, 0.96));
-}
-
-.trust-accent {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.3rem;
-  height: 2.3rem;
-  margin-bottom: 0.85rem;
-  border-radius: 14px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(220, 209, 245, 0.52), transparent 30%),
-    linear-gradient(135deg, rgba(203, 189, 242, 0.18), rgba(35, 27, 50, 0.92));
-  box-shadow:
-    inset 0 1px 0 rgba(220, 209, 245, 0.18),
-    0 0 18px rgba(203, 189, 242, 0.12);
-}
-
-.trust-accent-core {
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 999px;
-  background: var(--gradient-accent);
-  box-shadow: 0 0 18px rgba(154, 140, 255, 0.28);
-}
-
-.trust-item h3 {
-  margin: 0 0 0.35rem;
-  font-family: var(--font-heading);
-  font-size: 1.16rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.trust-item p {
-  margin: 0;
-  color: var(--text-secondary);
-  max-width: 28ch;
-  line-height: 1.62;
-}
-
 .services-section {
   padding: 0 0 var(--section-space);
 }
@@ -1171,7 +1099,6 @@ h2,
 
 .results-section,
 .process-section,
-.pricing-clarity-section,
 .pricing-plans-section,
 .work-preview-section,
 .mobile-showcase-section,
@@ -2320,7 +2247,6 @@ h2,
   gap: 1.2rem;
 }
 
-.pricing-clarity-shell,
 .result-card,
 .process-card {
   position: relative;
@@ -2403,7 +2329,6 @@ h2,
   margin-top: 0.7rem;
 }
 
-.pricing-clarity-shell::before,
 .result-card::before,
 .process-card::before {
   content: "";
@@ -2488,42 +2413,6 @@ h2,
   max-width: 28ch;
   color: var(--text-secondary);
   line-height: 1.58;
-}
-
-.pricing-clarity-shell {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1.5rem;
-  align-items: center;
-  padding: 1.6rem;
-}
-
-.pricing-clarity-points {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.7rem;
-}
-
-.pricing-clarity-points span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.72rem 0.92rem;
-  border: 1px solid rgba(172, 162, 190, 0.14);
-  border-radius: 999px;
-  background: rgba(10, 7, 17, 0.72);
-  color: var(--text-secondary);
-  font-size: 0.92rem;
-}
-
-.pricing-clarity-points span::before {
-  content: "";
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-bright));
-  box-shadow: 0 0 14px rgba(203, 189, 242, 0.28);
 }
 
 .final-cta-shell {
@@ -2903,14 +2792,12 @@ h2,
 
 @media (prefers-reduced-motion: no-preference) {
   .preview-shell,
-  .trust-item,
   .final-cta-shell,
   .service-card,
   .result-card,
   .process-card,
   .detail-card,
   .contact-form-card,
-  .pricing-clarity-shell,
   .hero-proof-card,
   .button {
     transition:
@@ -2922,7 +2809,6 @@ h2,
   }
 
   .preview-shell:hover,
-  .trust-item:hover,
   .final-cta-shell:hover,
   .service-card:hover,
   .result-card:hover,
@@ -2949,21 +2835,18 @@ h2,
   .page-section,
   .results-section,
   .process-section,
-  .pricing-clarity-section,
   .pricing-plans-section,
   .closing-cta-section,
   .services-section,
   .work-preview-section,
   .mobile-showcase-section,
   .walkthrough-section,
-  .why-velixon-section,
-  .trust-strip {
+  .why-velixon-section {
     padding-bottom: 4.8rem;
   }
 
   .hero-grid,
   .preview-grid,
-  .trust-grid,
   .services-grid,
   .pricing-plans-grid,
   .work-preview-grid,
@@ -2973,10 +2856,6 @@ h2,
   .detail-grid,
   .contact-page-grid,
   .final-cta-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .pricing-clarity-shell {
     grid-template-columns: 1fr;
   }
 
@@ -3057,8 +2936,7 @@ h2,
 
   .final-cta-side,
   .final-cta-points,
-  .final-cta-actions,
-  .pricing-clarity-points {
+  .final-cta-actions {
     justify-content: flex-start;
     justify-items: start;
   }
@@ -3220,10 +3098,6 @@ h2,
   .final-cta-actions,
   .final-cta-actions .button {
     width: 100%;
-  }
-
-  .trust-strip {
-    padding: 1.2rem 0 3.8rem;
   }
 
   .contact-form-card {
