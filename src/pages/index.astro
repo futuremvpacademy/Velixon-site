@@ -1,6 +1,5 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import IntroOverlay from "../components/IntroOverlay.astro";
 import Navbar from "../components/Navbar.astro";
 import HeroSection from "../components/HeroSection.astro";
 import ServicesSection from "../components/ServicesSection.astro";
@@ -13,7 +12,6 @@ import { seo, siteContent } from "../data/site";
 
 const {
   companyName,
-  intro,
   logo,
   home,
   cta,
@@ -29,12 +27,9 @@ const {
   nav
 } =
   siteContent;
-
-const showIntroOverlay = Boolean(intro.video);
 ---
 
 <MainLayout title={seo.title} description={seo.description}>
-  {showIntroOverlay && <IntroOverlay intro={intro} />}
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/" />
 
   <main>

@@ -617,7 +617,7 @@ export const siteContent = {
 };
 
 export const seo = {
-  title: "Velixon | Premium websites for small businesses",
+  title: "Velixon | High-Performance Websites",
   description:
     "Velixon builds clean, modern websites for local businesses that need stronger trust, clearer messaging, and more leads."
 };

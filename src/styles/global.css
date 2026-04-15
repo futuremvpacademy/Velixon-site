@@ -67,10 +67,6 @@ h4 {
   color: var(--text);
 }
 
-body.intro-locked {
-  overflow: hidden;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -123,22 +119,6 @@ textarea {
   letter-spacing: 0.12em;
   color: #9a8cff;
   text-transform: uppercase;
-}
-
-.intro-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  background:
-    radial-gradient(circle at center, rgba(35, 27, 50, 0.28), transparent 32%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 1));
-  cursor: pointer;
-  transition:
-    opacity 700ms ease,
-    visibility 700ms ease;
 }
 
 .work-page {
@@ -218,113 +198,12 @@ textarea {
   box-shadow: 0 0 28px rgba(154, 140, 255, 0.32);
 }
 
-.intro-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 20% 30%;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(203, 189, 242, 0.16), transparent 66%);
-  filter: blur(56px);
-  pointer-events: none;
-}
-
-.intro-overlay.is-complete {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.intro-overlay-inner,
-.intro-video-wrap {
-  position: relative;
-  z-index: 1;
-}
-
-.intro-overlay-inner {
-  display: grid;
-  justify-items: center;
-  gap: 0.9rem;
-  text-align: center;
-  transition:
-    opacity 420ms ease,
-    transform 420ms ease;
-}
-
-.intro-overlay-inner.is-hidden {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
-.intro-overlay.is-fallback .intro-overlay-inner {
-  opacity: 0;
-  transform: scale(1.045) translateY(-8px);
-}
-
 .intro-logo {
   width: min(480px, 88vw);
   height: auto;
   filter:
     drop-shadow(0 0 18px rgba(203, 189, 242, 0.22))
     drop-shadow(0 0 42px rgba(203, 189, 242, 0.16));
-}
-
-.intro-headline {
-  margin: 0;
-  max-width: 18ch;
-  color: var(--text);
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3.3rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  text-wrap: balance;
-}
-
-.intro-helper {
-  margin: 0;
-  color: rgba(172, 162, 190, 0.94);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  animation: introPulse 2.8s ease-in-out infinite;
-}
-
-.intro-video-wrap {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 500ms ease,
-    visibility 500ms ease;
-}
-
-.intro-video-wrap.is-visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.intro-overlay.is-fallback .intro-video-wrap {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.intro-video {
-  width: min(100vw, 1280px);
-  height: min(100vh, 100%);
-  object-fit: cover;
-  background: #000;
-}
-
-@keyframes introPulse {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-
-  50% {
-    opacity: 0.92;
-  }
 }
 
 @keyframes fadeIn {
@@ -3199,19 +3078,6 @@ h2,
 }
 
 @media (max-width: 640px) {
-  .intro-overlay {
-    padding: 1.5rem;
-  }
-
-  .intro-headline {
-    max-width: 12ch;
-    font-size: clamp(1.8rem, 9vw, 2.55rem);
-  }
-
-  .intro-helper {
-    font-size: 0.9rem;
-  }
-
   .nav-shell {
     flex-wrap: wrap;
     gap: 1rem;
