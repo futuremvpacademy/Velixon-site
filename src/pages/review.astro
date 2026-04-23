@@ -1,0 +1,165 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { siteContent } from "../data/site";
+
+const { companyName, logo } = siteContent;
+const reviews = [
+  {
+    name: "Chiggy Combs",
+    quote: "Working with Velixon was one of the best decisions I made for my business. They built me a clean, professional website...",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-1.png",
+    angle: 280
+  },
+  {
+    name: "Giada Ferrazzano",
+    quote: "Velixon did an amazing job creating a website for my How to Be a Latina 101 book. From the beginning, they really...",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-2.png",
+    angle: 320
+  },
+  {
+    name: "Mighty Movers",
+    quote: "Velixon did a great job helping us through our rebrand at Mighty Movers. They updated our website, improved the overall...",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-3.png",
+    angle: 240
+  },
+  {
+    name: "Ready Relocation",
+    quote: "Velixon did a wonderful job creating our logo for Ready Relocation. They really understood the vision and delivered...",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-4.png",
+    angle: 40
+  },
+  {
+    name: "Geovanny Ibarra",
+    quote: "Me hicieron un trabajo excelente y todo quedó bien con mi página web",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-5.png",
+    angle: 200
+  },
+  {
+    name: "Frontier Fence Llc",
+    quote:
+      "The customer service was exemplary from beginning to end. The team demonstrated utmost professionalism throughout the entire process. I would highly recommend their services to any prospective cli",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-6.png",
+    angle: 80
+  },
+  {
+    name: "Audrey Earnshaw",
+    quote:
+      "Thanks for helping me design my website! I have seen my sales increase by 25% so far and I expect that number will increase over time!",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-7.png",
+    angle: 120
+  },
+  {
+    name: "Jorge Carrizosa",
+    quote: "Increíble la atención del lugar. Sin duda muy buena experiencia con la empresa y muy recomendable.",
+    stars: 4,
+    avatarSrc: "/images/reviews/review-8.png",
+    angle: 160
+  },
+  {
+    name: "Future MVP Soccer Academy",
+    quote:
+      "Velixon did an incredible job building our website for Future MVP Soccer Academy. They created a clean, professional...",
+    stars: 5,
+    avatarSrc: "/images/reviews/review-9.png",
+    angle: 0
+  }
+];
+---
+
+<MainLayout
+  title="Leave a Review | Velixon"
+  description="Leave a quick Google review for Velixon. Your feedback helps our business grow and helps others trust our services."
+>
+  <main class="review-page">
+    <section class="review-hero">
+      <div class="container review-shell">
+        <div class="review-showcase">
+          <div class="review-panel" aria-hidden="true"></div>
+          <div class="review-orbit-line" aria-hidden="true">
+            {Array.from({ length: 12 }, (_, index) => <span style={`--dot-index:${index};`}></span>)}
+          </div>
+
+          <div class="review-testimonials" aria-label="Customer review highlights">
+            {
+              reviews.map((review) => (
+                <article class="review-mini-card" style={`--review-angle:${review.angle}deg;`}>
+                  <div class="review-mini-card-inner">
+                    <div class="review-mini-avatar" aria-hidden="true">
+                      <img src={review.avatarSrc} alt="" loading="lazy" />
+                    </div>
+                    <div class="review-mini-body">
+                      <div class="review-mini-topline">
+                        <h2>{review.name}</h2>
+                        <span class="review-google-mark" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" focusable="false">
+                            <path fill="#4285f4" d="M22.6 12.23c0-.78-.07-1.53-.2-2.23H12v4.26h5.95a5.1 5.1 0 0 1-2.2 3.35v2.78h3.56c2.09-1.92 3.29-4.75 3.29-8.16Z"></path>
+                            <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.78c-.99.66-2.25 1.05-3.72 1.05-2.86 0-5.29-1.93-6.16-4.53H2.18v2.86A11 11 0 0 0 12 23Z"></path>
+                            <path fill="#fbbc05" d="M5.84 14.08A6.6 6.6 0 0 1 5.49 12c0-.72.12-1.42.35-2.08V7.06H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.94l3.66-2.86Z"></path>
+                            <path fill="#ea4335" d="M12 5.39c1.62 0 3.07.56 4.22 1.65l3.14-3.14C17.46 2.13 14.97 1 12 1A11 11 0 0 0 2.18 7.06l3.66 2.86C6.71 7.32 9.14 5.39 12 5.39Z"></path>
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="review-mini-stars" aria-label={`${review.stars} out of 5 stars`}>
+                        {Array.from({ length: 5 }, (_, index) => (
+                          <span class={index < review.stars ? "" : "review-star-muted"}>★</span>
+                        ))}
+                      </div>
+                      <p>{review.quote}</p>
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+
+          <article class="review-card">
+            <img class="review-logo" src={logo} alt={`${companyName} logo`} />
+            <p class="review-brand-label">Velixon</p>
+
+            <div class="review-stars" aria-label="5 out of 5 stars">
+              <span>★</span>
+              <span>★</span>
+              <span>★</span>
+              <span>★</span>
+              <span>★</span>
+            </div>
+
+            <h1>Leave Us <span>a Review</span></h1>
+            <p class="review-text">
+              If we did a great job for you, we’d really appreciate a quick Google review. It helps our business grow
+              and helps other people feel confident working with us.
+            </p>
+
+            <div class="review-actions">
+              <a
+                class="button review-button"
+                href="https://g.page/r/CWKplBi6cXafEBE/review"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="review-button-google" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path fill="#4285f4" d="M22.6 12.23c0-.78-.07-1.53-.2-2.23H12v4.26h5.95a5.1 5.1 0 0 1-2.2 3.35v2.78h3.56c2.09-1.92 3.29-4.75 3.29-8.16Z"></path>
+                    <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.78c-.99.66-2.25 1.05-3.72 1.05-2.86 0-5.29-1.93-6.16-4.53H2.18v2.86A11 11 0 0 0 12 23Z"></path>
+                    <path fill="#fbbc05" d="M5.84 14.08A6.6 6.6 0 0 1 5.49 12c0-.72.12-1.42.35-2.08V7.06H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.94l3.66-2.86Z"></path>
+                    <path fill="#ea4335" d="M12 5.39c1.62 0 3.07.56 4.22 1.65l3.14-3.14C17.46 2.13 14.97 1 12 1A11 11 0 0 0 2.18 7.06l3.66 2.86C6.71 7.32 9.14 5.39 12 5.39Z"></path>
+                  </svg>
+                </span>
+                Leave a Google Review
+              </a>
+              <p class="review-helper">Takes less than a minute. We really appreciate it.</p>
+              <a class="review-secondary-link" href="/contact">Having an issue? Contact us directly</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
