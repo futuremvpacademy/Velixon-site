@@ -8,6 +8,7 @@ export const siteContent = {
   nav: [
     { label: "Services", href: "/services" },
     { label: "Work", href: "/work" },
+    { label: "Review", href: "/review" },
     { label: "Pricing", href: "/pricing" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" }
@@ -15,6 +16,7 @@ export const siteContent = {
   footerNav: [
     { label: "Home", href: "/" },
     { label: "Work", href: "/work" },
+    { label: "Review", href: "/review" },
     { label: "Pricing", href: "/pricing" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" }
