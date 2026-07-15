@@ -10,9 +10,10 @@ const { logo } = Astro.props;
   class="vx-intro"
   data-vx-intro
   data-session-key="velixon-intro-complete"
-  role="button"
-  aria-label="Velixon introduction. Are you ready for Smarter Systems. Better Business. Click, tap, or press a key to enter."
-  tabindex="0"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="vx-intro-title"
+  aria-describedby="vx-intro-helper"
   data-nosnippet
 >
   <div class="vx-intro-spotlight" aria-hidden="true"></div>
@@ -22,13 +23,55 @@ const { logo } = Astro.props;
       <img src={logo} alt="Velixon" width="612" height="408" decoding="async" />
     </div>
     <p class="vx-intro-question">Are you ready for</p>
-    <p class="vx-intro-title">Smarter Systems.<br />Better Business.</p>
+    <p class="vx-intro-title" id="vx-intro-title">Smarter Systems.<br />Better Business.</p>
     <div class="vx-intro-indicator" aria-hidden="true"><span></span></div>
-    <p class="vx-intro-helper">Click, tap, or press a key to enter</p>
+    <button class="vx-intro-enter" type="button" data-vx-intro-enter>
+      Continue to Velixon <span aria-hidden="true">&#8594;</span>
+    </button>
+    <p class="vx-intro-helper" id="vx-intro-helper">This introduction closes automatically.</p>
   </div>
 </div>
 
 <noscript><style>.vx-intro{display:none !important}</style></noscript>
+
+<style>
+  .vx-intro-enter {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.7rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(207, 200, 243, 0.35);
+    border-radius: 9px;
+    color: #f6f4fa;
+    background: rgba(255, 255, 255, 0.035);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  }
+
+  .vx-intro-enter:hover {
+    border-color: rgba(207, 200, 243, 0.72);
+    background: rgba(207, 200, 243, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .vx-intro-enter:focus-visible {
+    outline: 2px solid #cfc8f3;
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vx-intro-enter {
+      transition: none;
+    }
+  }
+</style>
 
 <script is:inline>
   (() => {
@@ -37,14 +80,10 @@ const { logo } = Astro.props;
 
     const sessionKey = intro.dataset.sessionKey || "velixon-intro-complete";
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const autoDismissDelay = 1800;
     let closing = false;
-
-    const setBackgroundInert = (value) => {
-      document.querySelectorAll(".site-header, .site-content > main, .site-footer").forEach((element) => {
-        if (value) element.setAttribute("inert", "");
-        else element.removeAttribute("inert");
-      });
-    };
+    let autoDismissTimer;
+    const ownedInertElements = new Set();
 
     const readCompleted = () => {
       try { return sessionStorage.getItem(sessionKey) === "true"; } catch { return false; }
@@ -54,7 +93,33 @@ const { logo } = Astro.props;
       try { sessionStorage.setItem(sessionKey, "true"); } catch {}
     };
 
+    const clearAutoDismiss = () => {
+      if (!autoDismissTimer) return;
+      window.clearTimeout(autoDismissTimer);
+      autoDismissTimer = undefined;
+    };
+
+    const setBackgroundInert = (value) => {
+      const background = document.querySelectorAll(
+        ".skip-link, .site-header, .site-content > main, .site-footer, [data-consent-banner]"
+      );
+
+      background.forEach((element) => {
+        if (value) {
+          if (element.hasAttribute("inert")) return;
+          element.setAttribute("inert", "");
+          ownedInertElements.add(element);
+          return;
+        }
+
+        if (!ownedInertElements.has(element)) return;
+        element.removeAttribute("inert");
+        ownedInertElements.delete(element);
+      });
+    };
+
     const hideImmediately = ({ restoreFocus = false } = {}) => {
+      clearAutoDismiss();
       intro.hidden = true;
       intro.setAttribute("aria-hidden", "true");
       document.body.classList.remove("vx-intro-open");
@@ -69,16 +134,19 @@ const { logo } = Astro.props;
       intro.classList.remove("is-leaving");
       document.body.classList.add("vx-intro-open");
       setBackgroundInert(true);
-      requestAnimationFrame(() => intro.focus({ preventScroll: true }));
+      requestAnimationFrame(() => intro.querySelector("[data-vx-intro-enter]")?.focus({ preventScroll: true }));
+      clearAutoDismiss();
+      autoDismissTimer = window.setTimeout(() => enter(undefined, { restoreFocus: true }), autoDismissDelay);
     };
 
-    const enter = (event) => {
+    const enter = (event, { restoreFocus = true } = {}) => {
       if (closing) return;
       closing = true;
-      const restoreFocus = event instanceof KeyboardEvent;
+      clearAutoDismiss();
       markCompleted();
-      intro.style.setProperty("--reveal-x", `${event?.clientX || window.innerWidth / 2}px`);
-      intro.style.setProperty("--reveal-y", `${event?.clientY || window.innerHeight / 2}px`);
+      const pointerEvent = event instanceof MouseEvent && event.detail > 0;
+      intro.style.setProperty("--reveal-x", `${pointerEvent ? event.clientX : window.innerWidth / 2}px`);
+      intro.style.setProperty("--reveal-y", `${pointerEvent ? event.clientY : window.innerHeight / 2}px`);
       if (reducedMotion.matches) {
         hideImmediately({ restoreFocus });
         return;
@@ -87,26 +155,55 @@ const { logo } = Astro.props;
       window.setTimeout(() => hideImmediately({ restoreFocus }), 760);
     };
 
-    if (readCompleted()) hideImmediately();
-    else show();
+    const bypass = () => {
+      markCompleted();
+      hideImmediately();
+    };
 
-    intro.addEventListener("click", enter);
-    intro.addEventListener("pointermove", (event) => {
-      intro.style.setProperty("--pointer-x", `${event.clientX}px`);
-      intro.style.setProperty("--pointer-y", `${event.clientY}px`);
-    }, { passive: true });
-    intro.addEventListener("keydown", (event) => {
-      if (["Enter", " ", "Escape"].includes(event.key)) {
+    // Hide before the first paint whenever the visitor has already entered or
+    // has requested reduced motion. The latter also avoids a blocking motion UI.
+    if (readCompleted() || reducedMotion.matches) bypass();
+
+    const initialize = () => {
+      if (!intro.hidden) show();
+
+      let pointerFrame;
+      let pointerX = 0;
+      let pointerY = 0;
+
+      intro.addEventListener("click", (event) => enter(event));
+      intro.addEventListener("pointermove", (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+        if (pointerFrame) return;
+        pointerFrame = window.requestAnimationFrame(() => {
+          intro.style.setProperty("--pointer-x", `${pointerX}px`);
+          intro.style.setProperty("--pointer-y", `${pointerY}px`);
+          pointerFrame = undefined;
+        });
+      }, { passive: true });
+      intro.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
         event.preventDefault();
-        enter(event);
-      }
-    });
+        enter(event, { restoreFocus: true });
+      });
 
-    document.addEventListener("click", (event) => {
-      const replay = event.target.closest("[data-replay-intro]");
-      if (!replay) return;
-      event.preventDefault();
-      show();
-    });
+      document.addEventListener("click", (event) => {
+        const replay = event.target instanceof Element ? event.target.closest("[data-replay-intro]") : null;
+        if (!replay || reducedMotion.matches) return;
+        event.preventDefault();
+        show();
+      });
+
+      reducedMotion.addEventListener("change", (event) => {
+        if (event.matches && !intro.hidden) bypass();
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initialize, { once: true });
+    } else {
+      initialize();
+    }
   })();
 </script>

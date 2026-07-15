@@ -1,0 +1,211 @@
+---
+import ResourceLayout from "../../components/ResourceLayout.astro";
+
+const related = [
+  {
+    title: "How to Identify High-Value AI Automation Workflows",
+    description: "Choose an AI opportunity using volume, friction, decision clarity, data readiness, risk, and measurable impact.",
+    href: "/resources/high-value-ai-automation-workflows/",
+    category: "Applied AI"
+  },
+  {
+    title: "Custom Software ROI: A Practical Cost and Value Guide",
+    description: "Compare total investment, measurable value, uncertainty, and time to impact using realistic scenarios.",
+    href: "/resources/custom-software-roi-cost/",
+    category: "Investment planning"
+  },
+  {
+    title: "Custom Software vs. SaaS: A Decision Guide",
+    description: "Decide when a configured product, an integration, custom software, or a combined approach is most responsible.",
+    href: "/resources/custom-software-vs-saas/",
+    category: "Technology strategy"
+  }
+];
+
+const faqs = [
+  {
+    question: "How much does AI automation cost?",
+    answer: "There is no responsible universal price. Cost depends on the workflow boundary, number and quality of integrations, data access, user roles, security requirements, AI evaluation, exception handling, deployment, and ongoing model and platform usage. A useful estimate separates one-time discovery and implementation from recurring operation and improvement."
+  },
+  {
+    question: "Why can two AI automations with similar demos cost very different amounts?",
+    answer: "A demo may show only the model response. Production scope includes identity, permissions, approved context, data validation, integrations, user experience, monitoring, evaluation, retries, human review, and recovery. The cost difference usually reflects the reliability and operating responsibilities around the model rather than the prompt itself."
+  },
+  {
+    question: "Is an AI automation platform cheaper than custom development?",
+    answer: "It can be for a bounded, lower-risk workflow using supported connectors and modest volume. Custom code becomes more appropriate when the workflow needs durable state, specialized permissions, customer-facing interfaces, complex recovery, higher scale, or control a platform cannot provide. The lower first quote is not always the lower total cost."
+  },
+  {
+    question: "What ongoing costs should a business expect?",
+    answer: "Recurring costs may include model usage, automation runs, hosting, databases, vector or file storage, monitoring, vendor plans, communication services, security maintenance, support, evaluation, and improvements when data, models, APIs, or business rules change."
+  },
+  {
+    question: "How should a company compare AI automation proposals?",
+    answer: "Require every proposal to state the workflow boundary, assumptions, integrations, data responsibilities, environments, security controls, testing, acceptance criteria, monitoring, support, third-party costs, exclusions, and ownership. Compare the same first-year scope and operating standard rather than headline build prices alone."
+  }
+];
+---
+
+<ResourceLayout
+  title="How Much Does AI Automation Cost? | Velixon"
+  description="Understand AI automation cost drivers, one-time and recurring expenses, scope levels, estimating methods, hidden costs, and how to compare proposals."
+  headline="How Much Does AI Automation Cost?"
+  summary="AI automation cost is determined less by the prompt than by the production system around it: workflow design, data, integrations, permissions, evaluation, exception handling, deployment, and ongoing operation. A credible estimate makes each layer visible."
+  slug="how-much-does-ai-automation-cost"
+  category="AI investment planning"
+  readTime="13 minute read"
+  topics={["AI automation cost", "Automation budget", "AI implementation", "Automation ROI"]}
+  toc={[
+    { id: "direct-answer", label: "The direct cost answer" },
+    { id: "cost-components", label: "What the price includes" },
+    { id: "scope-levels", label: "Three scope levels" },
+    { id: "cost-drivers", label: "Major cost drivers" },
+    { id: "platform-or-custom", label: "Platform or custom build" },
+    { id: "ongoing-costs", label: "Ongoing operating costs" },
+    { id: "estimate", label: "Build a useful estimate" },
+    { id: "hidden-costs", label: "Avoid hidden costs" },
+    { id: "roi", label: "Compare cost with value" },
+    { id: "proposal-checklist", label: "Compare proposals" },
+    { id: "frequently-asked-questions", label: "Frequently asked questions" }
+  ]}
+  takeaways={[
+    "No single price applies to AI automation; the workflow boundary and required operating standard determine the investment.",
+    "Separate discovery, implementation, rollout, and recurring operation so a low build quote does not hide the real first-year cost.",
+    "Integrations, data quality, permissions, evaluation, and exception recovery often require more work than the model call.",
+    "Fund a bounded workflow with a measurable outcome before expanding AI authority across the business."
+  ]}
+  related={related}
+  faqs={faqs}
+  publishedDate="2026-07-15"
+  modifiedDate="2026-07-15"
+>
+  <section id="direct-answer">
+    <h2>The direct answer: price follows the production scope</h2>
+    <p class="resource-direct-answer"><strong>Short answer:</strong> AI automation does not have a responsible universal price. A contained internal assistant using approved data and one integration is a different product from a customer-facing system that takes actions across several platforms. The estimate must account for reliability, security, human review, and ongoing operation—not only model usage.</p>
+    <p>Velixon does not publish a fixed project price because identical labels can hide very different systems. “AI lead qualification” might mean preparing a private summary for a salesperson, or it might mean receiving inquiries, enriching records, making qualification recommendations, updating a CRM, sending approved follow-up, booking appointments, monitoring errors, and preserving an audit history.</p>
+    <p>The useful question is therefore: <strong>What complete business outcome must the automation produce, under what constraints, and who operates it when normal assumptions fail?</strong> Once those answers are clear, cost can be estimated in a way that supports a real decision.</p>
+  </section>
+
+  <section id="cost-components">
+    <h2>Understand what an AI automation estimate should include</h2>
+    <p>A production estimate should separate the work into understandable layers. Omitting a layer does not make it free; it usually moves the cost into rework, manual cleanup, or operational risk.</p>
+    <div class="resource-table-wrap" role="region" tabindex="0" aria-label="AI automation cost components">
+      <table class="resource-table">
+        <thead>
+          <tr><th scope="col">Cost component</th><th scope="col">What the work covers</th><th scope="col">Questions that change scope</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Discovery and process design</td><td>Workflow mapping, users, rules, exceptions, data, risks, baseline, and release boundary</td><td>Is the current process stable, documented, and owned?</td></tr>
+          <tr><td>Experience and application</td><td>Forms, review queues, dashboards, administration, permissions, and human handoffs</td><td>Who uses the system and what must each role see or approve?</td></tr>
+          <tr><td>Data and AI behavior</td><td>Approved context, extraction, retrieval, prompts, structured output, evaluation, and model selection</td><td>Is the source information accurate, accessible, sensitive, or frequently changing?</td></tr>
+          <tr><td>Integrations</td><td>APIs, webhooks, identifiers, mappings, validation, authentication, retries, and reconciliation</td><td>Do the required vendors expose supported interfaces on the current plans?</td></tr>
+          <tr><td>Security and governance</td><td>Access controls, secrets, environments, logs, retention, prohibited actions, and approval boundaries</td><td>What could happen if the wrong user, record, or action is selected?</td></tr>
+          <tr><td>Testing and launch</td><td>Representative cases, failure scenarios, acceptance, migration, training, deployment, and fallback</td><td>Can launch be phased, or must the process change at once?</td></tr>
+          <tr><td>Operation and improvement</td><td>Hosting, usage, monitoring, support, evaluation, vendor changes, and workflow refinement</td><td>Who owns quality, incidents, and changes after launch?</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="scope-levels">
+    <h2>Classify the project by operating responsibility</h2>
+    <p>Working budget discussions become clearer when the team distinguishes an assisted task from a connected workflow and a business-critical operating system.</p>
+    <h3>Level 1: assisted task</h3>
+    <p>The system helps one user complete a bounded activity, such as summarizing an approved document set, extracting candidate fields, or preparing a draft. A person reviews the result before it affects another system or customer. Scope pressure is usually driven by source access, output quality, privacy, and the review experience.</p>
+    <h3>Level 2: connected workflow</h3>
+    <p>The AI capability participates in a defined sequence across one or more tools. It may classify intake, prepare a response, update a record, and assign a next action. Cost rises because identity, integrations, state, validation, duplicate protection, exception handling, and monitoring become part of the product.</p>
+    <h3>Level 3: operational system</h3>
+    <p>The automation supports a customer-facing or business-critical process with several roles, durable records, significant permissions, complex integrations, reporting, and ongoing service expectations. At this level the model is one component inside custom software or connected business infrastructure.</p>
+    <div class="resource-callout">
+      <h3>Do not price by the number of prompts</h3>
+      <p>Prompts are implementation details. Price the workflow, operating risk, data access, user experience, integration depth, and evidence required to release the system responsibly.</p>
+    </div>
+  </section>
+
+  <section id="cost-drivers">
+    <h2>Identify the factors that move AI automation cost</h2>
+    <h3>Workflow ambiguity</h3>
+    <p>If employees disagree about the current process or the appropriate decision, discovery and product design require more work. Automation cannot resolve an undefined policy without turning accidental behavior into software.</p>
+    <h3>Integration quality</h3>
+    <p>A supported API with useful webhooks, clear identifiers, and a sandbox reduces uncertainty. Limited endpoints, unreliable source data, manual exports, rate limits, or brittle interface automation increase implementation and support effort. Platform feasibility should be verified before scope is promised.</p>
+    <h3>Data readiness</h3>
+    <p>AI needs relevant, permitted, current context. Scattered documents, duplicate customer records, inconsistent labels, unclear retention, and missing permissions can make data preparation a major part of the project.</p>
+    <h3>Authority and consequence</h3>
+    <p>A private draft has lower operating risk than a system that sends customer communication, changes an account, schedules work, or affects money. Greater authority requires stronger validation, evaluation, approval, logging, and recovery.</p>
+    <h3>Volume and performance</h3>
+    <p>Usage affects model spend, infrastructure, rate limits, queues, and monitoring. Peak demand and acceptable response time matter as much as average volume. A workflow that can wait for a scheduled batch has different economics from a live voice interaction.</p>
+    <h3>Regulation and sensitive information</h3>
+    <p>Confidential, personal, health, financial, or legally sensitive data may require vendor review, stricter access, data minimization, retention controls, specialized environments, and qualified approval. Compliance requirements must be confirmed for the actual business and jurisdiction.</p>
+  </section>
+
+  <section id="platform-or-custom">
+    <h2>Decide whether to configure a platform or build a custom layer</h2>
+    <p>Platforms such as <a href="/integrations/zapier/">Zapier</a>, <a href="/integrations/make/">Make</a>, and <a href="/integrations/n8n/">n8n</a> can reduce implementation effort when the workflow fits supported connectors, state is modest, and operators can understand the scenario. They are not automatically inexpensive once task volume, premium connectors, environments, support, and maintenance are included.</p>
+    <p>Custom development is more appropriate when the business needs a specialized interface, durable application state, several user roles, complex data relationships, customer access, advanced recovery, or ownership beyond what a connector provides. A combined architecture is common: custom software owns the record and user experience while an automation platform orchestrates appropriate background steps.</p>
+    <p>The right choice minimizes total operating complexity. Review Velixon's <a href="/services/ai-automation/">AI automation approach</a> and <a href="/services/api-integrations/">API integration service</a> for the production layers that should be evaluated.</p>
+  </section>
+
+  <section id="ongoing-costs">
+    <h2>Budget for the cost after launch</h2>
+    <p>AI automation is not a one-time asset that remains unchanged. Models, vendor APIs, pricing, business rules, source documents, users, and security requirements evolve. The system needs named ownership and an operating budget appropriate to its importance.</p>
+    <ul class="resource-checklist">
+      <li>Model input, output, audio, image, or other usage</li>
+      <li>Automation platform runs, premium connectors, and environments</li>
+      <li>Application hosting, databases, file storage, queues, and networking</li>
+      <li>Vector search or retrieval infrastructure when genuinely required</li>
+      <li>Monitoring, logging, alerts, and error investigation</li>
+      <li>Communication providers for email, SMS, phone, or messaging</li>
+      <li>Security maintenance, dependency updates, backups, and access review</li>
+      <li>Evaluation, support, workflow changes, and model or vendor migrations</li>
+    </ul>
+    <p>Usage cost should be modeled with representative cases rather than the cheapest model's advertised unit rate. Include the size of context, retries, failed runs, review loops, and downstream platform charges.</p>
+  </section>
+
+  <section id="estimate">
+    <h2>Build a first-year estimate that supports a decision</h2>
+    <p>Use one consistent formula when comparing options:</p>
+    <div class="resource-callout">
+      <h3>First-year AI automation cost</h3>
+      <p><strong>Discovery and design + implementation and integration + testing and rollout + twelve months of infrastructure, usage, support, and improvement + an explicit uncertainty allowance.</strong></p>
+    </div>
+    <p>Estimate with low, expected, and high scenarios. For each scenario, document transaction volume, model and context assumptions, integration plans, internal participation, launch approach, and ongoing support. The uncertainty range should be wider when API access, data quality, or business rules have not been verified.</p>
+    <p>Internal time also belongs in the estimate. Process owners must answer questions, supply representative examples, validate rules, test difficult cases, and help users adopt the new flow. Excluding that participation produces an incomplete budget and a weaker product.</p>
+  </section>
+
+  <section id="hidden-costs">
+    <h2>Avoid the costs hidden by a fast prototype</h2>
+    <p>A prototype can prove that a model produces an impressive response. It does not prove that the full workflow is economical or safe to operate.</p>
+    <ul>
+      <li><strong>Manual correction:</strong> reviewers may spend more time finding subtle errors than the original task required.</li>
+      <li><strong>Unowned exceptions:</strong> failed items create a quiet backlog when nobody receives enough context to resolve them.</li>
+      <li><strong>Duplicate or incorrect actions:</strong> retries can create repeated messages, records, bookings, or charges without idempotent design.</li>
+      <li><strong>Vendor lock-in:</strong> proprietary workflow state or inaccessible history can make later changes expensive.</li>
+      <li><strong>Shadow operations:</strong> employees maintain the old process because they do not trust the new one, doubling work.</li>
+      <li><strong>Missing evaluation:</strong> quality degrades after model, prompt, data, or policy changes without a representative test set.</li>
+    </ul>
+  </section>
+
+  <section id="roi">
+    <h2>Compare the investment with measurable operational value</h2>
+    <p>Automation value can include avoided manual handling, greater capacity, faster response, shorter cycle time, improved completion, fewer corrections, and better recovery. Do not count every minute removed as cash savings unless the business can explain how that capacity will be used.</p>
+    <p>Baseline the current workflow before building. Record volume, employee touch time, delay, rework, completion, exceptions, and any customer or revenue consequence you can observe. Then model conservative, expected, and strong outcomes after including human review and ongoing operation.</p>
+    <p>Use the <a href="/resources/ai-automation-roi-calculator/">AI automation ROI calculator</a> to test conservative, expected, and strong scenarios with implementation and operating costs included. For a broader investment framework, use the <a href="/resources/custom-software-roi-cost/">custom software ROI and cost guide</a>. The same discipline applies: compare total cost with measurable value over an appropriate horizon, not an optimistic demo scenario.</p>
+  </section>
+
+  <section id="proposal-checklist">
+    <h2>Compare AI automation proposals on the same basis</h2>
+    <p>Before accepting a proposal, ask the provider to make these items explicit:</p>
+    <ul class="resource-checklist">
+      <li>The exact trigger, completion outcome, users, and systems included</li>
+      <li>Assumptions about data quality, API access, vendor plans, and transaction volume</li>
+      <li>What AI may recommend, draft, or do—and what always requires approval</li>
+      <li>Identity, permissions, secrets, environments, retention, and logging responsibilities</li>
+      <li>Testing approach, representative evaluation set, and acceptance criteria</li>
+      <li>Failure handling, retries, exception ownership, monitoring, and fallback</li>
+      <li>One-time fees, recurring third-party costs, support, and change process</li>
+      <li>Source code, data, workflow configuration, documentation, and exit ownership</li>
+      <li>Explicit exclusions and conditions that can change the estimate</li>
+    </ul>
+    <p>If those answers are not yet available, begin with a bounded discovery engagement rather than treating an unverified fixed price as certainty. <a href="/contact/?source=resource-ai-automation-cost&service=ai-automation&project_type=ai-automation">Discuss an AI automation estimate with Velixon</a> around a real workflow and measurable outcome.</p>
+  </section>
+</ResourceLayout>

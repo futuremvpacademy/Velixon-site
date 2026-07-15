@@ -16,9 +16,54 @@ interface Props {
   groups: DirectoryGroup[];
   selectionTitle?: string;
   selectionGuidance?: string;
+  primaryAction?: DirectoryAction;
+  secondaryAction?: DirectoryAction;
+  statusNotice?: DirectoryStatusNotice;
+  pathways?: DirectoryPathways;
 }
 
-const { title, description, eyebrow, headline, summary, path, groups, selectionTitle, selectionGuidance } = Astro.props;
+interface DirectoryAction {
+  label: string;
+  href: string;
+}
+
+interface DirectoryStatusNotice {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+interface DirectoryPathway {
+  title: string;
+  description: string;
+  href: string;
+  label?: string;
+  linkLabel: string;
+}
+
+interface DirectoryPathways {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  items: DirectoryPathway[];
+  actions?: DirectoryAction[];
+}
+
+const {
+  title,
+  description,
+  eyebrow,
+  headline,
+  summary,
+  path,
+  groups,
+  selectionTitle,
+  selectionGuidance,
+  primaryAction = { label: "Schedule a strategy call", href: "/contact/" },
+  secondaryAction = { label: "Explore capabilities", href: "#directory" },
+  statusNotice,
+  pathways
+} = Astro.props;
 const { companyName, logo, nav, cta } = siteContent;
 const directorySchema = buildDirectorySchema({ title, description, headline, path, groups });
 ---
@@ -33,12 +78,23 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
         <h1>{headline}</h1>
         <p>{summary}</p>
         <div class="cluster-actions">
-          <a class="button" href="/contact/">Schedule a strategy call</a>
-          <a class="button button-secondary" href="#directory">Explore capabilities</a>
+          <a class="button" href={primaryAction.href}>{primaryAction.label}</a>
+          <a class="button button-secondary" href={secondaryAction.href}>{secondaryAction.label}</a>
         </div>
       </div>
     </header>
     <div class="directory-groups" id="directory">
+      {statusNotice && (
+        <section class="directory-group" aria-labelledby="directory-status-title">
+          <div class="container">
+            <div class="cluster-answer">
+              <span>{statusNotice.eyebrow}</span>
+              <h2 id="directory-status-title">{statusNotice.title}</h2>
+              <p>{statusNotice.description}</p>
+            </div>
+          </div>
+        </section>
+      )}
       {selectionGuidance && (
         <section class="directory-group" aria-labelledby="directory-selection-title">
           <div class="container">
@@ -64,6 +120,34 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
           </div>
         </section>
       ))}
+      {pathways && (
+        <section class="directory-group" aria-labelledby="directory-pathways-title">
+          <div class="container">
+            <div class="cluster-heading cluster-heading-wide">
+              {pathways.eyebrow && <p class="cluster-eyebrow">{pathways.eyebrow}</p>}
+              <h2 id="directory-pathways-title">{pathways.title}</h2>
+              <p>{pathways.description}</p>
+            </div>
+            <div class="directory-grid">
+              {pathways.items.map((item) => (
+                <a href={item.href}>
+                  <span>{item.label ?? "Related capability"}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <b>{item.linkLabel} <i aria-hidden="true">→</i></b>
+                </a>
+              ))}
+            </div>
+            {pathways.actions && pathways.actions.length > 0 && (
+              <div class="cluster-actions">
+                {pathways.actions.map((action, index) => (
+                  <a class:list={["button", { "button-secondary": index > 0 }]} href={action.href}>{action.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
     </div>
   </main>
 </MainLayout>

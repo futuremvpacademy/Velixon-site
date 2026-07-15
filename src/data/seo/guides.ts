@@ -260,7 +260,7 @@ export const guides: GuideData[] = [
     ],
     related: [
       { title: "AI Automation Services", description: "Design AI inside reliable business workflows.", href: "/services/ai-automation/", label: "Service" },
-      { title: "Automation Opportunity Calculator", description: "Model one repetitive workflow with your own inputs.", href: "/#automation-roi", label: "Calculator" },
+      { title: "AI Automation ROI Calculator", description: "Model conservative, expected, and strong scenarios with implementation and operating costs included.", href: "/resources/ai-automation-roi-calculator/", label: "Calculator" },
       { title: "High-Value AI Workflows", description: "Score value, readiness, and risk before building.", href: "/resources/high-value-ai-automation-workflows/", label: "Guide" }
     ],
     datePublished: published,

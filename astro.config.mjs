@@ -1,15 +1,15 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { isPublicIndexablePath } from "./src/data/seo/indexing";
 
 const site = "https://velixon.net";
-const excludedSitemapPaths = new Set(["/404/", "/404.html", "/review/"]);
 
 export default defineConfig({
   site,
   trailingSlash: "always",
   integrations: [
     sitemap({
-      filter: (page) => !excludedSitemapPaths.has(new URL(page).pathname),
+      filter: (page) => isPublicIndexablePath(new URL(page).pathname),
       customSitemaps: [`${site}/image-sitemap.xml`]
     })
   ],

@@ -1,0 +1,23 @@
+{
+  "name": "Velixon",
+  "short_name": "Velixon",
+  "description": "Custom software, AI, and automation built around your business.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#070708",
+  "theme_color": "#070708",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

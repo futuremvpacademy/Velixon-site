@@ -371,6 +371,11 @@
   color: var(--text);
 }
 
+.resource-byline a:hover strong,
+.resource-byline a:focus-visible strong {
+  color: var(--primary);
+}
+
 .resource-topic-list {
   display: flex;
   flex-wrap: wrap;

@@ -1,4 +1,5 @@
 import type { DirectoryGroup, SeoLandingData } from "./types";
+import { phaseOneServiceLandingPages } from "./service-landings-phase-one";
 
 export const serviceLandingPages: SeoLandingData[] = [
   {
@@ -85,6 +86,7 @@ export const serviceLandingPages: SeoLandingData[] = [
       { href: "/services/workflow-automation/", label: "Service", title: "Workflow Automation", description: "Connect repeatable steps across people and software with dependable logic." },
       { href: "/services/api-integrations/", label: "Service", title: "API Integrations", description: "Create the reliable data connections that make cross-system automation possible." },
       { href: "/solutions/customer-service-automation/", label: "Solution", title: "Customer Service Automation", description: "Coordinate intake, routing, responses, and escalations across the service journey." },
+      { href: "/resources/ai-automation-roi-calculator/", label: "Interactive tool", title: "AI Automation ROI Calculator", description: "Model capacity value, review, implementation, and operating-cost scenarios with transparent assumptions." },
       { href: "/guides/reduce-administrative-costs-with-ai/", label: "Guide", title: "Reduce Administrative Costs with AI", description: "Identify the repetitive coordination work AI can reduce without automating necessary judgment." },
       { href: "/integrations/openai/", label: "Integration", title: "OpenAI Integration", description: "Connect approved model capabilities to governed business workflows and data." }
     ],
@@ -706,6 +708,7 @@ export const serviceLandingPages: SeoLandingData[] = [
       { href: "/services/api-integrations/", label: "Service", title: "API Integrations", description: "Create dependable connections between the systems participating in a workflow." },
       { href: "/solutions/lead-sales-automation/", label: "Solution", title: "Lead & Sales Automation", description: "Connect capture, qualification, follow-up, pipeline updates, and sales handoffs." },
       { href: "/solutions/document-finance-automation/", label: "Solution", title: "Document & Finance Automation", description: "Coordinate document intake, approvals, billing readiness, and financial handoffs." },
+      { href: "/resources/ai-automation-roi-calculator/", label: "Interactive tool", title: "AI Automation ROI Calculator", description: "Test conservative, expected, and strong workflow scenarios before committing to implementation." },
       { href: "/guides/what-is-workflow-automation/", label: "Guide", title: "What Is Workflow Automation?", description: "Learn how triggers, state, actions, exceptions, and human ownership form a reliable workflow." },
       { href: "/integrations/n8n/", label: "Integration", title: "n8n Development", description: "Build maintainable event-driven automations with explicit credentials, retries, and ownership." }
     ],
@@ -798,7 +801,8 @@ export const serviceLandingPages: SeoLandingData[] = [
       { href: "/resources/custom-software-roi-cost/", label: "Guide", title: "Custom Software ROI & Cost", description: "Frame a durable investment case for replacing recurring operational friction." }
     ],
     reviewedDate: "July 2026"
-  }
+  },
+  ...phaseOneServiceLandingPages
 ];
 
 export const automationServiceDirectory: DirectoryGroup[] = [
@@ -807,6 +811,7 @@ export const automationServiceDirectory: DirectoryGroup[] = [
     description: "Use AI where language, documents, calls, or context create work that deterministic rules alone cannot handle.",
     items: [
       { href: "/services/ai-automation/", label: "AI systems", title: "AI Automation", description: "Governed AI workflows that interpret, draft, route, and act across your existing tools." },
+      { href: "/services/ai-integrations/", label: "AI implementation", title: "AI Integration Services", description: "Embed grounded AI, permissioned tools, evaluation, and human review into business software and workflows." },
       { href: "/services/ai-agents/", label: "AI systems", title: "AI Agents", description: "Focused digital operators with permissioned tools, task state, evaluation, and human escalation." },
       { href: "/services/voice-ai/", label: "Voice systems", title: "Voice AI & AI Receptionists", description: "Connected phone agents for intake, qualification, scheduling, routing, and approved follow-up." }
     ]

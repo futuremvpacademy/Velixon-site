@@ -5,6 +5,16 @@
 [build.environment]
   ASTRO_TELEMETRY_DISABLED = "1"
   NODE_VERSION = "22"
+  PUBLIC_GOOGLE_SITE_VERIFICATION = "Jjx9Epy0Nj-SnyQBSlCxcFG0tDAX0Ej-WZJW1kmstGk"
+
+[context.production.environment]
+  PUBLIC_SITE_NOINDEX = "false"
+
+[context.deploy-preview.environment]
+  PUBLIC_SITE_NOINDEX = "true"
+
+[context.branch-deploy.environment]
+  PUBLIC_SITE_NOINDEX = "true"
 
 [[redirects]]
   from = "https://www.velixon.net/*"
@@ -58,6 +68,145 @@
   from = "/engagements"
   to = "/pricing/"
   status = 301
+  force = true
+
+[[redirects]]
+  from = "/engagements/"
+  to = "/pricing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/custom-software-development"
+  to = "/services/custom-software/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/custom-software-development/"
+  to = "/services/custom-software/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/custom-crm-development"
+  to = "/services/custom-crm/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/custom-crm-development/"
+  to = "/services/custom-crm/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/ai-receptionist"
+  to = "/services/voice-ai/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/services/ai-receptionist/"
+  to = "/services/voice-ai/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/solutions/construction"
+  to = "/industries/construction/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/solutions/construction/"
+  to = "/industries/construction/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies"
+  to = "/integrations/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/"
+  to = "/integrations/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/n8n"
+  to = "/integrations/n8n/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/n8n/"
+  to = "/integrations/n8n/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/make"
+  to = "/integrations/make/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/make/"
+  to = "/integrations/make/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/zapier"
+  to = "/integrations/zapier/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/zapier/"
+  to = "/integrations/zapier/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/supabase"
+  to = "/integrations/supabase/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/supabase/"
+  to = "/integrations/supabase/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/stripe"
+  to = "/integrations/stripe/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/stripe/"
+  to = "/integrations/stripe/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/twilio"
+  to = "/integrations/twilio/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technologies/twilio/"
+  to = "/integrations/twilio/"
+  status = 301
+  force = true
 
 [[headers]]
   for = "/*"
@@ -98,7 +247,7 @@
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
 [[headers]]
-  for = "/sitemap-*.xml"
+  for = "/sitemap-0.xml"
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
@@ -106,6 +255,41 @@
   for = "/image-sitemap.xml"
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/favicon-*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+
+[[headers]]
+  for = "/apple-touch-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+
+[[headers]]
+  for = "/velixon-logo.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+
+[[headers]]
+  for = "/0ee966b99042118dcf10a3ec65908121.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
 
 [[headers]]
   for = "/review/*"

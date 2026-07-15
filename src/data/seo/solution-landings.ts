@@ -1,4 +1,6 @@
 import type { DirectoryGroup, SeoLandingData } from "./types";
+import { contractorSolutionLandingPages } from "./solution-landings-contractors";
+import { serviceBusinessSolutionLandingPages } from "./solution-landings-service-businesses";
 
 export const solutionLandingPages: SeoLandingData[] = [
   {
@@ -355,7 +357,9 @@ export const solutionLandingPages: SeoLandingData[] = [
       { href: "/services/api-integrations/", label: "Service", title: "API Integrations", description: "Unify service channels with CRM, scheduling, order, and operations records." }
     ],
     reviewedDate: "July 2026"
-  }
+  },
+  ...contractorSolutionLandingPages,
+  ...serviceBusinessSolutionLandingPages
 ];
 
 export const solutionDirectory: DirectoryGroup[] = [
@@ -373,6 +377,14 @@ export const solutionDirectory: DirectoryGroup[] = [
     items: [
       { href: "/solutions/customer-service-automation/", label: "Service operations", title: "Customer Service Automation", description: "Unify requests, grounded answers, case actions, self-service, and escalation across approved channels." },
       { href: "/solutions/document-finance-automation/", label: "Back-office operations", title: "Document & Finance Automation", description: "Connect extraction, generation, evidence, approvals, signatures, invoice readiness, and accounting handoffs." }
+    ]
+  },
+  {
+    title: "Contractor and service-business systems",
+    description: "Connect customer demand to delivery, field or project work, communication, documents, and billing while preserving accountable judgment and industry-specific workflow.",
+    items: [
+      { href: "/solutions/contractors/", label: "Contractor operations", title: "AI Automation for Contractors", description: "Connect lead intake, estimates, jobs, field evidence, changes, closeout, and invoice readiness." },
+      { href: "/solutions/service-businesses/", label: "Service operations", title: "AI Automation for Service Businesses", description: "Coordinate inquiry, CRM, scheduling or projects, customer communication, service delivery, and billing handoffs." }
     ]
   }
 ];

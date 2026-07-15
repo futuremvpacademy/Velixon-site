@@ -75,22 +75,22 @@ const industries = [
 const tech = ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Clerk", "Stripe", "Resend", "Twilio", "OpenAI", "Anthropic", "n8n", "Make", "Netlify"];
 const featuredResources = [
   {
+    category: "Automation fundamentals",
+    title: "What Is Business Process Automation?",
+    description: "Understand the systems, rules, and human decisions behind reliable process automation.",
+    href: "/resources/what-is-business-process-automation/"
+  },
+  {
     category: "Investment planning",
-    title: "Custom Software ROI: A Practical Cost and Value Guide",
-    description: "Evaluate the complete business case—not only the development quote.",
-    href: "/resources/custom-software-roi-cost/"
+    title: "How Much Does AI Automation Cost?",
+    description: "Plan an AI automation budget around scope, risk, integrations, and ownership—not a generic package price.",
+    href: "/resources/how-much-does-ai-automation-cost/"
   },
   {
-    category: "Operations",
-    title: "When to Replace Spreadsheets with Custom Software",
-    description: "Recognize when a flexible workaround has become an operational risk.",
-    href: "/resources/replace-spreadsheets-custom-software/"
-  },
-  {
-    category: "Applied AI",
-    title: "How to Identify High-Value AI Automation Workflows",
-    description: "Prioritize AI opportunities using value, readiness, risk, and measurable impact.",
-    href: "/resources/high-value-ai-automation-workflows/"
+    category: "Software strategy",
+    title: "How to Know When Your Business Needs Custom Software",
+    description: "Identify when workarounds, disconnected tools, and manual handoffs justify a purpose-built system.",
+    href: "/resources/when-business-needs-custom-software/"
   }
 ];
 const faqs = [
@@ -143,30 +143,12 @@ const homeSchema = [
       acceptedAnswer: { "@type": "Answer", text: faq.answer }
     }))
   },
-  {
-    "@type": "SoftwareApplication",
-    name: "FormEsque",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    description: "A proposal, signature, invoicing, and business workflow platform from Velixon.",
-    creator: { "@id": "https://velixon.net/#organization" },
-    url: "https://velixon.net/work/#formesque"
-  },
-  {
-    "@type": "SoftwareApplication",
-    name: "ShareCal",
-    applicationCategory: "ProductivityApplication",
-    operatingSystem: "Web",
-    description: "A collaborative calendar platform designed to make shared schedules easier to coordinate.",
-    creator: { "@id": "https://velixon.net/#organization" },
-    url: "https://velixon.net/work/#sharecal"
-  }
 ];
 ---
 
 <MainLayout
-  title="AI Automation Agency & Custom Software Company | Velixon"
-  description="Velixon builds AI agents, business automation, custom software, internal tools, CRM systems, voice AI, and connected workflows for growing companies."
+  title="Custom Software, AI & Automation for Business | Velixon"
+  description="Velixon builds custom software, AI automation, workflow systems, CRMs, and integrations around the way growing businesses actually operate."
   schema={homeSchema}
 >
   <IntroExperience logo={logo} />
@@ -177,9 +159,9 @@ const homeSchema = [
       <div class="vx-hero-grid" aria-hidden="true"></div>
       <div class="container vx-hero-layout">
         <div class="vx-hero-copy" data-vx-reveal>
-          <p class="vx-kicker"><span></span> AI automation agency · Custom software company</p>
-          <h1>Smarter systems. <em>Better business.</em></h1>
-          <p class="vx-hero-lead">Velixon designs AI agents, workflow automation, custom applications, internal software, and connected business systems for growing companies ready to operate with less friction.</p>
+          <p class="vx-kicker"><span></span> Smarter Systems. Better Business.</p>
+          <h1>Custom software, AI, and automation. <em>Built around your business.</em></h1>
+          <p class="vx-hero-lead">Velixon helps growing companies replace operational friction with purpose-built applications, AI automation, workflow systems, custom CRMs, and practical integrations.</p>
           <div class="vx-actions">
             <a class="vx-button vx-button-primary" href="/contact/?source=homepage-hero">Request an Automation Assessment <span aria-hidden="true">↗</span></a>
             <a class="vx-button vx-button-quiet" href="#solutions">Explore What We Build <span aria-hidden="true">↓</span></a>
@@ -196,9 +178,9 @@ const homeSchema = [
             <div class="vx-os-main">
               <div class="vx-os-heading"><div><small>Operations overview</small><strong>Good morning, Alex.</strong></div><button tabindex="-1">+ New workflow</button></div>
               <div class="vx-os-stats">
-                <article><small>Pipeline</small><strong>$184,240</strong><span>↑ 12.4%</span></article>
-                <article><small>Active jobs</small><strong>38</strong><span>6 due today</span></article>
-                <article><small>AI handled</small><strong>247</strong><span>91% resolved</span></article>
+                <article><small>Pipeline</small><strong>Connected</strong><span>Live source data</span></article>
+                <article><small>Active work</small><strong>In sync</strong><span>Owners assigned</span></article>
+                <article><small>AI support</small><strong>Reviewed</strong><span>Human escalation</span></article>
               </div>
               <div class="vx-os-lower">
                 <article class="vx-flow-card"><div class="vx-card-head"><b>Connected workflow</b><span>Running</span></div><div class="vx-mini-flow"><i>Lead</i><b>→</b><i>AI</i><b>→</b><i>Book</i><b>→</b><i>Pay</i></div><div class="vx-progress"><span></span></div></article>
@@ -207,7 +189,7 @@ const homeSchema = [
             </div>
           </div>
           <div class="vx-float vx-float-ai"><span>AI</span><div><b>Lead qualified</b><small>Follow-up scheduled</small></div><i>✓</i></div>
-          <div class="vx-float vx-float-pay"><span>$</span><div><b>Payment received</b><small>Invoice #1048</small></div><strong>$4,800</strong></div>
+          <div class="vx-float vx-float-pay"><span>$</span><div><b>Payment received</b><small>Record reconciled</small></div><strong>Synced</strong></div>
           <p class="vx-interface-caption">Illustrative connected-operations interface</p>
         </div>
       </div>
@@ -237,6 +219,13 @@ const homeSchema = [
           <a href="#automation-roi">Estimate the opportunity <span aria-hidden="true">↓</span></a>
         </div>
         <p class="vx-section-route"><a href="/services/">Explore all AI automation and custom software services <span aria-hidden="true">↗</span></a></p>
+        <nav class="vx-section-route" aria-label="Core Velixon services">
+          <a href="/services/ai-automation/">AI automation</a>
+          <a href="/services/custom-software/">Custom software</a>
+          <a href="/services/workflow-automation/">Workflow automation</a>
+          <a href="/services/custom-crm/">Custom CRM development</a>
+          <a href="/services/ai-integrations/">AI integrations</a>
+        </nav>
       </div>
     </section>
 
@@ -254,7 +243,7 @@ const homeSchema = [
               <span>{number}</span><div><b>{title}</b><small>{detail}</small></div><i aria-hidden="true">{index === workflow.length - 1 ? "✓" : "→"}</i>
             </button>
           ))}
-          <div class="vx-workflow-status"><span></span><p><b data-flow-title>Lead captured</b><small data-flow-detail>Data is moving through the system</small></p><em>0.4s</em></div>
+          <div class="vx-workflow-status"><span></span><p><b data-flow-title>Lead captured</b><small data-flow-detail>Data is moving through the system</small></p><em>Ready</em></div>
         </div>
       </div>
     </section>
@@ -266,11 +255,11 @@ const homeSchema = [
         <div class="vx-section-heading vx-heading-row" data-vx-reveal><div><p class="vx-kicker">Products built by Velixon</p><h2>We do not just build software.<br /><em>We build software companies.</em></h2></div><p>Our own products sharpen the same product thinking, engineering discipline, and operational understanding we bring to every client system.</p></div>
         <div class="vx-product-grid">
           <article class="vx-product vx-formesque" data-vx-reveal>
-            <div class="vx-product-copy"><p class="vx-product-label"><span>F</span> FORMESQUE</p><h3>From proposal to payment, in one connected workflow.</h3><p>Proposals, signatures, invoicing, customer records, and business workflow—without the handoff gaps.</p><a href="/work/#formesque">View the FormEsque overview <span>↗</span></a></div>
-            <div class="vx-product-ui vx-proposal-ui" aria-hidden="true"><div class="vx-ui-top"><i></i><i></i><i></i><span>Proposal · Thompson Residence</span></div><div class="vx-proposal-body"><aside><b>F</b><span></span><span></span><span></span></aside><div class="vx-proposal-document"><small>PROPOSAL #1048</small><h4>Frontier Fence</h4><div class="vx-proposal-lines"><i></i><i></i><i></i></div><div class="vx-proposal-total"><span>Total</span><b>$12,480.00</b></div><button tabindex="-1">Signed & approved ✓</button></div></div></div>
+            <div class="vx-product-copy"><p class="vx-product-label"><span>F</span> FORMESQUE</p><h3>From proposal to payment, in one connected workflow.</h3><p>Proposals, signatures, invoicing, customer records, and business workflow—without the handoff gaps.</p><a href="/case-studies/formesque-proposal-to-payment-platform/">Read the FormEsque product case study <span>↗</span></a></div>
+            <div class="vx-product-ui vx-proposal-ui" aria-hidden="true"><div class="vx-ui-top"><i></i><i></i><i></i><span>Demo proposal workflow</span></div><div class="vx-proposal-body"><aside><b>F</b><span></span><span></span><span></span></aside><div class="vx-proposal-document"><small>SAMPLE PROPOSAL</small><h4>Project workflow</h4><div class="vx-proposal-lines"><i></i><i></i><i></i></div><div class="vx-proposal-total"><span>Status</span><b>Ready for review</b></div><button tabindex="-1">Approval recorded ✓</button></div></div></div>
           </article>
           <article class="vx-product vx-sharecal" data-vx-reveal>
-            <div class="vx-product-copy"><p class="vx-product-label"><span>S</span> SHARECAL</p><h3>Life is better when everyone is on the same schedule.</h3><p>A collaborative calendar that makes shared time clear, current, and effortless to coordinate.</p><a href="/work/#sharecal">View the ShareCal overview <span>↗</span></a></div>
+            <div class="vx-product-copy"><p class="vx-product-label"><span>S</span> SHARECAL</p><h3>Life is better when everyone is on the same schedule.</h3><p>A collaborative calendar that makes shared time clear, current, and effortless to coordinate.</p><a href="/case-studies/sharecal-collaborative-scheduling-platform/">Read the ShareCal product case study <span>↗</span></a></div>
             <div class="vx-product-ui vx-calendar-ui" aria-hidden="true"><div class="vx-calendar-head"><b>October</b><span>Today　‹　›</span></div><div class="vx-calendar-days">{["M","T","W","T","F","S","S"].map((d) => <b>{d}</b>)}</div><div class="vx-calendar-grid">{Array.from({length: 28}, (_, i) => <span class:list={{today: i === 16, event: [4,9,12,18,23].includes(i)}}>{i + 1}</span>)}</div><div class="vx-calendar-event"><i></i><div><b>Product review</b><small>2:00 PM · Velixon team</small></div></div></div>
           </article>
         </div>
@@ -302,7 +291,7 @@ const homeSchema = [
       <div class="container">
         <div class="vx-heading-row" data-vx-reveal><div><p class="vx-kicker">Built for real operations</p><h2>Different industries.<br /><em>The same systems problem.</em></h2></div><p>We learn the operation first, then bring the product and engineering experience to make it work better.</p></div>
         <div class="vx-industry-grid">{industries.map((industry) => <article data-vx-reveal><a href={industry.href}><h3>{industry.title}</h3><p>{industry.detail}</p><span aria-hidden="true">↗</span></a></article>)}</div>
-        <p class="vx-section-route"><a href="/industries/">Explore industry automation systems <span aria-hidden="true">↗</span></a></p>
+        <p class="vx-section-route"><a href="/solutions/">Explore industry automation solutions <span aria-hidden="true">↗</span></a> · <a href="/case-studies/">Review Velixon case studies <span aria-hidden="true">↗</span></a></p>
       </div>
     </section>
 

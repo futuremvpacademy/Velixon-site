@@ -24,6 +24,7 @@ const parentLabel = parentLabels[page.collection];
 const reviewedDate = page.reviewedDate ?? "July 2026";
 const serviceProjectTypes: Record<string, string> = {
   "ai-automation": "ai-automation",
+  "ai-integrations": "integration",
   "ai-agents": "ai-automation",
   "voice-ai": "voice-ai",
   "workflow-automation": "workflow-automation",
@@ -125,6 +126,17 @@ const faqSchema = {
             <span>{page.definitionLabel ?? "In plain English"}</span>
             <h2 id="cluster-definition-title">What is {page.name}?</h2>
             <p>{page.definition}</p>
+            {page.sources?.length ? (
+              <p class="cluster-sources">
+                <strong>Context source:</strong>{" "}
+                {page.sources.map((source, index) => (
+                  <>
+                    {index > 0 ? ", " : ""}
+                    <a href={source.href} target="_blank" rel="noopener noreferrer">{source.title}</a>
+                  </>
+                ))}
+              </p>
+            ) : null}
             <small>Reviewed by Velixon · {reviewedDate}</small>
           </aside>
         </div>

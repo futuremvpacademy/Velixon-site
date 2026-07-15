@@ -11,12 +11,11 @@ export const siteContent = {
     { label: "Industries", href: "/industries/" },
     { label: "Integrations", href: "/integrations/" },
     { label: "Resources", href: "/resources/" },
-    { label: "Work", href: "/work/" }
+    { label: "Case Studies", href: "/case-studies/" }
   ],
   footerNav: [
     { label: "Home", href: "/" },
     { label: "Services", href: "/services/" },
-    { label: "All Specialized Services", href: "/services/automation/" },
     { label: "AI Automation", href: "/services/ai-automation/" },
     { label: "AI Agents", href: "/services/ai-agents/" },
     { label: "Voice AI", href: "/services/voice-ai/" },
@@ -25,12 +24,14 @@ export const siteContent = {
     { label: "Industries", href: "/industries/" },
     { label: "Service Areas", href: "/locations/" },
     { label: "AI Automation in Utah", href: "/locations/utah/" },
+    { label: "AI Automation in Lehi", href: "/locations/lehi/" },
     { label: "AI Automation in Salt Lake City", href: "/locations/salt-lake-city/" },
     { label: "Integrations", href: "/integrations/" },
     { label: "Case Studies", href: "/case-studies/" },
     { label: "Guides", href: "/guides/" },
     { label: "Comparisons", href: "/comparisons/" },
     { label: "Resources", href: "/resources/" },
+    { label: "AI Automation ROI Calculator", href: "/resources/ai-automation-roi-calculator/" },
     { label: "Process", href: "/process/" },
     { label: "Engagements", href: "/pricing/" },
     { label: "About", href: "/about/" },
@@ -41,7 +42,7 @@ export const siteContent = {
     designedBy: "Designed & Developed by Velixon",
     email: "Velixon.web@gmail.com",
     socials: [
-      { label: "Instagram", href: "https://www.instagram.com/velixon.digital?igsh=cTdhYW9mMTM1dnhh&utm_source=qr" }
+      { label: "Instagram", href: "https://www.instagram.com/velixon.digital/" }
     ]
   },
   contactInfo: {
@@ -544,7 +545,7 @@ export const siteContent = {
       ],
       nextSteps: [
         {
-          title: "Quick reply",
+          title: "Direct reply",
           description: "We’ll review your message and reply with the clearest next step for your business."
         },
         {

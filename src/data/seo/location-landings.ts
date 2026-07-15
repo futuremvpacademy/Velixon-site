@@ -1,4 +1,5 @@
 import type { DirectoryGroup, SeoLandingData } from "./types";
+import { phaseOneLocationLandingPages } from "./location-landings-phase-one";
 
 export const locationLandingPages: SeoLandingData[] = [
   {
@@ -105,6 +106,12 @@ export const locationLandingPages: SeoLandingData[] = [
     secondaryKeywords: ["Salt Lake City AI automation", "business automation Salt Lake City", "custom software Salt Lake City", "AI consulting Salt Lake City"],
     definition: "An AI automation agency serving Salt Lake City designs software around the records, customers, systems, and risk of a local operation. The city's economic development department highlights industries including outdoor products, life sciences, healthcare, finance, logistics, manufacturing, distribution, and gaming; each requires a different automation boundary and measure of value.",
     definitionLabel: "Salt Lake City context",
+    sources: [
+      {
+        title: "Salt Lake City Department of Economic Development — Business Development",
+        href: "https://www.slc.gov/ed/business-development/"
+      }
+    ],
     challengesTitle: "A regional hub creates more connections—and more handoffs to manage.",
     challengesIntro: "Salt Lake City businesses may serve neighborhood customers, the Wasatch Front, statewide operations, or national markets. Systems must support that reach without erasing local service, facility, and compliance constraints.",
     challenges: [
@@ -182,7 +189,8 @@ export const locationLandingPages: SeoLandingData[] = [
       { href: "/services/business-process-automation/", label: "Service", title: "Business Process Automation", description: "Turn multi-team handoffs into visible, exception-aware workflows." }
     ],
     reviewedDate: "July 2026"
-  }
+  },
+  ...phaseOneLocationLandingPages
 ];
 
 export const locationDirectory: DirectoryGroup[] = [
@@ -191,6 +199,7 @@ export const locationDirectory: DirectoryGroup[] = [
     description: "These pages contain distinct regional and industry context. Velixon has intentionally not generated thin pages for every city or state.",
     items: [
       { href: "/locations/utah/", label: "Statewide", title: "AI Automation Agency in Utah", description: "Systems for Utah technology, healthcare, life sciences, finance, manufacturing, construction, and service organizations." },
+      { href: "/locations/lehi/", label: "Lehi", title: "AI Automation & Custom Software in Lehi", description: "Systems for Utah County technology, professional, contractor, and service-business operations without a manufactured office claim." },
       { href: "/locations/salt-lake-city/", label: "Salt Lake City", title: "AI Automation Agency in Salt Lake City", description: "Automation for the city's finance, healthcare, logistics, distribution, manufacturing, outdoor, and growth economy." }
     ]
   }

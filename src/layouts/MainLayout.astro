@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Footer from "../components/Footer.astro";
 import ConsentBanner from "../components/ConsentBanner.astro";
 import { seo, siteContent } from "../data/site";
+import { isPublicIndexablePath } from "../data/seo/indexing";
 import {
   absoluteUrl,
   buildBreadcrumbSchema,
@@ -38,8 +39,8 @@ const {
   description,
   imageAlt = "Velixon custom software, AI systems, and connected business infrastructure",
   socialImage: socialImagePath = "/og.png",
-  socialImageWidth = 1536,
-  socialImageHeight = 1024,
+  socialImageWidth = 1200,
+  socialImageHeight = 630,
   canonicalPath: canonicalPathOverride,
   noIndex = false,
   ogType = "website",
@@ -51,15 +52,18 @@ const {
 } = Astro.props;
 const { logo, companyName, footer, footerNav, contactInfo } = siteContent;
 const siteUrl = Astro.site?.origin ?? "https://velixon.net";
-const analyticsId = (import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "").trim();
-const analyticsEnabled = /^G-[A-Z0-9]+$/i.test(analyticsId);
-const searchConsoleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "Jjx9Epy0Nj-SnyQBSlCxcFG0tDAX0Ej-WZJW1kmstGk";
+const analyticsIdCandidate = (import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "").trim();
+const analyticsId = /^G-[A-Z0-9]+$/i.test(analyticsIdCandidate) ? analyticsIdCandidate : "";
+const analyticsEnabled = Boolean(analyticsId);
+const searchConsoleVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "").trim();
+const deploymentNoIndex = import.meta.env.PUBLIC_SITE_NOINDEX === "true";
 const canonicalPath = normalizePathname(canonicalPathOverride ?? Astro.url.pathname);
 const canonicalUrl = absoluteUrl(canonicalPath, siteUrl);
 const pageTitle = title ?? seo.title;
 const pageDescription = description ?? seo.description;
 const socialImage = absoluteUrl(socialImagePath, siteUrl);
-const robotsContent = noIndex
+const shouldNoIndex = deploymentNoIndex || noIndex || !isPublicIndexablePath(canonicalPath);
+const robotsContent = shouldNoIndex
   ? "noindex, follow"
   : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
 const organizationId = `${siteUrl}/#organization`;
@@ -135,7 +139,7 @@ const breadcrumbNames: Record<string, string> = {
   security: "Security Practices",
   ...breadcrumbLabels
 };
-const breadcrumbSchema = noIndex ? null : buildBreadcrumbSchema({ canonicalUrl, labels: breadcrumbNames });
+const breadcrumbSchema = shouldNoIndex ? null : buildBreadcrumbSchema({ canonicalUrl, labels: breadcrumbNames });
 const webPageSchema = buildWebPageSchema({
   canonicalUrl,
   title: pageTitle,
@@ -165,7 +169,7 @@ const structuredDataJson = serializeJsonLd(structuredData);
     <meta name="description" content={pageDescription} />
     <meta name="robots" content={robotsContent} />
     <meta name="googlebot" content={robotsContent} />
-    <meta name="google-site-verification" content={searchConsoleVerification} />
+    {searchConsoleVerification && <meta name="google-site-verification" content={searchConsoleVerification} />}
     <meta name="author" content="Velixon" />
     <meta name="application-name" content="Velixon" />
     <meta name="theme-color" content="#070708" />
@@ -203,8 +207,9 @@ const structuredDataJson = serializeJsonLd(structuredData);
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <script is:inline type="application/ld+json" set:html={structuredDataJson}></script>
-    <script is:inline define:vars={{ analyticsId }}>
+    {analyticsEnabled && <script is:inline define:vars={{ analyticsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -306,7 +311,7 @@ const structuredDataJson = serializeJsonLd(structuredData);
           loadAnalytics();
         }
       })();
-    </script>
+    </script>}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -357,11 +362,13 @@ const structuredDataJson = serializeJsonLd(structuredData);
             analytics.track("contact_click", { contact_method: "phone", page_path: window.location.pathname });
           } else if (href.startsWith("mailto:")) {
             analytics.track("contact_click", { contact_method: "email", page_path: window.location.pathname });
-          } else if (link.classList.contains("button") || link.classList.contains("mobile-nav-cta")) {
-            analytics.track("select_content", {
+          } else if (link.matches(".button, .mobile-nav-cta, .vx-button, [data-analytics-cta]")) {
+            const linkText = (link.textContent || "").trim().slice(0, 80);
+            const eventName = /strategy call/i.test(linkText) ? "strategy_call_click" : "cta_click";
+            analytics.track(eventName, {
               content_type: "call_to_action",
               item_id: href || window.location.pathname,
-              link_text: (link.textContent || "").trim().slice(0, 80),
+              link_text: linkText,
               page_path: window.location.pathname
             });
           }

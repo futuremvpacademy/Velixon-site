@@ -40,6 +40,7 @@ export interface SeoLandingData {
   secondaryKeywords: string[];
   definition: string;
   definitionLabel?: string;
+  sources?: Array<{ title: string; href: string }>;
   challengesTitle: string;
   challengesIntro: string;
   challenges: SeoCard[];

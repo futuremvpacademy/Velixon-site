@@ -1,63 +1,53 @@
-# Velixon Starter Site
+# Velixon website
 
-Premium Astro homepage starter for Velixon.
+Production Astro site for Velixon, a custom software, AI, and business automation company. The site is statically generated, deployed on Netlify, and uses data-driven landing-page systems for services, solutions, industries, integrations, and locations.
 
-## Run locally
+## Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open `http://localhost:4321`.
+Astro serves the site at `http://localhost:4321` by default.
 
-## Edit content
+## Project structure
 
-Homepage text, navigation labels, trust items, and hero preview content live in:
+- `src/pages/` — route entry points and long-form resource articles
+- `src/components/` — shared navigation, landing-page, FAQ, CTA, resource, and case-study UI
+- `src/data/seo/` — structured landing-page content, directories, indexation allowlist, and internal-link relationships
+- `src/layouts/MainLayout.astro` — canonical metadata, social cards, analytics, robots directives, and global schema graph
+- `src/lib/schema.ts` — JSON-LD helpers
+- `src/styles/` — global and route-system styles
+- `public/` — crawl directives, favicons, manifest, social image, and other static assets
+- `scripts/audit-site.mjs` — generated-site SEO and internal-link verification
+- `docs/` — Phase 1 audit, keyword map, content backlog, and measurement plan
 
-- `src/data/site.ts`
-
-Reusable homepage components live in:
-
-- `src/components/Navbar.astro`
-- `src/components/HeroSection.astro`
-- `src/components/TrustStrip.astro`
-
-Page composition lives in:
-
-- `src/pages/index.astro`
-
-Theme tokens and global styles live in:
-
-- `src/styles/global.css`
-
-Brand assets live in:
-
-- `public/velixon-logo.png`
-
-## Build
+## Verification
 
 ```bash
-npm run build
+npm run verify
 ```
 
-## Deploy
+The verification command runs Astro type checking, a clean production build, and the generated-site SEO audit. The audit checks required Phase 1 routes, indexation, metadata, canonicals, Open Graph and X cards, headings, JSON-LD, image attributes, links, robots directives, the web manifest, and sitemap coverage.
 
-This site outputs static files, so it works well on:
+There is no separate ESLint or unit-test suite in this repository yet; `astro check` and the generated-site audit are the current static and integration gates.
 
-- Netlify
-- Vercel
-- Cloudflare Pages
-- GitHub Pages
+## Environment variables
 
-Build command:
+Copy `.env.example` to `.env` only when local verification values are needed.
 
-```bash
-npm run build
-```
+- `PUBLIC_GA_MEASUREMENT_ID` — optional GA4 measurement ID in `G-...` format. Analytics remains disabled when blank or invalid and loads only after consent.
+- `PUBLIC_GOOGLE_SITE_VERIFICATION` — optional Google Search Console HTML verification token.
 
-Publish directory:
+Never place private API keys or service credentials in `PUBLIC_` variables.
 
-```bash
-dist
-```
+## Deployment
+
+Netlify uses the settings in `netlify.toml`:
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Node version: `22`
+
+Run `npm run verify` before deploying. Netlify Forms processes the contact form in production; local form submissions do not reproduce that backend behavior.

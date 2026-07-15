@@ -17,6 +17,45 @@ const groups = [{
   summary="Transparent product case studies that explain the problem, architecture, delivery path, and value model. No fabricated client logos, ratings, or performance claims."
   path="/case-studies/"
   groups={groups}
+  primaryAction={{ label: "Discuss your system", href: "/contact/?source=case-studies-hub" }}
+  secondaryAction={{ label: "Review first-party product evidence", href: "#directory" }}
+  statusNotice={{
+    eyebrow: "Client case study status",
+    title: "Detailed client implementation case studies are being prepared.",
+    description: "The published studies below document Velixon-owned products and the operating problems, design decisions, and engineering approaches behind them. Velixon will add client names, testimonials, metrics, and implementation results only when the work, permission, and supporting evidence are verified."
+  }}
   selectionTitle="Choose the evidence closest to your system"
   selectionGuidance="Start with FormEsque when evaluating connected commercial operations such as proposals, signatures, invoices, and payments. Start with ShareCal when evaluating collaborative scheduling, shared state, permissions, and responsive product experience."
+  pathways={{
+    eyebrow: "Related services",
+    title: "Explore the capabilities behind these systems",
+    description: "Use the service pages to evaluate the kind of system Velixon can plan and build, or start a conversation about the workflow your business needs to improve.",
+    items: [
+      {
+        label: "Service",
+        title: "AI Automation",
+        description: "Design AI agents and governed automation around a defined business workflow, its data, and the people responsible for the outcome.",
+        href: "/services/ai-automation/",
+        linkLabel: "Explore AI automation services"
+      },
+      {
+        label: "Service",
+        title: "Custom Software Development",
+        description: "Build an application, portal, dashboard, or internal system around the way your business actually operates.",
+        href: "/services/custom-software/",
+        linkLabel: "Explore custom software development"
+      },
+      {
+        label: "Service",
+        title: "Workflow Automation",
+        description: "Connect tools, data, decisions, and handoffs so routine work moves reliably without losing human oversight.",
+        href: "/services/workflow-automation/",
+        linkLabel: "Explore workflow automation"
+      }
+    ],
+    actions: [
+      { label: "Discuss your system", href: "/contact/?source=case-studies-pathways" },
+      { label: "Explore all services", href: "/services/" }
+    ]
+  }}
 />

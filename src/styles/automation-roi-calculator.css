@@ -1,0 +1,1283 @@
+.roi-tool-page {
+  --roi-surface: rgba(15, 15, 19, 0.94);
+  --roi-surface-raised: rgba(21, 20, 27, 0.98);
+  --roi-border: rgba(255, 255, 255, 0.08);
+  --roi-border-strong: rgba(185, 178, 217, 0.22);
+  --roi-copy: #aaa7b0;
+  position: relative;
+  overflow: clip;
+  background:
+    radial-gradient(circle at 12% 5%, rgba(154, 140, 255, 0.09), transparent 22%),
+    #070708;
+}
+
+.roi-tool-kicker {
+  margin: 0 0 1rem;
+  color: var(--primary-bright);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.roi-tool-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(6rem, 11vw, 9rem) 0 clamp(4.5rem, 8vw, 7rem);
+  border-bottom: 1px solid var(--roi-border);
+}
+
+.roi-tool-hero::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 62px 62px;
+  mask-image: linear-gradient(to bottom, black, transparent 92%);
+  pointer-events: none;
+  content: "";
+}
+
+.roi-tool-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(110px);
+  pointer-events: none;
+}
+
+.roi-tool-orb-one {
+  top: 7%;
+  left: -5rem;
+  width: 25rem;
+  height: 25rem;
+  background: rgba(154, 140, 255, 0.17);
+}
+
+.roi-tool-orb-two {
+  right: -8rem;
+  bottom: -10rem;
+  width: 30rem;
+  height: 30rem;
+  background: rgba(35, 27, 50, 0.78);
+}
+
+.roi-tool-hero-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(330px, 0.62fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: end;
+}
+
+.roi-tool-hero-copy h1 {
+  max-width: 11ch;
+  margin: 0;
+  font-size: clamp(3.7rem, 8.5vw, 7.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.078em;
+  text-wrap: balance;
+}
+
+.roi-tool-hero-copy h1 span {
+  color: var(--primary);
+}
+
+.roi-tool-lead {
+  max-width: 48rem;
+  margin: 1.7rem 0 0;
+  color: #bebac4;
+  font-size: clamp(1.05rem, 2vw, 1.27rem);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.roi-tool-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+
+.roi-tool-privacy {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  max-width: 43rem;
+  margin: 1.25rem 0 0;
+  color: #84808a;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.roi-tool-privacy span {
+  color: #8ecb9a;
+  font-size: 0.62rem;
+  line-height: 1.8;
+}
+
+.roi-tool-byline {
+  margin: 0.75rem 0 0;
+  color: #716d77;
+  font-size: 0.72rem;
+}
+
+.roi-tool-byline a {
+  color: #bdb6d8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.roi-tool-definition {
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  border: 1px solid var(--roi-border-strong);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at top left, rgba(154, 140, 255, 0.15), transparent 34%),
+    linear-gradient(160deg, rgba(19, 18, 24, 0.96), rgba(9, 9, 12, 0.96));
+  box-shadow: var(--shadow);
+}
+
+.roi-tool-definition > p:first-child {
+  margin: 0;
+  color: var(--primary-bright);
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.roi-tool-definition h2 {
+  margin: 0.6rem 0 0;
+  font-size: clamp(1.55rem, 3vw, 2.15rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.roi-tool-definition > p:not(:first-child) {
+  margin: 1rem 0 0;
+  color: var(--roi-copy);
+  line-height: 1.7;
+}
+
+.roi-tool-definition dl {
+  display: grid;
+  gap: 0;
+  margin: 1.4rem 0 0;
+  border-top: 1px solid var(--roi-border);
+}
+
+.roi-tool-definition dl div {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--roi-border);
+}
+
+.roi-tool-definition dt {
+  color: var(--primary);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.roi-tool-definition dd {
+  margin: 0;
+  color: #c9c5ce;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.roi-tool-workspace {
+  padding: clamp(5rem, 10vw, 8rem) 0;
+  background:
+    radial-gradient(circle at 82% 8%, rgba(154, 140, 255, 0.08), transparent 24%),
+    #0b0b0d;
+}
+
+.roi-tool-section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.55fr);
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 2.4rem;
+}
+
+.roi-tool-section-heading h2 {
+  max-width: 16ch;
+  margin: 0;
+  font-size: clamp(2.6rem, 5.5vw, 4.9rem);
+  line-height: 0.98;
+  letter-spacing: -0.062em;
+  text-wrap: balance;
+}
+
+.roi-tool-section-heading > p {
+  margin: 0;
+  color: var(--roi-copy);
+  line-height: 1.75;
+}
+
+.roi-calculator {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.7fr) minmax(0, 1.3fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--roi-border-strong);
+  border-radius: 26px;
+  background: var(--roi-border-strong);
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.38);
+}
+
+.roi-input-panel,
+.roi-results-panel {
+  min-width: 0;
+  background: var(--roi-surface);
+}
+
+.roi-input-panel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.roi-results-panel {
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  background:
+    radial-gradient(circle at 90% 4%, rgba(154, 140, 255, 0.12), transparent 25%),
+    var(--roi-surface-raised);
+}
+
+.roi-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  padding-bottom: 1.3rem;
+  border-bottom: 1px solid var(--roi-border);
+}
+
+.roi-panel-heading p {
+  margin: 0 0 0.35rem;
+  color: var(--primary-bright);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.roi-panel-heading h3 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  line-height: 1.1;
+}
+
+.roi-reset-button {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--roi-border);
+  border-radius: 999px;
+  color: #a8a4ad;
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 0.7rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.roi-reset-button:hover {
+  color: var(--text);
+  border-color: var(--roi-border-strong);
+}
+
+.roi-model-label {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(154, 140, 255, 0.18);
+  border-radius: 999px;
+  color: #c7c0e6;
+  background: rgba(154, 140, 255, 0.07);
+  font-size: 0.66rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.roi-fieldset {
+  display: grid;
+  gap: 1.05rem;
+  min-width: 0;
+  margin: 0;
+  padding: 1.45rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--roi-border);
+}
+
+.roi-fieldset:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.roi-fieldset legend {
+  width: 100%;
+  margin: 0 0 0.1rem;
+  padding: 0;
+  color: #d8d4dc;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roi-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(155px, auto);
+  gap: 0.4rem 1rem;
+  align-items: center;
+}
+
+.roi-field-label {
+  color: #d0ccd5;
+  font-size: 0.81rem;
+  font-weight: 700;
+}
+
+.roi-field small {
+  grid-column: 1 / -1;
+  color: #77727d;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.roi-field-control {
+  display: flex;
+  min-width: 0;
+  min-height: 42px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--roi-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.roi-field-control:focus-within {
+  border-color: var(--primary-bright);
+  box-shadow: 0 0 0 3px rgba(154, 140, 255, 0.1);
+}
+
+.roi-field-control input {
+  width: 5.4rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  background: transparent;
+  text-align: right;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.roi-field-control input:focus-visible {
+  outline: 0;
+}
+
+.roi-field-control > span {
+  color: #77727d;
+  font-size: 0.67rem;
+  white-space: nowrap;
+}
+
+.roi-field-control-currency > span:first-child {
+  color: #aaa4b1;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.roi-result-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: end;
+  margin-top: 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(154, 140, 255, 0.18);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(154, 140, 255, 0.13), rgba(255, 255, 255, 0.025));
+}
+
+.roi-result-hero p,
+.roi-result-payback span {
+  margin: 0;
+  color: #aaa4b1;
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.roi-result-hero > div > strong {
+  display: block;
+  margin-top: 0.45rem;
+  color: #f7f5fa;
+  font-size: clamp(2.3rem, 5vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+  font-variant-numeric: tabular-nums;
+}
+
+.roi-result-hero > div > strong.is-negative {
+  color: #f0aaa2;
+}
+
+.roi-result-hero > div > span {
+  display: block;
+  max-width: 34rem;
+  margin-top: 0.65rem;
+  color: #8c8791;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.roi-result-payback {
+  min-width: 8.5rem;
+  padding-left: 1.4rem;
+  border-left: 1px solid var(--roi-border);
+}
+
+.roi-result-payback strong {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--primary);
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+
+.roi-result-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--roi-border);
+  border-radius: 14px;
+  background: var(--roi-border);
+}
+
+.roi-result-metrics > div {
+  min-width: 0;
+  padding: 1rem;
+  background: rgba(11, 11, 14, 0.86);
+}
+
+.roi-result-metrics dt {
+  min-height: 2.5em;
+  color: #8d8892;
+  font-size: 0.65rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.roi-result-metrics dd {
+  overflow: hidden;
+  margin: 0.65rem 0 0;
+  color: #f1eff5;
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.roi-result-metrics dd.is-negative {
+  color: #f0aaa2;
+}
+
+.roi-result-metrics span {
+  display: block;
+  margin-top: 0.45rem;
+  color: #6f6b74;
+  font-size: 0.59rem;
+  line-height: 1.4;
+}
+
+.roi-scenario-heading {
+  margin-top: 2rem;
+}
+
+.roi-scenario-heading h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.roi-scenario-heading p {
+  margin: 0.35rem 0 0;
+  color: #77727d;
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.roi-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.roi-scenario-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--roi-border);
+  border-radius: 13px;
+  background: rgba(7, 7, 9, 0.72);
+}
+
+.roi-scenario-card.is-expected {
+  border-color: rgba(154, 140, 255, 0.27);
+  background:
+    radial-gradient(circle at top right, rgba(154, 140, 255, 0.1), transparent 42%),
+    rgba(11, 10, 15, 0.9);
+}
+
+.roi-scenario-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+
+.roi-scenario-card header p {
+  margin: 0;
+  color: #bcb7c2;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.roi-scenario-card header strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--primary);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.roi-scenario-card header span {
+  padding: 0.3rem 0.45rem;
+  border-radius: 999px;
+  color: #beb7dd;
+  background: rgba(154, 140, 255, 0.1);
+  font-size: 0.56rem;
+  font-weight: 800;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.roi-scenario-description {
+  min-height: 5.5em;
+  margin: 0.8rem 0 0;
+  color: #77727d;
+  font-size: 0.65rem;
+  line-height: 1.55;
+}
+
+.roi-scenario-card dl {
+  display: grid;
+  gap: 0;
+  margin: 0.8rem 0 0;
+  border-top: 1px solid var(--roi-border);
+}
+
+.roi-scenario-card dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.58rem 0;
+  border-bottom: 1px solid var(--roi-border);
+}
+
+.roi-scenario-card dt {
+  color: #77727d;
+  font-size: 0.62rem;
+}
+
+.roi-scenario-card dd {
+  overflow: hidden;
+  margin: 0;
+  color: #d9d5de;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.roi-scenario-card dd.is-negative {
+  color: #e9a39b;
+}
+
+.roi-result-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(150px, 0.75fr);
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.roi-action-button {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--roi-border);
+  border-radius: 8px;
+  color: #d4d0d9;
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.roi-action-button:hover {
+  border-color: rgba(154, 140, 255, 0.25);
+  background: rgba(154, 140, 255, 0.07);
+}
+
+.roi-action-primary {
+  justify-content: space-between;
+  color: #111016;
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.roi-action-primary:hover {
+  color: #09090b;
+  background: #ded8f7;
+}
+
+.roi-share-status {
+  min-height: 1.3em;
+  margin: 0.6rem 0 0;
+  color: #9eb9a4;
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.roi-results-note {
+  margin: 0.85rem 0 0;
+  color: #6f6b74;
+  font-size: 0.64rem;
+  line-height: 1.55;
+}
+
+.roi-methodology,
+.roi-faq {
+  padding: clamp(5rem, 10vw, 8rem) 0;
+}
+
+.roi-methodology {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(154, 140, 255, 0.08), transparent 23%),
+    #f1eff4;
+  color: #17161b;
+}
+
+.roi-methodology .roi-tool-kicker {
+  color: #6557ae;
+}
+
+.roi-methodology-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: start;
+}
+
+.roi-methodology-intro {
+  position: sticky;
+  top: 8rem;
+}
+
+.roi-methodology-intro h2,
+.roi-readiness h2,
+.roi-faq-heading h2,
+.roi-related-heading h2 {
+  margin: 0;
+  font-size: clamp(2.55rem, 5vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.062em;
+  text-wrap: balance;
+}
+
+.roi-methodology-intro > p:last-child {
+  margin: 1.4rem 0 0;
+  color: #6c6871;
+  line-height: 1.75;
+}
+
+.roi-formula-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #cfccd4;
+}
+
+.roi-formula-list li {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #cfccd4;
+}
+
+.roi-formula-list li > span {
+  padding-top: 0.15rem;
+  color: #716a79;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.roi-formula-list h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.roi-formula-list p {
+  margin: 0.35rem 0 0;
+  color: #696570;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.roi-methodology-notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.roi-methodology-notes article {
+  padding: clamp(1.3rem, 3vw, 2rem);
+  border: 1px solid #d2cfd6;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.43);
+}
+
+.roi-methodology-notes h3 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.roi-methodology-notes article > p:not(.roi-tool-kicker) {
+  color: #696570;
+  line-height: 1.7;
+}
+
+.roi-methodology-notes a {
+  color: #57499b;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.roi-readiness {
+  padding: clamp(5rem, 10vw, 8rem) 0;
+  background:
+    radial-gradient(circle at 82% 24%, rgba(154, 140, 255, 0.08), transparent 26%),
+    #0b0b0d;
+}
+
+.roi-readiness-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.roi-readiness-shell > div > p:last-child {
+  max-width: 38rem;
+  color: var(--roi-copy);
+  line-height: 1.75;
+}
+
+.roi-readiness ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--roi-border);
+  list-style: none;
+}
+
+.roi-readiness li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.8rem;
+  padding: 1.2rem 1rem 1.2rem 0;
+  border-bottom: 1px solid var(--roi-border);
+}
+
+.roi-readiness li:nth-child(even) {
+  padding-left: 1rem;
+  border-left: 1px solid var(--roi-border);
+}
+
+.roi-readiness li > span {
+  color: var(--primary-bright);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.roi-readiness strong {
+  display: block;
+  color: #e2dfe5;
+  font-size: 0.92rem;
+}
+
+.roi-readiness li p {
+  margin: 0.3rem 0 0;
+  color: #85808a;
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.roi-faq {
+  background: #f1eff4;
+  color: #17161b;
+}
+
+.roi-faq .roi-tool-kicker {
+  color: #6557ae;
+}
+
+.roi-faq-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(3rem, 8vw, 8rem);
+}
+
+.roi-faq-list {
+  border-top: 1px solid #cfccd4;
+}
+
+.roi-faq-list details {
+  border-bottom: 1px solid #cfccd4;
+}
+
+.roi-faq-list summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  font-size: 1.02rem;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+
+.roi-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.roi-faq-list summary span {
+  color: #6557ae;
+  font-size: 1.2rem;
+  transition: transform 180ms ease;
+}
+
+.roi-faq-list details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.roi-faq-list details p {
+  max-width: 52rem;
+  margin: -0.35rem 0 1.35rem;
+  color: #696570;
+  line-height: 1.75;
+}
+
+.roi-related {
+  padding: clamp(5rem, 10vw, 8rem) 0;
+  background:
+    radial-gradient(circle at 50% 0, rgba(154, 140, 255, 0.11), transparent 32%),
+    #070708;
+}
+
+.roi-related-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  align-items: end;
+}
+
+.roi-related-heading h2 {
+  max-width: 15ch;
+}
+
+.roi-related-heading > .button {
+  flex: 0 0 auto;
+}
+
+.roi-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 3rem;
+}
+
+.roi-related-grid > a {
+  display: flex;
+  min-height: 14rem;
+  flex-direction: column;
+  padding: 1.3rem;
+  border: 1px solid var(--roi-border);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top left, rgba(154, 140, 255, 0.08), transparent 38%),
+    rgba(14, 14, 17, 0.9);
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+.roi-related-grid > a:hover {
+  transform: translateY(-3px);
+  border-color: rgba(154, 140, 255, 0.25);
+}
+
+.roi-related-grid span {
+  color: var(--primary-bright);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.roi-related-grid strong {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 1.17rem;
+  line-height: 1.15;
+}
+
+.roi-related-grid p {
+  margin: auto 0 0;
+  color: #88838e;
+  font-size: 0.77rem;
+  line-height: 1.6;
+}
+
+.roi-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1080px) {
+  .roi-tool-hero-shell,
+  .roi-tool-section-heading,
+  .roi-methodology-shell,
+  .roi-readiness-shell,
+  .roi-faq-shell {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .roi-tool-definition {
+    max-width: 44rem;
+  }
+
+  .roi-calculator {
+    grid-template-columns: 1fr;
+  }
+
+  .roi-methodology-intro {
+    position: static;
+  }
+
+  .roi-result-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roi-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .roi-tool-hero {
+    padding-top: 5.5rem;
+  }
+
+  .roi-tool-hero-copy h1 {
+    font-size: clamp(3.35rem, 17vw, 5.4rem);
+  }
+
+  .roi-tool-hero-actions,
+  .roi-tool-hero-actions .button {
+    width: 100%;
+  }
+
+  .roi-calculator {
+    margin-inline: -0.35rem;
+    border-radius: 18px;
+  }
+
+  .roi-field {
+    grid-template-columns: 1fr;
+  }
+
+  .roi-field small {
+    grid-column: auto;
+  }
+
+  .roi-field-control {
+    justify-content: space-between;
+  }
+
+  .roi-field-control input {
+    flex: 1;
+    width: auto;
+  }
+
+  .roi-results-heading {
+    align-items: flex-start;
+  }
+
+  .roi-model-label {
+    display: none;
+  }
+
+  .roi-result-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .roi-result-payback {
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--roi-border);
+    border-left: 0;
+  }
+
+  .roi-result-metrics,
+  .roi-scenario-grid,
+  .roi-result-actions,
+  .roi-methodology-notes,
+  .roi-readiness ul,
+  .roi-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roi-result-metrics dt,
+  .roi-scenario-description {
+    min-height: 0;
+  }
+
+  .roi-readiness li:nth-child(even) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .roi-related-heading {
+    display: grid;
+    align-items: start;
+  }
+
+  .roi-related-heading > .button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roi-related-grid > a,
+  .roi-faq-list summary span {
+    transition: none;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0.5in;
+  }
+
+  body,
+  .roi-tool-page,
+  .roi-tool-workspace {
+    color: #111;
+    background: #fff !important;
+  }
+
+  .site-header,
+  .site-footer,
+  .consent-banner,
+  .roi-tool-hero,
+  .roi-tool-section-heading,
+  .roi-methodology,
+  .roi-readiness,
+  .roi-faq,
+  .roi-related,
+  .roi-result-actions,
+  .roi-share-status {
+    display: none !important;
+  }
+
+  .roi-tool-workspace {
+    padding: 0;
+  }
+
+  .roi-tool-workspace::before {
+    display: block;
+    margin-bottom: 0.2in;
+    color: #111;
+    font-size: 22pt;
+    font-weight: 800;
+    content: "Velixon AI Automation ROI Calculator";
+  }
+
+  .roi-tool-workspace::after {
+    display: block;
+    margin-top: 0.15in;
+    color: #555;
+    font-size: 8pt;
+    line-height: 1.45;
+    content: "Directional planning model only. Capacity value is not assumed cash savings. Results are not a quote, forecast, accounting analysis, or guarantee.";
+  }
+
+  .roi-tool-workspace .container {
+    width: 100%;
+  }
+
+  .roi-calculator {
+    display: grid;
+    grid-template-columns: 0.82fr 1.18fr;
+    gap: 0.12in;
+    overflow: visible;
+    border: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .roi-input-panel,
+  .roi-results-panel,
+  .roi-result-hero,
+  .roi-result-metrics > div,
+  .roi-scenario-card {
+    color: #111;
+    border-color: #bbb;
+    background: #fff !important;
+    box-shadow: none;
+  }
+
+  .roi-input-panel,
+  .roi-results-panel {
+    padding: 0.12in;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+  }
+
+  .roi-panel-heading,
+  .roi-fieldset,
+  .roi-scenario-card dl,
+  .roi-scenario-card dl div {
+    border-color: #ccc;
+  }
+
+  .roi-panel-heading p,
+  .roi-fieldset legend,
+  .roi-field-label,
+  .roi-field-control input,
+  .roi-result-hero p,
+  .roi-result-hero > div > strong,
+  .roi-result-payback strong,
+  .roi-result-metrics dd,
+  .roi-scenario-card header p,
+  .roi-scenario-card header strong,
+  .roi-scenario-card dd {
+    color: #111 !important;
+  }
+
+  .roi-field small,
+  .roi-field-control > span,
+  .roi-result-hero > div > span,
+  .roi-result-metrics dt,
+  .roi-result-metrics span,
+  .roi-scenario-heading p,
+  .roi-scenario-description,
+  .roi-scenario-card dt,
+  .roi-results-note {
+    color: #555 !important;
+  }
+
+  .roi-reset-button,
+  .roi-model-label {
+    display: none;
+  }
+
+  .roi-field-control {
+    min-height: 32px;
+    border-color: #bbb;
+    background: #fff;
+  }
+
+  .roi-fieldset {
+    gap: 0.08in;
+    padding: 0.11in 0;
+  }
+
+  .roi-field small {
+    display: none;
+  }
+
+  .roi-result-hero {
+    margin-top: 0.12in;
+    padding: 0.12in;
+  }
+
+  .roi-result-hero > div > strong {
+    font-size: 24pt;
+  }
+
+  .roi-result-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    border-color: #bbb;
+    background: #bbb;
+  }
+
+  .roi-result-metrics > div {
+    padding: 0.08in;
+  }
+
+  .roi-scenario-grid {
+    gap: 0.07in;
+  }
+
+  .roi-scenario-card {
+    padding: 0.08in;
+    break-inside: avoid;
+  }
+
+  .roi-scenario-description {
+    display: none;
+  }
+
+  .roi-scenario-card dl {
+    margin-top: 0.05in;
+  }
+
+  .roi-scenario-card dl div {
+    padding: 0.04in 0;
+  }
+
+  .roi-results-note {
+    margin-top: 0.08in;
+    font-size: 7pt;
+  }
+}

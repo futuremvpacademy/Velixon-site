@@ -6,17 +6,19 @@ import CardSection from "../components/CardSection.astro";
 import FinalCtaSection from "../components/FinalCtaSection.astro";
 import { siteContent } from "../data/site";
 import { buildDirectorySchema } from "../lib/directory-schema";
+import { automationServiceDirectory } from "../data/seo/service-landings";
+import "../styles/seo-clusters.css";
 const { companyName, logo, nav, cta } = siteContent;
 const systems = [
   { id: "custom-applications", title: "Custom applications", description: "SaaS platforms, customer portals, internal tools, dashboards, and mobile applications built around the operation.", meta: "Product engineering", outcome: "Outcome: software that fits the business", href: "/services/custom-software/", linkLabel: "Explore custom software" },
   { id: "ai-automation", title: "AI automation & agents", description: "Reception, sales, support, voice, and internal AI systems connected to real data and defined workflows.", meta: "Applied AI", outcome: "Outcome: faster response and less manual work", href: "/services/ai-automation/", linkLabel: "Explore AI automation" },
   { id: "business-infrastructure", title: "Business infrastructure", description: "CRMs, scheduling, proposals, signatures, invoicing, payments, reporting, and customer databases working as one.", meta: "Connected operations", outcome: "Outcome: one reliable operating flow", href: "/services/business-infrastructure/", linkLabel: "Explore business infrastructure" },
   { id: "workflow-automation", title: "Workflow automation", description: "Data synchronization, lead routing, notifications, and repetitive task elimination across the larger system.", meta: "Workflow infrastructure", outcome: "Outcome: fewer gaps and broken handoffs", href: "/services/workflow-automation/", linkLabel: "Explore workflow automation" },
-  { id: "service-directory", title: "Specialized automation services", description: "Explore AI agents, voice AI, custom CRM, portals, SaaS products, process automation, and API integration capabilities.", meta: "Service directory", outcome: "Find the right system boundary", href: "/services/automation/", linkLabel: "Browse every specialized service" }
+  { id: "service-directory", title: "Specialized automation services", description: "Explore AI agents, voice AI, custom CRM, portals, SaaS products, process automation, and API integration capabilities.", meta: "Service directory", outcome: "Find the right system boundary", href: "#specialized-services", linkLabel: "Browse every specialized service" }
 ];
 const fit = [
   { title: "Disconnected tools", description: "Your team copies the same information between software, spreadsheets, and inboxes." },
-  { title: "Processes that no longer scale", description: "Manual steps are slowing response times, delivery, reporting, or cash flow.", href: "/results/", linkLabel: "See connected-system outcomes" },
+  { title: "Processes that no longer scale", description: "Manual steps are slowing response times, delivery, reporting, or cash flow.", href: "/case-studies/", linkLabel: "Review first-party product evidence" },
   { title: "Software that dictates the workflow", description: "The business has outgrown generic tools and needs a system shaped around how it actually operates." }
 ];
 const finalCta = { eyebrow: "Build the right system", title: "Start with the operation—not a list of features.", description: "Tell us how the business works today and where it is breaking down. We will map the clearest system forward.", points: ["Clear architecture", "Production-ready engineering", "Long-term improvement"], primary: "Build Your System", primaryHref: "/contact", secondary: "Explore Products", secondaryHref: "/#products", helper: "A focused first conversation is enough to identify the next step." };
@@ -47,5 +49,43 @@ const serviceDirectorySchema = buildDirectorySchema({
 ---
 <MainLayout title="Custom Software Development & AI Systems | Velixon" description="Explore Velixon's custom application, AI system, business infrastructure, integration, and workflow automation capabilities." canonicalPath="/services/" schema={[serviceDirectorySchema, servicesSchema]}>
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/services" />
-  <main id="main-content"><PageHero eyebrow="Services" title="Custom software and AI systems built around your operation." description="Velixon engineers customer-facing products, internal software, AI capabilities, and the infrastructure that connects them." cta="Build Your System" ctaHref="/contact/" secondaryCta="Browse all services" secondaryCtaHref="/services/automation/" helper="Custom-built, production-ready, and designed to evolve." /><CardSection eyebrow="Capabilities" title="From application to infrastructure" description="Automation is one layer. The goal is a reliable operating system that reduces work across the entire business." items={systems} /><CardSection eyebrow="When custom software makes sense" title="Built for companies that have outgrown workarounds" description="The strongest systems begin with an operational constraint worth solving." items={fit} /><FinalCtaSection cta={finalCta} /></main>
+  <main id="main-content">
+    <PageHero eyebrow="Services" title="Custom software and AI systems built around your operation." description="Velixon engineers customer-facing products, internal software, AI capabilities, and the infrastructure that connects them." cta="Build Your System" ctaHref="/contact/" secondaryCta="Browse all services" secondaryCtaHref="#specialized-services" helper="Custom-built, production-ready, and designed to evolve." />
+    <CardSection eyebrow="Capabilities" title="From application to infrastructure" description="Automation is one layer. The goal is a reliable operating system that reduces work across the entire business." items={systems} />
+
+    <section class="directory-groups" id="specialized-services" aria-labelledby="specialized-services-title">
+      <div class="directory-group">
+        <div class="container">
+          <div class="cluster-heading cluster-heading-wide">
+            <p class="cluster-eyebrow">Complete service directory</p>
+            <h2 id="specialized-services-title">Choose the operating capability that owns the bottleneck.</h2>
+            <p>Start with the narrowest service that can solve the failing handoff. When the problem crosses teams or systems, begin with process architecture and define the complete boundary before selecting platforms.</p>
+          </div>
+        </div>
+      </div>
+      {automationServiceDirectory.map((group) => (
+        <section class="directory-group" aria-labelledby={`service-group-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>
+          <div class="container">
+            <div class="cluster-heading cluster-heading-wide">
+              <h2 id={`service-group-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>{group.title}</h2>
+              <p>{group.description}</p>
+            </div>
+            <div class="directory-grid">
+              {group.items.map((item) => (
+                <a href={item.href}>
+                  <span>{item.label ?? "Service"}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <b>Explore service <i aria-hidden="true">→</i></b>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+    </section>
+
+    <CardSection eyebrow="When custom software makes sense" title="Built for companies that have outgrown workarounds" description="The strongest systems begin with an operational constraint worth solving." items={fit} />
+    <FinalCtaSection cta={finalCta} />
+  </main>
 </MainLayout>

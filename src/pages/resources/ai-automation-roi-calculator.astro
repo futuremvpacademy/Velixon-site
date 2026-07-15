@@ -1,0 +1,694 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import { siteContent } from "../../data/site";
+import "../../styles/automation-roi-calculator.css";
+
+const { companyName, logo, nav, cta } = siteContent;
+
+const scenarios = [
+  {
+    key: "conservative",
+    name: "Conservative",
+    captureRate: 35,
+    description: "Models a cautious rollout that sustainably captures 35% of the work identified as automatable."
+  },
+  {
+    key: "expected",
+    name: "Expected",
+    captureRate: 60,
+    description: "Models a stable production workflow that sustainably captures 60% of the work identified as automatable."
+  },
+  {
+    key: "strong",
+    name: "Strong",
+    captureRate: 80,
+    description: "Models a mature workflow that sustainably captures 80% of the work identified as automatable."
+  }
+] as const;
+
+const faqs = [
+  {
+    question: "What is automation ROI?",
+    answer:
+      "Automation ROI compares the measurable value created by a workflow with the complete cost of implementing and operating it. A responsible model includes implementation, software, maintenance, human review, exceptions, and adoption—not only the minutes a demo appears to save."
+  },
+  {
+    question: "Does capacity value equal cash savings?",
+    answer:
+      "No. Capacity value estimates the loaded labor value of time returned to the team. It becomes cash savings only when payroll or outside spend is actually reduced. It may instead create capacity for faster response, additional volume, customer work, quality control, or other priorities."
+  },
+  {
+    question: "How accurate is this AI automation ROI calculator?",
+    answer:
+      "The calculator is a directional planning model, not a forecast or guarantee. Its usefulness depends on the quality of the workflow baseline, the realism of the automatable share, the human-review estimate, implementation cost, and recurring operating cost. Validate important decisions with observed workflow data."
+  },
+  {
+    question: "What should implementation cost include?",
+    answer:
+      "Include discovery, process design, application work, integrations, data preparation, security controls, testing, rollout, training, and initial operating setup. Recurring software, infrastructure, model usage, monitoring, support, and improvement belong in monthly operating cost."
+  },
+  {
+    question: "What makes a workflow a good automation candidate?",
+    answer:
+      "Strong candidates usually have repeatable volume, stable rules, accessible data, measurable handling time, defined exceptions, and a clear owner. Work involving ambiguous judgment, unsafe system access, poor source data, or no recovery path needs redesign before automation."
+  }
+];
+
+const toolUrl = "https://velixon.net/resources/ai-automation-roi-calculator/";
+const toolDescription =
+  "Estimate annual hours returned, capacity value, first-year ROI, recurring benefit, and payback across three transparent AI automation scenarios.";
+
+const toolSchema = [
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${toolUrl}#application`,
+    name: "Velixon AI Automation ROI Calculator",
+    description: toolDescription,
+    url: toolUrl,
+    applicationCategory: "BusinessApplication",
+    applicationSubCategory: "Return on investment calculator",
+    operatingSystem: "Any",
+    browserRequirements: "A modern web browser with JavaScript enabled",
+    isAccessibleForFree: true,
+    inLanguage: "en-US",
+    publisher: { "@id": "https://velixon.net/#organization" },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD"
+    },
+    featureList: [
+      "Conservative, expected, and strong sensitivity scenarios",
+      "Annual hours and capacity value estimate",
+      "First-year net opportunity and ROI estimate",
+      "Recurring annual net opportunity estimate",
+      "Estimated payback period",
+      "Shareable input links and print-friendly results"
+    ]
+  },
+  {
+    "@type": "Article",
+    "@id": `${toolUrl}#methodology-article`,
+    headline: "AI Automation ROI Calculator Methodology",
+    description: "The formulas, definitions, sensitivity assumptions, and interpretation guidance behind Velixon's AI automation ROI calculator.",
+    url: toolUrl,
+    mainEntityOfPage: { "@id": `${toolUrl}#webpage` },
+    mainEntity: { "@id": `${toolUrl}#application` },
+    datePublished: "2026-07-15",
+    dateModified: "2026-07-15",
+    articleSection: "AI automation ROI",
+    keywords: "AI automation ROI calculator, automation ROI, workflow automation ROI, automation payback period, automation cost",
+    inLanguage: "en-US",
+    author: {
+      "@type": "Organization",
+      "@id": "https://velixon.net/#organization",
+      name: "Velixon"
+    },
+    publisher: { "@id": "https://velixon.net/#organization" },
+    image: "https://velixon.net/og.png"
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${toolUrl}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer }
+    }))
+  }
+];
+---
+
+<MainLayout
+  title="AI Automation ROI Calculator: Cost & Payback | Velixon"
+  description={toolDescription}
+  imageAlt="Velixon AI automation ROI calculator for modeling hours, cost, payback, and capacity value"
+  canonicalPath="/resources/ai-automation-roi-calculator/"
+  ogType="article"
+  publishedTime="2026-07-15"
+  modifiedTime="2026-07-15"
+  articleSection="AI Automation"
+  breadcrumbLabels={{
+    resources: "AI and Automation Resources",
+    "ai-automation-roi-calculator": "AI Automation ROI Calculator"
+  }}
+  schema={toolSchema}
+>
+  <Navbar
+    companyName={companyName}
+    logo={logo}
+    nav={nav}
+    cta={cta}
+    currentPath="/resources/ai-automation-roi-calculator/"
+  />
+
+  <main class="roi-tool-page" id="main-content">
+    <section class="roi-tool-hero" aria-labelledby="roi-tool-title">
+      <div class="roi-tool-orb roi-tool-orb-one" aria-hidden="true"></div>
+      <div class="roi-tool-orb roi-tool-orb-two" aria-hidden="true"></div>
+      <div class="container roi-tool-hero-shell">
+        <div class="roi-tool-hero-copy">
+          <p class="roi-tool-kicker">Free business automation tool</p>
+          <h1 id="roi-tool-title">AI Automation <span>ROI Calculator</span></h1>
+          <p class="roi-tool-lead">
+            Model one repetitive workflow. Compare annual capacity, first-year economics, recurring value, and payback across three transparent scenarios.
+          </p>
+          <div class="roi-tool-hero-actions">
+            <a class="button" href="#calculator">Calculate automation ROI <span aria-hidden="true">↓</span></a>
+            <a class="button button-secondary" href="#methodology">Review the formulas</a>
+          </div>
+          <p class="roi-tool-privacy">
+            <span aria-hidden="true">●</span> No signup. No form submission. Your assumptions stay in this browser unless you choose to create a share link.
+          </p>
+          <p class="roi-tool-byline">
+            Methodology by <a href="/about/" rel="author">Velixon</a> · Published <time datetime="2026-07-15">July 15, 2026</time>
+          </p>
+        </div>
+
+        <aside class="roi-tool-definition" aria-label="Automation ROI definition">
+          <p>Direct answer</p>
+          <h2>What is automation ROI?</h2>
+          <p>
+            Automation ROI compares measurable workflow value with the complete cost to build, operate, review, and improve the automation.
+          </p>
+          <dl>
+            <div><dt>Value</dt><dd>Net hours returned × loaded hourly cost</dd></div>
+            <div><dt>Cost</dt><dd>Implementation + 12 months of operation</dd></div>
+            <div><dt>ROI</dt><dd>(Value − cost) ÷ cost</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="roi-tool-workspace" id="calculator" aria-labelledby="calculator-title">
+      <div class="container">
+        <div class="roi-tool-section-heading">
+          <div>
+            <p class="roi-tool-kicker">Model one workflow</p>
+            <h2 id="calculator-title">Use your operating assumptions—not a generic promise.</h2>
+          </div>
+          <p>Start with a workflow you can observe, such as lead intake, document handling, scheduling, reporting, invoicing, or customer follow-up.</p>
+        </div>
+
+        <form class="roi-calculator" data-roi-calculator>
+          <section class="roi-input-panel" aria-labelledby="roi-input-title">
+            <div class="roi-panel-heading">
+              <div>
+                <p>Inputs</p>
+                <h3 id="roi-input-title">Current workflow</h3>
+              </div>
+              <button type="reset" class="roi-reset-button" data-reset-calculator>Reset</button>
+            </div>
+
+            <fieldset class="roi-fieldset">
+              <legend>People and workload</legend>
+
+              <label class="roi-field" for="roi-people">
+                <span class="roi-field-label">People involved</span>
+                <span class="roi-field-control">
+                  <input id="roi-people" name="people" data-roi-input data-param="people" type="number" inputmode="numeric" min="1" max="500" step="1" value="4" aria-describedby="roi-people-help" />
+                  <span aria-hidden="true">people</span>
+                </span>
+                <small id="roi-people-help">People who repeatedly touch this workflow.</small>
+              </label>
+
+              <label class="roi-field" for="roi-hours">
+                <span class="roi-field-label">Manual hours per person</span>
+                <span class="roi-field-control">
+                  <input id="roi-hours" name="weeklyHours" data-roi-input data-param="hours" type="number" inputmode="decimal" min="0.5" max="80" step="0.5" value="12" aria-describedby="roi-hours-help" />
+                  <span aria-hidden="true">hours / week</span>
+                </span>
+                <small id="roi-hours-help">Average hands-on time, excluding unrelated work.</small>
+              </label>
+
+              <label class="roi-field" for="roi-weeks">
+                <span class="roi-field-label">Operating weeks</span>
+                <span class="roi-field-control">
+                  <input id="roi-weeks" name="weeks" data-roi-input data-param="weeks" type="number" inputmode="numeric" min="1" max="52" step="1" value="48" aria-describedby="roi-weeks-help" />
+                  <span aria-hidden="true">weeks / year</span>
+                </span>
+                <small id="roi-weeks-help">Use the weeks this workflow actually runs.</small>
+              </label>
+
+              <label class="roi-field" for="roi-hourly-cost">
+                <span class="roi-field-label">Loaded hourly cost</span>
+                <span class="roi-field-control roi-field-control-currency">
+                  <span aria-hidden="true">$</span>
+                  <input id="roi-hourly-cost" name="hourlyCost" data-roi-input data-param="cost" type="number" inputmode="decimal" min="10" max="500" step="1" value="45" aria-describedby="roi-hourly-cost-help" />
+                  <span aria-hidden="true">/ hour</span>
+                </span>
+                <small id="roi-hourly-cost-help">Wages plus employer-paid benefits, taxes, and related labor cost.</small>
+              </label>
+            </fieldset>
+
+            <fieldset class="roi-fieldset">
+              <legend>Feasibility and oversight</legend>
+
+              <label class="roi-field" for="roi-automatable-share">
+                <span class="roi-field-label">Potentially automatable work</span>
+                <span class="roi-field-control">
+                  <input id="roi-automatable-share" name="automatableShare" data-roi-input data-param="automatable" type="number" inputmode="decimal" min="0" max="100" step="5" value="60" aria-describedby="roi-automatable-help" />
+                  <span aria-hidden="true">%</span>
+                </span>
+                <small id="roi-automatable-help">The portion with stable rules, usable data, and acceptable risk.</small>
+              </label>
+
+              <label class="roi-field" for="roi-review-share">
+                <span class="roi-field-label">Human review and exceptions</span>
+                <span class="roi-field-control">
+                  <input id="roi-review-share" name="reviewShare" data-roi-input data-param="review" type="number" inputmode="decimal" min="0" max="100" step="5" value="15" aria-describedby="roi-review-help" />
+                  <span aria-hidden="true">%</span>
+                </span>
+                <small id="roi-review-help">Time returned to checking output, approvals, and failed cases.</small>
+              </label>
+            </fieldset>
+
+            <fieldset class="roi-fieldset">
+              <legend>Investment and operation</legend>
+
+              <label class="roi-field" for="roi-implementation-cost">
+                <span class="roi-field-label">One-time implementation</span>
+                <span class="roi-field-control roi-field-control-currency">
+                  <span aria-hidden="true">$</span>
+                  <input id="roi-implementation-cost" name="implementationCost" data-roi-input data-param="implementation" type="number" inputmode="decimal" min="0" max="1000000" step="500" value="30000" aria-describedby="roi-implementation-help" />
+                </span>
+                <small id="roi-implementation-help">Discovery, design, integration, testing, rollout, and training.</small>
+              </label>
+
+              <label class="roi-field" for="roi-monthly-cost">
+                <span class="roi-field-label">Monthly operating cost</span>
+                <span class="roi-field-control roi-field-control-currency">
+                  <span aria-hidden="true">$</span>
+                  <input id="roi-monthly-cost" name="monthlyCost" data-roi-input data-param="monthly" type="number" inputmode="decimal" min="0" max="100000" step="50" value="800" aria-describedby="roi-monthly-help" />
+                  <span aria-hidden="true">/ month</span>
+                </span>
+                <small id="roi-monthly-help">Software, usage, infrastructure, monitoring, support, and maintenance.</small>
+              </label>
+            </fieldset>
+          </section>
+
+          <section class="roi-results-panel" aria-labelledby="roi-results-title">
+            <div class="roi-panel-heading roi-results-heading">
+              <div>
+                <p>Expected scenario</p>
+                <h3 id="roi-results-title">Annualized opportunity</h3>
+              </div>
+              <span class="roi-model-label">60% sustained capture</span>
+            </div>
+
+            <p class="roi-sr-only" aria-live="polite" aria-atomic="true" data-roi-announcement></p>
+
+            <div class="roi-result-hero">
+              <div>
+                <p>First-year net opportunity</p>
+                <strong data-roi-output="expected-first-year-net">$0</strong>
+                <span>Capacity value less implementation and 12 months of operating cost</span>
+              </div>
+              <div class="roi-result-payback">
+                <span>Estimated payback</span>
+                <strong data-roi-output="expected-payback">—</strong>
+              </div>
+            </div>
+
+            <dl class="roi-result-metrics">
+              <div>
+                <dt>Net hours returned</dt>
+                <dd data-roi-output="expected-hours">0</dd>
+                <span>hours / year</span>
+              </div>
+              <div>
+                <dt>Annual capacity value</dt>
+                <dd data-roi-output="expected-value">$0</dd>
+                <span>not assumed cash savings</span>
+              </div>
+              <div>
+                <dt>First-year ROI</dt>
+                <dd data-roi-output="expected-roi">—</dd>
+                <span>against first-year cost</span>
+              </div>
+              <div>
+                <dt>Recurring net opportunity</dt>
+                <dd data-roi-output="expected-recurring-net">$0</dd>
+                <span>year two onward, before changes</span>
+              </div>
+            </dl>
+
+            <div class="roi-scenario-heading">
+              <div>
+                <h4>Scenario comparison</h4>
+                <p>Capture rates are sensitivity assumptions—not benchmarks or probabilities.</p>
+              </div>
+            </div>
+
+            <div class="roi-scenario-grid">
+              {scenarios.map((scenario) => (
+                <article class:list={["roi-scenario-card", { "is-expected": scenario.key === "expected" }]} data-scenario={scenario.key}>
+                  <header>
+                    <div>
+                      <p>{scenario.name}</p>
+                      <strong>{scenario.captureRate}%</strong>
+                    </div>
+                    {scenario.key === "expected" && <span>Planning case</span>}
+                  </header>
+                  <p class="roi-scenario-description">{scenario.description}</p>
+                  <dl>
+                    <div><dt>Hours returned</dt><dd data-roi-output={`${scenario.key}-hours`}>0</dd></div>
+                    <div><dt>Capacity value</dt><dd data-roi-output={`${scenario.key}-value`}>$0</dd></div>
+                    <div><dt>First-year net</dt><dd data-roi-output={`${scenario.key}-first-year-net`}>$0</dd></div>
+                    <div><dt>Recurring net</dt><dd data-roi-output={`${scenario.key}-recurring-net`}>$0</dd></div>
+                    <div><dt>First-year ROI</dt><dd data-roi-output={`${scenario.key}-roi`}>—</dd></div>
+                    <div><dt>Payback</dt><dd data-roi-output={`${scenario.key}-payback`}>—</dd></div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+
+            <div class="roi-result-actions">
+              <button class="roi-action-button roi-action-primary" type="button" data-share-results>
+                Copy shareable results link <span aria-hidden="true">↗</span>
+              </button>
+              <button class="roi-action-button" type="button" data-print-results>
+                Print / save PDF
+              </button>
+            </div>
+            <p class="roi-share-status" data-share-status aria-live="polite"></p>
+            <p class="roi-results-note">
+              This directional estimate is not a quote, forecast, accounting analysis, or guarantee. It excludes ramp-up time, taxes, financing, inflation, revenue impact, error reduction, and risk value.
+            </p>
+          </section>
+        </form>
+      </div>
+    </section>
+
+    <section class="roi-methodology" id="methodology" aria-labelledby="roi-methodology-title">
+      <div class="container roi-methodology-shell">
+        <div class="roi-methodology-intro">
+          <p class="roi-tool-kicker">Transparent methodology</p>
+          <h2 id="roi-methodology-title">Every result can be traced back to six formulas.</h2>
+          <p>
+            The calculator intentionally models capacity—not invented revenue. Use a conservative baseline, compare the scenarios, and replace assumptions with observed workflow data before making an investment decision.
+          </p>
+        </div>
+
+        <ol class="roi-formula-list">
+          <li>
+            <span>01</span>
+            <div><h3>Annual manual hours</h3><p>People × manual hours per person each week × operating weeks.</p></div>
+          </li>
+          <li>
+            <span>02</span>
+            <div><h3>Gross automated hours</h3><p>Annual manual hours × automatable share × scenario capture rate.</p></div>
+          </li>
+          <li>
+            <span>03</span>
+            <div><h3>Net hours returned</h3><p>Gross automated hours × (1 − human review and exception share).</p></div>
+          </li>
+          <li>
+            <span>04</span>
+            <div><h3>Annual capacity value</h3><p>Net hours returned × loaded hourly labor cost.</p></div>
+          </li>
+          <li>
+            <span>05</span>
+            <div><h3>First-year net and ROI</h3><p>Capacity value − implementation − annual operating cost. ROI divides that net amount by total first-year cost.</p></div>
+          </li>
+          <li>
+            <span>06</span>
+            <div><h3>Estimated payback</h3><p>Implementation cost ÷ monthly capacity value after monthly operating cost. Ramp-up is not modeled.</p></div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="container roi-methodology-notes">
+        <article>
+          <p class="roi-tool-kicker">Use a loaded rate</p>
+          <h3>Hourly cost should reflect more than salary.</h3>
+          <p>
+            Employer labor cost can include wages, paid leave, insurance, retirement, legally required benefits, and other compensation. Use your own finance or payroll data when available.
+          </p>
+          <a href="https://www.bls.gov/eci/factsheets/ncs-publications-overview.htm" target="_blank" rel="noopener noreferrer">
+            Review the U.S. Bureau of Labor Statistics methodology <span aria-hidden="true">↗</span><span class="roi-sr-only"> (opens in a new tab)</span>
+          </a>
+        </article>
+        <article>
+          <p class="roi-tool-kicker">Do not double-count</p>
+          <h3>Capacity, cash savings, and revenue are different.</h3>
+          <p>
+            Time returned becomes financial value only when the business puts it to use. Do not add labor capacity, avoided hiring, and increased throughput together unless each outcome is independently evidenced.
+          </p>
+          <a href="/resources/custom-software-roi-cost/">Read the complete ROI decision guide <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="roi-readiness" aria-labelledby="roi-readiness-title">
+      <div class="container roi-readiness-shell">
+        <div>
+          <p class="roi-tool-kicker">Workflow readiness check</p>
+          <h2 id="roi-readiness-title">A positive model is not enough.</h2>
+          <p>The workflow also needs an operating design that people can trust. Validate these conditions before treating the estimate as an investment case.</p>
+        </div>
+        <ul>
+          <li><span>01</span><div><strong>Repeatable volume</strong><p>The workflow happens often enough to measure and improve.</p></div></li>
+          <li><span>02</span><div><strong>Stable rules</strong><p>The correct next action can be defined or escalated.</p></div></li>
+          <li><span>03</span><div><strong>Usable data</strong><p>Required information is accessible, current, and permitted.</p></div></li>
+          <li><span>04</span><div><strong>Exception owner</strong><p>A named person or team handles uncertain and failed cases.</p></div></li>
+          <li><span>05</span><div><strong>Measurable baseline</strong><p>Volume, touch time, delay, errors, and completion can be observed.</p></div></li>
+          <li><span>06</span><div><strong>Capacity plan</strong><p>Leadership knows how returned time will create business value.</p></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="roi-faq" id="frequently-asked-questions" aria-labelledby="roi-faq-title">
+      <div class="container roi-faq-shell">
+        <div class="roi-faq-heading">
+          <p class="roi-tool-kicker">Frequently asked questions</p>
+          <h2 id="roi-faq-title">Using the calculator responsibly</h2>
+        </div>
+        <div class="roi-faq-list">
+          {faqs.map((faq, index) => (
+            <details open={index === 0}>
+              <summary>{faq.question}<span aria-hidden="true">+</span></summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="roi-related" aria-labelledby="roi-related-title">
+      <div class="container">
+        <div class="roi-related-heading">
+          <div>
+            <p class="roi-tool-kicker">Continue the analysis</p>
+            <h2 id="roi-related-title">Turn a directional result into a production decision.</h2>
+          </div>
+          <a class="button" href="/contact/?source=ai-automation-roi-calculator&amp;campaign=roi-tool&amp;project_type=ai-automation">
+            Validate your workflow with Velixon <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="roi-related-grid">
+          <a href="/services/ai-automation/"><span>Service</span><strong>AI automation development</strong><p>Design the application, data, controls, and human handoffs around the workflow.</p></a>
+          <a href="/services/workflow-automation/"><span>Service</span><strong>Workflow automation</strong><p>Connect repetitive work across the systems your business already uses.</p></a>
+          <a href="/resources/how-much-does-ai-automation-cost/"><span>Cost guide</span><strong>How much does AI automation cost?</strong><p>Understand the complete production scope behind a credible estimate.</p></a>
+          <a href="/resources/high-value-ai-automation-workflows/"><span>Decision guide</span><strong>Find high-value automation workflows</strong><p>Prioritize opportunities by value, feasibility, evidence, and operating risk.</p></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
+
+<script>
+  const calculator = document.querySelector<HTMLFormElement>("[data-roi-calculator]");
+
+  if (calculator) {
+    const inputs = Array.from(calculator.querySelectorAll<HTMLInputElement>("[data-roi-input]"));
+    const outputElements = Array.from(calculator.querySelectorAll<HTMLElement>("[data-roi-output]"));
+    const announcement = calculator.querySelector<HTMLElement>("[data-roi-announcement]");
+    const shareButton = calculator.querySelector<HTMLButtonElement>("[data-share-results]");
+    const printButton = calculator.querySelector<HTMLButtonElement>("[data-print-results]");
+    const resetButton = calculator.querySelector<HTMLButtonElement>("[data-reset-calculator]");
+    const shareStatus = calculator.querySelector<HTMLElement>("[data-share-status]");
+    const currency = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    });
+    const wholeNumber = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+    const scenarioCaptureRates = {
+      conservative: 0.35,
+      expected: 0.6,
+      strong: 0.8
+    } as const;
+
+    type ScenarioKey = keyof typeof scenarioCaptureRates;
+    type ScenarioResult = {
+      hours: number;
+      value: number;
+      firstYearNet: number;
+      recurringNet: number;
+      roi: number | null;
+      paybackMonths: number | null;
+    };
+
+    const clampInput = (input: HTMLInputElement, value: number) => {
+      const minimum = input.min === "" ? Number.NEGATIVE_INFINITY : Number(input.min);
+      const maximum = input.max === "" ? Number.POSITIVE_INFINITY : Number(input.max);
+      return Math.min(maximum, Math.max(minimum, value));
+    };
+
+    const getInput = (name: string) => {
+      const input = inputs.find((candidate) => candidate.name === name);
+      if (!input) return 0;
+      const parsedValue = Number(input.value);
+      if (!Number.isFinite(parsedValue)) return 0;
+      return clampInput(input, parsedValue);
+    };
+
+    const setOutput = (key: string, value: string, rawValue?: number) => {
+      outputElements
+        .filter((element) => element.dataset.roiOutput === key)
+        .forEach((element) => {
+          element.textContent = value;
+          element.classList.toggle("is-negative", typeof rawValue === "number" && rawValue < 0);
+        });
+    };
+
+    const formatPayback = (months: number | null) => {
+      if (months === null) return "Not reached";
+      if (months === 0) return "Immediate";
+      if (months > 120) return ">10 years";
+      const rounded = months < 24 ? Math.round(months * 10) / 10 : Math.round(months);
+      return `${rounded} ${rounded === 1 ? "month" : "months"}`;
+    };
+
+    const calculateScenario = (captureRate: number): ScenarioResult => {
+      const annualManualHours = getInput("people") * getInput("weeklyHours") * getInput("weeks");
+      const grossAutomatedHours = annualManualHours * (getInput("automatableShare") / 100) * captureRate;
+      const netHours = grossAutomatedHours * (1 - getInput("reviewShare") / 100);
+      const annualCapacityValue = netHours * getInput("hourlyCost");
+      const annualOperatingCost = getInput("monthlyCost") * 12;
+      const implementationCost = getInput("implementationCost");
+      const firstYearCost = implementationCost + annualOperatingCost;
+      const firstYearNet = annualCapacityValue - firstYearCost;
+      const recurringNet = annualCapacityValue - annualOperatingCost;
+      const roi = firstYearCost > 0 ? (firstYearNet / firstYearCost) * 100 : null;
+      const monthlyNetValue = recurringNet / 12;
+      const paybackMonths = monthlyNetValue <= 0
+        ? null
+        : implementationCost <= 0
+          ? 0
+          : implementationCost / monthlyNetValue;
+
+      return {
+        hours: netHours,
+        value: annualCapacityValue,
+        firstYearNet,
+        recurringNet,
+        roi,
+        paybackMonths
+      };
+    };
+
+    const renderScenario = (key: ScenarioKey, result: ScenarioResult) => {
+      setOutput(`${key}-hours`, wholeNumber.format(Math.round(result.hours)));
+      setOutput(`${key}-value`, currency.format(Math.round(result.value)), result.value);
+      setOutput(`${key}-first-year-net`, currency.format(Math.round(result.firstYearNet)), result.firstYearNet);
+      setOutput(`${key}-recurring-net`, currency.format(Math.round(result.recurringNet)), result.recurringNet);
+      setOutput(`${key}-roi`, result.roi === null ? "No cost entered" : `${Math.round(result.roi)}%`, result.roi ?? undefined);
+      setOutput(`${key}-payback`, formatPayback(result.paybackMonths));
+    };
+
+    const update = () => {
+      const results = Object.entries(scenarioCaptureRates).reduce<Record<ScenarioKey, ScenarioResult>>(
+        (accumulator, [key, captureRate]) => {
+          accumulator[key as ScenarioKey] = calculateScenario(captureRate);
+          return accumulator;
+        },
+        {} as Record<ScenarioKey, ScenarioResult>
+      );
+
+      (Object.keys(results) as ScenarioKey[]).forEach((key) => renderScenario(key, results[key]));
+
+      const expected = results.expected;
+      setOutput("expected-hours", wholeNumber.format(Math.round(expected.hours)));
+      setOutput("expected-value", currency.format(Math.round(expected.value)), expected.value);
+      setOutput("expected-first-year-net", currency.format(Math.round(expected.firstYearNet)), expected.firstYearNet);
+      setOutput("expected-recurring-net", currency.format(Math.round(expected.recurringNet)), expected.recurringNet);
+      setOutput("expected-roi", expected.roi === null ? "No cost entered" : `${Math.round(expected.roi)}%`, expected.roi ?? undefined);
+      setOutput("expected-payback", formatPayback(expected.paybackMonths));
+
+      if (announcement) {
+        announcement.textContent = `Expected scenario: ${wholeNumber.format(Math.round(expected.hours))} net hours returned, ${currency.format(Math.round(expected.value))} in annual capacity value, and ${currency.format(Math.round(expected.firstYearNet))} in first-year net opportunity.`;
+      }
+    };
+
+    const loadSharedInputs = () => {
+      const parameters = new URLSearchParams(window.location.search);
+      inputs.forEach((input) => {
+        const parameter = input.dataset.param;
+        if (!parameter || !parameters.has(parameter)) return;
+        const parsedValue = Number(parameters.get(parameter));
+        if (!Number.isFinite(parsedValue)) return;
+        input.value = String(clampInput(input, parsedValue));
+      });
+    };
+
+    const buildShareUrl = () => {
+      const url = new URL(window.location.href);
+      url.search = "";
+      inputs.forEach((input) => {
+        const parameter = input.dataset.param;
+        if (!parameter) return;
+        const parsedValue = Number(input.value);
+        const normalizedValue = Number.isFinite(parsedValue) ? clampInput(input, parsedValue) : Number(input.defaultValue);
+        input.value = String(normalizedValue);
+        url.searchParams.set(parameter, input.value);
+      });
+      url.hash = "calculator";
+      return url;
+    };
+
+    calculator.addEventListener("submit", (event) => event.preventDefault());
+    calculator.addEventListener("input", () => {
+      if (shareStatus) shareStatus.textContent = "";
+      update();
+    });
+    calculator.addEventListener("change", (event) => {
+      const input = event.target;
+      if (!(input instanceof HTMLInputElement) || !input.matches("[data-roi-input]")) return;
+      const parsedValue = Number(input.value);
+      const normalizedValue = Number.isFinite(parsedValue) ? clampInput(input, parsedValue) : Number(input.defaultValue);
+      input.value = String(normalizedValue);
+      update();
+    });
+
+    resetButton?.addEventListener("click", () => {
+      window.setTimeout(() => {
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.search = "";
+        cleanUrl.hash = "calculator";
+        window.history.replaceState({}, "", cleanUrl);
+        if (shareStatus) shareStatus.textContent = "Assumptions reset to the starting example.";
+        update();
+      });
+    });
+
+    shareButton?.addEventListener("click", async () => {
+      const shareUrl = buildShareUrl();
+      window.history.replaceState({}, "", shareUrl);
+
+      try {
+        await navigator.clipboard.writeText(shareUrl.toString());
+        if (shareStatus) shareStatus.textContent = "Shareable results link copied. It contains only the calculator inputs shown above.";
+      } catch {
+        if (shareStatus) shareStatus.textContent = "The shareable link is now in your address bar. Copy it from there to share these inputs.";
+      }
+    });
+
+    printButton?.addEventListener("click", () => window.print());
+
+    loadSharedInputs();
+    update();
+  }
+</script>

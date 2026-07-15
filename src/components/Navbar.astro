@@ -42,8 +42,8 @@ const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
 
   <div class="container mobile-nav-wrap">
     <details class="mobile-menu" data-mobile-menu>
-      <summary aria-label="Open navigation menu"><span>Menu</span><i aria-hidden="true"></i></summary>
-      <nav class="mobile-nav" aria-label="Mobile navigation">
+      <summary aria-label="Open navigation menu" aria-controls="mobile-navigation" aria-expanded="false"><span>Menu</span><i aria-hidden="true"></i></summary>
+      <nav class="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
         {
           nav.map((item) => (
             <a href={item.href} aria-current={normalizedCurrentPath === (item.href.split("#")[0].replace(/\/$/, "") || "/") ? "page" : undefined}>
@@ -60,21 +60,82 @@ const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
 <script is:inline>
   (() => {
     document.querySelectorAll("[data-mobile-menu]").forEach((menu) => {
-      menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => menu.removeAttribute("open")));
+      const summary = menu.querySelector("summary");
+      const desktopBreakpoint = window.matchMedia("(min-width: 1121px)");
+      const ownedInertElements = new Set();
+      let restoreFocusOnClose = false;
+
+      const setBackgroundInert = (value) => {
+        document.querySelectorAll(
+          ".skip-link, .site-header .brand, .site-header .desktop-nav, .site-header .nav-cta-wrap, .site-content > main, .site-footer, [data-consent-banner]"
+        ).forEach((element) => {
+          if (value) {
+            if (element.hasAttribute("inert")) return;
+            element.setAttribute("inert", "");
+            ownedInertElements.add(element);
+            return;
+          }
+
+          if (!ownedInertElements.has(element)) return;
+          element.removeAttribute("inert");
+          ownedInertElements.delete(element);
+        });
+      };
+
+      const getFocusableElements = () => Array.from(
+        menu.querySelectorAll("summary, a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])")
+      ).filter((element) => !element.hasAttribute("hidden"));
+
+      const closeMenu = ({ restoreFocus = false } = {}) => {
+        restoreFocusOnClose = restoreFocus;
+        menu.removeAttribute("open");
+      };
+
+      menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => closeMenu()));
       menu.addEventListener("toggle", () => {
         const isOpen = menu.hasAttribute("open");
-        const summary = menu.querySelector("summary");
         const label = summary?.querySelector("span");
         document.body.classList.toggle("mobile-menu-open", isOpen);
+        setBackgroundInert(isOpen);
         summary?.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        summary?.setAttribute("aria-expanded", String(isOpen));
         if (label) label.textContent = isOpen ? "Close" : "Menu";
+
+        if (isOpen) {
+          restoreFocusOnClose = false;
+          window.requestAnimationFrame(() => menu.querySelector(".mobile-nav a")?.focus({ preventScroll: true }));
+        } else if (restoreFocusOnClose) {
+          restoreFocusOnClose = false;
+          summary?.focus({ preventScroll: true });
+        }
       });
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape") return;
-      document.querySelectorAll("[data-mobile-menu][open]").forEach((menu) => {
-        menu.removeAttribute("open");
-        menu.querySelector("summary")?.focus();
+
+      menu.addEventListener("keydown", (event) => {
+        if (!menu.hasAttribute("open")) return;
+
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeMenu({ restoreFocus: true });
+          return;
+        }
+
+        if (event.key !== "Tab") return;
+        const focusable = getFocusableElements();
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!first || !last) return;
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      desktopBreakpoint.addEventListener("change", (event) => {
+        if (event.matches && menu.hasAttribute("open")) closeMenu();
       });
     });
   })();

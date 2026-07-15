@@ -1,0 +1,188 @@
+---
+import ResourceLayout from "../../components/ResourceLayout.astro";
+
+const related = [
+  {
+    title: "What Is Workflow Automation? A Business Guide",
+    description: "Understand the narrower workflow layer inside a larger business process and how reliable automations are designed.",
+    href: "/guides/what-is-workflow-automation/",
+    category: "Automation fundamentals"
+  },
+  {
+    title: "How to Identify High-Value AI Automation Workflows",
+    description: "Prioritize AI opportunities using value, readiness, risk, decision clarity, and measurable operational impact.",
+    href: "/resources/high-value-ai-automation-workflows/",
+    category: "Applied AI"
+  },
+  {
+    title: "Custom Software ROI: A Practical Cost and Value Guide",
+    description: "Build a defensible investment case using total cost, measurable value, risk, and realistic scenarios.",
+    href: "/resources/custom-software-roi-cost/",
+    category: "Investment planning"
+  }
+];
+
+const faqs = [
+  {
+    question: "What is business process automation in simple terms?",
+    answer: "Business process automation is the deliberate redesign and software-supported execution of a repeatable business process. It connects the people, rules, records, approvals, and systems required to move work from a defined trigger to a completed outcome, while making ownership and exceptions visible."
+  },
+  {
+    question: "How is business process automation different from workflow automation?",
+    answer: "Workflow automation usually handles a defined sequence within a process, such as routing an approved request or sending reminders. Business process automation addresses the complete operating flow, which may include several workflows, departments, systems, policies, decisions, and customer interactions."
+  },
+  {
+    question: "Does business process automation require AI?",
+    answer: "No. Many dependable automations use forms, business rules, APIs, databases, scheduled jobs, and notifications without AI. AI is useful when the process includes language, documents, calls, classification, or drafting that deterministic rules cannot handle well. Consequential actions still need validation and appropriate human control."
+  },
+  {
+    question: "Which business process should a company automate first?",
+    answer: "Start with a process that is important, repeated often, painful enough to measure, and bounded enough to improve safely. It should have an accountable owner, representative examples, identifiable exceptions, and a clear completion outcome. High frustration alone is not enough if the process itself is unstable or poorly understood."
+  },
+  {
+    question: "What are the main risks of process automation?",
+    answer: "Common risks include automating unnecessary steps, using poor data, hiding failures, granting excessive access, splitting ownership between systems, and removing judgment from decisions that need it. A production design should include validation, permissions, audit history, exception queues, monitoring, recovery, and a named business owner."
+  }
+];
+---
+
+<ResourceLayout
+  title="What Is Business Process Automation? | Velixon"
+  description="Learn what business process automation is, how it differs from workflow automation and AI, where it creates value, and how to implement it responsibly."
+  headline="What Is Business Process Automation?"
+  summary="Business process automation turns a repeatable, multi-step operation into a controlled system where records, decisions, handoffs, and exceptions move with less manual coordination. The work begins with the process—not the automation tool."
+  slug="what-is-business-process-automation"
+  category="Automation fundamentals"
+  readTime="12 minute read"
+  topics={["Business process automation", "Workflow design", "AI automation", "Operational systems"]}
+  toc={[
+    { id: "definition", label: "Business process automation defined" },
+    { id: "what-it-is-not", label: "What BPA is not" },
+    { id: "examples", label: "Practical examples" },
+    { id: "good-candidate", label: "Choose a good candidate" },
+    { id: "design", label: "Design the process" },
+    { id: "technology", label: "Choose the technology" },
+    { id: "controls", label: "Controls and exceptions" },
+    { id: "measurement", label: "Measure the result" },
+    { id: "starting-plan", label: "A practical starting plan" },
+    { id: "frequently-asked-questions", label: "Frequently asked questions" }
+  ]}
+  takeaways={[
+    "Business process automation improves an end-to-end operating process, not merely one repetitive click.",
+    "A stable trigger, clear owner, explicit completion state, and visible exception path matter more than the automation platform.",
+    "Use deterministic rules for non-negotiable logic and AI only where interpretation or language adds useful capability.",
+    "Measure cycle time, touch time, backlog, rework, completion, and exception quality before and after implementation."
+  ]}
+  related={related}
+  faqs={faqs}
+  publishedDate="2026-07-15"
+  modifiedDate="2026-07-15"
+>
+  <section id="definition">
+    <h2>Business process automation defined</h2>
+    <p class="resource-direct-answer"><strong>Short answer:</strong> Business process automation, or BPA, uses software to coordinate a repeatable business process from trigger to outcome. It can capture information, apply rules, request approval, update systems, assign work, create documents, notify people, and preserve a record of what happened.</p>
+    <p>A process is larger than a task. Consider customer onboarding: the work may begin when a contract is approved and finish only when the account, access, billing, implementation plan, and responsible team are ready. Several people and systems can participate. Automating one welcome email does not automate that process.</p>
+    <p>Useful BPA creates a dependable operating path. Every item has a current state, an owner, the information required for the next decision, and a defined place to go when normal rules cannot resolve it. The goal is not to remove people from the operation. It is to stop making people carry state between systems, remember every follow-up, and reconstruct what happened.</p>
+    <p>Velixon's <a href="/services/business-process-automation/">business process automation service</a> begins with that complete flow. Individual sequences may then be implemented through <a href="/services/workflow-automation/">workflow automation</a>, integrations, AI capabilities, or custom software.</p>
+  </section>
+
+  <section id="what-it-is-not">
+    <h2>Understand what business process automation is not</h2>
+    <p>Several related terms are often used interchangeably. The boundaries matter because each approach solves a different level of the problem.</p>
+    <div class="resource-table-wrap" role="region" tabindex="0" aria-label="Comparison of business process automation approaches">
+      <table class="resource-table">
+        <thead>
+          <tr><th scope="col">Approach</th><th scope="col">Primary job</th><th scope="col">Example</th><th scope="col">Main limitation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Task automation</td><td>Complete one repeatable action</td><td>Rename a file or send a standard notification</td><td>Does not own the wider outcome</td></tr>
+          <tr><td>Workflow automation</td><td>Move work through a defined sequence</td><td>Route an approved request to fulfillment</td><td>May cover only one segment of the process</td></tr>
+          <tr><td>Business process automation</td><td>Coordinate an end-to-end operating process</td><td>Move a customer from approved sale through onboarding and billing readiness</td><td>Requires cross-functional ownership and process clarity</td></tr>
+          <tr><td>Robotic process automation</td><td>Imitate user actions in an interface</td><td>Copy values between systems without supported APIs</td><td>Can be brittle when screens or fields change</td></tr>
+          <tr><td>AI automation</td><td>Interpret language or context within a controlled flow</td><td>Classify an inbound request and prepare a grounded draft</td><td>Needs evaluation, limits, and human escalation</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>BPA can use any combination of these methods. A customer-service process might use AI to interpret a request, deterministic code to verify account permissions, workflow automation to assign the case, and a custom portal to show status. The process design determines where each tool belongs.</p>
+  </section>
+
+  <section id="examples">
+    <h2>See business process automation in practical operations</h2>
+    <p>The strongest examples connect work across roles and systems while keeping important decisions visible.</p>
+    <h3>Lead to qualified opportunity</h3>
+    <p>An inquiry can be captured from a form, call, or message; checked for required information; enriched from approved sources; assigned using territory and service rules; and placed into a follow-up sequence. A salesperson receives context and a clear next action instead of a bare notification.</p>
+    <h3>Estimate to completed service</h3>
+    <p>A service business can connect customer intake, site information, estimating, approval, scheduling, job records, change requests, completion evidence, invoice readiness, and follow-up. The value comes from preserving the commercial and operating context through the entire lifecycle.</p>
+    <h3>Employee or client onboarding</h3>
+    <p>An approved start event can trigger role-specific document collection, account creation requests, training assignments, billing setup, reminders, and a final readiness review. Missing information remains in an exception queue rather than disappearing inside email.</p>
+    <h3>Document and finance operations</h3>
+    <p>Submitted documents can be classified, validated, attached to the correct record, routed for review, and connected to approval or invoice preparation. Sensitive or ambiguous items remain with qualified reviewers. See Velixon's <a href="/solutions/document-finance-automation/">document and finance automation approach</a> for the connected-system view.</p>
+  </section>
+
+  <section id="good-candidate">
+    <h2>Choose a process that is ready to automate</h2>
+    <p>A good first candidate is valuable enough to matter and bounded enough to understand. Look for a recurring trigger, a recognizable completion state, stable business rules, available records, a process owner, and friction that can be measured.</p>
+    <ul class="resource-checklist">
+      <li>The process repeats often enough that delay, re-entry, or coordination creates meaningful cost.</li>
+      <li>Several people or systems exchange the same record as work progresses.</li>
+      <li>Employees can describe the normal path and the exceptions that occur most often.</li>
+      <li>The business can identify who owns the result and who may approve consequential decisions.</li>
+      <li>Representative examples are available for design and testing.</li>
+      <li>Success can be evaluated using a baseline such as cycle time, backlog, rework, or completion rate.</li>
+    </ul>
+    <p>Do not begin with a process that changes every week, has no accountable owner, depends on inaccessible data, or exists only because of an outdated policy nobody has challenged. Simplification can create more value than automation.</p>
+  </section>
+
+  <section id="design">
+    <h2>Design the future process before automating it</h2>
+    <p>Document the current flow from the event that starts work to the business outcome that completes it. For each stage, identify the owner, required information, system of record, decision rule, customer or employee communication, expected timing, and failure path.</p>
+    <ol>
+      <li><strong>Define the trigger and outcome.</strong> Name the event that begins the process and the observable state that proves completion.</li>
+      <li><strong>Map records and ownership.</strong> Decide which system owns the customer, job, document, payment, or other durable record.</li>
+      <li><strong>Remove unnecessary work.</strong> Challenge duplicate approvals, legacy fields, reports nobody uses, and handoffs created by old tool limitations.</li>
+      <li><strong>Separate rules from judgment.</strong> Automate stable rules; preserve qualified review where context, risk, or policy requires it.</li>
+      <li><strong>Design exceptions first.</strong> Specify what happens when information is missing, an integration fails, a deadline passes, or a decision falls outside normal limits.</li>
+      <li><strong>Choose a release boundary.</strong> Deliver the smallest complete flow that can create and measure operational value.</li>
+    </ol>
+  </section>
+
+  <section id="technology">
+    <h2>Choose technology after the system boundary is clear</h2>
+    <p>Simple, low-risk workflows may fit an automation platform such as <a href="/integrations/zapier/">Zapier</a>, <a href="/integrations/make/">Make</a>, or <a href="/integrations/n8n/">n8n</a>. A process with durable state, complex permissions, customer-facing interfaces, high volume, or business-critical recovery may need application code and a database.</p>
+    <p>AI belongs where language or unstructured information creates real work: extracting details from a document, classifying a request, summarizing approved context, or preparing a draft. It should not replace deterministic validation, authorization, calculations, or policy rules simply because a model can produce an answer.</p>
+    <div class="resource-callout">
+      <h3>The practical architecture question</h3>
+      <p>Ask what must remain true when a model is uncertain, an API is unavailable, a duplicate event arrives, a field changes, or a person needs to correct the record. The answer determines whether a lightweight connector is enough or the process needs a more durable software layer.</p>
+    </div>
+  </section>
+
+  <section id="controls">
+    <h2>Make exceptions, control, and recovery part of the product</h2>
+    <p>A process is not automated reliably if ordinary failures become invisible. Production BPA should authenticate incoming events, validate required data, prevent duplicate actions, preserve unsuccessful work, and show operators what needs attention.</p>
+    <ul>
+      <li>Role-based access and least-privilege credentials</li>
+      <li>Named source-of-truth ownership for important fields</li>
+      <li>Idempotency and duplicate-event protection</li>
+      <li>Human approval for high-consequence actions</li>
+      <li>Exception queues with reason, owner, and safe retry behavior</li>
+      <li>Audit history appropriate to the process and its records</li>
+      <li>Monitoring for failures, delays, backlog, and unusual activity</li>
+      <li>Documented fallback when a platform or model is unavailable</li>
+    </ul>
+    <p>These controls are not enterprise decoration. They are what allows the business to trust the process after the demo ends.</p>
+  </section>
+
+  <section id="measurement">
+    <h2>Measure whether the business process actually improved</h2>
+    <p>Automation activity is not the same as business value. The number of runs, messages, or AI outputs says little about whether the process became faster or more dependable.</p>
+    <p>Capture a baseline before implementation. Useful measures include end-to-end cycle time, employee touch time, backlog age, first-pass completion, rework, exception frequency, customer response time, and the number of cases completed without manual reconstruction. Track quality, adoption, and data completeness as guardrails.</p>
+    <p>After launch, compare representative periods and inspect the exceptions. A lower average time can hide a growing group of stuck cases. A faster AI draft can create no value if reviewers spend the saved time correcting unsupported content.</p>
+  </section>
+
+  <section id="starting-plan">
+    <h2>Use a practical plan for the first automation</h2>
+    <p>Begin with a focused process assessment. Bring the current forms, spreadsheets, inboxes, software, sample records, policies, and the people who operate the workflow. Map one representative case from start to finish, then repeat the exercise with difficult and incomplete cases.</p>
+    <p>The output should be a future-state process, clear system boundaries, prioritized risks, a measurable baseline, and a production release that is complete enough to operate. If the opportunity is still unclear, an assessment is a better next step than buying another platform.</p>
+    <p><a href="/contact/?source=resource-business-process-automation&service=business-process-automation&project_type=workflow-automation">Discuss your process with Velixon</a> to turn a recurring operational bottleneck into a scoped automation plan.</p>
+  </section>
+</ResourceLayout>

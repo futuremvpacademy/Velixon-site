@@ -9,7 +9,7 @@ const { companyName, logo, nav, cta, contactInfo } = siteContent;
 const page = siteContent.pages.contact;
 ---
 
-<MainLayout title="Schedule an AI Automation Strategy Call | Velixon" description="Tell Velixon about the AI agent, workflow automation, custom software, CRM, voice AI, or connected business system your company needs.">
+<MainLayout title="Contact Velixon | Custom Software & AI Automation" description="Tell Velixon about the AI automation, custom software, CRM, workflow, integration, or connected business system your company needs.">
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/contact" />
   <main id="main-content">
     <PageHero
@@ -27,6 +27,7 @@ const page = siteContent.pages.contact;
           name="website-inquiry"
           method="POST"
           action="/contact/?submitted=true"
+          accept-charset="UTF-8"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
           data-contact-email={contactInfo.email}
@@ -61,28 +62,28 @@ const page = siteContent.pages.contact;
           <div class="contact-form-row">
             <label>
               First Name
-              <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" required />
+              <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" maxlength="80" required />
             </label>
             <label>
               Last Name
-              <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" required />
+              <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" maxlength="80" required />
             </label>
           </div>
           <label>
             Business Name
-            <input type="text" name="business-name" placeholder="Business name" autocomplete="organization" required />
+            <input type="text" name="business-name" placeholder="Business name (optional)" autocomplete="organization" maxlength="120" />
           </label>
           <label>
             Email Address
-            <input type="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+            <input type="email" name="email" placeholder="you@example.com" autocomplete="email" maxlength="254" required />
           </label>
           <label>
             Existing Business Website
-            <input type="url" name="website" placeholder="https://yourwebsite.com (optional)" autocomplete="url" />
+            <input type="url" name="website" placeholder="https://yourwebsite.com (optional)" autocomplete="url" inputmode="url" maxlength="2048" />
           </label>
           <label>
             Phone Number
-            <input type="tel" name="phone" placeholder="(555) 555-5555 (optional)" autocomplete="tel" />
+            <input type="tel" name="phone" placeholder="(555) 555-5555 (optional)" autocomplete="tel" inputmode="tel" maxlength="40" />
           </label>
           <div class="contact-form-row">
             <label>
@@ -102,7 +103,7 @@ const page = siteContent.pages.contact;
             </label>
             <label>
               Current stage
-              <select name="project-stage" required>
+              <select name="project-stage">
                 <option value="" selected disabled>Select the current stage</option>
                 <option value="exploring">Exploring the opportunity</option>
                 <option value="requirements">Defining requirements</option>
@@ -115,7 +116,7 @@ const page = siteContent.pages.contact;
           <div class="contact-form-row">
             <label>
               Estimated investment
-              <select name="budget-range" required>
+              <select name="budget-range">
                 <option value="" selected disabled>Select a working range</option>
                 <option value="under-10k">Under $10,000</option>
                 <option value="10k-25k">$10,000–$25,000</option>
@@ -127,7 +128,7 @@ const page = siteContent.pages.contact;
             </label>
             <label>
               Desired launch window
-              <select name="launch-window" required>
+              <select name="launch-window">
                 <option value="" selected disabled>Select a target window</option>
                 <option value="asap">As soon as responsibly possible</option>
                 <option value="1-3-months">Within 1–3 months</option>
@@ -139,15 +140,15 @@ const page = siteContent.pages.contact;
           </div>
           <label>
             Primary project goal
-            <input type="text" name="project-wants" placeholder="What should become faster, clearer, or possible?" required />
+            <input type="text" name="project-wants" placeholder="What should become faster, clearer, or possible?" maxlength="240" required />
           </label>
           <label>
             Project details
-            <textarea name="project-details" rows="6" placeholder="Describe the current workflow, the biggest constraint, who will use the system, and what a successful outcome looks like" required></textarea>
+            <textarea name="project-details" rows="6" placeholder="Describe the current workflow, the biggest constraint, who will use the system, and what a successful outcome looks like" minlength="20" maxlength="4000" required></textarea>
           </label>
           <label>
             Preferred first follow-up
-            <select name="preferred-contact" required>
+            <select name="preferred-contact">
               <option value="" selected disabled>Select a contact preference</option>
               <option value="email">Email</option>
               <option value="phone">Phone</option>
@@ -159,7 +160,7 @@ const page = siteContent.pages.contact;
             <span>I agree to the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and understand Velixon will use these details to respond to my inquiry.</span>
           </label>
           <div class="contact-reassurance">
-            <span>Fast reply</span>
+            <span>Direct reply</span>
             <span>Clear next step</span>
             <span>No pressure</span>
           </div>
@@ -171,7 +172,7 @@ const page = siteContent.pages.contact;
 
         <div class="contact-form-card contact-form-status" id="contact-success" role="status" hidden>
           <p class="tech-label">Message received</p>
-          <h2 id="contact-success-heading" tabindex="-1">Thanks. We’ll be in touch shortly.</h2>
+          <h2 id="contact-success-heading" tabindex="-1">Thanks. We’ve received your inquiry.</h2>
           <p>Your project details are with the Velixon team. We’ll review them and reply with a clear next step.</p>
           <div class="contact-success-actions">
             <a class="button" href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}>Call Velixon</a>
@@ -244,6 +245,7 @@ const page = siteContent.pages.contact;
     "custom-saas": "custom-software",
     "custom-crm": "crm-portal",
     "dashboards-portals": "crm-portal",
+    "ai-integrations": "integration",
     "api-integrations": "integration"
   };
   const requestedProjectType = params.get("project_type") || projectTypeMap[requestedService];
@@ -260,7 +262,14 @@ const page = siteContent.pages.contact;
     successHeading?.focus();
   };
 
-  if (params.get("submitted") === "true") showSuccess();
+  let verifiedSubmission = false;
+  try {
+    verifiedSubmission = sessionStorage.getItem("velixon_contact_submitted") === "true";
+    if (verifiedSubmission) sessionStorage.removeItem("velixon_contact_submitted");
+  } catch {
+    verifiedSubmission = false;
+  }
+  if (params.get("submitted") === "true" && verifiedSubmission) showSuccess();
 
   form?.addEventListener("focusin", () => {
     analytics?.track("form_start", { form_name: "website-inquiry", page_path: window.location.pathname });
@@ -268,6 +277,14 @@ const page = siteContent.pages.contact;
 
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[type="text"], input[type="email"], input[type="url"], input[type="tel"], textarea').forEach((field) => {
+      field.value = field.value.trim();
+    });
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const originalLabel = button?.textContent || "Request My Strategy Call";
 
@@ -297,11 +314,9 @@ const page = siteContent.pages.contact;
       analytics?.track("generate_lead", {
         lead_source: safeAnalyticsDimension(formData.get("source")),
         form_name: "website-inquiry",
-        project_type: safeAnalyticsDimension(formData.get("project-type")),
-        project_stage: safeAnalyticsDimension(formData.get("project-stage")),
-        budget_range: safeAnalyticsDimension(formData.get("budget-range")),
-        launch_window: safeAnalyticsDimension(formData.get("launch-window"))
+        project_type: safeAnalyticsDimension(formData.get("project-type"))
       });
+      try { sessionStorage.setItem("velixon_contact_submitted", "true"); } catch {}
       form.removeAttribute("aria-busy");
       showSuccess();
       window.history.replaceState({}, "", "/contact/?submitted=true");

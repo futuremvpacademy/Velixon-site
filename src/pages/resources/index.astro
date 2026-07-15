@@ -5,7 +5,33 @@ import { siteContent } from "../../data/site";
 import "../../styles/resources.css";
 
 const { companyName, logo, nav, cta } = siteContent;
-const resources = [
+const phaseOneResources = [
+  {
+    title: "AI Automation ROI Calculator",
+    description: "Model conservative, expected, and strong scenarios using your workflow volume, labor, review, implementation, and operating-cost assumptions.",
+    href: "/resources/ai-automation-roi-calculator/",
+    category: "Interactive business tool"
+  },
+  {
+    title: "What Is Business Process Automation?",
+    description: "Understand how complete business processes are redesigned, automated, controlled, and measured across people and systems.",
+    href: "/resources/what-is-business-process-automation/",
+    category: "Automation fundamentals"
+  },
+  {
+    title: "How Much Does AI Automation Cost?",
+    description: "See what a production estimate should include, which factors change scope, and how to compare first-year cost with value.",
+    href: "/resources/how-much-does-ai-automation-cost/",
+    category: "AI investment planning"
+  },
+  {
+    title: "How to Know When Your Business Needs Custom Software",
+    description: "Use practical signals, an option comparison, and a decision scorecard to determine whether a custom build is justified.",
+    href: "/resources/when-business-needs-custom-software/",
+    category: "Software strategy"
+  }
+];
+const extendedResources = [
   {
     title: "Custom Software ROI: A Practical Cost and Value Guide",
     description: "Build a defensible business case by comparing total cost, operational value, risk, and time to impact—not just the development quote.",
@@ -56,12 +82,12 @@ const collectionSchema = {
   "@type": "CollectionPage",
   "@id": "https://velixon.net/resources/#collection",
   name: "Velixon Software and AI Resources",
-  description: "Practical guides for evaluating custom software, SaaS, spreadsheet replacement, and AI automation opportunities.",
+  description: "Practical guides to business process automation, AI automation cost, custom software readiness, software ROI, and responsible technology decisions.",
   url: "https://velixon.net/resources/",
   isPartOf: { "@id": "https://velixon.net/#website" },
   mainEntity: {
     "@type": "ItemList",
-    itemListElement: [...resources, ...resourceCollections].map((resource, index) => ({
+    itemListElement: [...phaseOneResources, ...extendedResources, ...resourceCollections].map((resource, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: resource.title,
@@ -73,7 +99,7 @@ const collectionSchema = {
 
 <MainLayout
   title="Custom Software & AI Resources for Business | Velixon"
-  description="Practical guides for evaluating custom software ROI, replacing spreadsheets, choosing SaaS, and finding valuable AI automation opportunities."
+  description="Practical guides to business process automation, AI automation cost, custom software readiness, software ROI, and responsible technology decisions."
   imageAlt="Velixon resources for custom software and AI decision-making"
   schema={collectionSchema}
 >
@@ -97,17 +123,18 @@ const collectionSchema = {
       <div class="container">
         <article class="resources-featured-card">
           <div class="resources-featured-copy">
-            <p class="resource-card-category">Featured decision guide</p>
-            <h2 id="featured-resource-heading">Custom software vs. SaaS is a business-model decision.</h2>
-            <p>The right answer depends on where your company needs differentiation, how unusual the workflow is, what must integrate, and whether ownership creates a durable advantage.</p>
-            <a class="resource-card-link" href="/resources/custom-software-vs-saas/">Compare the options <span aria-hidden="true">→</span></a>
+            <p class="resource-card-category">Phase 1 cornerstone resources</p>
+            <h2 id="featured-resource-heading">Start with the process, the investment, and the build decision.</h2>
+            <p>These four foundational resources help leaders quantify the opportunity, understand the process, estimate production cost, and decide whether a custom system is the responsible next step.</p>
+            <a class="resource-card-link" href="#resource-library">Explore the Phase 1 guides <span aria-hidden="true">→</span></a>
           </div>
-          <div class="resources-featured-checklist" aria-label="What the guide covers">
-            <span>Workflow fit and differentiation</span>
-            <span>Implementation speed and internal effort</span>
-            <span>Integration and data ownership</span>
-            <span>Long-term cost and change capacity</span>
-            <span>A clear decision framework</span>
+          <div class="resources-featured-checklist" aria-label="What the featured guides cover">
+            <span>Transparent automation ROI scenarios</span>
+            <span>Business process automation, defined clearly</span>
+            <span>AI automation cost and scope drivers</span>
+            <span>Custom software readiness signals</span>
+            <span>Practical scorecards and checklists</span>
+            <span>Clear routes to related services and evidence</span>
           </div>
         </article>
       </div>
@@ -118,13 +145,35 @@ const collectionSchema = {
         <div class="resource-section-heading">
           <div>
             <p class="eyebrow">Decision library</p>
-            <h2 id="resource-library-heading">Guides built for real operating questions</h2>
+            <h2 id="resource-library-heading">Phase 1 guides for the first decision</h2>
           </div>
           <a href="/services/">Explore Velixon services <span aria-hidden="true">→</span></a>
         </div>
 
         <div class="resource-card-grid">
-          {resources.map((resource) => (
+          {phaseOneResources.map((resource) => (
+            <article class="resource-card">
+              <p class="resource-card-category">{resource.category}</p>
+              <h3><a href={resource.href}>{resource.title}</a></h3>
+              <p>{resource.description}</p>
+              <a class="resource-card-link" href={resource.href} aria-label={`Read the guide: ${resource.title}`}>Read the guide <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="resources-library" aria-labelledby="extended-resource-library-heading">
+      <div class="container">
+        <div class="resource-section-heading">
+          <div>
+            <p class="eyebrow">Extended decision library</p>
+            <h2 id="extended-resource-library-heading">Continue into ROI, platform fit, and operational readiness</h2>
+          </div>
+        </div>
+
+        <div class="resource-card-grid">
+          {extendedResources.map((resource) => (
             <article class="resource-card">
               <p class="resource-card-category">{resource.category}</p>
               <h3><a href={resource.href}>{resource.title}</a></h3>
