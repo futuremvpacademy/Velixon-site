@@ -1,0 +1,112 @@
+---
+interface Props {
+  logo: string;
+}
+
+const { logo } = Astro.props;
+---
+
+<div
+  class="vx-intro"
+  data-vx-intro
+  data-session-key="velixon-intro-complete"
+  role="button"
+  aria-label="Velixon introduction. Are you ready for Smarter Systems. Better Business. Click, tap, or press a key to enter."
+  tabindex="0"
+  data-nosnippet
+>
+  <div class="vx-intro-spotlight" aria-hidden="true"></div>
+  <div class="vx-intro-grain" aria-hidden="true"></div>
+  <div class="vx-intro-content">
+    <div class="vx-intro-mark">
+      <img src={logo} alt="Velixon" width="612" height="408" decoding="async" />
+    </div>
+    <p class="vx-intro-question">Are you ready for</p>
+    <p class="vx-intro-title">Smarter Systems.<br />Better Business.</p>
+    <div class="vx-intro-indicator" aria-hidden="true"><span></span></div>
+    <p class="vx-intro-helper">Click, tap, or press a key to enter</p>
+  </div>
+</div>
+
+<noscript><style>.vx-intro{display:none !important}</style></noscript>
+
+<script is:inline>
+  (() => {
+    const intro = document.querySelector("[data-vx-intro]");
+    if (!intro) return;
+
+    const sessionKey = intro.dataset.sessionKey || "velixon-intro-complete";
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let closing = false;
+
+    const setBackgroundInert = (value) => {
+      document.querySelectorAll(".site-header, .site-content > main, .site-footer").forEach((element) => {
+        if (value) element.setAttribute("inert", "");
+        else element.removeAttribute("inert");
+      });
+    };
+
+    const readCompleted = () => {
+      try { return sessionStorage.getItem(sessionKey) === "true"; } catch { return false; }
+    };
+
+    const markCompleted = () => {
+      try { sessionStorage.setItem(sessionKey, "true"); } catch {}
+    };
+
+    const hideImmediately = ({ restoreFocus = false } = {}) => {
+      intro.hidden = true;
+      intro.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("vx-intro-open");
+      setBackgroundInert(false);
+      if (restoreFocus) document.querySelector(".site-header .brand")?.focus({ preventScroll: true });
+    };
+
+    const show = () => {
+      closing = false;
+      intro.hidden = false;
+      intro.removeAttribute("aria-hidden");
+      intro.classList.remove("is-leaving");
+      document.body.classList.add("vx-intro-open");
+      setBackgroundInert(true);
+      requestAnimationFrame(() => intro.focus({ preventScroll: true }));
+    };
+
+    const enter = (event) => {
+      if (closing) return;
+      closing = true;
+      const restoreFocus = event instanceof KeyboardEvent;
+      markCompleted();
+      intro.style.setProperty("--reveal-x", `${event?.clientX || window.innerWidth / 2}px`);
+      intro.style.setProperty("--reveal-y", `${event?.clientY || window.innerHeight / 2}px`);
+      if (reducedMotion.matches) {
+        hideImmediately({ restoreFocus });
+        return;
+      }
+      intro.classList.add("is-leaving");
+      window.setTimeout(() => hideImmediately({ restoreFocus }), 760);
+    };
+
+    if (readCompleted()) hideImmediately();
+    else show();
+
+    intro.addEventListener("click", enter);
+    intro.addEventListener("pointermove", (event) => {
+      intro.style.setProperty("--pointer-x", `${event.clientX}px`);
+      intro.style.setProperty("--pointer-y", `${event.clientY}px`);
+    }, { passive: true });
+    intro.addEventListener("keydown", (event) => {
+      if (["Enter", " ", "Escape"].includes(event.key)) {
+        event.preventDefault();
+        enter(event);
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      const replay = event.target.closest("[data-replay-intro]");
+      if (!replay) return;
+      event.preventDefault();
+      show();
+    });
+  })();
+</script>

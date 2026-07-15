@@ -1,26 +1,16 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
-import { seo, siteContent } from "../data/site";
-
+import PageHero from "../components/PageHero.astro";
+import CardSection from "../components/CardSection.astro";
+import FinalCtaSection from "../components/FinalCtaSection.astro";
+import { siteContent } from "../data/site";
 const { companyName, logo, nav, cta } = siteContent;
+const products = [
+  { id: "formesque", title: "FormEsque", description: "A proposal, signature, invoicing, and business workflow platform that connects the customer journey from proposal to payment.", meta: "Velixon product", outcome: "One connected commercial workflow", href: "/case-studies/formesque-proposal-to-payment-platform/", linkLabel: "Read the FormEsque case study" },
+  { id: "sharecal", title: "ShareCal", description: "A collaborative calendar platform designed to make shared plans, availability, and coordination clear.", meta: "Velixon product", outcome: "Everyone on the same schedule", href: "/case-studies/sharecal-collaborative-scheduling-platform/", linkLabel: "Read the ShareCal case study" },
+  { id: "client-systems", title: "Custom client systems", description: "Tailored applications and connected infrastructure for companies that have outgrown spreadsheets, workarounds, and disconnected tools.", meta: "Client engineering", outcome: "Software built around the operation" }
+];
+const finalCta = { eyebrow: "Your system", title: "The next product in the Velixon ecosystem could be yours.", description: "Bring us the workflow, operational problem, or product opportunity. We will help turn it into reliable software.", points: ["Product thinking", "System architecture", "Production engineering"], primary: "Build Your System", primaryHref: "/contact", secondary: "Explore the Homepage", secondaryHref: "/#products", helper: "Real product links and screenshots can be added as the product launches are finalized." };
 ---
-
-<MainLayout title={`${seo.title} | Work`} description={seo.description}>
-  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/work" />
-
-  <main class="work-page">
-    <div class="work-content">
-      <section class="work-status">
-        <img src={logo} class="intro-logo work-logo" alt="Velixon logo" />
-        <div class="tech-label">STATUS</div>
-        <h1>Work module offline</h1>
-        <p>Rebuild in progress</p>
-      </section>
-
-      <section class="work-contact">
-        <a href="/contact" class="work-contact-button">Contact now</a>
-      </section>
-    </div>
-  </main>
-</MainLayout>
+<MainLayout title="FormEsque, ShareCal & Custom Software | Velixon" description="See FormEsque, ShareCal, and the custom business systems Velixon designs to support connected, reliable, real-world workflows."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/work" /><main id="main-content"><PageHero eyebrow="Velixon ecosystem" title="Products we own. Systems we engineer." description="Velixon builds its own software products and applies the same product discipline to custom systems for clients." cta="Build Your System" ctaHref="/contact/" secondaryCta="View Product Previews" secondaryCtaHref="/#products" helper="Software designed to become part of how a business operates." /><CardSection eyebrow="Products & systems" title="Software built for real workflows" description="These are operating products and product directions—not small portfolio pieces." items={products} /><FinalCtaSection cta={finalCta} /></main></MainLayout>

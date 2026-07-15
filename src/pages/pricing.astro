@@ -2,26 +2,15 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import PageHero from "../components/PageHero.astro";
-import PricingPlansSection from "../components/PricingPlansSection.astro";
-import ClosingCtaSection from "../components/ClosingCtaSection.astro";
-import { seo, siteContent } from "../data/site";
-
-const { companyName, logo, nav, cta, ctaHref, pricingPlans, closingCta } = siteContent;
-const page = siteContent.pages.pricing;
+import CardSection from "../components/CardSection.astro";
+import FinalCtaSection from "../components/FinalCtaSection.astro";
+import { siteContent } from "../data/site";
+const { companyName, logo, nav, cta } = siteContent;
+const models = [
+  { id: "discovery", title: "System discovery", description: "A focused engagement to map users, workflows, data, risks, and the right technical path before development.", meta: "Define the system", outcome: "Best for complex or unclear requirements" },
+  { id: "product-build", title: "Product build", description: "Design and engineering for a custom application, AI system, portal, or connected operational platform.", meta: "Build and launch", outcome: "Best for a defined production system" },
+  { id: "ongoing-evolution", title: "Ongoing evolution", description: "A long-term engineering partnership for improvements, new capabilities, reliability, and scale after launch.", meta: "Improve continuously", outcome: "Best for software that must keep evolving" }
+];
+const finalCta = { eyebrow: "Scope before price", title: "The right investment starts with the right system boundary.", description: "Every business, workflow, and technical environment is different. We define the scope clearly before development begins.", points: ["No generic packages", "Clear milestones", "A maintainable long-term path"], primary: "Discuss Your System", primaryHref: "/contact", secondary: "View Solutions", secondaryHref: "/services", helper: "Tell us the outcome you need; we will recommend the clearest engagement." };
 ---
-
-<MainLayout title={`${seo.title} | Pricing`} description={seo.description}>
-  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/pricing" />
-  <main>
-    <PageHero
-      eyebrow={page.hero.eyebrow}
-      title={page.hero.title}
-      description={page.hero.description}
-      cta={cta}
-      ctaHref={ctaHref}
-      helper="Tell us what you need and we’ll recommend the right scope before anything starts."
-    />
-    <PricingPlansSection pricingPlans={pricingPlans} />
-    <ClosingCtaSection cta={closingCta} />
-  </main>
-</MainLayout>
+<MainLayout title="Custom Software Engagements & Pricing | Velixon" description="Understand how Velixon scopes custom software through discovery, product builds, and ongoing engineering engagements."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/pricing" /><main id="main-content"><PageHero eyebrow="Engagements" title="Custom systems need clear scope—not generic packages." description="Velixon structures each engagement around the business outcome, system complexity, integrations, and path to production." cta="Discuss Your System" ctaHref="/contact/" helper="We define the architecture, delivery plan, and investment before the build begins." /><CardSection eyebrow="Ways to work together" title="Start where the business needs clarity" description="Engagements can begin with discovery, a defined build, or an ongoing product and engineering partnership." items={models} /><FinalCtaSection cta={finalCta} /></main></MainLayout>

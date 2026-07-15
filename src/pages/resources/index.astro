@@ -1,0 +1,160 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/Navbar.astro";
+import { siteContent } from "../../data/site";
+import "../../styles/resources.css";
+
+const { companyName, logo, nav, cta } = siteContent;
+const resources = [
+  {
+    title: "Custom Software ROI: A Practical Cost and Value Guide",
+    description: "Build a defensible business case by comparing total cost, operational value, risk, and time to impact—not just the development quote.",
+    href: "/resources/custom-software-roi-cost/",
+    category: "Investment planning"
+  },
+  {
+    title: "When to Replace Spreadsheets with Custom Software",
+    description: "Recognize the operational signals that a spreadsheet workflow has become a system risk, then plan a responsible transition.",
+    href: "/resources/replace-spreadsheets-custom-software/",
+    category: "Operations"
+  },
+  {
+    title: "How to Identify High-Value AI Automation Workflows",
+    description: "Prioritize AI opportunities using volume, friction, decision clarity, data readiness, risk, and measurable business impact.",
+    href: "/resources/high-value-ai-automation-workflows/",
+    category: "Applied AI"
+  },
+  {
+    title: "Custom Software vs. SaaS: A Decision Guide",
+    description: "Choose the right path by evaluating workflow fit, differentiation, ownership, integration depth, change, and long-term economics.",
+    href: "/resources/custom-software-vs-saas/",
+    category: "Technology strategy"
+  }
+];
+const resourceCollections = [
+  {
+    title: "AI & Automation Guides",
+    description: "Answer-first guides to workflow automation, voice AI, sales systems, contractor operations, AI ROI, and internal software.",
+    href: "/guides/",
+    category: "Educational library"
+  },
+  {
+    title: "Software & Automation Comparisons",
+    description: "Evidence-based comparisons for n8n, Zapier, Make, Supabase, Firebase, AI agents, and voice-AI operating models.",
+    href: "/comparisons/",
+    category: "Decision library"
+  },
+  {
+    title: "Product Case Studies",
+    description: "First-party product evidence explaining how FormEsque and ShareCal turn operating problems into connected software.",
+    href: "/case-studies/",
+    category: "Product evidence"
+  }
+];
+
+const collectionSchema = {
+  "@type": "CollectionPage",
+  "@id": "https://velixon.net/resources/#collection",
+  name: "Velixon Software and AI Resources",
+  description: "Practical guides for evaluating custom software, SaaS, spreadsheet replacement, and AI automation opportunities.",
+  url: "https://velixon.net/resources/",
+  isPartOf: { "@id": "https://velixon.net/#website" },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: [...resources, ...resourceCollections].map((resource, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: resource.title,
+      url: `https://velixon.net${resource.href}`
+    }))
+  }
+};
+---
+
+<MainLayout
+  title="Custom Software & AI Resources for Business | Velixon"
+  description="Practical guides for evaluating custom software ROI, replacing spreadsheets, choosing SaaS, and finding valuable AI automation opportunities."
+  imageAlt="Velixon resources for custom software and AI decision-making"
+  schema={collectionSchema}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/resources" />
+  <main id="main-content" class="resources-page">
+    <section class="resources-hero">
+      <div class="resource-orb resource-orb-one" aria-hidden="true"></div>
+      <div class="resource-orb resource-orb-two" aria-hidden="true"></div>
+      <div class="container resources-hero-shell">
+        <p class="eyebrow">Velixon resources</p>
+        <h1>Make better software and AI decisions.</h1>
+        <p class="resources-hero-copy">Practical, business-first guides for leaders deciding what to build, what to buy, where to automate, and when an operational workaround has reached its limit.</p>
+        <div class="resources-hero-actions">
+          <a class="button" href="#resource-library">Explore the Guides</a>
+          <a class="button button-secondary" href="/contact/">Discuss Your System</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="resources-featured" aria-labelledby="featured-resource-heading">
+      <div class="container">
+        <article class="resources-featured-card">
+          <div class="resources-featured-copy">
+            <p class="resource-card-category">Featured decision guide</p>
+            <h2 id="featured-resource-heading">Custom software vs. SaaS is a business-model decision.</h2>
+            <p>The right answer depends on where your company needs differentiation, how unusual the workflow is, what must integrate, and whether ownership creates a durable advantage.</p>
+            <a class="resource-card-link" href="/resources/custom-software-vs-saas/">Compare the options <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="resources-featured-checklist" aria-label="What the guide covers">
+            <span>Workflow fit and differentiation</span>
+            <span>Implementation speed and internal effort</span>
+            <span>Integration and data ownership</span>
+            <span>Long-term cost and change capacity</span>
+            <span>A clear decision framework</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="resources-library" id="resource-library" aria-labelledby="resource-library-heading">
+      <div class="container">
+        <div class="resource-section-heading">
+          <div>
+            <p class="eyebrow">Decision library</p>
+            <h2 id="resource-library-heading">Guides built for real operating questions</h2>
+          </div>
+          <a href="/services/">Explore Velixon services <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="resource-card-grid">
+          {resources.map((resource) => (
+            <article class="resource-card">
+              <p class="resource-card-category">{resource.category}</p>
+              <h3><a href={resource.href}>{resource.title}</a></h3>
+              <p>{resource.description}</p>
+              <a class="resource-card-link" href={resource.href} aria-label={`Read the guide: ${resource.title}`}>Read the guide <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="resources-library" aria-labelledby="resource-collections-heading">
+      <div class="container">
+        <div class="resource-section-heading">
+          <div>
+            <p class="eyebrow">Explore by format</p>
+            <h2 id="resource-collections-heading">Go deeper into the decision</h2>
+          </div>
+        </div>
+        <div class="resource-card-grid resource-card-grid-three">
+          {resourceCollections.map((collection) => (
+            <article class="resource-card">
+              <p class="resource-card-category">{collection.category}</p>
+              <h3><a href={collection.href}>{collection.title}</a></h3>
+              <p>{collection.description}</p>
+              <a class="resource-card-link" href={collection.href} aria-label={`Explore ${collection.title}`}>Explore the library <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

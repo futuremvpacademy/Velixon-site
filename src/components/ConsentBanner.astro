@@ -1,0 +1,59 @@
+---
+interface Props {
+  enabled?: boolean;
+}
+
+const { enabled = false } = Astro.props;
+---
+
+{enabled && <aside class="consent-banner" data-consent-banner aria-label="Analytics preferences" hidden>
+  <div class="consent-banner-copy">
+    <p class="tech-label">Your privacy</p>
+    <h2>Help us improve Velixon</h2>
+    <p>
+      Optional analytics show us which pages help visitors most. We do not use advertising cookies, and declining will not affect the site.
+      <a href="/privacy/#analytics">Read the privacy policy</a>.
+    </p>
+  </div>
+  <div class="consent-banner-actions">
+    <button class="button button-secondary" type="button" data-consent-decline>Decline analytics</button>
+    <button class="button" type="button" data-consent-accept>Allow analytics</button>
+  </div>
+</aside>}
+
+{enabled && <script is:inline>
+  (() => {
+    const banner = document.querySelector("[data-consent-banner]");
+    const accept = banner?.querySelector("[data-consent-accept]");
+    const decline = banner?.querySelector("[data-consent-decline]");
+
+    const analytics = () => window.velixonAnalytics;
+    const show = (focus = false) => {
+      if (!banner) return;
+      banner.hidden = false;
+      if (focus) banner.querySelector("button")?.focus();
+    };
+    const hide = () => {
+      if (banner) banner.hidden = true;
+    };
+
+    if (!analytics()?.getConsent()) show();
+
+    accept?.addEventListener("click", () => {
+      analytics()?.setConsent("granted");
+      hide();
+    });
+
+    decline?.addEventListener("click", () => {
+      analytics()?.setConsent("denied");
+      hide();
+    });
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target instanceof Element ? event.target.closest("[data-consent-settings]") : null;
+      if (!trigger) return;
+      event.preventDefault();
+      show(true);
+    });
+  })();
+</script>}

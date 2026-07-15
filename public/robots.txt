@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://velixon.net/sitemap.xml
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://velixon.net/sitemap-index.xml

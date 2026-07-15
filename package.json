@@ -6,10 +6,18 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "check": "astro check",
+    "build": "node scripts/clean-dist.mjs && astro build",
+    "preview": "astro preview",
+    "audit:seo": "node scripts/audit-site.mjs",
+    "verify": "npm run check && npm run build && npm run audit:seo"
   },
   "dependencies": {
-    "astro": "^5.7.5"
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^6.4.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "typescript": "^6.0.3"
   }
 }

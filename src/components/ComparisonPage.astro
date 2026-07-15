@@ -1,0 +1,75 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "./Navbar.astro";
+import { siteContent } from "../data/site";
+import type { ComparisonData } from "../data/seo/types";
+import "../styles/seo-clusters.css";
+
+interface Props { page: ComparisonData; }
+const { page } = Astro.props;
+const { companyName, logo, nav, cta } = siteContent;
+const pageUrl = `https://velixon.net/comparisons/${page.slug}/`;
+const schema = [
+  {
+    "@type": "Article",
+    "@id": `${pageUrl}#article`,
+    headline: page.headline,
+    description: page.metaDescription,
+    url: pageUrl,
+    keywords: page.keywords.join(", "),
+    author: { "@id": "https://velixon.net/#organization" },
+    publisher: { "@id": "https://velixon.net/#organization" },
+    datePublished: "2026-07-15",
+    dateModified: "2026-07-15"
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: page.faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } }))
+  }
+];
+---
+
+<MainLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogType="article"
+  publishedTime="2026-07-15"
+  modifiedTime="2026-07-15"
+  articleSection="Comparison"
+  schema={schema}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/comparisons/" />
+  <main id="main-content" class="cluster-page comparison-page">
+    <header class="cluster-hero">
+      <div class="cluster-grid" aria-hidden="true"></div>
+      <div class="container cluster-hero-shell">
+        <nav class="cluster-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/comparisons/">Comparisons</a></li><li aria-current="page">{page.headline}</li></ol></nav>
+        <div class="cluster-hero-layout">
+          <div><p class="cluster-eyebrow">Decision guide</p><h1>{page.headline}</h1><p class="cluster-summary">{page.summary}</p><div class="cluster-actions"><a class="button" href="/contact/">Discuss your system</a><a class="button button-secondary" href="#comparison">Compare the options</a></div></div>
+          <aside class="cluster-answer"><span>{page.verdictLabel}</span><h2>Quick verdict</h2><p>{page.verdict}</p><small>Reviewed by Velixon · July 2026</small></aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="cluster-section comparison-table-section" id="comparison" aria-labelledby="comparison-table-title">
+      <div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Side-by-side</p><h2 id="comparison-table-title">Compare what changes in practice</h2><p>The right choice depends on workflow complexity, risk, ownership, and how much the system must adapt to the business.</p></div>
+        <p class="comparison-scroll-cue" id="comparison-scroll-cue">Scroll horizontally to compare every column.</p>
+        <div class="comparison-table-wrap" role="region" aria-labelledby="comparison-table-title" aria-describedby="comparison-scroll-cue" tabindex="0"><table><caption>{page.optionAName} compared with {page.optionBName}</caption><thead><tr><th scope="col">Decision factor</th><th scope="col">{page.optionAName}</th><th scope="col">{page.optionBName}</th><th scope="col">Guidance</th></tr></thead><tbody>{page.rows.map((row) => <tr><th scope="row">{row.factor}</th><td>{row.optionA}</td><td>{row.optionB}</td><td>{row.guidance}</td></tr>)}</tbody></table></div>
+      </div>
+    </section>
+
+    <section class="cluster-section cluster-section-light" aria-labelledby="comparison-fit-title"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Best fit</p><h2 id="comparison-fit-title">Choose based on the operating constraint</h2></div><div class="comparison-choice-grid"><article><span>Choose {page.optionAName} when</span><ul>{page.optionABestFor.map((item) => <li>{item}</li>)}</ul></article><article><span>Choose {page.optionBName} when</span><ul>{page.optionBBestFor.map((item) => <li>{item}</li>)}</ul></article></div></div></section>
+
+    <section class="cluster-section" aria-labelledby="comparison-considerations-title"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Decision factors</p><h2 id="comparison-considerations-title">Look beyond the headline feature list</h2></div><div class="cluster-outcome-grid">{page.considerations.map((item) => <article><h3>{item.title}</h3><p>{item.description}</p></article>)}</div></div></section>
+
+    <section class="cluster-section cluster-section-light" aria-labelledby="comparison-process-title"><div class="container cluster-split"><div class="cluster-heading cluster-sticky"><p class="cluster-eyebrow">Decision process</p><h2 id="comparison-process-title">Make the choice with real workflow evidence</h2></div><ol class="cluster-process">{page.decisionSteps.map((step) => <li><span>{step.label}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>)}</ol></div></section>
+
+    <section class="cluster-section cluster-faq" aria-labelledby="comparison-faq-title"><div class="container cluster-split"><div class="cluster-heading cluster-sticky"><p class="cluster-eyebrow">Common questions</p><h2 id="comparison-faq-title">Frequently asked questions</h2></div><div class="cluster-faq-list">{page.faqs.map((faq) => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}</div></div></section>
+
+    <section class="comparison-sources" aria-labelledby="comparison-sources-title"><div class="container"><h2 id="comparison-sources-title">Primary documentation consulted</h2><ul>{page.sources.map((source) => <li><a href={source.href} rel="noopener" target="_blank">{source.title}<span class="sr-only"> (opens in a new tab)</span></a></li>)}</ul></div></section>
+
+    <section class="cluster-section cluster-related"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Related decisions</p><h2>Keep evaluating the system</h2></div><div class="cluster-related-grid">{page.related.map((item) => <a href={item.href}><span>{item.label ?? "Related"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>)}</div></div></section>
+    <section class="cluster-final"><div class="container"><p class="cluster-eyebrow">Need a third option?</p><h2>Design the system around the business.</h2><p>Velixon can evaluate the workflow and recommend the simplest maintainable path.</p><div class="cluster-actions"><a class="button" href="/contact/">Schedule a strategy call</a></div></div></section>
+  </main>
+</MainLayout>

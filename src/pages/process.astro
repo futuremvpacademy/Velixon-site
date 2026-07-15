@@ -2,33 +2,17 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import PageHero from "../components/PageHero.astro";
-import ProcessSection from "../components/ProcessSection.astro";
 import CardSection from "../components/CardSection.astro";
 import FinalCtaSection from "../components/FinalCtaSection.astro";
-import { seo, siteContent } from "../data/site";
-
-const { companyName, logo, nav, cta, ctaHref, finalCta, process } = siteContent;
-const page = siteContent.pages.process;
+import { siteContent } from "../data/site";
+const { companyName, logo, nav, cta } = siteContent;
+const stages = [
+  { title: "01 · Discover", description: "We map the business, users, bottlenecks, data, and outcomes the system must support." },
+  { title: "02 · Architect", description: "We define workflows, integrations, permissions, security, and the technical foundation before development." },
+  { title: "03 · Build", description: "We design and engineer the system in focused releases with clear review points." },
+  { title: "04 · Launch", description: "We migrate, test, train, and put the software into real production operation." },
+  { title: "05 · Improve", description: "We measure what works, refine workflows, and expand the system as the business evolves." }
+];
+const finalCta = { eyebrow: "Start with discovery", title: "A reliable system begins with a clear understanding of the operation.", description: "Tell us what is slowing the business down, what needs to connect, and what the system must make possible.", points: ["Operational clarity", "Technical architecture", "A production plan"], primary: "Start the Conversation", primaryHref: "/contact", secondary: "View Solutions", secondaryHref: "/services", helper: "You do not need a finished specification to begin." };
 ---
-
-<MainLayout title={`${seo.title} | Process`} description={seo.description}>
-  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/process" />
-  <main>
-    <PageHero
-      eyebrow={page.hero.eyebrow}
-      title={page.hero.title}
-      description={page.hero.description}
-      cta={cta}
-      ctaHref={ctaHref}
-      helper="You’ll always know the next step, what we need, and how the project is moving."
-    />
-    <ProcessSection process={process} />
-    <CardSection
-      eyebrow="What to expect"
-      title="A process built to keep things moving"
-      description="The goal is to keep decisions clear, communication quick, and the path from idea to launch easy to follow."
-      items={page.details}
-    />
-    <FinalCtaSection cta={finalCta} />
-  </main>
-</MainLayout>
+<MainLayout title="Custom Software Development Process | Velixon" description="See how Velixon discovers, architects, builds, launches, measures, and improves production-ready custom software and AI systems."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/process" /><main id="main-content"><PageHero eyebrow="How Velixon works" title="From operating problem to production software." description="Velixon studies the operation, architects the right system, builds it, launches it, and keeps improving it as the business changes." cta="Build Your System" ctaHref="/contact/" helper="Clear decisions, review points, and production evidence at every stage." /><CardSection eyebrow="Five stages" title="Discover, architect, build, launch, improve" description="Each stage reduces uncertainty and moves the system toward real business use." items={stages} /><FinalCtaSection cta={finalCta} /></main></MainLayout>

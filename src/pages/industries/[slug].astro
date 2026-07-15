@@ -1,0 +1,15 @@
+---
+import ClusterLanding from "../../components/ClusterLanding.astro";
+import { industryLandingPages } from "../../data/seo/industry-landings";
+
+export function getStaticPaths() {
+  return industryLandingPages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page }
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<ClusterLanding page={page} />

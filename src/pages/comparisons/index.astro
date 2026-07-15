@@ -1,0 +1,20 @@
+---
+import DirectoryHub from "../../components/DirectoryHub.astro";
+import { comparisons } from "../../data/seo/comparisons";
+
+const groups = [{
+  title: "Choose the right system deliberately",
+  description: "Evidence-based comparisons for automation platforms, application foundations, AI systems, and operating models.",
+  items: comparisons.map((page) => ({ title: page.headline, description: page.verdict, href: `/comparisons/${page.slug}/`, label: "Comparison" }))
+}];
+---
+
+<DirectoryHub
+  title="AI Automation & Software Comparisons | Velixon"
+  description="Practical comparisons for automation platforms, AI systems, application foundations, and custom business software decisions."
+  eyebrow="Decision library"
+  headline="Compare the tradeoffs before you commit."
+  summary="Clear, technically grounded comparisons focused on business fit, ownership, risk, and long-term maintainability—not affiliate rankings."
+  path="/comparisons/"
+  groups={groups}
+/>

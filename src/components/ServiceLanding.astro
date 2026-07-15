@@ -1,0 +1,309 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "./Navbar.astro";
+import PageHero from "./PageHero.astro";
+import FinalCtaSection from "./FinalCtaSection.astro";
+import { siteContent } from "../data/site";
+import "../styles/service-landing.css";
+
+interface ContentCard {
+  title: string;
+  description: string;
+}
+
+interface ProcessStep extends ContentCard {
+  label: string;
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface RelatedService extends ContentCard {
+  href: string;
+}
+
+interface Props {
+  metaTitle: string;
+  metaDescription: string;
+  imageAlt: string;
+  canonicalPath: string;
+  serviceName: string;
+  serviceType: string;
+  eyebrow: string;
+  headline: string;
+  heroDescription: string;
+  heroHelper: string;
+  overviewTitle: string;
+  overviewLead: string;
+  overviewBody: string;
+  signals: string[];
+  deliverablesTitle: string;
+  deliverablesDescription: string;
+  deliverables: ContentCard[];
+  outcomesTitle: string;
+  outcomesDescription: string;
+  outcomes: ContentCard[];
+  processIntro: string;
+  process: ProcessStep[];
+  fitTitle: string;
+  fitDescription: string;
+  fitSignals: string[];
+  faqs: FaqItem[];
+  relatedServices: RelatedService[];
+  ctaTitle: string;
+  ctaDescription: string;
+  ctaPoints: string[];
+}
+
+const {
+  metaTitle,
+  metaDescription,
+  imageAlt,
+  canonicalPath,
+  serviceName,
+  serviceType,
+  eyebrow,
+  headline,
+  heroDescription,
+  heroHelper,
+  overviewTitle,
+  overviewLead,
+  overviewBody,
+  signals,
+  deliverablesTitle,
+  deliverablesDescription,
+  deliverables,
+  outcomesTitle,
+  outcomesDescription,
+  outcomes,
+  processIntro,
+  process,
+  fitTitle,
+  fitDescription,
+  fitSignals,
+  faqs,
+  relatedServices,
+  ctaTitle,
+  ctaDescription,
+  ctaPoints
+} = Astro.props;
+
+const { companyName, logo, nav, cta } = siteContent;
+const pageUrl = new URL(canonicalPath, "https://velixon.net").toString();
+const serviceSchema = {
+  "@type": "Service",
+  "@id": `${pageUrl}#service`,
+  name: serviceName,
+  serviceType,
+  category: serviceType,
+  url: pageUrl,
+  description: metaDescription,
+  provider: { "@id": "https://velixon.net/#organization" },
+  areaServed: { "@type": "Country", name: "United States" },
+  audience: { "@type": "BusinessAudience", audienceType: "Businesses and growing organizations" },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: `${serviceName} capabilities`,
+    itemListElement: deliverables.map((item) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: item.title,
+        description: item.description
+      }
+    }))
+  }
+};
+const faqSchema = {
+  "@type": "FAQPage",
+  "@id": `${pageUrl}#faq`,
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer
+    }
+  }))
+};
+const finalCta = {
+  eyebrow: "Build with Velixon",
+  title: ctaTitle,
+  description: ctaDescription,
+  points: ctaPoints,
+  primary: "Discuss Your System",
+  primaryHref: "/contact/",
+  secondary: "See How We Work",
+  secondaryHref: "/process/",
+  helper: "You do not need a finished specification. Start with the operational problem."
+};
+---
+
+<MainLayout
+  title={metaTitle}
+  description={metaDescription}
+  imageAlt={imageAlt}
+  schema={[serviceSchema, faqSchema]}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/services/" />
+
+  <main id="main-content" class="service-page">
+    <nav class="service-breadcrumb" aria-label="Breadcrumb">
+      <div class="container">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li aria-current="page">{serviceName}</li>
+        </ol>
+      </div>
+    </nav>
+
+    <PageHero
+      eyebrow={eyebrow}
+      title={headline}
+      description={heroDescription}
+      cta="Discuss Your System"
+      ctaHref="/contact/"
+      secondaryCta="See What's Included"
+      secondaryCtaHref="#deliverables"
+      helper={heroHelper}
+    />
+
+    <section class="service-overview" aria-labelledby="service-overview-title">
+      <div class="container service-overview-grid">
+        <div class="service-section-heading">
+          <p class="eyebrow">The objective</p>
+          <h2 id="service-overview-title">{overviewTitle}</h2>
+        </div>
+
+        <div class="service-overview-copy">
+          <p class="service-lead">{overviewLead}</p>
+          <p>{overviewBody}</p>
+          <ul class="service-signal-list" aria-label="Common reasons to consider this service">
+            {signals.map((signal) => <li>{signal}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="service-content-section" id="deliverables" aria-labelledby="service-deliverables-title">
+      <div class="container">
+        <div class="service-section-heading service-section-heading-wide">
+          <p class="eyebrow">What we build</p>
+          <h2 id="service-deliverables-title">{deliverablesTitle}</h2>
+          <p>{deliverablesDescription}</p>
+        </div>
+
+        <div class="service-deliverable-grid">
+          {deliverables.map((item, index) => (
+            <article class="service-card-detail">
+              <span class="service-card-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="service-content-section service-outcome-section" aria-labelledby="service-outcomes-title">
+      <div class="container">
+        <div class="service-section-heading service-section-heading-wide">
+          <p class="eyebrow">Operational value</p>
+          <h2 id="service-outcomes-title">{outcomesTitle}</h2>
+          <p>{outcomesDescription}</p>
+        </div>
+
+        <div class="service-outcome-grid">
+          {outcomes.map((item) => (
+            <article class="service-outcome-card">
+              <span class="service-outcome-mark" aria-hidden="true"></span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="service-content-section" aria-labelledby="service-process-title">
+      <div class="container service-process-layout">
+        <div class="service-section-heading service-process-heading">
+          <p class="eyebrow">Delivery</p>
+          <h2 id="service-process-title">A clear path from discovery to production</h2>
+          <p>{processIntro}</p>
+          <a class="service-text-link" href="/process/">Explore the full Velixon process <span aria-hidden="true">→</span></a>
+        </div>
+
+        <ol class="service-process-list">
+          {process.map((item) => (
+            <li>
+              <span class="service-process-label">{item.label}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="service-fit-section" aria-labelledby="service-fit-title">
+      <div class="container service-fit-shell">
+        <div class="service-section-heading">
+          <p class="eyebrow">Good fit</p>
+          <h2 id="service-fit-title">{fitTitle}</h2>
+          <p>{fitDescription}</p>
+        </div>
+        <ul class="service-fit-list">
+          {fitSignals.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="service-content-section service-faq-section" aria-labelledby="service-faq-title">
+      <div class="container service-faq-layout">
+        <div class="service-section-heading service-faq-heading">
+          <p class="eyebrow">Questions</p>
+          <h2 id="service-faq-title">Frequently asked questions</h2>
+          <p>Clear answers about scope, technology, ownership, security, and what it takes to begin.</p>
+        </div>
+
+        <div class="service-faq-list">
+          {faqs.map((item) => (
+            <details>
+              <summary>{item.question}<span aria-hidden="true"></span></summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="service-related-section" aria-labelledby="service-related-title">
+      <div class="container">
+        <div class="service-section-heading service-section-heading-wide">
+          <p class="eyebrow">Connected capabilities</p>
+          <h2 id="service-related-title">Build the complete operating system</h2>
+          <p>Most high-value systems combine more than one capability. Explore the services that commonly support this work.</p>
+        </div>
+
+        <div class="service-related-grid">
+          {relatedServices.map((item) => (
+            <a class="service-related-card" href={item.href}>
+              <span class="service-related-label">Related service</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <span class="service-related-action">Explore capability <span aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <FinalCtaSection cta={finalCta} />
+  </main>
+</MainLayout>

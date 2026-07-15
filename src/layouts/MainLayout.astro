@@ -1,19 +1,159 @@
 ---
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
-import { siteContent } from "../data/site";
+import ConsentBanner from "../components/ConsentBanner.astro";
+import { seo, siteContent } from "../data/site";
+import {
+  absoluteUrl,
+  buildBreadcrumbSchema,
+  buildImageSchema,
+  buildOrganizationSchema,
+  buildSchemaGraph,
+  buildWebPageSchema,
+  buildWebsiteSchema,
+  normalizePathname,
+  serializeJsonLd,
+  type SchemaInput
+} from "../lib/schema";
 
 interface Props {
   title?: string;
   description?: string;
+  imageAlt?: string;
+  socialImage?: string;
+  socialImageWidth?: number;
+  socialImageHeight?: number;
+  canonicalPath?: string;
+  noIndex?: boolean;
+  ogType?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  articleSection?: string;
+  breadcrumbLabels?: Record<string, string>;
+  schema?: SchemaInput | SchemaInput[];
 }
 
-const { title, description } = Astro.props;
-const { logo, companyName, footer, footerNav, contactInfo, seo } = siteContent;
-const siteUrl = "https://velixon.net";
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
-const pageTitle = title ?? "Velixon | High-Performance Websites";
+const {
+  title,
+  description,
+  imageAlt = "Velixon custom software, AI systems, and connected business infrastructure",
+  socialImage: socialImagePath = "/og.png",
+  socialImageWidth = 1536,
+  socialImageHeight = 1024,
+  canonicalPath: canonicalPathOverride,
+  noIndex = false,
+  ogType = "website",
+  publishedTime,
+  modifiedTime,
+  articleSection,
+  breadcrumbLabels = {},
+  schema = []
+} = Astro.props;
+const { logo, companyName, footer, footerNav, contactInfo } = siteContent;
+const siteUrl = Astro.site?.origin ?? "https://velixon.net";
+const analyticsId = (import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "").trim();
+const analyticsEnabled = /^G-[A-Z0-9]+$/i.test(analyticsId);
+const searchConsoleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "Jjx9Epy0Nj-SnyQBSlCxcFG0tDAX0Ej-WZJW1kmstGk";
+const canonicalPath = normalizePathname(canonicalPathOverride ?? Astro.url.pathname);
+const canonicalUrl = absoluteUrl(canonicalPath, siteUrl);
+const pageTitle = title ?? seo.title;
 const pageDescription = description ?? seo.description;
+const socialImage = absoluteUrl(socialImagePath, siteUrl);
+const robotsContent = noIndex
+  ? "noindex, follow"
+  : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
+const organizationId = `${siteUrl}/#organization`;
+const websiteId = `${siteUrl}/#website`;
+const imageId = `${canonicalUrl}#primaryimage`;
+const organizationSchema = buildOrganizationSchema({
+  siteUrl,
+  name: companyName,
+  description: seo.description,
+  logoUrl: absoluteUrl(logo, siteUrl),
+  imageUrl: socialImage,
+  email: contactInfo.email,
+  telephone: contactInfo.phone,
+  sameAs: footer.socials.map((social) => social.href),
+  knowsAbout: [
+    "Custom software development",
+    "SaaS platform development",
+    "Artificial intelligence systems",
+    "AI receptionists",
+    "Internal business tools",
+    "Customer portals",
+    "Business infrastructure",
+    "Workflow automation"
+  ]
+});
+const professionalServiceSchema = {
+  "@type": "ProfessionalService",
+  "@id": `${siteUrl}/#professional-service`,
+  name: companyName,
+  url: absoluteUrl("/", siteUrl),
+  description: seo.description,
+  email: contactInfo.email,
+  telephone: contactInfo.phone,
+  areaServed: { "@type": "Country", name: "United States" },
+  parentOrganization: { "@id": organizationId },
+  image: socialImage,
+  priceRange: "Custom scoped engagements"
+};
+const websiteSchema = buildWebsiteSchema({
+  siteUrl,
+  name: companyName,
+  alternateName: "Velixon Software and AI Systems",
+  description: seo.description,
+  organizationId
+});
+const breadcrumbNames: Record<string, string> = {
+  services: "Custom Software Services",
+  solutions: "Business Automation Solutions",
+  industries: "Industries",
+  integrations: "Software Integrations",
+  comparisons: "Software and Automation Comparisons",
+  guides: "AI and Automation Guides",
+  blog: "Velixon Blog",
+  locations: "Service Areas",
+  "case-studies": "Case Studies",
+  "custom-software": "Custom Software Development",
+  "ai-systems": "AI Systems Development",
+  "automation-integrations": "Automation and Integrations",
+  "business-infrastructure": "Business Infrastructure",
+  work: "Software Products and Work",
+  pricing: "Custom Software Engagements",
+  about: "About Velixon",
+  contact: "Contact Velixon",
+  process: "Development Process",
+  results: "Business System Outcomes",
+  resources: "Software and AI Resources",
+  "custom-software-roi-cost": "Custom Software ROI and Cost",
+  "replace-spreadsheets-custom-software": "Replacing Spreadsheets with Custom Software",
+  "high-value-ai-automation-workflows": "High-Value AI Automation Workflows",
+  "custom-software-vs-saas": "Custom Software vs. SaaS",
+  privacy: "Privacy Policy",
+  terms: "Terms of Use",
+  security: "Security Practices",
+  ...breadcrumbLabels
+};
+const breadcrumbSchema = noIndex ? null : buildBreadcrumbSchema({ canonicalUrl, labels: breadcrumbNames });
+const webPageSchema = buildWebPageSchema({
+  canonicalUrl,
+  title: pageTitle,
+  description: pageDescription,
+  websiteId,
+  organizationId,
+  imageId,
+  breadcrumbId: breadcrumbSchema ? `${canonicalUrl}#breadcrumb` : undefined
+});
+const imageSchema = buildImageSchema({
+  id: imageId,
+  url: socialImage,
+  caption: imageAlt,
+  width: socialImageWidth,
+  height: socialImageHeight
+});
+const structuredData = buildSchemaGraph(organizationSchema, professionalServiceSchema, websiteSchema, imageSchema, webPageSchema, breadcrumbSchema, schema);
+const structuredDataJson = serializeJsonLd(structuredData);
 ---
 
 <!doctype html>
@@ -23,24 +163,153 @@ const pageDescription = description ?? seo.description;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="google-site-verification" content="dGkUQvJiuJnXuZ91zKH9JoP3fADKym0_TzAcCa90PtY" />
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
+    <meta name="google-site-verification" content={searchConsoleVerification} />
+    <meta name="author" content="Velixon" />
+    <meta name="application-name" content="Velixon" />
+    <meta name="theme-color" content="#070708" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en-US" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Velixon" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:secure_url" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:width" content={String(socialImageWidth)} />
+    <meta property="og:image:height" content={String(socialImageHeight)} />
+    {ogType === "article" && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {ogType === "article" && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {ogType === "article" && articleSection && <meta property="article:section" content={articleSection} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B68W7DF2RB"></script>
-    <script is:inline>
+    <script is:inline type="application/ld+json" set:html={structuredDataJson}></script>
+    <script is:inline define:vars={{ analyticsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
+
       gtag("js", new Date());
-      gtag("config", "G-B68W7DF2RB");
+      gtag("consent", "default", {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+        wait_for_update: 500
+      });
+
+      (() => {
+        const consentKey = "velixon_analytics_consent";
+        const attributionKey = "velixon_session_attribution";
+        let configured = false;
+
+        const getConsent = () => {
+          try {
+            return localStorage.getItem(consentKey);
+          } catch {
+            return null;
+          }
+        };
+
+        const loadAnalytics = () => {
+          if (!analyticsId) return;
+          if (!document.querySelector("script[data-velixon-analytics]")) {
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`;
+            script.dataset.velixonAnalytics = "true";
+            document.head.appendChild(script);
+          }
+
+          if (!configured) {
+            gtag("config", analyticsId, {
+              allow_google_signals: false,
+              allow_ad_personalization_signals: false
+            });
+            configured = true;
+          }
+        };
+
+        const updateConsent = (choice) => {
+          const granted = choice === "granted";
+          gtag("consent", "update", {
+            analytics_storage: granted ? "granted" : "denied",
+            ad_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied"
+          });
+          try {
+            localStorage.setItem(consentKey, granted ? "granted" : "denied");
+          } catch {
+            // The preference remains active for this page when storage is unavailable.
+          }
+          if (granted) loadAnalytics();
+          window.dispatchEvent(new CustomEvent("velixon:consentchange", { detail: granted ? "granted" : "denied" }));
+        };
+
+        const track = (eventName, parameters = {}) => {
+          if (!analyticsId) return;
+          if (getConsent() !== "granted") return;
+          loadAnalytics();
+          gtag("event", eventName, parameters);
+        };
+
+        window.velixonAnalytics = { getConsent, setConsent: updateConsent, track };
+
+        try {
+          const url = new URL(window.location.href);
+          const campaignKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid"];
+          const campaign = Object.fromEntries(campaignKeys.map((key) => [key, url.searchParams.get(key) || ""]));
+          const existing = sessionStorage.getItem(attributionKey);
+          if (!existing) {
+            sessionStorage.setItem(attributionKey, JSON.stringify({
+              ...campaign,
+              landing_page: `${url.pathname}${url.search}`,
+              referrer: document.referrer || "direct",
+              captured_at: new Date().toISOString()
+            }));
+          }
+        } catch {
+          // Attribution is optional; the inquiry form still works if storage is unavailable.
+        }
+
+        if (getConsent() === "granted") {
+          gtag("consent", "update", {
+            analytics_storage: "granted",
+            ad_storage: "denied",
+            ad_user_data: "denied",
+            ad_personalization: "denied"
+          });
+          loadAnalytics();
+        }
+      })();
     </script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="site-shell">
       <div class="site-content">
         <slot />
@@ -51,8 +320,10 @@ const pageDescription = description ?? seo.description;
         nav={footerNav}
         footer={footer}
         phone={contactInfo.phone}
+        analyticsEnabled={analyticsEnabled}
       />
     </div>
+    <ConsentBanner enabled={analyticsEnabled} />
     <script is:inline>
       (() => {
         const setupCompare = () => {
@@ -74,6 +345,27 @@ const pageDescription = description ?? seo.description;
           });
         };
         setupCompare();
+
+        document.addEventListener("click", (event) => {
+          const link = event.target instanceof Element ? event.target.closest("a") : null;
+          if (!link) return;
+          const href = link.getAttribute("href") || "";
+          const analytics = window.velixonAnalytics;
+          if (!analytics) return;
+
+          if (href.startsWith("tel:")) {
+            analytics.track("contact_click", { contact_method: "phone", page_path: window.location.pathname });
+          } else if (href.startsWith("mailto:")) {
+            analytics.track("contact_click", { contact_method: "email", page_path: window.location.pathname });
+          } else if (link.classList.contains("button") || link.classList.contains("mobile-nav-cta")) {
+            analytics.track("select_content", {
+              content_type: "call_to_action",
+              item_id: href || window.location.pathname,
+              link_text: (link.textContent || "").trim().slice(0, 80),
+              page_path: window.location.pathname
+            });
+          }
+        });
       })();
     </script>
   </body>

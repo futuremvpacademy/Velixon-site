@@ -1,0 +1,155 @@
+---
+import ServiceLanding from "../../components/ServiceLanding.astro";
+
+const deliverables = [
+  {
+    title: "Custom web applications",
+    description: "Secure, responsive applications built for the exact users, permissions, workflows, and data your operation requires."
+  },
+  {
+    title: "SaaS platforms",
+    description: "Subscription software with account management, role-based access, billing connections, reporting, and a foundation that can evolve with the product."
+  },
+  {
+    title: "Customer and partner portals",
+    description: "Self-service experiences where customers, vendors, or partners can submit information, review status, approve work, and access the right records."
+  },
+  {
+    title: "Internal operations software",
+    description: "Purpose-built tools for teams managing leads, jobs, documents, schedules, inventory, approvals, service delivery, or other core operations."
+  },
+  {
+    title: "Dashboards and reporting systems",
+    description: "Decision-ready views that bring operational data together, define reliable metrics, and reduce manual reporting work."
+  },
+  {
+    title: "Legacy software modernization",
+    description: "Measured replacement or improvement of aging systems, with migration planning designed to preserve essential data and business continuity."
+  }
+];
+
+const outcomes = [
+  {
+    title: "Software that matches the workflow",
+    description: "The system reflects how work should move through the business instead of forcing the team into a generic tool's assumptions."
+  },
+  {
+    title: "One dependable source of truth",
+    description: "Permissions, records, status, and reporting live in a deliberate data model rather than scattered spreadsheets and inboxes."
+  },
+  {
+    title: "A foundation that can evolve",
+    description: "Modular architecture makes it practical to improve the product as users, processes, and business priorities change."
+  }
+];
+
+const process = [
+  {
+    label: "01 · Discover",
+    title: "Map the operation and the constraint",
+    description: "We clarify users, workflows, data, edge cases, business rules, risks, and the outcome the software must create."
+  },
+  {
+    label: "02 · Architect",
+    title: "Define the smallest complete system",
+    description: "We shape the product scope, technical architecture, integrations, access model, and release plan before expensive implementation decisions are locked in."
+  },
+  {
+    label: "03 · Build",
+    title: "Engineer in reviewable releases",
+    description: "Design and development move together through focused milestones, with working software reviewed against real operational scenarios."
+  },
+  {
+    label: "04 · Launch",
+    title: "Validate, migrate, and improve",
+    description: "We test production workflows, prepare data and users, deploy the system, and establish the evidence needed for the next improvement."
+  }
+];
+
+const faqs = [
+  {
+    question: "What kinds of custom software does Velixon build?",
+    answer: "Velixon builds web applications, SaaS products, customer portals, internal tools, dashboards, and connected operational systems. The technology and architecture are selected around the users, workflow, integrations, security needs, and long-term product direction."
+  },
+  {
+    question: "How much does custom software development cost?",
+    answer: "Cost depends on scope, user roles, integrations, data complexity, compliance needs, and the level of product design required. Velixon begins by defining the operational problem and the smallest production-ready release, then provides a clear scope before development begins."
+  },
+  {
+    question: "How long does it take to build a custom application?",
+    answer: "The timeline varies with complexity and release strategy. A focused internal tool can move faster than a multi-role SaaS platform with billing, migration, and several integrations. Discovery establishes the milestones, dependencies, and realistic delivery sequence."
+  },
+  {
+    question: "Can new software integrate with our existing tools?",
+    answer: "Usually, yes. Velixon can work with documented APIs, webhooks, data exports, databases, and other supported connection methods. Integration feasibility and failure handling are evaluated during architecture so critical workflows do not depend on brittle assumptions."
+  },
+  {
+    question: "How are security and data access handled?",
+    answer: "Security is addressed through the system design, including authentication, authorization, least-privilege access, input validation, secure data handling, logging, and environment separation. Specific controls are matched to the data, users, and risk profile of the application."
+  },
+  {
+    question: "Can Velixon support the software after launch?",
+    answer: "Yes. Ongoing work can include monitoring, maintenance, issue resolution, performance improvements, feature development, and measured expansion. The appropriate support model is defined around the system's operational importance and release cadence."
+  }
+];
+
+const relatedServices = [
+  {
+    title: "AI Systems",
+    description: "Add carefully governed AI capabilities to customer, team, and data workflows.",
+    href: "/services/ai-automation/"
+  },
+  {
+    title: "Automation & Integrations",
+    description: "Connect the application to the tools and handoffs around it.",
+    href: "/services/workflow-automation/"
+  },
+  {
+    title: "Business Infrastructure",
+    description: "Unify the operational foundation behind customers, jobs, documents, and revenue.",
+    href: "/services/business-infrastructure/"
+  }
+];
+---
+
+<ServiceLanding
+  metaTitle="Custom Software Development Services | Velixon"
+  metaDescription="Velixon designs and builds custom web applications, SaaS platforms, customer portals, dashboards, and internal tools around your operation."
+  imageAlt="Velixon custom software development for web applications, SaaS platforms, portals, and internal tools"
+  canonicalPath="/services/custom-software/"
+  serviceName="Custom Software Development"
+  serviceType="Custom application and product development"
+  eyebrow="Custom software development"
+  headline="Custom software built around your business."
+  heroDescription="Velixon designs and engineers web applications, SaaS platforms, customer portals, dashboards, and internal tools that fit the operation instead of forcing the operation to fit the software."
+  heroHelper="Product strategy, UX, architecture, engineering, integration, launch, and continued improvement."
+  overviewTitle="Turn a critical workflow into reliable software."
+  overviewLead="Custom software makes sense when the way your company creates value cannot be reduced to a generic template."
+  overviewBody="We begin with the operating reality: who does the work, what information moves between people and systems, where decisions happen, and what must never fail. That understanding becomes a focused product plan and a maintainable production system—not a collection of disconnected features."
+  signals={[
+    "A core workflow depends on spreadsheets, inboxes, or repeated manual entry.",
+    "Off-the-shelf products require too many compromises or expensive workarounds.",
+    "Customers or employees need a clearer, faster way to complete important work."
+  ]}
+  deliverablesTitle="Application development from product definition through launch"
+  deliverablesDescription="Each engagement is shaped around the business case. These are the systems Velixon most often combines into a complete software product."
+  {deliverables}
+  outcomesTitle="More than a new interface"
+  outcomesDescription="The goal is durable operational improvement: clearer work, better data, fewer gaps, and software the business can continue to build on."
+  {outcomes}
+  processIntro="Custom application development works best when product decisions and technical decisions stay connected. Velixon reduces risk through clear architecture, reviewable releases, and production validation."
+  {process}
+  fitTitle="When custom application development is the right investment"
+  fitDescription="The strongest opportunities have a valuable operational problem, real users, and a clear reason that existing software is not enough."
+  fitSignals={[
+    "The workflow is central to revenue, service delivery, customer experience, or decision-making.",
+    "The current process creates measurable delay, rework, risk, or lost visibility.",
+    "Your team can identify the users and subject-matter experts needed to shape the product.",
+    "You want a maintainable system and a long-term product foundation—not a disposable prototype."
+  ]}
+  {faqs}
+  {relatedServices}
+  ctaTitle="Build software that becomes an advantage."
+  ctaDescription="Bring the workflow, the constraint, and the outcome you need. Velixon will help define the clearest production system forward."
+  ctaPoints={["Product strategy", "Production engineering", "Long-term evolution"]}
+/>

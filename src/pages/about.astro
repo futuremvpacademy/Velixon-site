@@ -3,38 +3,15 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import PageHero from "../components/PageHero.astro";
 import CardSection from "../components/CardSection.astro";
-import WhyVelixonSection from "../components/WhyVelixonSection.astro";
-import ClosingCtaSection from "../components/ClosingCtaSection.astro";
-import { seo, siteContent } from "../data/site";
-
-const { companyName, logo, nav, cta, ctaHref, whyVelixon, closingCta } = siteContent;
-const page = siteContent.pages.about;
+import FinalCtaSection from "../components/FinalCtaSection.astro";
+import { siteContent } from "../data/site";
+const { companyName, logo, nav, cta } = siteContent;
+const principles = [
+  { title: "Business first", description: "We begin with the operation, customer, and outcome before choosing technology." },
+  { title: "Complete systems", description: "We connect the application, data, AI, payments, communication, and workflow instead of optimizing one isolated step." },
+  { title: "Built to last", description: "Maintainability, security, performance, and clear ownership are part of the architecture from day one." },
+  { title: "Products of our own", description: "FormEsque and ShareCal keep Velixon close to the realities of building and evolving real software products." }
+];
+const finalCta = { eyebrow: "Smarter Systems. Better Business.", title: "Build software that becomes an advantage—not another tool to manage.", description: "Velixon is ready to become the product and engineering partner behind your next operating system.", points: ["Custom software", "Applied AI", "Connected infrastructure"], primary: "Build Your System", primaryHref: "/contact", secondary: "Explore Our Work", secondaryHref: "/work", helper: "Start with the business problem. We will help define the system." };
 ---
-
-<MainLayout title={`${seo.title} | About`} description={seo.description}>
-  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/about" />
-  <main>
-    <PageHero
-      eyebrow={page.hero.eyebrow}
-      title={page.hero.title}
-      description={page.hero.description}
-      cta={cta}
-      ctaHref={ctaHref}
-      helper="A focused, premium web design approach built around what small businesses actually need."
-    />
-    <CardSection
-      eyebrow="The story"
-      title="Why Velixon exists"
-      description="Small businesses deserve websites that look more professional, feel easier to trust, and don’t come with agency-style friction."
-      items={page.story}
-    />
-    <WhyVelixonSection whyVelixon={whyVelixon} />
-    <CardSection
-      eyebrow="What makes it different"
-      title="A cleaner process with more practical value"
-      description="The difference is simple: premium presentation, clearer pricing, faster communication, and websites built to support real business growth."
-      items={page.difference}
-    />
-    <ClosingCtaSection cta={closingCta} />
-  </main>
-</MainLayout>
+<MainLayout title="About Velixon | Software, AI & Business Systems" description="Velixon is a software and AI company building custom client systems and products including FormEsque and ShareCal."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/about" /><main id="main-content"><PageHero eyebrow="About Velixon" title="A software company built around real business operations." description="Velixon builds custom systems for clients while developing products of its own. That combination brings product thinking, operational understanding, and engineering discipline to every engagement." cta="Build Your System" ctaHref="/contact/" helper="Software · AI systems · Business infrastructure" /><CardSection eyebrow="How we think" title="The system should reduce work—not create more of it" description="We build around long-term business value, not the novelty of a tool or trend." items={principles} /><FinalCtaSection cta={finalCta} /></main></MainLayout>

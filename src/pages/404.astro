@@ -1,0 +1,28 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import { siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta } = siteContent;
+---
+
+<MainLayout
+  title="Page Not Found | Velixon"
+  description="The requested Velixon page could not be found. Explore custom software, AI systems, products, and connected business infrastructure."
+  noIndex={true}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} />
+  <main id="main-content">
+    <PageHero
+      eyebrow="404 · Page not found"
+      title="This page is not part of the system."
+      description="The address may have changed. Return to Velixon or explore the custom software and AI systems we build."
+      cta="Return Home"
+      ctaHref="/"
+      secondaryCta="Explore Solutions"
+      secondaryCtaHref="/services/"
+      helper="If you were looking for a specific project or product, contact Velixon and we will point you in the right direction."
+    />
+  </main>
+</MainLayout>

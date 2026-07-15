@@ -1,0 +1,155 @@
+---
+import ServiceLanding from "../../components/ServiceLanding.astro";
+
+const deliverables = [
+  {
+    title: "CRM and customer data architecture",
+    description: "A deliberate customer record, lifecycle, ownership model, and history that support sales, service, communication, and reporting."
+  },
+  {
+    title: "Scheduling and job operations",
+    description: "Connected availability, assignment, dispatch, status, notes, files, and customer communication designed around how work is delivered."
+  },
+  {
+    title: "Proposals, approvals, and signatures",
+    description: "Structured creation, delivery, acceptance, signing, version history, and downstream status changes tied to the correct opportunity or job."
+  },
+  {
+    title: "Billing and payment workflows",
+    description: "Reliable handoffs from approved work to invoices, payment status, receipts, reconciliation, and the operational records that depend on them."
+  },
+  {
+    title: "Reporting and decision systems",
+    description: "Shared definitions, trusted data pipelines, dashboards, and exception views that let leaders understand performance without manual assembly."
+  },
+  {
+    title: "Permissions, history, and governance",
+    description: "Role-based access, audit-friendly events, retention decisions, backups, and administrative controls appropriate to the system and its data."
+  }
+];
+
+const outcomes = [
+  {
+    title: "One connected operating flow",
+    description: "Customer, job, document, invoice, and status information stay linked as work moves from first contact through delivery and payment."
+  },
+  {
+    title: "Clearer ownership and visibility",
+    description: "Teams can see what is waiting, what changed, who is responsible, and which exceptions need attention."
+  },
+  {
+    title: "Infrastructure ready for improvement",
+    description: "Reliable data and system boundaries create a stronger base for automation, AI, reporting, and future custom software."
+  }
+];
+
+const process = [
+  {
+    label: "01 · Audit",
+    title: "Map systems, records, and ownership",
+    description: "We identify tools, duplicate data, lifecycle states, handoffs, permissions, reporting definitions, and the failure points that affect daily operation."
+  },
+  {
+    label: "02 · Design",
+    title: "Define the operating architecture",
+    description: "We establish systems of record, shared identifiers, integration boundaries, lifecycle rules, access controls, and a practical migration sequence."
+  },
+  {
+    label: "03 · Implement",
+    title: "Connect the highest-value flow first",
+    description: "Work is delivered in controlled stages so teams can validate the new process and business continuity is protected."
+  },
+  {
+    label: "04 · Operate",
+    title: "Monitor, document, and expand",
+    description: "We verify real production behavior, establish support and recovery practices, and improve the infrastructure as the company changes."
+  }
+];
+
+const faqs = [
+  {
+    question: "What does business infrastructure mean in software?",
+    answer: "Business infrastructure is the connected foundation behind customer, sales, scheduling, service, document, billing, payment, reporting, and administrative workflows. It includes systems of record, data models, permissions, integrations, lifecycle rules, and the custom software needed to make the operation work as one."
+  },
+  {
+    question: "Do we have to replace all of our current tools?",
+    answer: "No. A strong architecture keeps tools that are effective and support dependable integration. Velixon identifies where existing software should remain, where configuration or connection is enough, and where a focused custom system would remove an important limitation."
+  },
+  {
+    question: "How do you decide which system is the source of truth?",
+    answer: "The decision is based on which system owns a record or lifecycle, who is authorized to change it, how downstream tools use it, and what recovery or audit requirements exist. Clear ownership prevents two systems from making conflicting decisions about the same data."
+  },
+  {
+    question: "Can existing customer and operational data be migrated?",
+    answer: "Usually, yes, if the source data can be exported or accessed. Migration planning includes profiling, cleanup rules, field mapping, identifiers, validation, reconciliation, backup, and rollback considerations. The approach depends on data quality and the operational cost of interruption."
+  },
+  {
+    question: "How do you handle permissions and audit history?",
+    answer: "Velixon defines roles and permissions around job responsibilities, applies least-privilege access, and identifies which events need durable history. Sensitive actions, retention, administrative access, and recovery requirements are designed according to the system's risk and business context."
+  },
+  {
+    question: "Can business infrastructure be modernized in phases?",
+    answer: "Yes, and phased delivery is often safer. Velixon identifies a valuable end-to-end workflow, establishes the necessary data and integration foundation, validates it in production, and then expands to adjacent processes without attempting a disruptive all-at-once replacement."
+  }
+];
+
+const relatedServices = [
+  {
+    title: "Custom Software Development",
+    description: "Build the applications and portals that teams and customers use on top of the infrastructure.",
+    href: "/services/custom-software/"
+  },
+  {
+    title: "AI Systems",
+    description: "Use governed operational data to support useful AI reception, knowledge, and decision workflows.",
+    href: "/services/ai-automation/"
+  },
+  {
+    title: "Automation & Integrations",
+    description: "Connect systems of record and make information move reliably across the operation.",
+    href: "/services/workflow-automation/"
+  }
+];
+---
+
+<ServiceLanding
+  metaTitle="Business Systems & Digital Infrastructure | Velixon"
+  metaDescription="Unify CRM, scheduling, proposals, signatures, billing, payments, reporting, and customer data in one connected business system."
+  imageAlt="Velixon connected business systems and digital infrastructure for customers, jobs, documents, billing, and reporting"
+  canonicalPath="/services/business-infrastructure/"
+  serviceName="Business Systems and Digital Infrastructure"
+  serviceType="Connected business systems and operational infrastructure"
+  eyebrow="Business infrastructure"
+  headline="One connected system behind the operation."
+  heroDescription="Velixon connects CRM, scheduling, proposals, signatures, billing, payments, reporting, customer data, and administrative controls into a coherent business infrastructure."
+  heroHelper="System architecture, data ownership, custom applications, integrations, migration, permissions, and operational reliability."
+  overviewTitle="Replace the patchwork with a deliberate operating foundation."
+  overviewLead="A company cannot automate, report, or scale reliably when every tool holds a different version of the customer, job, document, or transaction."
+  overviewBody="Velixon designs the system around the complete lifecycle of work. We define which records matter, where they belong, how they change, who can access them, and how connected tools should respond. The result can combine strong existing platforms with custom software where the operation needs something more specific."
+  signals={[
+    "Customer, job, document, and billing information is duplicated across unrelated systems.",
+    "Teams cannot see a complete operational history or agree on current status.",
+    "Reporting requires manual reconciliation because systems use inconsistent definitions."
+  ]}
+  deliverablesTitle="The systems behind a dependable customer and operating lifecycle"
+  deliverablesDescription="Velixon connects records, workflows, permissions, and transactions so the business can operate from a consistent foundation."
+  {deliverables}
+  outcomesTitle="Infrastructure that makes the entire company easier to run"
+  outcomesDescription="Connected systems create value across sales, service, finance, customer experience, reporting, and every future automation built on top."
+  {outcomes}
+  processIntro="Infrastructure modernization is sequenced around business continuity. Velixon first clarifies data and ownership, then implements the highest-value connected workflow without forcing an unnecessary all-at-once replacement."
+  {process}
+  fitTitle="When the business has outgrown its software patchwork"
+  fitDescription="Infrastructure work is most valuable when disconnected systems now limit visibility, customer experience, or the company's ability to improve."
+  fitSignals={[
+    "Multiple teams maintain different versions of the same customer or operational information.",
+    "No single system represents the full lifecycle from opportunity through delivery and payment.",
+    "Critical knowledge lives with individuals because the system does not preserve enough context or history.",
+    "Leadership needs trusted reporting and a stable foundation for automation, AI, or new digital products."
+  ]}
+  {faqs}
+  {relatedServices}
+  ctaTitle="Design the system your business can grow on."
+  ctaDescription="Bring the tools, handoffs, and records that no longer work together. Velixon will map the operating architecture and the safest path forward."
+  ctaPoints={["Connected data", "Clear ownership", "Scalable operations"]}
+/>

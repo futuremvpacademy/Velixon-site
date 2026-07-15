@@ -1,0 +1,210 @@
+---
+import ResourceLayout from "../../components/ResourceLayout.astro";
+
+const related = [
+  {
+    title: "When to Replace Spreadsheets with Custom Software",
+    description: "Stabilize the process and source of truth before adding intelligent automation.",
+    href: "/resources/replace-spreadsheets-custom-software/",
+    category: "Operations"
+  },
+  {
+    title: "Custom Software ROI: A Practical Cost and Value Guide",
+    description: "Connect automation benefits to total cost, measurable outcomes, risk, and payback.",
+    href: "/resources/custom-software-roi-cost/",
+    category: "Investment planning"
+  },
+  {
+    title: "Custom Software vs. SaaS: A Decision Guide",
+    description: "Choose whether an AI capability should be bought, configured, integrated, or built.",
+    href: "/resources/custom-software-vs-saas/",
+    category: "Technology strategy"
+  }
+];
+
+const faqs = [
+  {
+    question: "Which business processes are best for AI automation?",
+    answer: "Strong candidates are frequent, time-consuming workflows involving language, documents, conversations, classification, retrieval, or drafting. They also need accessible context, a clear definition of a useful output, measurable business value, and a safe way to handle uncertain results. High volume alone is not enough."
+  },
+  {
+    question: "How do you prioritize AI automation opportunities?",
+    answer: "Score each workflow on business impact, frequency, user friction, output clarity, data readiness, integration feasibility, error consequence, and adoption effort. Validate the highest-ranking opportunities with real examples before investing in a production implementation."
+  },
+  {
+    question: "Should AI automation always keep a human in the loop?",
+    answer: "Not always, but the level of human control should match the consequence and reversibility of an error. High-impact decisions may require approval, while low-risk classification or drafting can use sampling, confidence thresholds, or exception review. The control model should be explicit before launch."
+  }
+];
+---
+
+<ResourceLayout
+  title="Find High-Value AI Automation Workflows | Velixon"
+  description="Use a practical framework to identify, score, pilot, and measure valuable AI automation workflows while managing data, reliability, and risk."
+  headline="How to Identify High-Value AI Automation Workflows"
+  summary="The best AI opportunity is rarely the most impressive demo. It is a recurring business workflow where intelligence can remove friction, improve a decision, or increase capacity—and where success can be measured safely."
+  slug="high-value-ai-automation-workflows"
+  category="Applied AI"
+  readTime="13 minute read"
+  topics={["AI automation", "Workflow automation", "AI strategy", "Applied AI"]}
+  toc={[
+    { id: "start-with-work", label: "Start with the work" },
+    { id: "workflow-inventory", label: "Build an inventory" },
+    { id: "opportunity-patterns", label: "Opportunity patterns" },
+    { id: "scoring-model", label: "Score candidates" },
+    { id: "data-readiness", label: "Evaluate data" },
+    { id: "control-model", label: "Design controls" },
+    { id: "pilot", label: "Run a decision-grade pilot" },
+    { id: "production", label: "Prepare for production" },
+    { id: "frequently-asked-questions", label: "Frequently asked questions" }
+  ]}
+  takeaways={[
+    "Begin with a costly or constrained workflow, not a model or feature.",
+    "Prioritize opportunities where the output is useful, the context is accessible, the value is measurable, and failures can be controlled.",
+    "Use AI for the parts that require interpretation and deterministic software for rules, permissions, transactions, and auditability.",
+    "A pilot should test business performance and operational fit—not only whether the model can produce a plausible answer."
+  ]}
+  related={related}
+  faqs={faqs}
+>
+  <h2 id="start-with-work">Start with the work—not the AI</h2>
+  <p>Organizations often begin AI planning by asking where a model could be added. That produces ideas, but not necessarily valuable systems. Begin with work that is slow, repetitive, inconsistent, difficult to staff, or constrained by the amount of information a person can review.</p>
+  <p>Describe the workflow without mentioning AI. What triggers it? Who participates? What information do they need? What judgment is applied? What action follows? What makes the result good or bad? This prevents the technology from hiding an unclear process.</p>
+  <p>Then isolate the step where language, documents, conversations, images, patterns, or unstructured context create friction. AI is often useful at that boundary. Conventional software should continue to handle deterministic rules, permissions, calculations, records, and system actions.</p>
+
+  <div class="resource-callout">
+    <h3>A strong opportunity statement</h3>
+    <p><strong>When [trigger] occurs, [role] spends [effort or delay] using [information] to produce [decision or output]. Improving this step would affect [business outcome], and quality can be evaluated by [measure].</strong></p>
+    <p>Example: when a service inquiry arrives, an operations coordinator reviews the message and attachments, identifies the work type and urgency, checks for missing information, and routes it. Faster accurate triage could shorten response time; quality can be evaluated against experienced coordinators.</p>
+  </div>
+
+  <h2 id="workflow-inventory">Build a workflow inventory from operational evidence</h2>
+  <p>Ask managers and frontline users where work accumulates, which tasks require repetitive reading or writing, and which decisions are delayed because context is scattered. Support queues, inboxes, call logs, document libraries, quality reviews, and process maps can reveal opportunities that brainstorming misses.</p>
+  <p>For each candidate, capture:</p>
+  <ul>
+    <li><strong>Trigger and outcome:</strong> what starts the workflow and what useful result completes it</li>
+    <li><strong>Frequency and variability:</strong> how often it happens and how different cases can be</li>
+    <li><strong>Current effort:</strong> hands-on time, waiting time, rework, and expert involvement</li>
+    <li><strong>Required context:</strong> documents, messages, records, policies, history, and external facts</li>
+    <li><strong>Judgment:</strong> what must be interpreted and what rules are deterministic</li>
+    <li><strong>Failure consequence:</strong> what happens if the output is incomplete, wrong, delayed, or exposed</li>
+    <li><strong>Next action:</strong> who or what consumes the result</li>
+    <li><strong>Success measure:</strong> how quality and business value can be evaluated</li>
+  </ul>
+  <p>Keep the inventory at the workflow level. “Add an assistant” is too broad; “draft a response using the customer record and approved knowledge, then route uncertain cases for review” is specific enough to assess.</p>
+
+  <h2 id="opportunity-patterns">Look for repeatable opportunity patterns</h2>
+
+  <h3>Intake, classification, and routing</h3>
+  <p>AI can interpret incoming emails, forms, calls, documents, or messages; extract relevant facts; classify the request; identify missing information; and propose the next destination. Deterministic checks should validate required fields and execute the routing.</p>
+
+  <h3>Document and data extraction</h3>
+  <p>Invoices, applications, proposals, contracts, inspection notes, and other documents often contain information that employees manually re-enter. A useful system extracts candidate values, validates them against business rules, and directs ambiguous records to review.</p>
+
+  <h3>Knowledge retrieval and response support</h3>
+  <p>Employees may spend time searching policies, product information, prior work, customer history, or technical documentation. AI can retrieve relevant context and prepare an answer with traceable references. Access control must apply to retrieval as well as the final response.</p>
+
+  <h3>Drafting and transformation</h3>
+  <p>Strong candidates include turning structured notes into a customer update, preparing a first-draft proposal, adapting approved content to a channel, summarizing a case, or converting a conversation into tasks. Drafting keeps a person in control while reducing blank-page work.</p>
+
+  <h3>Conversation and voice workflows</h3>
+  <p>AI can answer common questions, capture caller intent, collect information, schedule within defined rules, or transfer with useful context. The system needs clear disclosure, escalation, latency targets, identity handling, and a safe path when the conversation moves beyond its authority.</p>
+
+  <h3>Monitoring and exception detection</h3>
+  <p>AI can review activity, communications, or records for patterns that deserve attention. It should surface evidence and recommended action rather than silently making high-consequence decisions.</p>
+
+  <h2 id="scoring-model">Score value, feasibility, and control together</h2>
+  <p>Prioritization should prevent an exciting but fragile use case from outranking a less glamorous workflow with greater business value. Score each dimension on the same scale and record the evidence behind the score.</p>
+
+  <div class="resource-table-wrap" role="region" tabindex="0" aria-label="AI automation opportunity scoring model">
+    <table class="resource-table">
+      <thead>
+        <tr><th scope="col">Dimension</th><th scope="col">A stronger candidate has</th><th scope="col">Evidence to collect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Business impact</td><td>A clear link to capacity, speed, revenue, quality, or risk</td><td>Baseline cost, delay, error, conversion, or service measure</td></tr>
+        <tr><td>Frequency</td><td>Enough recurring work for improvement to compound</td><td>Cases by week or month and expected growth</td></tr>
+        <tr><td>Output clarity</td><td>A useful result that experienced people can recognize</td><td>Examples, rubrics, approved outcomes, disagreement analysis</td></tr>
+        <tr><td>Context readiness</td><td>Accessible, relevant, permissioned information</td><td>Source inventory, ownership, freshness, access method</td></tr>
+        <tr><td>Integration feasibility</td><td>A practical way to receive inputs and deliver actions</td><td>API access, event availability, identity and workflow constraints</td></tr>
+        <tr><td>Controllability</td><td>Errors that are detectable, reversible, or reviewable</td><td>Approval points, confidence thresholds, rollback path</td></tr>
+        <tr><td>Adoption fit</td><td>A result that fits the user's real work</td><td>User interviews, process observation, pilot participation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="resource-formula">
+    <p>Priority should rise with impact, frequency, readiness, and controllability—and fall as consequence, ambiguity, and adoption effort increase.</p>
+  </div>
+
+  <p>Do not let a single numeric score make the decision. Use it to organize discussion and expose assumptions. A candidate with high impact and high consequence may still be valuable, but it likely needs stronger evidence and controls.</p>
+
+  <h2 id="data-readiness">Evaluate whether the system can access trustworthy context</h2>
+  <p>AI does not repair unclear ownership or inaccessible information. A workflow may look ideal until the team discovers that policies conflict, customer records are incomplete, permissions are not modeled, or the necessary history lives in personal inboxes.</p>
+
+  <h3>Ask six data-readiness questions</h3>
+  <ol>
+    <li><strong>Availability:</strong> can the system access the information when the workflow runs?</li>
+    <li><strong>Authority:</strong> which source should win when records disagree?</li>
+    <li><strong>Quality:</strong> is the content accurate enough for the intended use?</li>
+    <li><strong>Freshness:</strong> how quickly must changes become available?</li>
+    <li><strong>Permission:</strong> may this user and this process access the information?</li>
+    <li><strong>Evaluation:</strong> do representative examples exist for testing output quality?</li>
+  </ol>
+  <p>Data readiness does not require a perfect warehouse. It requires enough reliable, governed context for the bounded workflow. Sometimes the first valuable project is improving capture and ownership rather than deploying AI.</p>
+
+  <h2 id="control-model">Match the control model to the consequence of error</h2>
+  <p>An AI system should have defined authority. Specify what it may draft, recommend, change, send, approve, purchase, schedule, or disclose. The control model should consider consequence, reversibility, detectability, urgency, and user expectation.</p>
+
+  <div class="resource-table-wrap" role="region" tabindex="0" aria-label="AI automation control levels">
+    <table class="resource-table">
+      <thead>
+        <tr><th scope="col">Control pattern</th><th scope="col">Good fit</th><th scope="col">Typical safeguard</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Draft only</td><td>Messages, summaries, plans, or content where a user owns the final result</td><td>Required review before use</td></tr>
+        <tr><td>Recommend</td><td>Prioritization, routing, or decisions where evidence helps a person act</td><td>Show reasoning context and allow override</td></tr>
+        <tr><td>Act with confirmation</td><td>Defined actions that are important but easily understood</td><td>Preview the action and require approval</td></tr>
+        <tr><td>Act within limits</td><td>Frequent, low-consequence work with clear boundaries</td><td>Policies, validation, confidence thresholds, exception queues</td></tr>
+        <tr><td>Autonomous routine</td><td>Well-tested, reversible actions with strong monitoring</td><td>Audit trail, sampling, alerts, rollback, rate limits</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Use conventional application code to enforce non-negotiable rules. For example, AI may interpret a request and suggest a category, while the application verifies permissions, validates required fields, and controls which downstream action is allowed.</p>
+
+  <h2 id="pilot">Run a decision-grade pilot</h2>
+  <p>A prototype shows that an experience is possible. A decision-grade pilot shows whether the workflow can create value under representative conditions. Use real examples that cover ordinary work, difficult cases, incomplete inputs, conflicting context, and sensitive scenarios.</p>
+
+  <h3>Define success before testing</h3>
+  <p>Choose a small set of quality and business measures. Quality might include extraction accuracy, correct routing, completeness, reviewer agreement, or unsupported claims. Business measures might include handling time, response time, cases completed, escalation rate, rework, or user adoption.</p>
+
+  <h3>Compare against the current process</h3>
+  <p>A model can look impressive and still fail to improve the operation. Compare the assisted workflow with the current workflow using similar cases. Include the time required to review, correct, and operate the system.</p>
+
+  <h3>Record failure patterns</h3>
+  <p>Do not average away serious errors. Group failures by cause: missing context, ambiguous input, retrieval failure, instruction conflict, invalid action, policy boundary, or user-interface problem. The pattern determines whether better data, workflow design, guardrails, or a different approach is needed.</p>
+
+  <div class="resource-callout">
+    <h3>A pilot should answer four decisions</h3>
+    <ol>
+      <li>Does the assisted workflow improve the target business measure?</li>
+      <li>Is the output reliable enough for the planned level of authority?</li>
+      <li>Can the system access and protect the required context?</li>
+      <li>Will users adopt the workflow with acceptable operational overhead?</li>
+    </ol>
+  </div>
+
+  <h2 id="production">Prepare for the complete production system</h2>
+  <p>The model is one component. Production value depends on the application around it: identity, permissions, data access, integrations, prompts and policies, logging, evaluation, cost controls, monitoring, exception handling, and user experience.</p>
+  <ul class="resource-checklist">
+    <li>Define ownership for the workflow, data, model behavior, and operational support.</li>
+    <li>Version the instructions, tools, and evaluation set used by the system.</li>
+    <li>Log enough context to investigate outcomes without exposing unnecessary sensitive data.</li>
+    <li>Monitor quality, latency, availability, usage, cost, overrides, and exceptions.</li>
+    <li>Create a clear fallback when AI or a connected system is unavailable.</li>
+    <li>Test permissions and adversarial or unexpected inputs before expanding authority.</li>
+    <li>Re-evaluate performance when data, policies, models, or workflows change.</li>
+  </ul>
+  <p>The strongest first project is bounded enough to control but important enough to matter. Once it works in the real operation, the architecture and operating discipline can support the next automation opportunity.</p>
+</ResourceLayout>

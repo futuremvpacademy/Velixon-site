@@ -1,9 +1,12 @@
 ---
 interface CardItem {
+  id?: string;
   title: string;
   description: string;
   meta?: string;
   outcome?: string;
+  href?: string;
+  linkLabel?: string;
 }
 
 interface Props {
@@ -27,11 +30,12 @@ const { eyebrow, title, description, items } = Astro.props;
     <div class="detail-grid">
       {
         items.map((item) => (
-          <article class="detail-card">
+          <article class="detail-card" id={item.id}>
             {item.meta && <p class="detail-meta">{item.meta}</p>}
             <h3>{item.title}</h3>
             <p>{item.description}</p>
             {item.outcome && <p class="detail-outcome">{item.outcome}</p>}
+            {item.href && <a class="detail-link" href={item.href}>{item.linkLabel ?? `Explore ${item.title}`}<span aria-hidden="true"> →</span></a>}
           </article>
         ))
       }

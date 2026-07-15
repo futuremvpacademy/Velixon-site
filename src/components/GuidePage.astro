@@ -1,0 +1,57 @@
+---
+import ResourceLayout from "./ResourceLayout.astro";
+import type { GuideData } from "../data/seo/types";
+
+interface Props { page: GuideData; }
+const { page } = Astro.props;
+const toc = page.sections.map((section) => ({ id: section.id, label: section.title }));
+const howToSteps = page.sections.flatMap((section) =>
+  (section.steps ?? []).map((step) => ({ section, step }))
+);
+const howToSchema = howToSteps.length > 0 ? {
+  "@type": "HowTo",
+  "@id": `https://velixon.net/guides/${page.slug}/#howto`,
+  name: page.headline,
+  description: page.metaDescription,
+  step: howToSteps.map(({ section, step }, index) => ({
+    "@type": "HowToStep",
+    position: index + 1,
+    name: step.title,
+    text: step.description,
+    url: `https://velixon.net/guides/${page.slug}/#${section.id}`
+  }))
+} : null;
+---
+
+<ResourceLayout
+  title={page.title}
+  description={page.metaDescription}
+  headline={page.headline}
+  summary={page.summary}
+  slug={`guides/${page.slug}`}
+  canonicalPath={`/guides/${page.slug}/`}
+  category={page.category}
+  readTime={page.readTime}
+  topics={page.topics}
+  toc={toc}
+  takeaways={page.takeaways}
+  related={page.related.map((item) => ({ ...item, category: item.label ?? "Related guide" }))}
+  faqs={page.faqs}
+  publishedDate={page.datePublished}
+  modifiedDate={page.dateModified}
+  additionalSchema={howToSchema ? [howToSchema] : []}
+>
+  {page.sections.map((section) => (
+    <section id={section.id}>
+      <h2>{section.title}</h2>
+      {section.answer && <p class="resource-direct-answer"><strong>Short answer:</strong> {section.answer}</p>}
+      {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      {section.bullets && <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}
+      {section.steps && <ol>{section.steps.map((step) => <li><strong>{step.title}:</strong> {step.description}</li>)}</ol>}
+    </section>
+  ))}
+  <section class="resource-sources" aria-labelledby="guide-sources-title">
+    <h2 id="guide-sources-title">Primary sources and further reading</h2>
+    <ul>{page.sources.map((source) => <li><a href={source.href} target="_blank" rel="noopener">{source.title}<span class="sr-only"> (opens in a new tab)</span></a></li>)}</ul>
+  </section>
+</ResourceLayout>

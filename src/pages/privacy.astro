@@ -1,0 +1,150 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import { siteContent } from "../data/site";
+import "../styles/legal.css";
+
+const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
+---
+
+<MainLayout
+  title="Privacy Policy | Velixon Software & AI"
+  description="Read how Velixon collects, uses, protects, and shares information submitted through velixon.net, including contact forms and consent-based analytics."
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/privacy" />
+  <main id="main-content" class="legal-page">
+    <header class="legal-hero">
+      <div class="container legal-hero-inner">
+        <p class="legal-eyebrow">Trust center · Privacy</p>
+        <h1>Privacy should be understandable.</h1>
+        <p class="legal-lede">This policy explains what Velixon collects through this website, why we use it, when we share it, and the choices available to you.</p>
+        <p class="legal-meta">
+          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Applies to:</strong> velixon.net</span>
+        </p>
+
+        <div class="legal-summary" aria-label="Privacy policy summary">
+          <div class="legal-summary-item"><span class="legal-summary-number">01 · YOU DECIDE</span><p>We collect the contact and project information you choose to send us.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">02 · YOUR CHOICE</span><p>Optional Google Analytics does not load unless you grant analytics consent.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">03 · NO DATA SALES</span><p>We do not sell personal information in exchange for money.</p></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container legal-content legal-layout">
+      <nav class="legal-toc" aria-label="Privacy policy contents">
+        <p class="legal-toc-title">On this page</p>
+        <ol>
+          <li><a href="#scope">Scope</a></li>
+          <li><a href="#information">Information we collect</a></li>
+          <li><a href="#use">How we use it</a></li>
+          <li><a href="#sharing">When we share it</a></li>
+          <li><a href="#analytics">Analytics and cookies</a></li>
+          <li><a href="#retention">Retention and security</a></li>
+          <li><a href="#choices">Your choices</a></li>
+          <li><a href="#children">Children's privacy</a></li>
+          <li><a href="#updates">Updates and contact</a></li>
+        </ol>
+      </nav>
+
+      <article class="legal-article" aria-label="Velixon Privacy Policy">
+        <section class="legal-section" id="scope">
+          <p class="legal-section-label">01 · Scope</p>
+          <h2>What this policy covers</h2>
+          <p>This Privacy Policy applies to information collected through velixon.net and direct communications that begin through the website. It does not replace the privacy or data-processing terms in a separate client agreement.</p>
+          <p>Links to other websites, products, or services are governed by their own privacy practices. Velixon does not control those third-party practices.</p>
+        </section>
+
+        <section class="legal-section" id="information">
+          <p class="legal-section-label">02 · Information</p>
+          <h2>Information we collect</h2>
+          <h3>Information you provide</h3>
+          <p>When you submit an inquiry or contact us, we may receive your name, business name, email address, phone number, website address, project type, current project stage, budget range, desired launch window, project goals and details, preferred contact method, and anything else you include in your message.</p>
+          <h3>Inquiry attribution</h3>
+          <p>If you submit an inquiry, the form may include available session-attribution details: UTM campaign parameters, a Google click identifier (gclid) when present, the first landing page, referring page, capture time, and submission page. These values help us understand how the inquiry reached Velixon. They are stored for the browser session and are separate from optional Google Analytics, so available attribution may be submitted with an inquiry even when analytics consent is declined.</p>
+          <h3>Operational website data</h3>
+          <p>Netlify and other infrastructure providers may process limited server and network information needed to deliver and protect the site, such as an IP address, request time, requested page, browser or user-agent information, and error or security events. This operational processing can occur when the site is accessed and is separate from optional Google Analytics.</p>
+          <h3>Optional analytics data</h3>
+          <p>If Velixon enables Google Analytics, it may collect page views, browser and device information, referring pages, approximate region, site interactions, and performance data only after you grant analytics consent. The Google Analytics library does not load before that choice is granted, and it does not load at all when no verified measurement property is configured.</p>
+          <h3>Information from ongoing conversations</h3>
+          <p>If you continue a conversation with us, we may retain the messages, files, requirements, scheduling details, and other business information you provide so we can evaluate or deliver the requested work.</p>
+          <div class="legal-callout">
+            <strong>Please do not send secrets through the website form.</strong>
+            <p>Avoid submitting passwords, payment-card data, government identifiers, health information, or other highly sensitive information unless Velixon has provided an approved secure method.</p>
+          </div>
+        </section>
+
+        <section class="legal-section" id="use">
+          <p class="legal-section-label">03 · Use</p>
+          <h2>How we use information</h2>
+          <p>We use information for legitimate business purposes, including to:</p>
+          <ul>
+            <li>Respond to questions, evaluate project fit, and prepare next steps.</li>
+            <li>Provide, operate, maintain, and improve the website and our services.</li>
+            <li>When optional analytics is configured and consent is granted, understand site traffic, performance, and which content is useful.</li>
+            <li>Protect the website, prevent spam or abuse, and investigate security concerns.</li>
+            <li>Maintain business records and comply with legal obligations.</li>
+            <li>Send service-related communications or marketing you requested or can opt out of.</li>
+          </ul>
+        </section>
+
+        <section class="legal-section" id="sharing">
+          <p class="legal-section-label">04 · Sharing</p>
+          <h2>When information is shared</h2>
+          <p>We may share information with service providers that help host the website, process forms, operate communications, support business systems, deliver professional services, or—when you grant consent—provide analytics. These providers receive only the information reasonably needed for their role.</p>
+          <p>The current website uses Netlify for hosting, operational delivery, server-level protection, and form processing. Google Analytics may be enabled for optional site measurement only when a verified property is configured and analytics consent is granted. Their handling of information is also governed by the <a href="https://www.netlify.com/privacy/">Netlify Privacy Statement</a> and <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
+          <p>We may also disclose information when reasonably necessary to comply with law, protect rights or safety, investigate misuse, or support a merger, financing, acquisition, or sale of all or part of the business. We do not sell personal information in exchange for money.</p>
+        </section>
+
+        <section class="legal-section" id="analytics">
+          <p class="legal-section-label">05 · Analytics</p>
+          <h2>Analytics consent and browser storage</h2>
+          <p>Google Analytics is optional and may be disabled entirely. When a verified measurement property is configured, its library does not load unless you select “Allow analytics.” If you grant consent, Google Analytics may use analytics cookies or similar identifiers to measure visits and interactions. If you decline—or if analytics is not configured—Google Analytics does not load.</p>
+          <p>Advertising storage, advertising user-data storage, and ad-personalization storage remain disabled regardless of your choice. Google signals and advertising-personalization signals are also disabled. Granting analytics consent does not enable advertising features on this website.</p>
+          <p>The site uses local browser storage to remember your analytics choice and session storage to retain the inquiry-attribution details described above during your visit. Those functions are separate from Google Analytics and do not cause it to load.</p>
+          <p>You can review or change your choice at any time through <strong>Analytics preferences</strong> in the website footer. Withdrawing consent applies to future analytics activity; information previously processed may remain subject to the provider's applicable retention practices.</p>
+        </section>
+
+        <section class="legal-section" id="retention">
+          <p class="legal-section-label">06 · Safeguards</p>
+          <h2>Retention and security</h2>
+          <p>We keep information only for as long as reasonably needed for the purposes described here, including responding to inquiries, maintaining business records, resolving disputes, and meeting legal obligations. Retention periods vary by the type and context of the information.</p>
+          <p>Velixon uses reasonable administrative and technical safeguards appropriate to the information and service. No website, transmission, or storage method is completely secure, so we cannot guarantee absolute security. Read more about our approach on the <a href="/security/">Security page</a>.</p>
+        </section>
+
+        <section class="legal-section" id="choices">
+          <p class="legal-section-label">07 · Choices</p>
+          <h2>Your privacy choices</h2>
+          <p>Depending on where you live, applicable law may give you rights to request access, correction, deletion, or a copy of certain personal information, or to object to or restrict some uses. These rights may be subject to exceptions.</p>
+          <p>You can accept, decline, or revisit optional Google Analytics at any time through <strong>Analytics preferences</strong> in the website footer. The website remains available when analytics is declined.</p>
+          <p>To make a request, email <a href={`mailto:${contactInfo.email}?subject=Privacy%20Request`}>{contactInfo.email}</a> with the subject “Privacy Request.” We may need to verify your identity and clarify the scope before completing a request. You may also unsubscribe from marketing email using the link in that message or by contacting us.</p>
+        </section>
+
+        <section class="legal-section" id="children">
+          <p class="legal-section-label">08 · Children</p>
+          <h2>Children's privacy</h2>
+          <p>This website is intended for businesses and adults. It is not directed to children under 13, and Velixon does not knowingly collect personal information from children under 13 through the website. If you believe a child has provided information, contact us so we can review and delete it when appropriate.</p>
+        </section>
+
+        <section class="legal-section" id="updates">
+          <p class="legal-section-label">09 · Updates</p>
+          <h2>Policy updates and contact</h2>
+          <p>We may update this policy as the website, services, or legal requirements change. The effective date above identifies the current version. Material changes will be presented through a reasonable notice on the website when appropriate.</p>
+          <p>Questions about this policy can be sent using the contact details below.</p>
+        </section>
+
+        <aside class="legal-contact" aria-labelledby="privacy-contact-title">
+          <h2 id="privacy-contact-title">Contact Velixon about privacy</h2>
+          <p>Include enough detail for us to understand your request, but do not send sensitive account information by ordinary email.</p>
+          <div class="legal-contact-links">
+            <a href={`mailto:${contactInfo.email}?subject=Privacy%20Question`}>{contactInfo.email}</a>
+            <a href={phoneHref}>{contactInfo.phone}</a>
+            <a href="/contact/">Contact form</a>
+          </div>
+          <div class="legal-related"><strong>Related:</strong> <a href="/terms/">Terms of Use</a><a href="/security/">Security</a></div>
+        </aside>
+      </article>
+    </div>
+  </main>
+</MainLayout>

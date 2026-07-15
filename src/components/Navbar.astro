@@ -10,22 +10,24 @@ interface Props {
   nav: NavItem[];
   cta: string;
   currentPath?: string;
+  replayIntro?: boolean;
 }
 
-const { companyName, logo, nav, cta, currentPath = "/" } = Astro.props;
+const { companyName, logo, nav, cta, currentPath = "/", replayIntro = false } = Astro.props;
+const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
 ---
 
 <header class="site-header">
   <div class="container nav-shell">
-    <a class="brand" href="/" aria-label={`${companyName} home`}>
-      <img class="brand-logo" src={logo} alt={`${companyName} logo`} />
+    <a class="brand" href="/" aria-label={replayIntro ? `Replay the ${companyName} intro` : `${companyName} home`} data-replay-intro={replayIntro ? "" : undefined}>
+      <img class="brand-logo" src={logo} alt={`${companyName} logo`} width="612" height="408" decoding="async" />
       <span class="brand-name">{companyName}</span>
     </a>
 
     <nav class="desktop-nav" aria-label="Primary navigation">
       {
         nav.map((item) => (
-          <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+          <a href={item.href} aria-current={normalizedCurrentPath === (item.href.split("#")[0].replace(/\/$/, "") || "/") ? "page" : undefined}>
             {item.label}
           </a>
         ))
@@ -33,20 +35,47 @@ const { companyName, logo, nav, cta, currentPath = "/" } = Astro.props;
     </nav>
 
     <div class="nav-cta-wrap">
-      <span class="nav-status">Available for projects</span>
-      <a class="button button-small" href="/contact">{cta}</a>
+      <span class="nav-status">AI · Automation · Software</span>
+      <a class="button button-small" href="/contact/">{cta}</a>
     </div>
   </div>
 
   <div class="container mobile-nav-wrap">
-    <nav class="mobile-nav" aria-label="Mobile navigation">
-      {
-        nav.map((item) => (
-          <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
+    <details class="mobile-menu" data-mobile-menu>
+      <summary aria-label="Open navigation menu"><span>Menu</span><i aria-hidden="true"></i></summary>
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        {
+          nav.map((item) => (
+            <a href={item.href} aria-current={normalizedCurrentPath === (item.href.split("#")[0].replace(/\/$/, "") || "/") ? "page" : undefined}>
+              {item.label}<span aria-hidden="true">↗</span>
+            </a>
+          ))
+        }
+        <a class="mobile-nav-cta" href="/contact/">{cta}<span aria-hidden="true">↗</span></a>
+      </nav>
+    </details>
   </div>
 </header>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-mobile-menu]").forEach((menu) => {
+      menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => menu.removeAttribute("open")));
+      menu.addEventListener("toggle", () => {
+        const isOpen = menu.hasAttribute("open");
+        const summary = menu.querySelector("summary");
+        const label = summary?.querySelector("span");
+        document.body.classList.toggle("mobile-menu-open", isOpen);
+        summary?.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+        if (label) label.textContent = isOpen ? "Close" : "Menu";
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      document.querySelectorAll("[data-mobile-menu][open]").forEach((menu) => {
+        menu.removeAttribute("open");
+        menu.querySelector("summary")?.focus();
+      });
+    });
+  })();
+</script>

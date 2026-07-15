@@ -20,22 +20,35 @@ interface Props {
     socials: SocialItem[];
   };
   phone: string;
+  analyticsEnabled?: boolean;
 }
 
-const { logo, companyName, nav, footer, phone } = Astro.props;
+const { logo, companyName, nav, footer, phone, analyticsEnabled = false } = Astro.props;
 const phoneHref = `tel:${phone.replace(/[^0-9+]/g, "")}`;
 ---
 
 <footer class="site-footer">
+  <div class="container footer-conversion">
+    <div class="footer-conversion-copy">
+      <p class="footer-conversion-kicker">Have a workflow worth fixing?</p>
+      <h2>Smarter systems. Better business.</h2>
+      <p>Start with the process creating the most operational drag. Velixon will help determine what should be automated, integrated, or built.</p>
+    </div>
+    <div class="footer-conversion-action">
+      <a class="button" href="/contact/?source=site-footer">Request an Assessment <span aria-hidden="true">↗</span></a>
+      <p>AI automation · Custom software · Business systems</p>
+    </div>
+  </div>
+
   <div class="container footer-shell">
     <div class="footer-brand">
       <div class="footer-brand-top">
-        <img class="footer-brand-logo" src={logo} alt={`${companyName} logo`} />
+        <img class="footer-brand-logo" src={logo} alt={`${companyName} logo`} width="612" height="408" loading="lazy" decoding="async" />
         <p class="footer-title">{companyName}</p>
       </div>
       <p class="footer-description">{footer.blurb}</p>
       <div class="footer-credit-signature">
-        <img class="footer-credit-logo" src={logo} alt={`${companyName} logo`} />
+        <img class="footer-credit-logo" src={logo} alt="" width="612" height="408" loading="lazy" decoding="async" />
         <p class="footer-credit">{footer.designedBy}</p>
       </div>
     </div>
@@ -44,6 +57,16 @@ const phoneHref = `tel:${phone.replace(/[^0-9+]/g, "")}`;
       <p class="footer-heading">Navigate</p>
       <nav class="footer-nav" aria-label="Footer navigation">
         {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+
+    <div class="footer-column">
+      <p class="footer-heading">Trust</p>
+      <nav class="footer-nav" aria-label="Trust and legal navigation">
+        <a href="/security/">Security practices</a>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/terms/">Terms of use</a>
+        {analyticsEnabled && <button class="footer-settings-button" type="button" data-consent-settings>Analytics preferences</button>}
       </nav>
     </div>
 

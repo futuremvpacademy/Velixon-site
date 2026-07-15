@@ -8,35 +8,35 @@ const reviews = [
     name: "Chiggy Combs",
     quote: "Working with Velixon was one of the best decisions I made for my business. They built me a clean, professional website...",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-1.png",
+    avatarSrc: "/images/reviews/review-1.png",
     angle: 280
   },
   {
     name: "Giada Ferrazzano",
     quote: "Velixon did an amazing job creating a website for my How to Be a Latina 101 book. From the beginning, they really...",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-2.png",
+    avatarSrc: "/images/reviews/review-2.png",
     angle: 320
   },
   {
     name: "Mighty Movers",
     quote: "Velixon did a great job helping us through our rebrand at Mighty Movers. They updated our website, improved the overall...",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-3.png",
+    avatarSrc: "/images/reviews/review-3.png",
     angle: 240
   },
   {
     name: "Ready Relocation",
     quote: "Velixon did a wonderful job creating our logo for Ready Relocation. They really understood the vision and delivered...",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-4.png",
+    avatarSrc: "/images/reviews/review-4.png",
     angle: 40
   },
   {
     name: "Geovanny Ibarra",
     quote: "Me hicieron un trabajo excelente y todo quedó bien con mi página web",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-5.png",
+    avatarSrc: "/images/reviews/review-5.png",
     angle: 200
   },
   {
@@ -44,7 +44,7 @@ const reviews = [
     quote:
       "The customer service was exemplary from beginning to end. The team demonstrated utmost professionalism throughout the entire process. I would highly recommend their services to any prospective cli",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-6.png",
+    avatarSrc: "/images/reviews/review-6.png",
     angle: 80
   },
   {
@@ -52,14 +52,14 @@ const reviews = [
     quote:
       "Thanks for helping me design my website! I have seen my sales increase by 25% so far and I expect that number will increase over time!",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-7.png",
+    avatarSrc: "/images/reviews/review-7.png",
     angle: 120
   },
   {
     name: "Jorge Carrizosa",
     quote: "Increíble la atención del lugar. Sin duda muy buena experiencia con la empresa y muy recomendable.",
     stars: 4,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-8.png",
+    avatarSrc: "/images/reviews/review-8.png",
     angle: 160
   },
   {
@@ -67,15 +67,16 @@ const reviews = [
     quote:
       "Velixon did an incredible job building our website for Future MVP Soccer Academy. They created a clean, professional...",
     stars: 5,
-    avatarSrc: "https://69eb15862acb11dae67b4ad1--velixonwebsite.netlify.app/images/reviews/review-9.png",
+    avatarSrc: "/images/reviews/review-9.png",
     angle: 0
   }
 ];
 ---
 
 <MainLayout
-  title="Leave a Review | Velixon"
-  description="Leave a quick Google review for Velixon. Your feedback helps our business grow and helps others trust our services."
+  title="Leave a Review for Velixon"
+  description="Share feedback about your experience working with Velixon."
+  noIndex={true}
 >
   <style is:global>
     .review-page {
@@ -579,7 +580,7 @@ const reviews = [
     }
   </style>
 
-  <main class="review-page">
+  <main class="review-page" id="main-content">
     <section class="review-hero">
       <div class="container review-shell">
         <div class="review-showcase">
@@ -594,7 +595,7 @@ const reviews = [
                 <article class="review-mini-card" style={`--review-angle:${review.angle}deg;`}>
                   <div class="review-mini-card-inner">
                     <div class="review-mini-avatar" aria-hidden="true">
-                      <img src={review.avatarSrc} alt="" loading="lazy" />
+                      <img src={review.avatarSrc} alt="" loading="lazy" width="320" height="320" />
                     </div>
                     <div class="review-mini-body">
                       <div class="review-mini-topline">
@@ -622,7 +623,7 @@ const reviews = [
           </div>
 
           <article class="review-card">
-            <img class="review-logo" src={logo} alt={`${companyName} logo`} />
+            <img class="review-logo" src={logo} alt={`${companyName} logo`} width="640" height="400" />
             <p class="review-brand-label">Velixon</p>
 
             <div class="review-stars" aria-label="5 out of 5 stars">
@@ -657,7 +658,7 @@ const reviews = [
                 Leave a Google Review
               </a>
               <p class="review-helper">Takes less than a minute. We really appreciate it.</p>
-              <a class="review-secondary-link" href="/contact">Having an issue? Contact us directly</a>
+              <a class="review-secondary-link" href="/contact/">Having an issue? Contact us directly</a>
             </div>
           </article>
         </div>

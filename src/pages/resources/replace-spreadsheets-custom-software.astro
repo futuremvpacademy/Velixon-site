@@ -1,0 +1,204 @@
+---
+import ResourceLayout from "../../components/ResourceLayout.astro";
+
+const related = [
+  {
+    title: "Custom Software ROI: A Practical Cost and Value Guide",
+    description: "Build a defensible case for system investment using total cost, measurable value, risk, and scenarios.",
+    href: "/resources/custom-software-roi-cost/",
+    category: "Investment planning"
+  },
+  {
+    title: "Custom Software vs. SaaS: A Decision Guide",
+    description: "Decide whether to configure, integrate, buy, build, or combine approaches.",
+    href: "/resources/custom-software-vs-saas/",
+    category: "Technology strategy"
+  },
+  {
+    title: "How to Identify High-Value AI Automation Workflows",
+    description: "Prioritize automation opportunities after the underlying process and data are understood.",
+    href: "/resources/high-value-ai-automation-workflows/",
+    category: "Applied AI"
+  }
+];
+
+const faqs = [
+  {
+    question: "When should a company replace spreadsheets with custom software?",
+    answer: "Consider replacing a spreadsheet workflow when it is operationally critical, used by several people, difficult to audit, connected to sensitive data, dependent on fragile formulas, or causing repeated delays and errors. The strongest signal is not file size; it is that the workflow needs controlled states, permissions, integrations, and reliable ownership that a spreadsheet was not designed to provide."
+  },
+  {
+    question: "Should every business spreadsheet become an application?",
+    answer: "No. Spreadsheets are excellent for exploration, modeling, temporary processes, and flexible analysis. Replace them only when the business value of a controlled workflow exceeds the cost and change involved in building or adopting a system. Many spreadsheets should remain spreadsheets."
+  },
+  {
+    question: "How do you migrate a spreadsheet process without disrupting operations?",
+    answer: "Map the real workflow, clean and classify the data, define the future source of truth, test migration with representative records, and run a controlled transition. Assign owners for exceptions and reconciliation. Avoid maintaining two editable sources of truth for longer than necessary."
+  }
+];
+---
+
+<ResourceLayout
+  title="Replace Spreadsheets with Custom Software | Velixon"
+  description="Learn when spreadsheet workflows need custom software, how to evaluate the risk, define requirements, migrate data, and plan a safe transition."
+  headline="When to Replace Spreadsheets with Custom Software"
+  summary="Spreadsheets are powerful tools. The problem begins when a flexible file quietly becomes the system responsible for permissions, workflow, customer commitments, reporting, and operational truth."
+  slug="replace-spreadsheets-custom-software"
+  category="Operations"
+  readTime="11 minute read"
+  topics={["Spreadsheet replacement", "Custom software", "Workflow automation", "Data migration"]}
+  toc={[
+    { id: "spreadsheet-or-system", label: "Spreadsheet or system?" },
+    { id: "warning-signs", label: "Warning signs" },
+    { id: "readiness-scorecard", label: "Readiness scorecard" },
+    { id: "system-boundary", label: "Define the boundary" },
+    { id: "requirements", label: "Design the requirements" },
+    { id: "migration-plan", label: "Plan the migration" },
+    { id: "rollout", label: "Roll out safely" },
+    { id: "mistakes", label: "Avoid common mistakes" },
+    { id: "frequently-asked-questions", label: "Frequently asked questions" }
+  ]}
+  takeaways={[
+    "Replace a spreadsheet because the workflow needs stronger control—not because spreadsheets are inherently bad.",
+    "Prioritize criticality, collaboration, auditability, permissions, integration, and failure impact over file size.",
+    "Simplify the process before translating it into software.",
+    "Treat data migration, adoption, and the source-of-truth cutover as core product work."
+  ]}
+  related={related}
+  faqs={faqs}
+>
+  <h2 id="spreadsheet-or-system">Know whether you have a spreadsheet or an unofficial operating system</h2>
+  <p>A spreadsheet is often the fastest responsible way to test a process. It is accessible, flexible, familiar, and easy to change. Many valuable workflows should begin there, and many analytical tasks should remain there.</p>
+  <p>The risk appears when the file takes on responsibilities that require a controlled application: coordinating stages, enforcing permissions, validating records, triggering actions, serving customers, integrating with other systems, or maintaining an authoritative history.</p>
+  <p>Ask a simple question: <strong>If this file were unavailable, incorrect, or changed without explanation, what would happen to the business?</strong> If revenue, delivery, compliance, customer commitments, or leadership decisions would be affected, the workflow deserves a deliberate system review.</p>
+
+  <div class="resource-callout">
+    <h3>Keep the spreadsheet when</h3>
+    <ul>
+      <li>The process is exploratory, temporary, or changing too quickly to formalize</li>
+      <li>One accountable person controls the file and the failure impact is low</li>
+      <li>The primary job is analysis rather than multi-step operational execution</li>
+      <li>Manual flexibility creates more value than enforced workflow</li>
+      <li>A reliable existing product already solves the operational need outside the spreadsheet</li>
+    </ul>
+  </div>
+
+  <h2 id="warning-signs">Look for operational warning signs</h2>
+
+  <h3>Several people edit or copy the same information</h3>
+  <p>Collaboration becomes fragile when users create personal copies, overwrite cells, interpret conventions differently, or work from stale exports. The problem is not collaboration itself; it is the absence of controlled records, roles, and states.</p>
+
+  <h3>The workflow relies on one expert</h3>
+  <p>If only one person understands the formulas, color codes, exceptions, and repair steps, the business has concentrated operational knowledge in a person and a file. Documentation helps, but a critical workflow may need rules made explicit in the system.</p>
+
+  <h3>Errors are discovered downstream</h3>
+  <p>Invalid data, broken formulas, duplicate records, or missing fields often remain invisible until invoicing, fulfillment, reporting, or customer communication. Applications can validate data at entry and prevent invalid state transitions.</p>
+
+  <h3>Status depends on meetings and messages</h3>
+  <p>When employees repeatedly ask “where is this?” or maintain separate status columns, the workflow may need event history, ownership, notifications, and visible queues rather than more formatting.</p>
+
+  <h3>Permissions are all-or-nothing</h3>
+  <p>Operational data may require different views and actions for sales, operations, finance, leadership, contractors, or customers. File-level access rarely expresses those distinctions well.</p>
+
+  <h3>The file is manually synchronized with other systems</h3>
+  <p>Repeated imports, exports, copy-and-paste steps, and reconciliation indicate that the spreadsheet is acting as integration middleware. This creates delay and makes it hard to know which source is authoritative.</p>
+
+  <h3>Historical truth is hard to reconstruct</h3>
+  <p>If the team cannot explain who changed a value, what it was before, why a decision happened, or which version supported a customer commitment, the workflow may need an audit trail and immutable events.</p>
+
+  <h2 id="readiness-scorecard">Use a readiness scorecard instead of reacting to frustration</h2>
+  <p>Evaluate each dimension as low, medium, or high. A single high-risk category may justify action, while several medium categories can show that the combined burden has become material.</p>
+
+  <div class="resource-table-wrap" role="region" tabindex="0" aria-label="Spreadsheet replacement readiness scorecard">
+    <table class="resource-table">
+      <thead>
+        <tr><th scope="col">Dimension</th><th scope="col">Low pressure</th><th scope="col">High pressure</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Business criticality</td><td>Convenience or ad hoc analysis</td><td>Revenue, delivery, compliance, or customer commitments depend on it</td></tr>
+        <tr><td>Collaboration</td><td>One owner and few handoffs</td><td>Several roles, locations, or external users coordinate through it</td></tr>
+        <tr><td>Workflow complexity</td><td>Simple capture or calculation</td><td>States, approvals, exceptions, assignments, and deadlines</td></tr>
+        <tr><td>Data sensitivity</td><td>Low-risk operational data</td><td>Personal, financial, confidential, or access-controlled data</td></tr>
+        <tr><td>Integration</td><td>Occasional manual import</td><td>Frequent synchronization across critical systems</td></tr>
+        <tr><td>Failure impact</td><td>Easy to detect and correct</td><td>Customer harm, lost revenue, rework, or difficult recovery</td></tr>
+        <tr><td>Growth pressure</td><td>Volume is stable and manageable</td><td>Work or headcount is scaling faster than the process</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Use the scorecard to decide what happens next, not to force a custom build. The responsible answer may be process simplification, stronger spreadsheet controls, a configurable SaaS product, an integration layer, a lightweight internal application, or a broader custom system.</p>
+
+  <h2 id="system-boundary">Define the system boundary before listing features</h2>
+  <p>Spreadsheet replacements fail when the team rebuilds the visible file without understanding the wider workflow. The actual system includes people, decisions, communications, upstream data, downstream actions, exceptions, and reports.</p>
+  <p>Map the workflow from trigger to final outcome. For each stage, capture:</p>
+  <ul>
+    <li>Who creates, reviews, changes, approves, and consumes information</li>
+    <li>What event starts the work and what outcome completes it</li>
+    <li>Which data is required and where it originates</li>
+    <li>What rules determine the next state</li>
+    <li>What happens when information is missing or an exception occurs</li>
+    <li>Which systems receive data, notifications, documents, or payments</li>
+    <li>Which reports and decisions rely on the resulting record</li>
+  </ul>
+  <p>This map reveals whether the spreadsheet is the center of the problem or merely the place where a larger broken process becomes visible.</p>
+
+  <h2 id="requirements">Translate spreadsheet behavior into product requirements</h2>
+  <p>Do not specify the new system as “the spreadsheet, but online.” Define the capabilities that make the operation safer and easier.</p>
+
+  <h3>Records and relationships</h3>
+  <p>Identify the durable business entities: customers, jobs, proposals, inventory items, locations, requests, invoices, or another domain model. Define how records relate and which identifiers remain stable.</p>
+
+  <h3>States, actions, and rules</h3>
+  <p>Replace ambiguous columns and color codes with named states, allowed transitions, responsible roles, required information, and system actions. Keep the model understandable to the people who run the process.</p>
+
+  <h3>Roles and permissions</h3>
+  <p>Specify who can view, create, edit, approve, export, delete, restore, and administer each kind of information. Include external users if customers, vendors, or contractors participate.</p>
+
+  <h3>Integration and ownership</h3>
+  <p>For each connected tool, decide which system owns the data and how changes move. Avoid uncontrolled two-way synchronization unless the business truly needs it and conflict behavior is defined.</p>
+
+  <h3>History, reporting, and recovery</h3>
+  <p>Define the events that need a history, the metrics leadership needs, the exports users still require, and how mistakes can be corrected without destroying evidence.</p>
+
+  <div class="resource-callout">
+    <h3>Do not automate a process you should first remove</h3>
+    <p>Spreadsheet workflows often accumulate checks, columns, and handoffs in response to old problems. Challenge each step. A simpler operating model produces simpler software, faster adoption, and lower long-term maintenance.</p>
+  </div>
+
+  <h2 id="migration-plan">Treat data migration as a business transition</h2>
+  <p>Moving rows into a database is only part of migration. The business must decide what data is trustworthy, what history matters, how duplicates are resolved, and when the new system becomes authoritative.</p>
+  <ol>
+    <li><strong>Inventory the sources.</strong> Find active files, copies, archives, exports, macros, linked sheets, and shadow workflows.</li>
+    <li><strong>Classify the data.</strong> Separate active operational records, required history, reference data, attachments, and information that should not migrate.</li>
+    <li><strong>Define quality rules.</strong> Establish required fields, valid formats, unique identifiers, allowed values, and duplicate handling.</li>
+    <li><strong>Map old to new.</strong> Document how columns, formulas, and coded values translate into the new record model.</li>
+    <li><strong>Rehearse the migration.</strong> Test with representative records, including messy data and exceptions.</li>
+    <li><strong>Reconcile.</strong> Agree on counts, totals, samples, and business checks that prove the migration is acceptable.</li>
+    <li><strong>Plan the cutover.</strong> Decide when editing stops, who performs the final migration, and how issues will be handled.</li>
+  </ol>
+
+  <h2 id="rollout">Roll out around operational risk</h2>
+  <p>The safest rollout is not always the slowest rollout. Choose a release boundary that can create value without splitting one transaction across too many systems.</p>
+  <p>A practical sequence often begins with the core record and primary workflow, then adds integrations, external experiences, advanced reporting, and secondary exceptions. Some operations benefit from a limited pilot by team, region, or workflow type. Others require a coordinated cutover because two editable sources would be more dangerous.</p>
+  <ul class="resource-checklist">
+    <li>Name a business owner with authority to resolve workflow decisions.</li>
+    <li>Train users on the new operating process, not only the interface.</li>
+    <li>Give users a clear place to report issues and ask questions.</li>
+    <li>Monitor adoption, errors, cycle time, exceptions, and data quality.</li>
+    <li>Keep a rollback or recovery plan appropriate to the risk.</li>
+    <li>Make the old file read-only or archive it once the new source of truth is stable.</li>
+  </ul>
+
+  <h2 id="mistakes">Avoid the most common replacement mistakes</h2>
+  <h3>Recreating every column and exception</h3>
+  <p>The spreadsheet reflects years of local adaptation. Some of it is valuable domain knowledge; some is accidental complexity. Preserve the business need, not automatically the current implementation.</p>
+
+  <h3>Ignoring the people who operate the workflow</h3>
+  <p>Executives can define outcomes, but daily users know where information arrives incomplete, where judgment is required, and which exceptions matter. Include both perspectives.</p>
+
+  <h3>Underestimating integrations</h3>
+  <p>The hardest part may be identity, accounting, payments, communications, documents, or another system—not the replacement interface. Validate access and ownership early.</p>
+
+  <h3>Launching without measurement</h3>
+  <p>Capture baseline volume, time, defects, cycle time, and user effort before rollout. After launch, measure whether the system is producing the intended operational change. The goal is not to eliminate a file; it is to improve the business process the file was supporting.</p>
+</ResourceLayout>

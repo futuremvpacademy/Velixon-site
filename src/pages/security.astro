@@ -1,0 +1,147 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import { siteContent } from "../data/site";
+import "../styles/legal.css";
+
+const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
+---
+
+<MainLayout
+  title="Security & Responsible Disclosure | Velixon"
+  description="Learn how Velixon approaches application security, data protection, responsible disclosure, and shared security responsibilities for client systems."
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/security" />
+  <main id="main-content" class="legal-page">
+    <header class="legal-hero">
+      <div class="container legal-hero-inner">
+        <p class="legal-eyebrow">Trust center · Security</p>
+        <h1>Security is part of the architecture.</h1>
+        <p class="legal-lede">Velixon approaches security as an ongoing engineering responsibility: understand the risk, reduce unnecessary exposure, and apply safeguards that fit the system.</p>
+        <p class="legal-meta">
+          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Coverage:</strong> Website and client systems</span>
+        </p>
+
+        <div class="legal-summary" aria-label="Security approach summary">
+          <div class="legal-summary-item"><span class="legal-summary-number">01 · REDUCE EXPOSURE</span><p>Collect less, limit access, and avoid unnecessary complexity.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">02 · BUILD IN LAYERS</span><p>Match controls to the data, workflow, integrations, and realistic threats.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">03 · RESPOND CLEARLY</span><p>Review good-faith reports and prioritize remediation by risk.</p></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container legal-content legal-layout">
+      <nav class="legal-toc" aria-label="Security page contents">
+        <p class="legal-toc-title">On this page</p>
+        <ol>
+          <li><a href="#approach">Our approach</a></li>
+          <li><a href="#website">Website security</a></li>
+          <li><a href="#client-systems">Client systems</a></li>
+          <li><a href="#disclosure">Report an issue</a></li>
+          <li><a href="#guidelines">Testing guidelines</a></li>
+          <li><a href="#response">What happens next</a></li>
+          <li><a href="#responsibility">Shared responsibility</a></li>
+          <li><a href="#limitations">Important limitations</a></li>
+        </ol>
+      </nav>
+
+      <article class="legal-article" aria-label="Velixon Security and Responsible Disclosure">
+        <section class="legal-section" id="approach">
+          <p class="legal-section-label">01 · Principles</p>
+          <h2>A practical, risk-based approach</h2>
+          <p>Security decisions should follow the system's real use, data sensitivity, users, integrations, and threat model. Velixon favors clear architecture, limited data collection, least-privilege access, maintained dependencies, and simple controls that teams can operate reliably.</p>
+          <p>Specific controls vary by project and are defined during architecture and delivery. This page describes our general approach; it is not a certification, audit report, warranty, or promise that every listed measure applies to every system.</p>
+        </section>
+
+        <section class="legal-section" id="website">
+          <p class="legal-section-label">02 · Public website</p>
+          <h2>How this website is protected</h2>
+          <p>velixon.net uses HTTPS to encrypt information in transit between supported browsers and the website. It is delivered through managed hosting infrastructure and uses form-spam protections. We intentionally limit the information requested through the public site.</p>
+          <p>Hosting, analytics, email, domain, and other third-party providers maintain their own infrastructure and security programs. Their systems remain outside Velixon's direct control.</p>
+          <div class="legal-callout">
+            <strong>Use the website form for ordinary project inquiries only.</strong>
+            <p>Do not submit passwords, secret keys, payment-card data, government identifiers, production datasets, or vulnerability details through the public form.</p>
+          </div>
+        </section>
+
+        <section class="legal-section" id="client-systems">
+          <p class="legal-section-label">03 · Engineering</p>
+          <h2>Security in client systems</h2>
+          <p>Based on a project's requirements and written scope, Velixon's engineering approach may include:</p>
+          <ul>
+            <li>Documenting data flows, trust boundaries, roles, permissions, and high-risk operations.</li>
+            <li>Using established authentication, authorization, encryption, and secret-management capabilities from appropriate platforms.</li>
+            <li>Validating inputs, handling errors safely, and limiting sensitive information in logs and client-side code.</li>
+            <li>Reviewing dependencies, deployment settings, database access, and environment separation.</li>
+            <li>Designing backups, recovery paths, monitoring, audit history, or incident procedures when the system requires them.</li>
+            <li>Verifying key workflows before release and addressing identified issues according to severity and scope.</li>
+          </ul>
+          <p>Client-specific requirements—including regulated data, formal compliance frameworks, penetration testing, uptime commitments, and response times—must be agreed in writing.</p>
+        </section>
+
+        <section class="legal-section" id="disclosure">
+          <p class="legal-section-label">04 · Responsible disclosure</p>
+          <h2>Report a suspected security issue</h2>
+          <p>If you believe you found a security vulnerability affecting velixon.net or a Velixon-controlled system, email <a href={`mailto:${contactInfo.email}?subject=Security%20Report%3A%20velixon.net`}>{contactInfo.email}</a> with the subject “Security Report.” Do not use the general website form for vulnerability details.</p>
+          <p>A useful report includes:</p>
+          <ul>
+            <li>The affected URL, product, feature, or endpoint.</li>
+            <li>A clear description of the issue and its potential impact.</li>
+            <li>Safe, repeatable steps and the date and time observed.</li>
+            <li>Minimal evidence needed to demonstrate the issue, with sensitive information removed.</li>
+            <li>A reliable way for us to contact you with questions.</li>
+          </ul>
+          <p>Do not email credentials, private keys, personal information, or copied production data. Ask us for a safer transfer method if sensitive evidence is necessary.</p>
+        </section>
+
+        <section class="legal-section" id="guidelines">
+          <p class="legal-section-label">05 · Boundaries</p>
+          <h2>Good-faith testing guidelines</h2>
+          <p>Protect people and systems while investigating. Do not:</p>
+          <ul>
+            <li>Access, modify, retain, or share another person's data.</li>
+            <li>Use denial-of-service, high-volume automation, spam, malware, social engineering, or physical attacks.</li>
+            <li>Disrupt service, damage data, create persistence, or move beyond the minimum proof needed.</li>
+            <li>Test third-party systems, customer environments, or products that Velixon does not control.</li>
+            <li>Publicly disclose an unresolved issue before allowing a reasonable opportunity to investigate and respond.</li>
+          </ul>
+          <p>This page is not authorization to access systems or data, does not create a bug-bounty program, and does not promise payment. If you are unsure whether testing is permitted, contact us before proceeding.</p>
+        </section>
+
+        <section class="legal-section" id="response">
+          <p class="legal-section-label">06 · Response</p>
+          <h2>What happens after a report</h2>
+          <p>Velixon will review credible reports, request clarification when needed, attempt to validate the issue, and prioritize corrective work based on likely impact and exploitability. Where practical, we will keep the reporter informed and confirm when our review is complete.</p>
+          <p>Response and remediation times depend on severity, complexity, ownership, availability of affected providers, and contractual responsibilities. This process does not establish a guaranteed service level.</p>
+        </section>
+
+        <section class="legal-section" id="responsibility">
+          <p class="legal-section-label">07 · Partnership</p>
+          <h2>Security is a shared responsibility</h2>
+          <p>Durable security depends on more than application code. Clients remain responsible for their users, devices, credentials, administrators, content, policies, vendor accounts, legal requirements, and ongoing operational decisions unless a written agreement assigns a responsibility differently.</p>
+          <p>Velixon works with clients to make ownership clear, identify material risks, and choose maintainable controls. Clients should promptly revoke unnecessary access, protect credentials, review administrator activity, and notify Velixon of relevant changes or suspected incidents.</p>
+        </section>
+
+        <section class="legal-section" id="limitations">
+          <p class="legal-section-label">08 · Limitations</p>
+          <h2>No system is completely secure</h2>
+          <p>Reasonable safeguards reduce risk but cannot eliminate it. Vulnerabilities may arise from new threats, third-party services, misconfiguration, user behavior, or changes made after delivery. No statement on this page guarantees that a website or system is invulnerable, continuously available, or compliant with a particular standard.</p>
+          <p>Questions about personal information are addressed in the <a href="/privacy/">Privacy Policy</a>. Website-use limitations are addressed in the <a href="/terms/">Terms of Use</a>.</p>
+        </section>
+
+        <aside class="legal-contact" aria-labelledby="security-contact-title">
+          <h2 id="security-contact-title">Security contact</h2>
+          <p>For a suspected vulnerability, use email and include “Security Report” in the subject. For ordinary project-security questions, you may also use the contact page or call Velixon.</p>
+          <div class="legal-contact-links">
+            <a href={`mailto:${contactInfo.email}?subject=Security%20Report%3A%20velixon.net`}>{contactInfo.email}</a>
+            <a href={phoneHref}>{contactInfo.phone}</a>
+            <a href="/contact/">Project inquiry</a>
+          </div>
+          <div class="legal-related"><strong>Related:</strong> <a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms of Use</a></div>
+        </aside>
+      </article>
+    </div>
+  </main>
+</MainLayout>

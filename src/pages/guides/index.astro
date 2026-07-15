@@ -1,0 +1,27 @@
+---
+import DirectoryHub from "../../components/DirectoryHub.astro";
+import { guides } from "../../data/seo/guides";
+
+const groups = [
+  {
+    title: "Automation and AI systems",
+    description: "Answer-first guides for choosing, designing, and measuring business automation and AI systems.",
+    items: guides.filter((guide) => ["Automation fundamentals", "Voice AI", "AI operations"].includes(guide.category)).map((guide) => ({ title: guide.headline, description: guide.summary, href: `/guides/${guide.slug}/`, label: guide.category }))
+  },
+  {
+    title: "Revenue, industries, and custom software",
+    description: "Practical implementation guides for revenue operations, contractor workflows, and internal business systems.",
+    items: guides.filter((guide) => !["Automation fundamentals", "Voice AI", "AI operations"].includes(guide.category)).map((guide) => ({ title: guide.headline, description: guide.summary, href: `/guides/${guide.slug}/`, label: guide.category }))
+  }
+];
+---
+
+<DirectoryHub
+  title="AI Automation & Custom Software Guides | Velixon"
+  description="Authoritative, practical guides to workflow automation, AI phone agents, sales automation, contractor AI, administrative efficiency, and internal software."
+  eyebrow="Velixon guides"
+  headline="Understand the system before you automate it."
+  summary="Direct definitions, technical models, risk controls, ROI frameworks, and implementation guidance for leaders making high-value software and automation decisions."
+  path="/guides/"
+  groups={groups}
+/>

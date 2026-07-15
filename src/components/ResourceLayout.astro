@@ -1,0 +1,234 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "./Navbar.astro";
+import { siteContent } from "../data/site";
+import "../styles/resources.css";
+
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+interface RelatedResource {
+  title: string;
+  description: string;
+  href: string;
+  category: string;
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+type AdditionalSchema = Record<string, unknown>;
+
+interface Props {
+  title: string;
+  description: string;
+  headline: string;
+  summary: string;
+  slug: string;
+  category: string;
+  readTime: string;
+  topics: string[];
+  toc: TocItem[];
+  takeaways: string[];
+  related: RelatedResource[];
+  faqs?: FaqItem[];
+  canonicalPath?: string;
+  publishedDate?: string;
+  modifiedDate?: string;
+  additionalSchema?: AdditionalSchema[];
+}
+
+const {
+  title,
+  description,
+  headline,
+  summary,
+  slug,
+  category,
+  readTime,
+  topics,
+  toc,
+  takeaways,
+  related,
+  faqs = [],
+  canonicalPath,
+  publishedDate = "2026-07-15",
+  modifiedDate = publishedDate,
+  additionalSchema = []
+} = Astro.props;
+
+const { companyName, logo, nav, cta } = siteContent;
+const siteUrl = "https://velixon.net";
+const articlePath = canonicalPath ?? `/resources/${slug}/`;
+const articleUrl = new URL(articlePath, siteUrl).toString();
+const isGuide = articlePath.startsWith("/guides/");
+const sectionHref = isGuide ? "/guides/" : "/resources/";
+const sectionLabel = isGuide ? "Guides" : "Resources";
+const formatDate = (date: string) => new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC"
+}).format(new Date(`${date}T00:00:00Z`));
+const displayPublishedDate = formatDate(publishedDate);
+const displayModifiedDate = formatDate(modifiedDate);
+
+const articleSchema = {
+  "@type": "Article",
+  "@id": `${articleUrl}#article`,
+  headline,
+  description,
+  url: articleUrl,
+  mainEntityOfPage: { "@id": `${articleUrl}#webpage` },
+  datePublished: publishedDate,
+  dateModified: modifiedDate,
+  articleSection: category,
+  keywords: topics.join(", "),
+  inLanguage: "en-US",
+  image: `${siteUrl}/og.png`,
+  author: {
+    "@type": "Organization",
+    "@id": `${siteUrl}/#organization`,
+    name: "Velixon"
+  },
+  publisher: { "@id": `${siteUrl}/#organization` }
+};
+
+const faqSchema = faqs.length > 0 ? {
+  "@type": "FAQPage",
+  "@id": `${articleUrl}#faq`,
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer
+    }
+  }))
+} : null;
+---
+
+<MainLayout
+  title={title}
+  description={description}
+  imageAlt={`${headline} — a Velixon business software guide`}
+  canonicalPath={articlePath}
+  ogType="article"
+  publishedTime={publishedDate}
+  modifiedTime={modifiedDate}
+  articleSection={category}
+  schema={[articleSchema, ...(faqSchema ? [faqSchema] : []), ...additionalSchema]}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/resources" />
+
+  <main id="main-content" class="resource-article-page">
+    <header class="resource-article-hero">
+      <div class="resource-orb resource-orb-one" aria-hidden="true"></div>
+      <div class="resource-orb resource-orb-two" aria-hidden="true"></div>
+      <div class="container resource-article-hero-shell">
+        <nav class="resource-breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href={sectionHref}>{sectionLabel}</a></li>
+            <li aria-current="page">{headline}</li>
+          </ol>
+        </nav>
+
+        <p class="eyebrow">{category}</p>
+        <h1>{headline}</h1>
+        <p class="resource-article-summary">{summary}</p>
+
+        <div class="resource-byline" aria-label="Article details">
+          <span>By <strong>Velixon</strong></span>
+          <span aria-hidden="true">•</span>
+          <span>Published <time datetime={publishedDate}>{displayPublishedDate}</time></span>
+          <span aria-hidden="true">•</span>
+          <span>Updated <time datetime={modifiedDate}>{displayModifiedDate}</time></span>
+          <span aria-hidden="true">•</span>
+          <span>{readTime}</span>
+        </div>
+
+        <div class="resource-topic-list" aria-label="Topics">
+          {topics.map((topic) => <span>{topic}</span>)}
+        </div>
+      </div>
+    </header>
+
+    <div class="container resource-article-grid">
+      <aside class="resource-toc" aria-label="Article navigation">
+        <div class="resource-toc-card">
+          <p class="resource-toc-label">In this guide</p>
+          <nav>
+            <ol>
+              {toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+            </ol>
+          </nav>
+          <a class="resource-toc-cta" href="/contact/">Discuss your system <span aria-hidden="true">→</span></a>
+        </div>
+      </aside>
+
+      <article class="resource-prose">
+        <section class="resource-takeaways" aria-labelledby="key-takeaways">
+          <p class="resource-kicker">Decision brief</p>
+          <h2 id="key-takeaways">Key takeaways</h2>
+          <ul>
+            {takeaways.map((takeaway) => <li>{takeaway}</li>)}
+          </ul>
+        </section>
+
+        <slot />
+
+        {faqs.length > 0 && (
+          <section class="resource-faq" id="frequently-asked-questions" aria-labelledby="faq-heading">
+            <p class="resource-kicker">Common questions</p>
+            <h2 id="faq-heading">Frequently asked questions</h2>
+            <div class="resource-faq-list">
+              {faqs.map((faq) => (
+                <details>
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="resource-inline-cta" aria-labelledby="resource-cta-heading">
+          <p class="resource-kicker">Turn the decision into a plan</p>
+          <h2 id="resource-cta-heading">Map the right system before committing to a build.</h2>
+          <p>Velixon can help you clarify the workflow, business case, system boundary, and most valuable first release.</p>
+          <div class="resource-inline-cta-actions">
+            <a class="button" href="/contact/">Discuss Your Project</a>
+            <a class="button button-secondary" href="/services/">Explore Our Services</a>
+          </div>
+        </section>
+      </article>
+    </div>
+
+    <section class="resource-related" aria-labelledby="related-resources-heading">
+      <div class="container">
+        <div class="resource-section-heading">
+          <div>
+            <p class="eyebrow">Keep exploring</p>
+            <h2 id="related-resources-heading">Related decision guides</h2>
+          </div>
+          <a href="/resources/">View all resources <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="resource-card-grid resource-card-grid-three">
+          {related.map((resource) => (
+            <article class="resource-card">
+              <p class="resource-card-category">{resource.category}</p>
+              <h3><a href={resource.href}>{resource.title}</a></h3>
+              <p>{resource.description}</p>
+              <a class="resource-card-link" href={resource.href} aria-label={`Read ${resource.title}`}>Read the guide <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

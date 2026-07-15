@@ -1,0 +1,192 @@
+---
+import ResourceLayout from "../../components/ResourceLayout.astro";
+
+const related = [
+  {
+    title: "Custom Software vs. SaaS: A Decision Guide",
+    description: "Compare workflow fit, ownership, speed, integration, and long-term economics before choosing a path.",
+    href: "/resources/custom-software-vs-saas/",
+    category: "Technology strategy"
+  },
+  {
+    title: "When to Replace Spreadsheets with Custom Software",
+    description: "Identify the point where a flexible spreadsheet becomes a fragile operating system.",
+    href: "/resources/replace-spreadsheets-custom-software/",
+    category: "Operations"
+  },
+  {
+    title: "How to Identify High-Value AI Automation Workflows",
+    description: "Find AI opportunities that are valuable, feasible, measurable, and safe enough to deploy.",
+    href: "/resources/high-value-ai-automation-workflows/",
+    category: "Applied AI"
+  }
+];
+
+const faqs = [
+  {
+    question: "How should a business calculate custom software ROI?",
+    answer: "Compare the system's expected annual benefit with its complete cost. Benefits may include labor capacity, fewer errors, faster cycle times, improved conversion, lower software spend, and reduced operational exposure. Costs should include discovery, design, development, migration, training, hosting, support, and future changes. Use conservative, expected, and upside scenarios instead of relying on one forecast."
+  },
+  {
+    question: "How long should custom software take to pay back?",
+    answer: "There is no universal payback period. The acceptable window depends on cash constraints, strategic importance, risk, the useful life of the system, and the confidence of the assumptions. A strong business case states the expected payback period and shows what would need to change for that period to become materially longer."
+  },
+  {
+    question: "What costs are commonly missed in a custom software estimate?",
+    answer: "Commonly overlooked categories include workflow discovery, data cleanup, migration, integrations, security work, user training, rollout support, hosting, monitoring, maintenance, and later changes. A credible estimate separates initial investment from recurring operating cost and explains the assumptions behind both."
+  }
+];
+---
+
+<ResourceLayout
+  title="Custom Software ROI: Cost & Value Guide | Velixon"
+  description="Learn how to evaluate custom software cost, ROI, payback, business value, risk, and total ownership with a practical decision framework."
+  headline="Custom Software ROI: A Practical Cost and Value Guide"
+  summary="A development quote is only one side of the decision. A useful business case connects total investment to capacity, speed, revenue, control, and risk—with assumptions that leadership can challenge."
+  slug="custom-software-roi-cost"
+  category="Investment planning"
+  readTime="12 minute read"
+  topics={["Custom software ROI", "Software cost", "Business case", "Total cost of ownership"]}
+  toc={[
+    { id: "define-the-decision", label: "Define the decision" },
+    { id: "operational-baseline", label: "Build the baseline" },
+    { id: "total-cost", label: "Model total cost" },
+    { id: "business-value", label: "Quantify value" },
+    { id: "scenario-model", label: "Create scenarios" },
+    { id: "strategic-value", label: "Include strategic value" },
+    { id: "investment-gates", label: "Set investment gates" },
+    { id: "improve-returns", label: "Improve the return" },
+    { id: "frequently-asked-questions", label: "Frequently asked questions" }
+  ]}
+  takeaways={[
+    "Evaluate the full ownership cost—not only the initial build price.",
+    "Measure the current workflow before estimating the value of changing it.",
+    "Separate benefits that release cash from benefits that create capacity, speed, control, or strategic options.",
+    "Use scenario ranges and explicit assumptions so the business case remains useful when reality changes."
+  ]}
+  related={related}
+  faqs={faqs}
+>
+  <h2 id="define-the-decision">Start by defining the investment decision</h2>
+  <p>Custom software ROI is often reduced to a simple question: will the system save more than it costs? That matters, but it is incomplete. A business may invest because a critical workflow cannot scale, a customer experience is limiting growth, existing software creates unacceptable risk, or a proprietary capability could become a competitive advantage.</p>
+  <p>Write the decision in one sentence before building the model. For example: <strong>Should we invest in a connected quoting and fulfillment system to reduce administrative work, shorten response time, and support growth without adding the same amount of overhead?</strong></p>
+  <p>This statement creates a boundary. It identifies the workflow, intended outcomes, and strategic reason for considering a custom system. It also helps prevent the business case from becoming a collection of features with no shared purpose.</p>
+
+  <div class="resource-callout">
+    <h3>A useful decision statement includes</h3>
+    <ul>
+      <li>The business process or customer journey being changed</li>
+      <li>The constraint, cost, or risk that exists today</li>
+      <li>The outcome leadership expects from the investment</li>
+      <li>The time horizon over which value will be evaluated</li>
+      <li>The alternatives: keep the current process, buy software, combine tools, or build</li>
+    </ul>
+  </div>
+
+  <h2 id="operational-baseline">Build an operational baseline before forecasting value</h2>
+  <p>ROI estimates become unreliable when the current state is described with impressions such as “the team spends a lot of time on this.” Establish a baseline using a representative period and document how the number was produced. Precision is useful, but honest ranges are better than false certainty.</p>
+
+  <h3>Measure work volume and handling time</h3>
+  <p>Count how many requests, transactions, records, proposals, appointments, cases, or other units move through the workflow. Then estimate the hands-on time required at each stage. Include reviewing, searching, copying data, reconciling, following up, correcting errors, and producing status updates—not only the obvious primary task.</p>
+
+  <h3>Measure cycle time and waiting</h3>
+  <p>A process can consume little labor and still create major business friction. Record how long work waits between stages, where approvals stall, how quickly customers receive a response, and how often employees must ask for status. Cycle-time improvements may affect conversion, customer experience, cash flow, and operational predictability.</p>
+
+  <h3>Measure failure demand</h3>
+  <p>Failure demand is work created because the original process did not work correctly. Examples include duplicate entry, missing information, preventable support requests, rework, incorrect handoffs, missed follow-ups, invoice corrections, and reporting cleanup. Track both frequency and consequence.</p>
+
+  <h3>Map existing technology cost</h3>
+  <p>List subscriptions, usage fees, implementation partners, internal administration, integration tools, and manual work required to keep the current stack functioning. Avoid assuming every current tool will disappear; identify which costs the proposed system can actually replace.</p>
+
+  <h2 id="total-cost">Model the complete cost of ownership</h2>
+  <p>A credible cost model separates the initial investment from recurring cost. It also shows which estimates are firm, which are ranges, and which depend on decisions that have not yet been made.</p>
+
+  <div class="resource-table-wrap" role="region" tabindex="0" aria-label="Custom software cost categories">
+    <table class="resource-table">
+      <thead>
+        <tr><th scope="col">Cost category</th><th scope="col">What it can include</th><th scope="col">Question to resolve</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Discovery and architecture</td><td>Workflow mapping, requirements, technical decisions, risk reduction</td><td>How much uncertainty must be resolved before implementation?</td></tr>
+        <tr><td>Design and development</td><td>Product design, engineering, testing, security, accessibility</td><td>What is required for the first useful production release?</td></tr>
+        <tr><td>Data and integration</td><td>Cleanup, migration, APIs, synchronization, identity, payments</td><td>Which systems remain authoritative for each kind of data?</td></tr>
+        <tr><td>Adoption and rollout</td><td>Training, documentation, phased launch, change support</td><td>What must users change for the system to create value?</td></tr>
+        <tr><td>Ongoing operation</td><td>Hosting, monitoring, support, maintenance, backups, vendors</td><td>Who owns reliability after launch?</td></tr>
+        <tr><td>Evolution</td><td>New workflows, compliance changes, product improvements</td><td>How likely is the operating model to change?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="resource-formula">
+    <p>Total ownership cost = initial investment + recurring operation + expected evolution + internal adoption effort</p>
+  </div>
+
+  <p>Do not hide internal time. Subject-matter experts, project owners, administrators, and leaders will contribute decisions and feedback. Their involvement is often what makes the system fit the operation, but it is still part of the investment.</p>
+
+  <h2 id="business-value">Quantify value without forcing every benefit into payroll savings</h2>
+  <p>Software value appears in different forms. Some benefits reduce cash expense. Others allow a team to absorb more work, respond faster, make fewer mistakes, or create a new capability. Those categories should not be blended without explanation.</p>
+
+  <h3>1. Released cash</h3>
+  <p>This includes subscriptions that can actually be retired, outsourced work that is no longer required, avoidable transaction costs, and roles or overtime that will not need to be added. These benefits are usually the easiest to connect to financial statements.</p>
+
+  <h3>2. Recovered capacity</h3>
+  <p>Automation may return hours to employees without reducing headcount. Value exists only if the organization can redirect that capacity toward useful work, absorb growth, improve service, or avoid future hiring. Name the work that will replace the manual activity.</p>
+
+  <h3>3. Revenue and margin improvement</h3>
+  <p>A system may improve response speed, conversion, retention, pricing discipline, fulfillment accuracy, or the ability to offer a new service. Model only the portion that the system can reasonably influence, and avoid crediting the software for unrelated growth.</p>
+
+  <h3>4. Working-capital and cycle-time value</h3>
+  <p>Faster approvals, delivery, invoicing, or collections can improve cash timing. Even when annual revenue is unchanged, a shorter operating cycle can reduce uncertainty and make capacity easier to plan.</p>
+
+  <h3>5. Avoided loss and reduced exposure</h3>
+  <p>Permissions, validation, audit trails, backups, and consistent workflow can reduce the likelihood or impact of preventable failures. Use probability ranges and explain the consequence being modeled. Risk reduction should not be presented as guaranteed savings.</p>
+
+  <div class="resource-formula">
+    <p>Annual net benefit = released cash + usable capacity value + attributable contribution + risk-adjusted avoided loss − recurring system cost</p>
+  </div>
+
+  <h2 id="scenario-model">Use scenarios instead of one confident forecast</h2>
+  <p>Create at least three versions of the model: conservative, expected, and upside. Change the assumptions most likely to affect the result, such as adoption, time saved, transaction volume, integration scope, delivery cost, and the percentage of capacity the business can actually redeploy.</p>
+
+  <div class="resource-callout">
+    <h3>Illustrative example—not a benchmark</h3>
+    <p>Imagine a six-person operations team spends a combined 30 hours each week coordinating one workflow. If a new system removes half of that work across 48 active weeks, it creates 720 hours of annual capacity. The financial value depends on what that capacity is worth to the business and whether it is truly redirected. Add only defensible benefits, subtract recurring system cost, and compare the result with the initial investment.</p>
+    <p>The purpose of the example is the method: volume × time × achievable improvement × value per useful unit. Your inputs should come from your operation.</p>
+  </div>
+
+  <p>Calculate payback and multi-year return for each scenario. Then perform a sensitivity check: which one or two assumptions cause the decision to change? Those assumptions deserve the most validation during discovery or a pilot.</p>
+
+  <div class="resource-formula">
+    <p>Payback period = initial investment ÷ expected monthly net benefit</p>
+  </div>
+
+  <p>This simplified formula is useful for orientation. A financial team may also account for timing, discount rates, taxes, depreciation, opportunity cost, and uncertainty when evaluating a material investment.</p>
+
+  <h2 id="strategic-value">Include strategic value—but label it clearly</h2>
+  <p>Not every important outcome can be converted into a responsible dollar estimate. Custom software can create ownership of a critical workflow, make new products possible, reduce dependence on a vendor, improve data availability, or let the business change faster. These may justify an investment even when near-term cost savings are modest.</p>
+  <p>Keep strategic value separate from quantified financial return. Describe the capability, why it matters, and how leadership will know it has been created. This makes the argument stronger than inserting an unsupported number.</p>
+
+  <h2 id="investment-gates">Set investment gates before approving the full system</h2>
+  <p>A strong business case identifies the evidence required at each stage. This protects the company from committing to an oversized scope before the most important assumptions are understood.</p>
+  <ol>
+    <li><strong>Problem gate:</strong> confirm the constraint is important, recurring, and owned by a real business function.</li>
+    <li><strong>Fit gate:</strong> compare process change, configuration, SaaS, integration, and custom development.</li>
+    <li><strong>Feasibility gate:</strong> validate data access, integrations, security needs, and technical constraints.</li>
+    <li><strong>Value gate:</strong> agree on baseline metrics, target outcomes, and the value model.</li>
+    <li><strong>Release gate:</strong> define the smallest production release capable of proving the core value.</li>
+    <li><strong>Scale gate:</strong> expand only after adoption, reliability, and outcome evidence support it.</li>
+  </ol>
+
+  <h2 id="improve-returns">Improve the return before development begins</h2>
+  <p>The greatest ROI improvements often come from narrowing the system to the right problem, not from cutting engineering quality. Reduce avoidable scope while protecting the workflow that creates value.</p>
+  <ul class="resource-checklist">
+    <li>Define one operational owner and one accountable decision-maker.</li>
+    <li>Remove steps that should not exist before automating the process.</li>
+    <li>Prioritize the highest-value path instead of reproducing every edge case immediately.</li>
+    <li>Reuse reliable platforms for commodity capabilities when ownership adds no advantage.</li>
+    <li>Plan data migration and integration early; they can define the real complexity.</li>
+    <li>Instrument the baseline and post-launch metrics in the system.</li>
+    <li>Budget for adoption, support, and iteration rather than treating launch as the finish line.</li>
+  </ul>
+  <p>If the business case remains attractive under conservative assumptions—and the first release can test the critical ones—the investment is on firmer ground. If it requires perfect adoption and optimistic revenue gains to work, revise the scope or consider another path.</p>
+</ResourceLayout>

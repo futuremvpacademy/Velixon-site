@@ -1,0 +1,217 @@
+---
+import ResourceLayout from "../../components/ResourceLayout.astro";
+
+const related = [
+  {
+    title: "Custom Software ROI: A Practical Cost and Value Guide",
+    description: "Evaluate the complete investment and expected return before choosing to build.",
+    href: "/resources/custom-software-roi-cost/",
+    category: "Investment planning"
+  },
+  {
+    title: "When to Replace Spreadsheets with Custom Software",
+    description: "Determine whether a critical spreadsheet workflow needs a product, integration, or custom system.",
+    href: "/resources/replace-spreadsheets-custom-software/",
+    category: "Operations"
+  },
+  {
+    title: "How to Identify High-Value AI Automation Workflows",
+    description: "Prioritize applied AI opportunities and decide which capabilities deserve custom implementation.",
+    href: "/resources/high-value-ai-automation-workflows/",
+    category: "Applied AI"
+  }
+];
+
+const faqs = [
+  {
+    question: "Is custom software better than SaaS?",
+    answer: "Neither is universally better. SaaS is usually attractive for standardized capabilities where speed, predictable operation, and shared vendor investment matter. Custom software is stronger when the workflow is strategically important, meaningfully different, deeply integrated, or constrained by generic products. Many effective systems combine both."
+  },
+  {
+    question: "When is custom software worth the cost?",
+    answer: "Custom software is easier to justify when the targeted workflow materially affects revenue, capacity, service, risk, or differentiation; existing products create recurring compromise; the organization can own product decisions; and the expected value exceeds complete build and operating cost under conservative assumptions."
+  },
+  {
+    question: "Can a business combine SaaS and custom software?",
+    answer: "Yes. A common approach is to use SaaS for commodity capabilities such as accounting, identity, communications, or payments while building the proprietary workflow and integration layer around them. The architecture should define data ownership and avoid unnecessary duplication."
+  }
+];
+---
+
+<ResourceLayout
+  title="Custom Software vs. SaaS: Decision Guide | Velixon"
+  description="Compare custom software and SaaS across workflow fit, speed, ownership, integration, risk, total cost, and strategic value with a practical framework."
+  headline="Custom Software vs. SaaS: A Decision Guide"
+  summary="Buying and building are not opposing philosophies. The right choice depends on which capabilities are ordinary, which are strategically important, and where operational compromise costs more than ownership."
+  slug="custom-software-vs-saas"
+  category="Technology strategy"
+  readTime="12 minute read"
+  topics={["Custom software vs SaaS", "Build vs buy", "Software strategy", "System architecture"]}
+  toc={[
+    { id: "frame-the-decision", label: "Frame the decision" },
+    { id: "choose-saas", label: "When SaaS fits" },
+    { id: "choose-custom", label: "When custom fits" },
+    { id: "comparison", label: "Compare the options" },
+    { id: "total-cost", label: "Model total cost" },
+    { id: "hybrid", label: "Use a hybrid strategy" },
+    { id: "decision-process", label: "Run the decision" },
+    { id: "warning-signs", label: "Watch for warning signs" },
+    { id: "frequently-asked-questions", label: "Frequently asked questions" }
+  ]}
+  takeaways={[
+    "Use SaaS for capabilities where your business benefits from standardization and shared vendor investment.",
+    "Consider custom software when the workflow is strategically important, genuinely differentiated, or repeatedly constrained by available products.",
+    "Compare complete lifecycle cost and operational compromise—not license price versus development quote.",
+    "A deliberate hybrid architecture is often stronger than forcing the entire operation into one category."
+  ]}
+  related={related}
+  faqs={faqs}
+>
+  <h2 id="frame-the-decision">Frame the decision around business capability</h2>
+  <p>“Should we build or buy?” is too broad. A company does not need one answer for its entire technology stack. It needs an answer for a specific capability: customer onboarding, field operations, scheduling, proposals, fulfillment, reporting, payments, internal knowledge, or another part of the business.</p>
+  <p>Define the decision boundary and intended outcome. Then ask whether this capability should be standardized around a mature product, configured from a platform, connected across existing tools, or owned as custom software.</p>
+
+  <div class="resource-callout">
+    <h3>Start with five questions</h3>
+    <ol>
+      <li>How important is this capability to the way the business competes or operates?</li>
+      <li>How different is the required workflow from established market patterns?</li>
+      <li>What is the cost of adapting the business to an available product?</li>
+      <li>What data, integrations, controls, and rate of change does the capability require?</li>
+      <li>Can the organization own the product decisions and operating responsibility involved?</li>
+    </ol>
+  </div>
+
+  <h2 id="choose-saas">Choose SaaS when standardization creates value</h2>
+  <p>SaaS concentrates product development, infrastructure, security work, and domain learning across many customers. That can give a company mature capability faster than it could responsibly create alone.</p>
+  <p>SaaS is usually a strong candidate when:</p>
+  <ul>
+    <li>The business need is common and well served by established products</li>
+    <li>Using an industry-standard workflow is acceptable or beneficial</li>
+    <li>Speed to adoption matters more than owning the implementation</li>
+    <li>Configuration can address meaningful variation without fragile workarounds</li>
+    <li>The vendor provides required reliability, security, compliance, and support</li>
+    <li>APIs, exports, permissions, and data terms support the wider architecture</li>
+    <li>The organization does not want to own a software product in this area</li>
+  </ul>
+  <p>Accounting, payroll, identity, commodity communications, and other standardized capabilities often reward buying. The exact answer depends on the business, regulatory environment, integration needs, and available products.</p>
+
+  <h3>The hidden strength of SaaS: accumulated edge cases</h3>
+  <p>A mature product may already handle cases your team has not encountered yet. That shared learning can be valuable when the capability itself does not differentiate the business. Evaluate the product's real depth, not only its feature list.</p>
+
+  <h3>The hidden cost of SaaS: operating compromise</h3>
+  <p>License cost is only part of the decision. Generic software can create duplicate entry, awkward handoffs, manual reconciliation, weak customer experiences, unused features, rigid data models, or dependence on a vendor roadmap. Measure those compromises rather than accepting them as invisible overhead.</p>
+
+  <h2 id="choose-custom">Choose custom software when ownership creates an advantage</h2>
+  <p>Custom software is not valuable merely because it is tailored. It becomes compelling when tailoring changes an important business outcome or creates a capability that the company should control.</p>
+  <p>Consider custom development when:</p>
+  <ul>
+    <li>The workflow is core to differentiation, customer value, or operating leverage</li>
+    <li>Available products repeatedly force high-cost workarounds</li>
+    <li>The system must coordinate several roles and tools around a distinctive process</li>
+    <li>The customer or partner experience needs to reflect a proprietary service model</li>
+    <li>Data ownership, auditability, permissions, or integration depth are unusually important</li>
+    <li>The business needs to change the capability faster or differently than a vendor roadmap allows</li>
+    <li>The expected strategic and financial value supports full lifecycle ownership</li>
+  </ul>
+
+  <h3>Custom software requires product ownership</h3>
+  <p>A custom system is not a one-time purchase. Someone must own priorities, workflow decisions, adoption, reliability, security, and future changes. A development partner can provide substantial capability, but the business remains responsible for product direction.</p>
+
+  <h3>Do not build commodity capability without a reason</h3>
+  <p>Owning code is not automatically an advantage. Building authentication, payments, messaging infrastructure, or another mature commodity capability can add risk without improving the business model. Use reliable platforms where they preserve focus and meet the system's needs.</p>
+
+  <h2 id="comparison">Compare the options across the full decision</h2>
+  <div class="resource-table-wrap" role="region" tabindex="0" aria-label="Custom software and SaaS comparison">
+    <table class="resource-table">
+      <thead>
+        <tr><th scope="col">Decision factor</th><th scope="col">SaaS tends to fit when</th><th scope="col">Custom tends to fit when</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Workflow</td><td>The process can follow a common market pattern</td><td>The process is distinctive and materially valuable</td></tr>
+        <tr><td>Speed</td><td>Fast configuration and adoption are the priority</td><td>A phased build is acceptable to achieve stronger fit</td></tr>
+        <tr><td>Differentiation</td><td>The capability does not need to be proprietary</td><td>The capability contributes to a defensible advantage</td></tr>
+        <tr><td>Integration</td><td>Available APIs and connectors cover the need</td><td>The system must deeply coordinate data and workflows</td></tr>
+        <tr><td>Change</td><td>The vendor roadmap is compatible with the business</td><td>The company needs direct control over priorities and timing</td></tr>
+        <tr><td>Ownership</td><td>The business prefers vendor operation and support</td><td>The business is prepared to own product direction and lifecycle</td></tr>
+        <tr><td>Economics</td><td>Subscription cost and compromise remain acceptable</td><td>Scale, efficiency, or strategic value supports investment</td></tr>
+        <tr><td>Risk</td><td>A capable vendor can manage the domain better</td><td>Vendor dependence or generic controls create greater exposure</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Evaluate evidence rather than assigning points based on preference. A team that enjoys building may underestimate operating burden. A team that defaults to buying may underestimate years of manual compromise.</p>
+
+  <h2 id="total-cost">Compare total cost over a realistic horizon</h2>
+  <p>Comparing a SaaS subscription with an initial development quote produces an incomplete answer. Model both options across the period in which the capability is expected to matter.</p>
+
+  <h3>SaaS total cost can include</h3>
+  <ul>
+    <li>Base subscription, seats, usage, storage, transaction, and premium-support fees</li>
+    <li>Implementation, configuration, data migration, and training</li>
+    <li>Integration software and internal administration</li>
+    <li>Manual work created by gaps between the product and the operation</li>
+    <li>Contract escalation, switching difficulty, and data-exit work</li>
+  </ul>
+
+  <h3>Custom software total cost can include</h3>
+  <ul>
+    <li>Discovery, design, development, testing, and security work</li>
+    <li>Data migration and integration implementation</li>
+    <li>Hosting, monitoring, support, maintenance, and vendor services</li>
+    <li>Internal product ownership, training, and operational change</li>
+    <li>Future enhancements and adaptation to business or regulatory change</li>
+  </ul>
+
+  <div class="resource-formula">
+    <p>Decision value = business outcomes − total lifecycle cost − cost of operational compromise − risk exposure</p>
+  </div>
+
+  <p>Not every term can be converted responsibly into money. Document qualitative factors separately and explain why they matter. Run conservative, expected, and upside scenarios for costs and benefits rather than presenting one forecast as certain.</p>
+
+  <h2 id="hybrid">Use a hybrid strategy intentionally</h2>
+  <p>Many strong business systems are custom at the point of differentiation and standardized underneath. A company might build its proprietary customer and operations workflow while using established services for identity, payments, communications, document storage, or accounting.</p>
+  <p>Another hybrid uses custom integration and workflow orchestration around several SaaS products. This can remove duplicate entry and create a unified experience without replacing reliable systems of record.</p>
+
+  <h3>Define ownership at every boundary</h3>
+  <p>For each record, decide which system is authoritative. For each action, decide where business rules are enforced. For each integration, define failure behavior, reconciliation, security, and monitoring. A hybrid becomes fragile when every system can modify the same truth without clear precedence.</p>
+
+  <div class="resource-callout">
+    <h3>Common strategic pattern</h3>
+    <p><strong>Buy the commodity. Build the differentiator. Integrate the operating flow.</strong></p>
+    <p>This is a principle, not a rule. A commodity product still needs to meet security, control, and architecture requirements. A differentiating workflow still needs enough value to justify ownership.</p>
+  </div>
+
+  <h2 id="decision-process">Run a disciplined build-versus-buy process</h2>
+  <ol>
+    <li><strong>Map the capability.</strong> Define the users, workflow, data, rules, integrations, exceptions, and business outcome.</li>
+    <li><strong>Separate standard from distinctive.</strong> Identify what should follow common practice and what creates meaningful advantage.</li>
+    <li><strong>Research the market.</strong> Evaluate products against critical scenarios, not a generic feature checklist.</li>
+    <li><strong>Test operational fit.</strong> Use representative records and end-to-end workflows. Include integrations, permissions, reporting, and exceptions.</li>
+    <li><strong>Define custom alternatives.</strong> Consider a focused application, integration layer, configured platform, or complete system.</li>
+    <li><strong>Model cost and value.</strong> Include internal effort, compromise, lifecycle operation, and risk for every option.</li>
+    <li><strong>Assess ownership readiness.</strong> Name the business owner and operating model for the chosen path.</li>
+    <li><strong>Choose a reversible first step.</strong> When uncertainty is high, validate the decisive assumptions before making the largest commitment.</li>
+  </ol>
+
+  <h2 id="warning-signs">Watch for warning signs in either direction</h2>
+
+  <h3>Warning signs that SaaS is being forced</h3>
+  <ul>
+    <li>The evaluation depends on a long list of “we can work around that” statements</li>
+    <li>Critical integrations require repeated exports, duplicate entry, or unsupported connectors</li>
+    <li>The vendor cannot demonstrate important scenarios using your representative workflow</li>
+    <li>Permissions, data ownership, or exit terms do not meet the business need</li>
+    <li>The product changes the customer experience in a way that weakens the service model</li>
+  </ul>
+
+  <h3>Warning signs that custom software is being romanticized</h3>
+  <ul>
+    <li>The requirements mostly reproduce a mature commodity product</li>
+    <li>No accountable business owner can make product decisions</li>
+    <li>The value case depends on unsupported growth or perfect adoption</li>
+    <li>Maintenance, security, support, and change are absent from the budget</li>
+    <li>The team wants uniqueness but cannot explain the business outcome it creates</li>
+  </ul>
+  <p>The goal is not to win an argument for buying or building. It is to choose the ownership model that best supports the capability over time.</p>
+</ResourceLayout>

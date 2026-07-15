@@ -1,0 +1,12 @@
+---
+import ComparisonPage from "../../components/ComparisonPage.astro";
+import { comparisons } from "../../data/seo/comparisons";
+
+export function getStaticPaths() {
+  return comparisons.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+---
+
+<ComparisonPage page={page} />

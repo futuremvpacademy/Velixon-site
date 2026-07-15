@@ -2,33 +2,16 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import PageHero from "../components/PageHero.astro";
-import ResultsSection from "../components/ResultsSection.astro";
 import CardSection from "../components/CardSection.astro";
 import FinalCtaSection from "../components/FinalCtaSection.astro";
-import { seo, siteContent } from "../data/site";
-
-const { companyName, logo, nav, cta, ctaHref, results } = siteContent;
-const page = siteContent.pages.results;
+import { siteContent } from "../data/site";
+const { companyName, logo, nav, cta } = siteContent;
+const outcomes = [
+  { title: "One source of truth", description: "Customer, operational, and financial data stays current across the business." },
+  { title: "Fewer broken handoffs", description: "Each stage moves into the next without duplicate entry or lost context." },
+  { title: "Faster customer response", description: "AI and automation handle defined work while people stay in control of important decisions." },
+  { title: "A long-term business asset", description: "The system improves with the company instead of becoming another limitation to work around." }
+];
+const finalCta = { eyebrow: "Operational leverage", title: "Replace fragmented work with one connected operating flow.", description: "The result is not more software. It is a business that can respond, deliver, and improve with less friction.", points: ["Connected data", "Clear workflows", "Software that evolves"], primary: "Build Your System", primaryHref: "/contact", secondary: "View Solutions", secondaryHref: "/services", helper: "We define measurable outcomes during discovery." };
 ---
-
-<MainLayout title={`${seo.title} | Results`} description={seo.description}>
-  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/results" />
-  <main>
-    <PageHero
-      eyebrow={page.hero.eyebrow}
-      title={page.hero.title}
-      description={page.hero.description}
-      cta={cta}
-      ctaHref={ctaHref}
-      helper="A better website should make the business decision easier for your next customer."
-    />
-    <ResultsSection results={results} />
-    <CardSection
-      eyebrow="Why it matters"
-      title="Why a better website changes the customer decision"
-      description="These are the practical gains businesses feel when the site is clearer, more polished, and easier to act on."
-      items={page.details}
-    />
-    <FinalCtaSection cta={page.cta} />
-  </main>
-</MainLayout>
+<MainLayout title="Business Outcomes from Connected Software | Velixon" description="Learn how connected software can centralize data, reduce broken handoffs, improve response, and become a long-term business asset."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/results" /><main id="main-content"><PageHero eyebrow="Business outcomes" title="What changes when the business operates as one system." description="Velixon replaces disconnected tools and manual handoffs with systems designed to keep customers, work, money, and data moving together." cta="Build Your System" ctaHref="/contact/" helper="Designed around how the business actually works." /><CardSection eyebrow="What changes" title="From operational drag to operational leverage" description="Every system is different. These are the durable outcomes connected business software is designed to support." items={outcomes} /><FinalCtaSection cta={finalCta} /></main></MainLayout>

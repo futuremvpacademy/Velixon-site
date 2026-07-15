@@ -1,0 +1,22 @@
+---
+import DirectoryHub from "../../components/DirectoryHub.astro";
+import { caseStudies } from "../../data/seo/case-studies";
+
+const groups = [{
+  title: "Products designed and built by Velixon",
+  description: "First-party product evidence focused on the operating problem, architecture, delivery decisions, and intended business value—without invented client metrics.",
+  items: caseStudies.map((page) => ({ title: page.subject, description: page.summary, href: `/case-studies/${page.slug}/`, label: page.engagementType }))
+}];
+---
+
+<DirectoryHub
+  title="AI Automation & Software Case Studies | Velixon"
+  description="Explore first-party Velixon product case studies covering proposal-to-payment workflows, collaborative scheduling, and connected business software."
+  eyebrow="Product evidence"
+  headline="See how operating problems become working systems."
+  summary="Transparent product case studies that explain the problem, architecture, delivery path, and value model. No fabricated client logos, ratings, or performance claims."
+  path="/case-studies/"
+  groups={groups}
+  selectionTitle="Choose the evidence closest to your system"
+  selectionGuidance="Start with FormEsque when evaluating connected commercial operations such as proposals, signatures, invoices, and payments. Start with ShareCal when evaluating collaborative scheduling, shared state, permissions, and responsive product experience."
+/>

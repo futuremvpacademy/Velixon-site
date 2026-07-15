@@ -1,0 +1,356 @@
+<section class="vx-opportunity vx-section" id="automation-roi" aria-labelledby="automation-roi-title">
+  <div class="container vx-opportunity-shell">
+    <div class="vx-opportunity-copy" data-vx-reveal>
+      <p class="vx-kicker">Automation opportunity calculator</p>
+      <h2 id="automation-roi-title">Put a value on the work your team should not be doing manually.</h2>
+      <p>
+        Model one repetitive workflow using your own inputs. The estimate is a starting point for prioritization—not a promise, quote, or substitute for process discovery.
+      </p>
+
+      <div class="vx-opportunity-signals" aria-label="Strong automation opportunity signals">
+        <article>
+          <span>01</span>
+          <div><h3>High repetition</h3><p>The same steps happen every day or every week.</p></div>
+        </article>
+        <article>
+          <span>02</span>
+          <div><h3>Multiple handoffs</h3><p>Work moves between people, inboxes, sheets, and software.</p></div>
+        </article>
+        <article>
+          <span>03</span>
+          <div><h3>Clear rules</h3><p>The next action can be defined, checked, or escalated.</p></div>
+        </article>
+      </div>
+    </div>
+
+    <form class="vx-calculator" data-opportunity-calculator aria-describedby="calculator-disclaimer">
+      <div class="vx-calculator-topline">
+        <div>
+          <p>Illustrative model</p>
+          <h3>One workflow, annualized</h3>
+        </div>
+        <span>Adjust the inputs</span>
+      </div>
+
+      <div class="vx-calculator-fields">
+        <label for="workflow-hours">
+          <span>Manual hours per person, each week</span>
+          <output for="workflow-hours" data-hours-output>12 hours</output>
+        </label>
+        <input id="workflow-hours" name="workflow-hours" type="range" min="2" max="80" value="12" step="2" />
+
+        <label for="team-size">
+          <span>People involved in the workflow</span>
+          <output for="team-size" data-team-output>4 people</output>
+        </label>
+        <input id="team-size" name="team-size" type="range" min="1" max="30" value="4" step="1" />
+
+        <label for="loaded-cost">
+          <span>Estimated hourly cost</span>
+          <output for="loaded-cost" data-cost-output>$45 / hour</output>
+        </label>
+        <input id="loaded-cost" name="loaded-cost" type="range" min="20" max="200" value="45" step="5" />
+
+        <label for="automation-share">
+          <span>Work that may be responsibly automated</span>
+          <output for="automation-share" data-share-output>40%</output>
+        </label>
+        <input id="automation-share" name="automation-share" type="range" min="10" max="80" value="40" step="5" />
+      </div>
+
+      <div class="vx-calculator-result" aria-live="polite" aria-atomic="true">
+        <p>Illustrative annual opportunity</p>
+        <div class="vx-calculator-metrics">
+          <article>
+            <strong data-hours-result>998</strong>
+            <span>hours of team capacity</span>
+          </article>
+          <article>
+            <strong data-value-result>$44,910</strong>
+            <span>capacity value</span>
+          </article>
+          <article>
+            <strong data-weeks-result>25</strong>
+            <span>40-hour workweeks</span>
+          </article>
+        </div>
+      </div>
+
+      <p class="vx-calculator-disclaimer" id="calculator-disclaimer">
+        This simple model excludes implementation cost, adoption, exceptions, quality gains, and revenue impact. A real assessment validates the workflow before estimating return.
+      </p>
+      <a class="vx-calculator-cta" data-calculator-cta href="/contact/?source=roi-calculator&amp;campaign=automation-opportunity">
+        Request an automation assessment <span aria-hidden="true">↗</span>
+      </a>
+    </form>
+  </div>
+</section>
+
+<script>
+  const calculators = document.querySelectorAll<HTMLFormElement>("[data-opportunity-calculator]");
+
+  calculators.forEach((calculator) => {
+    const hours = calculator.querySelector<HTMLInputElement>("#workflow-hours");
+    const team = calculator.querySelector<HTMLInputElement>("#team-size");
+    const cost = calculator.querySelector<HTMLInputElement>("#loaded-cost");
+    const share = calculator.querySelector<HTMLInputElement>("#automation-share");
+    const hoursOutput = calculator.querySelector<HTMLOutputElement>("[data-hours-output]");
+    const teamOutput = calculator.querySelector<HTMLOutputElement>("[data-team-output]");
+    const costOutput = calculator.querySelector<HTMLOutputElement>("[data-cost-output]");
+    const shareOutput = calculator.querySelector<HTMLOutputElement>("[data-share-output]");
+    const hoursResult = calculator.querySelector<HTMLElement>("[data-hours-result]");
+    const valueResult = calculator.querySelector<HTMLElement>("[data-value-result]");
+    const weeksResult = calculator.querySelector<HTMLElement>("[data-weeks-result]");
+    const cta = calculator.querySelector<HTMLAnchorElement>("[data-calculator-cta]");
+    const number = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+    const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    let trackedEngagement = false;
+
+    if (!hours || !team || !cost || !share) return;
+
+    const analytics = () => (window as Window & {
+      velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void };
+    }).velixonAnalytics;
+
+    const update = () => {
+      const weeklyHours = Number(hours.value);
+      const people = Number(team.value);
+      const hourlyCost = Number(cost.value);
+      const automationShare = Number(share.value) / 100;
+      const annualHours = Math.round(weeklyHours * people * 52 * automationShare);
+      const annualValue = Math.round(annualHours * hourlyCost);
+      const workweeks = Math.round(annualHours / 40);
+
+      if (hoursOutput) hoursOutput.value = `${weeklyHours} hours`;
+      if (teamOutput) teamOutput.value = `${people} ${people === 1 ? "person" : "people"}`;
+      if (costOutput) costOutput.value = `${currency.format(hourlyCost)} / hour`;
+      if (shareOutput) shareOutput.value = `${share.value}%`;
+      if (hoursResult) hoursResult.textContent = number.format(annualHours);
+      if (valueResult) valueResult.textContent = currency.format(annualValue);
+      if (weeksResult) weeksResult.textContent = number.format(workweeks);
+    };
+
+    calculator.addEventListener("submit", (event) => event.preventDefault());
+
+    calculator.addEventListener("input", () => {
+      update();
+      if (!trackedEngagement) {
+        trackedEngagement = true;
+        analytics()?.track("roi_calculator_engaged", { calculator_name: "automation-opportunity" });
+      }
+    });
+
+    cta?.addEventListener("click", () => {
+      analytics()?.track("roi_calculator_cta", {
+        calculator_name: "automation-opportunity",
+        automation_share: `${share.value}-percent`
+      });
+    });
+
+    update();
+  });
+</script>
+
+<style>
+  .vx-opportunity {
+    color: #17161b;
+    background:
+      radial-gradient(circle at 14% 12%, rgba(117, 103, 197, 0.12), transparent 30%),
+      #f1eff4;
+  }
+
+  .vx-opportunity .vx-kicker { color: #6254ad; }
+
+  .vx-opportunity-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 0.83fr) minmax(520px, 1.17fr);
+    gap: clamp(3.5rem, 8vw, 8rem);
+    align-items: start;
+  }
+
+  .vx-opportunity-copy { position: sticky; top: 130px; }
+
+  .vx-opportunity-copy h2 {
+    max-width: 720px;
+    margin: 0;
+    font-size: clamp(2.8rem, 5vw, 5.3rem);
+    line-height: 0.96;
+    letter-spacing: -0.07em;
+  }
+
+  .vx-opportunity-copy > p:not(.vx-kicker) {
+    max-width: 620px;
+    margin: 1.6rem 0 2.4rem;
+    color: #696570;
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+
+  .vx-opportunity-signals { border-top: 1px solid #cfccd4; }
+
+  .vx-opportunity-signals article {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #cfccd4;
+  }
+
+  .vx-opportunity-signals span {
+    padding-top: 0.2rem;
+    color: #726c79;
+    font-size: 0.63rem;
+    font-weight: 700;
+  }
+
+  .vx-opportunity-signals h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+  .vx-opportunity-signals p { margin: 0; color: #706b75; font-size: 0.83rem; line-height: 1.5; }
+
+  .vx-calculator {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.3rem, 3vw, 2.4rem);
+    border: 1px solid rgba(35, 30, 48, 0.14);
+    border-radius: 22px;
+    background: #111116;
+    color: #f6f4fa;
+    box-shadow: 0 35px 90px rgba(37, 31, 59, 0.15);
+  }
+
+  .vx-calculator::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(207, 200, 243, 0.7), transparent);
+    content: "";
+  }
+
+  .vx-calculator-topline {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-bottom: 1.7rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .vx-calculator-topline p {
+    margin: 0 0 0.35rem;
+    color: #a79fcb;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .vx-calculator-topline h3 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+
+  .vx-calculator-topline > span {
+    padding: 0.45rem 0.65rem;
+    border: 1px solid rgba(207, 200, 243, 0.16);
+    border-radius: 999px;
+    color: #a9a5b0;
+    font-size: 0.63rem;
+    white-space: nowrap;
+  }
+
+  .vx-calculator-fields { display: grid; gap: 0.7rem; padding: 1.8rem 0; }
+
+  .vx-calculator-fields label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.45rem;
+    color: #d3cfd8;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .vx-calculator-fields output { color: #cfc8f3; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .vx-calculator-fields input[type="range"] {
+    width: 100%;
+    height: 26px;
+    margin: 0;
+    accent-color: #9a8cff;
+    cursor: pointer;
+  }
+
+  .vx-calculator-fields input[type="range"]:focus-visible {
+    outline: 2px solid #f6f4fa;
+    outline-offset: 4px;
+    border-radius: 999px;
+  }
+
+  .vx-calculator-result {
+    padding: 1.25rem;
+    border: 1px solid rgba(207, 200, 243, 0.16);
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(154, 140, 255, 0.1), rgba(255, 255, 255, 0.025));
+  }
+
+  .vx-calculator-result > p {
+    margin: 0 0 1rem;
+    color: #aaa5b0;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .vx-calculator-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .vx-calculator-metrics article { min-width: 0; }
+
+  .vx-calculator-metrics strong {
+    display: block;
+    overflow: hidden;
+    color: #f6f4fa;
+    font-size: clamp(1.35rem, 2.8vw, 2.3rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+    text-overflow: ellipsis;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vx-calculator-metrics span { display: block; margin-top: 0.5rem; color: #98939f; font-size: 0.68rem; line-height: 1.35; }
+
+  .vx-calculator-disclaimer { margin: 1rem 0; color: #85808c; font-size: 0.7rem; line-height: 1.55; }
+
+  .vx-calculator-cta {
+    display: flex;
+    min-height: 54px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.8rem 1rem;
+    border-radius: 9px;
+    color: #111016;
+    background: #cfc8f3;
+    font-size: 0.82rem;
+    font-weight: 800;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
+  }
+
+  .vx-calculator-cta:hover { transform: translateY(-2px); background: #e2ddf8; }
+  .vx-calculator-cta:focus-visible { outline: 2px solid #111016; outline-offset: -5px; }
+
+  @media (max-width: 980px) {
+    .vx-opportunity-shell { grid-template-columns: 1fr; }
+    .vx-opportunity-copy { position: static; }
+    .vx-opportunity-signals { display: grid; grid-template-columns: repeat(3, 1fr); border-left: 1px solid #cfccd4; }
+    .vx-opportunity-signals article { grid-template-columns: 1fr; padding: 1.2rem; border-right: 1px solid #cfccd4; }
+  }
+
+  @media (max-width: 620px) {
+    .vx-opportunity-copy h2 { font-size: clamp(2.65rem, 12vw, 4rem); }
+    .vx-opportunity-signals { grid-template-columns: 1fr; border-left: 0; }
+    .vx-opportunity-signals article { grid-template-columns: 32px 1fr; padding: 1rem 0; border-right: 0; }
+    .vx-calculator { margin-inline: -0.35rem; padding: 1.2rem; border-radius: 16px; }
+    .vx-calculator-topline > span { display: none; }
+    .vx-calculator-fields label { align-items: flex-start; font-size: 0.74rem; }
+    .vx-calculator-fields label > span { max-width: 60%; }
+    .vx-calculator-metrics { grid-template-columns: repeat(2, 1fr); }
+    .vx-calculator-metrics article:last-child { grid-column: 1 / -1; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  }
+</style>

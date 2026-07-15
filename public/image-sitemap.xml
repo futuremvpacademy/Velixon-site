@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+  <url>
+    <loc>https://velixon.net/</loc>
+    <image:image>
+      <image:loc>https://velixon.net/og.png</image:loc>
+      <image:caption>Velixon — smarter systems and better business through custom software and AI automation.</image:caption>
+      <image:title>Velixon custom software and AI automation</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://velixon.net/velixon-logo.png</image:loc>
+      <image:caption>Velixon company logo.</image:caption>
+      <image:title>Velixon</image:title>
+    </image:image>
+  </url>
+</urlset>

@@ -1,28 +1,43 @@
 export const siteContent = {
   companyName: "Velixon",
   logo: "/velixon-logo.png",
-  cta: "Start Your Project",
-  ctaHref: "/contact",
-  secondaryCta: "View Pricing",
-  secondaryCtaHref: "/pricing",
+  cta: "Start a Project",
+  ctaHref: "/contact/",
+  secondaryCta: "Explore Our Work",
+  secondaryCtaHref: "/#products",
   nav: [
-    { label: "Services", href: "/services" },
-    { label: "Work", href: "/work" },
-    { label: "Reviews", href: "/review" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" }
+    { label: "Services", href: "/services/" },
+    { label: "Solutions", href: "/solutions/" },
+    { label: "Industries", href: "/industries/" },
+    { label: "Integrations", href: "/integrations/" },
+    { label: "Resources", href: "/resources/" },
+    { label: "Work", href: "/work/" }
   ],
   footerNav: [
     { label: "Home", href: "/" },
-    { label: "Work", href: "/work" },
-    { label: "Reviews", href: "/review" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" }
+    { label: "Services", href: "/services/" },
+    { label: "All Specialized Services", href: "/services/automation/" },
+    { label: "AI Automation", href: "/services/ai-automation/" },
+    { label: "AI Agents", href: "/services/ai-agents/" },
+    { label: "Voice AI", href: "/services/voice-ai/" },
+    { label: "Custom Software", href: "/services/custom-software/" },
+    { label: "Business Solutions", href: "/solutions/" },
+    { label: "Industries", href: "/industries/" },
+    { label: "Service Areas", href: "/locations/" },
+    { label: "AI Automation in Utah", href: "/locations/utah/" },
+    { label: "AI Automation in Salt Lake City", href: "/locations/salt-lake-city/" },
+    { label: "Integrations", href: "/integrations/" },
+    { label: "Case Studies", href: "/case-studies/" },
+    { label: "Guides", href: "/guides/" },
+    { label: "Comparisons", href: "/comparisons/" },
+    { label: "Resources", href: "/resources/" },
+    { label: "Process", href: "/process/" },
+    { label: "Engagements", href: "/pricing/" },
+    { label: "About", href: "/about/" },
+    { label: "Contact", href: "/contact/" }
   ],
   footer: {
-    blurb: "Velixon designs modern websites for local businesses that need a stronger first impression, clearer messaging, and more customer inquiries.",
+    blurb: "Velixon is an AI automation agency and custom software company building AI agents, connected workflows, and business systems for growing companies.",
     designedBy: "Designed & Developed by Velixon",
     email: "Velixon.web@gmail.com",
     socials: [
@@ -507,24 +522,24 @@ export const siteContent = {
     contact: {
       hero: {
         eyebrow: "Contact",
-        title: "Tell us about your project",
+        title: "Tell us what the system needs to make possible.",
         description:
-          "Share what your business does, what kind of site you need, and where your current website or marketing feels weak right now."
+          "Share the workflow, operational constraint, or product opportunity. Velixon will help define the clearest software and infrastructure path."
       },
       helper:
-        "Send a short overview and we’ll respond quickly with the clearest next step for your site.",
+        "You do not need a finished specification. A clear description of the business problem is enough to begin.",
       whatToSend: [
         {
           title: "What your business does",
-          description: "A few lines about your business, service area, and the type of customers you want to reach."
+          description: "A few lines about the operation, users, and customers the system needs to support."
         },
         {
-          title: "What kind of site you need",
-          description: "Let us know if you need a new website, a redesign, or a focused landing page."
+          title: "What should connect",
+          description: "List the tools, data, workflows, people, payments, or customer touchpoints involved."
         },
         {
           title: "What matters most",
-          description: "Tell us if your priority is speed, stronger trust, more leads, or a better overall first impression."
+          description: "Tell us what must become faster, clearer, more reliable, or easier to operate."
         }
       ],
       nextSteps: [
@@ -542,7 +557,7 @@ export const siteContent = {
 };
 
 export const seo = {
-  title: "Velixon | High-Performance Websites",
+  title: "Velixon | AI Automation & Custom Software Company",
   description:
-    "Velixon builds clean, modern websites for local businesses that need stronger trust, clearer messaging, and more leads."
+    "Velixon is an AI automation agency and custom software company building AI agents, workflow automation, internal tools, and connected business systems."
 };

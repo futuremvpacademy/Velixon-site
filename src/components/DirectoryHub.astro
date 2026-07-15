@@ -1,0 +1,69 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "./Navbar.astro";
+import { siteContent } from "../data/site";
+import type { DirectoryGroup } from "../data/seo/types";
+import { buildDirectorySchema } from "../lib/directory-schema";
+import "../styles/seo-clusters.css";
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  headline: string;
+  summary: string;
+  path: string;
+  groups: DirectoryGroup[];
+  selectionTitle?: string;
+  selectionGuidance?: string;
+}
+
+const { title, description, eyebrow, headline, summary, path, groups, selectionTitle, selectionGuidance } = Astro.props;
+const { companyName, logo, nav, cta } = siteContent;
+const directorySchema = buildDirectorySchema({ title, description, headline, path, groups });
+---
+
+<MainLayout title={title} description={description} canonicalPath={path} schema={directorySchema}>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath={path} />
+  <main id="main-content" class="directory-page">
+    <header class="directory-hero">
+      <div class="cluster-grid" aria-hidden="true"></div>
+      <div class="container">
+        <p class="cluster-eyebrow">{eyebrow}</p>
+        <h1>{headline}</h1>
+        <p>{summary}</p>
+        <div class="cluster-actions">
+          <a class="button" href="/contact/">Schedule a strategy call</a>
+          <a class="button button-secondary" href="#directory">Explore capabilities</a>
+        </div>
+      </div>
+    </header>
+    <div class="directory-groups" id="directory">
+      {selectionGuidance && (
+        <section class="directory-group" aria-labelledby="directory-selection-title">
+          <div class="container">
+            <div class="cluster-heading cluster-heading-wide">
+              <h2 id="directory-selection-title">{selectionTitle ?? "Choose the right starting point"}</h2>
+              <p>{selectionGuidance}</p>
+            </div>
+          </div>
+        </section>
+      )}
+      {groups.map((group) => (
+        <section class="directory-group">
+          <div class="container">
+            <div class="cluster-heading cluster-heading-wide">
+              <h2>{group.title}</h2>
+              <p>{group.description}</p>
+            </div>
+            <div class="directory-grid">
+              {group.items.map((item) => (
+                <a href={item.href}><span>{item.label ?? "Capability"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+</MainLayout>

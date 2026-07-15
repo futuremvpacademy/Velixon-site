@@ -1,0 +1,292 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "./Navbar.astro";
+import { siteContent } from "../data/site";
+import type { SeoLandingData } from "../data/seo/types";
+import "../styles/seo-clusters.css";
+
+interface Props {
+  page: SeoLandingData;
+}
+
+const { page } = Astro.props;
+const { companyName, logo, nav, cta } = siteContent;
+const canonicalPath = `/${page.collection}/${page.slug}/`;
+const pageUrl = new URL(canonicalPath, "https://velixon.net").toString();
+const parentLabels: Record<SeoLandingData["collection"], string> = {
+  services: "Services",
+  solutions: "Solutions",
+  industries: "Industries",
+  integrations: "Integrations",
+  locations: "Locations"
+};
+const parentLabel = parentLabels[page.collection];
+const reviewedDate = page.reviewedDate ?? "July 2026";
+const serviceProjectTypes: Record<string, string> = {
+  "ai-automation": "ai-automation",
+  "ai-agents": "ai-automation",
+  "voice-ai": "voice-ai",
+  "workflow-automation": "workflow-automation",
+  "business-process-automation": "workflow-automation",
+  "custom-software": "custom-software",
+  "custom-saas": "custom-software",
+  "custom-crm": "crm-portal",
+  "dashboards-portals": "crm-portal",
+  "api-integrations": "integration"
+};
+const projectType = page.collection === "integrations"
+  ? "integration"
+  : page.collection === "solutions"
+    ? "workflow-automation"
+    : page.collection === "industries" || page.collection === "locations"
+      ? "business-infrastructure"
+      : serviceProjectTypes[page.slug] ?? "not-sure";
+const contactHref = `/contact/?${new URLSearchParams({
+  source: `${page.collection}-page`,
+  service: page.slug,
+  project_type: projectType
+}).toString()}`;
+
+const serviceSchema = {
+  "@type": "Service",
+  "@id": `${pageUrl}#service`,
+  name: page.name,
+  serviceType: page.primaryKeyword,
+  url: pageUrl,
+  description: page.metaDescription,
+  provider: { "@id": "https://velixon.net/#organization" },
+  areaServed: page.collection === "locations"
+    ? { "@type": "AdministrativeArea", name: page.name.replace(/^AI Automation Agency in /, "") }
+    : { "@type": "Country", name: "United States" },
+  audience: {
+    "@type": "BusinessAudience",
+    audienceType: "Growing businesses and operational teams"
+  },
+  keywords: [page.primaryKeyword, ...page.secondaryKeywords].join(", "),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: `${page.name} capabilities`,
+    itemListElement: page.capabilities.map((capability) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: capability.title,
+        description: capability.description
+      }
+    }))
+  }
+};
+
+const faqSchema = {
+  "@type": "FAQPage",
+  "@id": `${pageUrl}#faq`,
+  mainEntity: page.faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer }
+  }))
+};
+---
+
+<MainLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  imageAlt={`${page.name} services from Velixon`}
+  schema={[serviceSchema, faqSchema]}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath={`/${page.collection}/`} />
+
+  <main id="main-content" class="cluster-page">
+    <header class="cluster-hero">
+      <div class="cluster-grid" aria-hidden="true"></div>
+      <div class="cluster-glow" aria-hidden="true"></div>
+      <div class="container cluster-hero-shell">
+        <nav class="cluster-breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href={`/${page.collection}/`}>{parentLabel}</a></li>
+            <li aria-current="page">{page.name}</li>
+          </ol>
+        </nav>
+
+        <div class="cluster-hero-layout">
+          <div>
+            <p class="cluster-eyebrow">{page.eyebrow}</p>
+            <h1>{page.headline}</h1>
+            <p class="cluster-summary">{page.summary}</p>
+            <div class="cluster-actions">
+              <a class="button" href={contactHref}>Schedule a strategy call</a>
+              <a class="button button-secondary" href="#examples">See example workflows</a>
+            </div>
+            <p class="cluster-helper">Clear scope · Production-ready build · Your business owns the system</p>
+          </div>
+
+          <aside class="cluster-answer" aria-labelledby="cluster-definition-title">
+            <span>{page.definitionLabel ?? "In plain English"}</span>
+            <h2 id="cluster-definition-title">What is {page.name}?</h2>
+            <p>{page.definition}</p>
+            <small>Reviewed by Velixon · {reviewedDate}</small>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="cluster-section" aria-labelledby="cluster-challenges-title">
+      <div class="container cluster-split">
+        <div class="cluster-heading">
+          <p class="cluster-eyebrow">The business problem</p>
+          <h2 id="cluster-challenges-title">{page.challengesTitle}</h2>
+          <p>{page.challengesIntro}</p>
+        </div>
+        <div class="cluster-card-list">
+          {page.challenges.map((item, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div><h3>{item.title}</h3><p>{item.description}</p></div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cluster-section cluster-section-light" aria-labelledby="cluster-capabilities-title">
+      <div class="container">
+        <div class="cluster-heading cluster-heading-wide">
+          <p class="cluster-eyebrow">What Velixon builds</p>
+          <h2 id="cluster-capabilities-title">{page.capabilitiesTitle}</h2>
+          <p>{page.capabilitiesIntro}</p>
+        </div>
+        <div class="cluster-card-grid">
+          {page.capabilities.map((item) => (
+            <article><i aria-hidden="true"></i><h3>{item.title}</h3><p>{item.description}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cluster-section" aria-labelledby="cluster-outcomes-title">
+      <div class="container">
+        <div class="cluster-heading cluster-heading-wide">
+          <p class="cluster-eyebrow">Business outcomes</p>
+          <h2 id="cluster-outcomes-title">{page.outcomesTitle}</h2>
+          <p>{page.outcomesIntro}</p>
+        </div>
+        <div class="cluster-outcome-grid">
+          {page.outcomes.map((item) => (
+            <article><h3>{item.title}</h3><p>{item.description}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cluster-section cluster-examples" id="examples" aria-labelledby="cluster-examples-title">
+      <div class="container cluster-split">
+        <div class="cluster-heading">
+          <p class="cluster-eyebrow">Applied examples</p>
+          <h2 id="cluster-examples-title">{page.examplesTitle}</h2>
+          <p>{page.examplesIntro}</p>
+        </div>
+        <div class="cluster-example-list">
+          {page.examples.map((item) => (
+            <article><span aria-hidden="true">↗</span><div><h3>{item.title}</h3><p>{item.description}</p></div></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {page.roi && (
+      <section class="cluster-section cluster-roi" aria-labelledby="cluster-roi-title">
+        <div class="container cluster-roi-shell">
+          <div>
+            <p class="cluster-eyebrow">Estimate the opportunity</p>
+            <h2 id="cluster-roi-title">{page.roi.title}</h2>
+            <p>{page.roi.description}</p>
+          </div>
+          <div class="cluster-roi-model">
+            <strong>{page.roi.formula}</strong>
+            <ul>{page.roi.factors.map((factor) => <li>{factor}</li>)}</ul>
+            <small>{page.roi.disclaimer}</small>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="cluster-section cluster-section-light" aria-labelledby="cluster-process-title">
+      <div class="container cluster-split">
+        <div class="cluster-heading cluster-sticky">
+          <p class="cluster-eyebrow">Delivery process</p>
+          <h2 id="cluster-process-title">From operational problem to working system</h2>
+          <p>{page.processIntro}</p>
+          <a class="cluster-text-link" href="/process/">Explore the complete process <span aria-hidden="true">→</span></a>
+        </div>
+        <ol class="cluster-process">
+          {page.process.map((step) => (
+            <li><span>{step.label}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="cluster-section" aria-labelledby="cluster-fit-title">
+      <div class="container cluster-fit-shell">
+        <div class="cluster-heading">
+          <p class="cluster-eyebrow">Right-fit signals</p>
+          <h2 id="cluster-fit-title">{page.idealForTitle}</h2>
+        </div>
+        <ul class="cluster-fit-list">{page.idealFor.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="cluster-section cluster-technology" aria-labelledby="cluster-technology-title">
+      <div class="container cluster-tech-layout">
+        <div class="cluster-heading">
+          <p class="cluster-eyebrow">Technology</p>
+          <h2 id="cluster-technology-title">The stack follows the system—not the trend.</h2>
+          <p>{page.technologyNote}</p>
+        </div>
+        <div class="cluster-tech-list" aria-label="Relevant technology">
+          {page.technology.map((technology) => <span>{technology}</span>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="cluster-section cluster-faq" aria-labelledby="cluster-faq-title">
+      <div class="container cluster-split">
+        <div class="cluster-heading cluster-sticky">
+          <p class="cluster-eyebrow">Questions answered</p>
+          <h2 id="cluster-faq-title">Frequently asked questions</h2>
+          <p>Practical answers about scope, cost drivers, implementation, security, and ownership.</p>
+        </div>
+        <div class="cluster-faq-list">
+          {page.faqs.map((faq) => <details><summary>{faq.question}<span aria-hidden="true">+</span></summary><p>{faq.answer}</p></details>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="cluster-section cluster-related" aria-labelledby="cluster-related-title">
+      <div class="container">
+        <div class="cluster-heading cluster-heading-wide">
+          <p class="cluster-eyebrow">Continue exploring</p>
+          <h2 id="cluster-related-title">Related services, systems, and decision guides</h2>
+        </div>
+        <div class="cluster-related-grid">
+          {page.related.map((item) => (
+            <a href={item.href}><span>{item.label ?? "Related"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cluster-final">
+      <div class="container">
+        <p class="cluster-eyebrow">Smarter systems. Better business.</p>
+        <h2>Find the highest-value system to build first.</h2>
+        <p>Start with the workflow, constraint, or opportunity. Velixon will help translate it into a clear technical plan.</p>
+        <div class="cluster-actions">
+          <a class="button" href={contactHref}>Schedule a strategy call</a>
+          <a class="button button-secondary" href="/resources/">Explore practical guides</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
