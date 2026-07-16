@@ -1,0 +1,103 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import { siteContent } from "../data/site";
+import "../styles/legal.css";
+
+const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
+---
+
+<MainLayout
+  title="Accessibility Statement | Velixon"
+  description="Read Velixon's approach to website accessibility, current practices, third-party limitations, and how to request help or report a barrier."
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/accessibility" />
+  <main id="main-content" class="legal-page">
+    <header class="legal-hero">
+      <div class="container legal-hero-inner">
+        <p class="legal-eyebrow">Trust center · Accessibility</p>
+        <h1>Useful systems should work for more people.</h1>
+        <p class="legal-lede">Velixon aims to make velixon.net understandable, navigable, and usable across a wide range of devices and assistive technologies.</p>
+        <p class="legal-meta">
+          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Applies to:</strong> velixon.net</span>
+        </p>
+
+        <div class="legal-summary" aria-label="Accessibility approach summary">
+          <div class="legal-summary-item"><span class="legal-summary-number">01 · PRACTICAL TARGET</span><p>WCAG 2.2 Level AA is used as a practical design and testing benchmark.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">02 · MULTIPLE INPUTS</span><p>Core navigation and forms are designed for keyboard, pointer, touch, and assistive technology.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">03 · HUMAN SUPPORT</span><p>If a barrier blocks you, contact us for help or an alternative way to access the information.</p></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container legal-content legal-layout">
+      <nav class="legal-toc" aria-label="Accessibility statement contents">
+        <p class="legal-toc-title">On this page</p>
+        <ol>
+          <li><a href="#commitment">Our commitment</a></li>
+          <li><a href="#practices">Current practices</a></li>
+          <li><a href="#testing">Testing and improvement</a></li>
+          <li><a href="#third-parties">Third-party content</a></li>
+          <li><a href="#feedback">Feedback and support</a></li>
+        </ol>
+      </nav>
+
+      <article class="legal-article" aria-label="Velixon Accessibility Statement">
+        <section class="legal-section" id="commitment">
+          <p class="legal-section-label">01 · Commitment</p>
+          <h2>Accessibility is an ongoing engineering responsibility</h2>
+          <p>Velixon aims to support the Web Content Accessibility Guidelines (WCAG) 2.2 Level AA as a practical benchmark for this website. Accessibility needs and technologies vary, and this statement does not claim that every page will be barrier-free for every person or configuration.</p>
+          <p>We prioritize access to the site's core information and actions, including navigation, service information, contact, the Automation Assessment, proposal requests, and privacy choices.</p>
+        </section>
+
+        <section class="legal-section" id="practices">
+          <p class="legal-section-label">02 · Practices</p>
+          <h2>How the website supports access</h2>
+          <p>Current design and engineering practices include:</p>
+          <ul>
+            <li>Semantic page landmarks, logical heading structure, and descriptive page titles.</li>
+            <li>A skip link, visible keyboard focus, and keyboard-operable primary navigation and forms.</li>
+            <li>Programmatic form labels, required-field indicators, useful validation, and status or error announcements.</li>
+            <li>Text contrast, cues that do not rely only on color, and readable content spacing.</li>
+            <li>Responsive layouts and touch targets intended to work across common screen sizes and zoom levels.</li>
+            <li>Alternative text for meaningful images and hidden treatment for decorative images where appropriate.</li>
+            <li>Reduced-motion support for visitors who request it through their device or browser settings.</li>
+          </ul>
+        </section>
+
+        <section class="legal-section" id="testing">
+          <p class="legal-section-label">03 · Improvement</p>
+          <h2>Testing does not end at launch</h2>
+          <p>Velixon combines automated checks with manual review of keyboard navigation, focus behavior, responsive layouts, content structure, and important form states. Automated tools cannot identify every barrier, so reports from real visitors are valuable.</p>
+          <p>When a material issue is confirmed, we assess its impact, the affected workflow, and a maintainable correction. Timing can depend on complexity and whether a third-party service is involved.</p>
+        </section>
+
+        <section class="legal-section" id="third-parties">
+          <p class="legal-section-label">04 · Third parties</p>
+          <h2>External tools and destinations</h2>
+          <p>Some links, embedded services, documents, or provider-controlled interfaces may be maintained by third parties. Velixon does not control every aspect of those experiences, but we welcome reports about barriers encountered while reaching them from this website.</p>
+        </section>
+
+        <section class="legal-section" id="feedback">
+          <p class="legal-section-label">05 · Feedback</p>
+          <h2>Report a barrier or request another format</h2>
+          <p>If a website barrier prevents you from accessing information or completing a task, contact Velixon. Tell us the page or feature, what you were trying to do, and—if you are comfortable sharing it—the browser or assistive technology involved. Do not include passwords or other sensitive information.</p>
+          <p>You may ask for help completing a website action or for the relevant information in another reasonable format. We will review the request and respond through the contact method you provide.</p>
+        </section>
+
+        <aside class="legal-contact" aria-labelledby="accessibility-contact-title">
+          <h2 id="accessibility-contact-title">Accessibility feedback and support</h2>
+          <p>Use “Accessibility Feedback” as the email subject so the request can be identified quickly.</p>
+          <div class="legal-contact-links">
+            <a href={`mailto:${contactInfo.email}?subject=Accessibility%20Feedback`}>{contactInfo.email}</a>
+            <a href={phoneHref}>{contactInfo.phone}</a>
+            <a href="/contact/">Contact form</a>
+          </div>
+          <div class="legal-related"><strong>Related:</strong> <a href="/privacy/">Privacy Policy</a><a href="/cookies/">Cookies &amp; storage</a><a href="/terms/">Terms of Use</a><a href="/security/">Security</a></div>
+        </aside>
+      </article>
+    </div>
+  </main>
+</MainLayout>

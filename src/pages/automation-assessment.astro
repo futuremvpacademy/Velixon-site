@@ -154,8 +154,9 @@ const assessmentSchema = {
                 <label class="assessment-field">Business email<input data-private type="email" name="email" autocomplete="email" maxlength="254" required /></label>
                 <label class="assessment-field">Company name<input data-private type="text" name="company" autocomplete="organization" maxlength="140" required /></label>
                 <label class="assessment-field">Phone <span>(optional)</span><input data-private type="tel" name="phone" autocomplete="tel" maxlength="40" /></label>
-                <label class="assessment-consent"><input data-private type="checkbox" name="contact-permission" value="accepted" required /><span>I agree to the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use this information to provide my assessment and respond to my request.</span></label>
-                <label class="assessment-consent"><input data-private type="checkbox" name="marketing-consent" value="accepted" /><span>Send me occasional practical automation guidance. Optional and not required to receive the assessment.</span></label>
+                <p class="form-safety-note"><strong>Use business-level details only.</strong> Do not enter credentials, regulated data, confidential source code, or production datasets.</p>
+                <label class="assessment-consent"><input data-private type="checkbox" name="contact-permission" value="accepted" required /><span>I acknowledge the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use this information to provide my assessment and respond to my request.</span></label>
+                <label class="assessment-consent"><input data-private type="checkbox" name="marketing-consent" value="accepted" /><span>Email me occasional practical automation guidance. This is optional, is not required to receive the assessment, and I can unsubscribe at any time.</span></label>
               </div>
             </section>
 

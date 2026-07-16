@@ -10,7 +10,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 
 <MainLayout
   title="Privacy Policy | Velixon Software & AI"
-  description="Read how Velixon collects, uses, protects, and shares information submitted through velixon.net, including contact forms and consent-based analytics."
+  description="Read how Velixon handles contact, assessment, proposal, attribution, browser-storage, and consent-based analytics information submitted through velixon.net."
 >
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/privacy" />
   <main id="main-content" class="legal-page">
@@ -61,6 +61,10 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <h2>Information we collect</h2>
           <h3>Information you provide</h3>
           <p>When you submit an inquiry or contact us, we may receive your name, business name, email address, phone number, website address, project type, current project stage, budget range, desired launch window, project goals and details, preferred contact method, and anything else you include in your message.</p>
+          <h3>Assessment and proposal information</h3>
+          <p>If you complete the Automation Assessment or request a proposal, we may receive the business profile, operational challenges, lead and workflow details, current tools, objectives, timeline, investment range, decision role, desired outcomes, stakeholders, integrations, technical requirements, consent choices, and contact information you provide.</p>
+          <h3>Assessment output</h3>
+          <p>The assessment uses predefined rules in your browser to generate a directional readiness score, category, opportunity suggestions, and recommended next step from your answers. That output may be submitted with your answers and used to organize follow-up. It is an estimate for business planning, not a guarantee or a decision made solely by automated processing.</p>
           <h3>Inquiry attribution</h3>
           <p>If you submit an inquiry, the form may include available session-attribution details: UTM campaign parameters, a Google click identifier (gclid) when present, the first landing page, referring page, capture time, and submission page. These values help us understand how the inquiry reached Velixon. They are stored for the browser session and are separate from optional Google Analytics, so available attribution may be submitted with an inquiry even when analytics consent is declined.</p>
           <h3>Operational website data</h3>
@@ -81,6 +85,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <p>We use information for legitimate business purposes, including to:</p>
           <ul>
             <li>Respond to questions, evaluate project fit, and prepare next steps.</li>
+            <li>Generate assessment results, recommend a route, and evaluate proposal requests.</li>
             <li>Provide, operate, maintain, and improve the website and our services.</li>
             <li>When optional analytics is configured and consent is granted, understand site traffic, performance, and which content is useful.</li>
             <li>Protect the website, prevent spam or abuse, and investigate security concerns.</li>
@@ -102,8 +107,9 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <h2>Analytics consent and browser storage</h2>
           <p>Google Analytics is optional and may be disabled entirely. When a verified measurement property is configured, its library does not load unless you select “Allow analytics.” If you grant consent, Google Analytics may use analytics cookies or similar identifiers to measure visits and interactions. If you decline—or if analytics is not configured—Google Analytics does not load.</p>
           <p>Advertising storage, advertising user-data storage, and ad-personalization storage remain disabled regardless of your choice. Google signals and advertising-personalization signals are also disabled. Granting analytics consent does not enable advertising features on this website.</p>
-          <p>The site uses local browser storage to remember your analytics choice. Session storage retains inquiry-attribution details during your visit and may temporarily retain non-contact assessment progress, completed assessment results, and information you just entered when you choose to continue into the proposal form. Session-stored information is limited to the current browser tab and is separate from Google Analytics.</p>
+          <p>The site uses local browser storage to remember your analytics choice. Session storage retains inquiry-attribution details during your visit and may temporarily retain non-contact assessment progress. After a successful assessment submission, it also temporarily retains the completed result and information you entered so the proposal form can be prefilled if you choose to continue. Session-stored information is limited to the current browser tab and is separate from Google Analytics.</p>
           <p>You can review or change your choice at any time through <strong>Analytics preferences</strong> in the website footer. Withdrawing consent applies to future analytics activity; information previously processed may remain subject to the provider's applicable retention practices.</p>
+          <p>See the <a href="/cookies/">Cookie and Browser Storage Policy</a> for a plain-language list of storage purposes and controls.</p>
         </section>
 
         <section class="legal-section" id="retention">
@@ -142,7 +148,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
             <a href={phoneHref}>{contactInfo.phone}</a>
             <a href="/contact/">Contact form</a>
           </div>
-          <div class="legal-related"><strong>Related:</strong> <a href="/terms/">Terms of Use</a><a href="/security/">Security</a></div>
+          <div class="legal-related"><strong>Related:</strong> <a href="/terms/">Terms of Use</a><a href="/cookies/">Cookies &amp; storage</a><a href="/security/">Security</a><a href="/accessibility/">Accessibility</a></div>
         </aside>
       </article>
     </div>

@@ -12,7 +12,7 @@ const { enabled = false } = Astro.props;
     <h2>Help us improve Velixon</h2>
     <p>
       Optional analytics show us which pages help visitors most. We do not use advertising cookies, and declining will not affect the site.
-      <a href="/privacy/#analytics">Read the privacy policy</a>.
+      <a href="/cookies/">Read the cookie and storage policy</a>.
     </p>
   </div>
   <div class="consent-banner-actions">
@@ -26,6 +26,7 @@ const { enabled = false } = Astro.props;
     const banner = document.querySelector("[data-consent-banner]");
     const accept = banner?.querySelector("[data-consent-accept]");
     const decline = banner?.querySelector("[data-consent-decline]");
+    let returnFocus = null;
 
     const analytics = () => window.velixonAnalytics;
     const show = (focus = false) => {
@@ -35,6 +36,8 @@ const { enabled = false } = Astro.props;
     };
     const hide = () => {
       if (banner) banner.hidden = true;
+      if (returnFocus instanceof HTMLElement) returnFocus.focus();
+      returnFocus = null;
     };
 
     if (!analytics()?.getConsent()) show();
@@ -53,6 +56,7 @@ const { enabled = false } = Astro.props;
       const trigger = event.target instanceof Element ? event.target.closest("[data-consent-settings]") : null;
       if (!trigger) return;
       event.preventDefault();
+      returnFocus = trigger;
       show(true);
     });
   })();

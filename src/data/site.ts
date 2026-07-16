@@ -12,34 +12,44 @@ export const siteContent = {
     { label: "Resources", href: "/resources/", activePrefixes: ["/resources", "/guides", "/comparisons"] }
   ],
   footerNav: [
-    { label: "Home", href: "/" },
-    { label: "Services", href: "/services/" },
-    { label: "AI Automation", href: "/services/ai-automation/" },
-    { label: "AI Agents", href: "/services/ai-agents/" },
-    { label: "Voice AI", href: "/services/voice-ai/" },
-    { label: "Custom Software", href: "/services/custom-software/" },
-    { label: "Business Solutions", href: "/solutions/" },
-    { label: "Industries", href: "/industries/" },
-    { label: "Service Areas", href: "/locations/" },
-    { label: "AI Automation in Utah", href: "/locations/utah/" },
-    { label: "AI Automation in Lehi", href: "/locations/lehi/" },
-    { label: "AI Automation in Salt Lake City", href: "/locations/salt-lake-city/" },
-    { label: "Integrations", href: "/integrations/" },
-    { label: "Case Studies", href: "/case-studies/" },
-    { label: "Guides", href: "/guides/" },
-    { label: "Comparisons", href: "/comparisons/" },
-    { label: "Resources", href: "/resources/" },
-    { label: "Free Automation Assessment", href: "/automation-assessment/" },
-    { label: "AI Automation ROI Calculator", href: "/resources/ai-automation-roi-calculator/" },
-    { label: "Process", href: "/process/" },
-    { label: "Engagements", href: "/pricing/" },
-    { label: "About", href: "/about/" },
-    { label: "Contact", href: "/contact/" },
-    { label: "Proposal Request", href: "/proposal-request/" }
+    {
+      heading: "Explore",
+      ariaLabel: "Explore Velixon",
+      items: [
+        { label: "Services", href: "/services/" },
+        { label: "Industries", href: "/industries/" },
+        { label: "Work", href: "/case-studies/" },
+        { label: "Resources", href: "/resources/" },
+        { label: "Integrations", href: "/integrations/" },
+        { label: "Service areas", href: "/locations/" }
+      ]
+    },
+    {
+      heading: "Company",
+      ariaLabel: "Velixon company links",
+      items: [
+        { label: "About", href: "/about/" },
+        { label: "Process", href: "/process/" },
+        { label: "Engagements", href: "/pricing/" },
+        { label: "Contact", href: "/contact/" },
+        { label: "Proposal request", href: "/proposal-request/" }
+      ]
+    },
+    {
+      heading: "Legal & trust",
+      ariaLabel: "Legal and trust links",
+      items: [
+        { label: "Privacy policy", href: "/privacy/" },
+        { label: "Terms of use", href: "/terms/" },
+        { label: "Cookies & storage", href: "/cookies/" },
+        { label: "Accessibility", href: "/accessibility/" },
+        { label: "Security practices", href: "/security/" },
+        { label: "Website disclaimers", href: "/terms/#disclaimers" }
+      ]
+    }
   ],
   footer: {
     blurb: "Velixon is an AI automation agency and custom software company building AI agents, connected workflows, and business systems for growing companies.",
-    designedBy: "Designed & Developed by Velixon",
     email: "Velixon.web@gmail.com",
     socials: [
       { label: "Instagram", href: "https://www.instagram.com/velixon.digital/" }

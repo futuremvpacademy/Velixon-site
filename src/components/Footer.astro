@@ -9,13 +9,18 @@ interface SocialItem {
   href: string;
 }
 
+interface NavGroup {
+  heading: string;
+  ariaLabel: string;
+  items: NavItem[];
+}
+
 interface Props {
   logo: string;
   companyName: string;
-  nav: NavItem[];
+  nav: NavGroup[];
   footer: {
     blurb: string;
-    designedBy: string;
     email: string;
     socials: SocialItem[];
   };
@@ -25,62 +30,63 @@ interface Props {
 
 const { logo, companyName, nav, footer, phone, analyticsEnabled = false } = Astro.props;
 const phoneHref = `tel:${phone.replace(/[^0-9+]/g, "")}`;
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="container footer-conversion">
     <div class="footer-conversion-copy">
       <p class="footer-conversion-kicker">Have a workflow worth fixing?</p>
-      <h2>Smarter systems. Better business.</h2>
-      <p>Start with the process creating the most operational drag. Velixon will help determine what should be automated, integrated, or built.</p>
+      <h2>Start with the process creating the most drag.</h2>
+      <p>Get a focused assessment of what should be automated, connected, or built first.</p>
     </div>
     <div class="footer-conversion-action">
       <a class="button" href="/automation-assessment/?source=site-footer">Take the Free Assessment <span aria-hidden="true">↗</span></a>
-      <p>AI automation · Custom software · Business systems</p>
+      <p>Useful guidance first. No obligation.</p>
     </div>
   </div>
 
   <div class="container footer-shell">
     <div class="footer-brand">
       <div class="footer-brand-top">
-        <img class="footer-brand-logo" src={logo} alt={`${companyName} logo`} width="612" height="408" loading="lazy" decoding="async" />
+        <img class="footer-brand-logo" src={logo} alt="" width="612" height="408" loading="lazy" decoding="async" />
         <p class="footer-title">{companyName}</p>
       </div>
       <p class="footer-description">{footer.blurb}</p>
-      <div class="footer-credit-signature">
-        <img class="footer-credit-logo" src={logo} alt="" width="612" height="408" loading="lazy" decoding="async" />
-        <p class="footer-credit">{footer.designedBy}</p>
-      </div>
-    </div>
-
-    <div class="footer-column">
-      <p class="footer-heading">Navigate</p>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-      </nav>
-    </div>
-
-    <div class="footer-column">
-      <p class="footer-heading">Trust</p>
-      <nav class="footer-nav" aria-label="Trust and legal navigation">
-        <a href="/security/">Security practices</a>
-        <a href="/privacy/">Privacy policy</a>
-        <a href="/terms/">Terms of use</a>
-        {analyticsEnabled && <button class="footer-settings-button" type="button" data-consent-settings>Analytics preferences</button>}
-      </nav>
-    </div>
-
-    <div class="footer-column footer-contact">
-      <p class="footer-heading">Connect</p>
-      <a class="footer-link" href={`mailto:${footer.email}`}>{footer.email}</a>
-      <a class="footer-link" href={phoneHref}>{phone}</a>
-      <div class="footer-socials" aria-label="Social links">
+      <address class="footer-contact-links" aria-label="Contact Velixon">
+        <a href={`mailto:${footer.email}`}>{footer.email}</a>
+        <a href={phoneHref}>{phone}</a>
+      </address>
+      <nav class="footer-socials" aria-label="Social links">
         {footer.socials.map((item) => (
           <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
             {item.label}
           </a>
         ))}
-      </div>
+      </nav>
     </div>
+
+    <div class="footer-navigation">
+      {nav.map((group) => (
+        <div class="footer-column">
+          <p class="footer-heading">{group.heading}</p>
+          <nav class="footer-nav" aria-label={group.ariaLabel}>
+            {group.items.map((item) => <a href={item.href}>{item.label}</a>)}
+          </nav>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container footer-disclosure">
+    <p>Website content, calculators, and estimates are general information—not legal, financial, compliance, or accounting advice—and do not guarantee project or business results.</p>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {currentYear} {companyName}. All rights reserved.</p>
+    <nav class="footer-utility" aria-label="Footer utility navigation">
+      <a href="/privacy/#choices">Privacy choices</a>
+      {analyticsEnabled && <button class="footer-settings-button" type="button" data-consent-settings>Analytics preferences</button>}
+    </nav>
   </div>
 </footer>
