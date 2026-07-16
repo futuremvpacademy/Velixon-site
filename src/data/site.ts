@@ -1,8 +1,8 @@
 export const siteContent = {
   companyName: "Velixon",
   logo: "/velixon-logo.png",
-  cta: "Start a Project",
-  ctaHref: "/contact/",
+  cta: "Free Assessment",
+  ctaHref: "/automation-assessment/",
   secondaryCta: "Explore Our Work",
   secondaryCtaHref: "/#products",
   nav: [
@@ -31,11 +31,13 @@ export const siteContent = {
     { label: "Guides", href: "/guides/" },
     { label: "Comparisons", href: "/comparisons/" },
     { label: "Resources", href: "/resources/" },
+    { label: "Free Automation Assessment", href: "/automation-assessment/" },
     { label: "AI Automation ROI Calculator", href: "/resources/ai-automation-roi-calculator/" },
     { label: "Process", href: "/process/" },
     { label: "Engagements", href: "/pricing/" },
     { label: "About", href: "/about/" },
-    { label: "Contact", href: "/contact/" }
+    { label: "Contact", href: "/contact/" },
+    { label: "Proposal Request", href: "/proposal-request/" }
   ],
   footer: {
     blurb: "Velixon is an AI automation agency and custom software company building AI agents, connected workflows, and business systems for growing companies.",

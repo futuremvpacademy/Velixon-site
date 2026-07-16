@@ -1,0 +1,442 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import { siteContent } from "../data/site";
+import { assessmentScoring } from "../lib/assessment-scoring";
+import "../styles/assessment.css";
+
+const { companyName, logo, nav, cta } = siteContent;
+const assessmentSchema = {
+  "@type": "WebApplication",
+  name: "Velixon Automation Assessment",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: "A free business automation assessment that identifies operational bottlenecks and recommends practical next steps.",
+  url: "https://velixon.net/automation-assessment/",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
+};
+---
+
+<MainLayout
+  title="Free Business Automation Assessment | Velixon"
+  description="Get an explainable automation readiness score, identify your top workflow opportunities, and see the clearest next step for your business."
+  schema={assessmentSchema}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/automation-assessment" />
+  <main id="main-content" class="assessment-page">
+    <section class="assessment-hero">
+      <div class="container assessment-hero-grid">
+        <div>
+          <p class="assessment-eyebrow">Free automation assessment</p>
+          <h1>Find the work your business should stop doing manually.</h1>
+          <p class="assessment-hero-copy">Answer a focused set of questions about leads, operations, software, and readiness. You’ll receive an immediate score, three practical opportunities, and a recommended next step.</p>
+          <div class="assessment-hero-actions"><a class="button" href="#assessment">Start My Free Assessment <span aria-hidden="true">↓</span></a><span>No obligation. Results appear instantly.</span></div>
+        </div>
+        <ul class="assessment-promise" aria-label="Assessment details">
+          <li>About five minutes to complete</li>
+          <li>Clear scoring—not a black box</li>
+          <li>Useful results before any sales conversation</li>
+          <li>No guaranteed savings or inflated claims</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="assessment-shell" id="assessment" aria-label="Automation assessment">
+      <div class="container">
+        <div class="assessment-card">
+          <form
+            id="automation-assessment"
+            name="automation-assessment"
+            method="POST"
+            action="/automation-assessment/?submitted=true"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            novalidate
+          >
+            <input type="hidden" name="form-name" value="automation-assessment" />
+            <input type="hidden" name="subject" value="New Velixon automation assessment" />
+            <input type="hidden" name="scoring-version" value={assessmentScoring.version} />
+            <input type="hidden" name="assessment-score-client" id="lead-score" />
+            <input type="hidden" name="assessment-category-client" id="lead-category" />
+            <input type="hidden" name="suggested-route-client" id="routing-decision" />
+            <input type="hidden" name="scoring-factors-client" id="scoring-factors" />
+            <input type="hidden" name="score-trust-level" value="client-calculated-unverified" />
+            <input type="hidden" name="top-opportunities" id="top-opportunities" />
+            <input type="hidden" name="source" id="assessment-source" value="website" />
+            <input type="hidden" name="utm-source" id="assessment-utm-source" />
+            <input type="hidden" name="utm-medium" id="assessment-utm-medium" />
+            <input type="hidden" name="utm-campaign" id="assessment-utm-campaign" />
+            <input type="hidden" name="landing-page" id="assessment-landing-page" />
+            <input type="hidden" name="referrer" id="assessment-referrer" />
+            <p class="form-honeypot" hidden><label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+            <div class="assessment-progress">
+              <div class="assessment-progress-row"><span>Automation assessment</span><strong aria-live="polite" aria-atomic="true">Step <span data-current-step>1</span> of 6</strong></div>
+              <div class="assessment-progress-track" aria-hidden="true"><span data-progress-bar></span></div>
+            </div>
+
+            <section class="assessment-step" data-step="1">
+              <div class="assessment-step-heading"><span>01 · Business profile</span><h2 tabindex="-1">Start with the operating context.</h2><p>This establishes scale and helps keep the recommendations practical.</p></div>
+              <div class="assessment-fields">
+                <label class="assessment-field">Industry
+                  <select name="industry" required><option value="">Select your industry</option><option>Construction & contracting</option><option>Home services</option><option>Moving & logistics</option><option>Professional services</option><option>Healthcare administration</option><option>Legal services</option><option>Real estate & property management</option><option>E-commerce</option><option>Agency</option><option>Other</option></select>
+                </label>
+                <label class="assessment-field">Team size
+                  <select name="team-size" required><option value="">Select team size</option><option value="solo">Just me</option><option value="2-5">2–5 people</option><option value="6-20">6–20 people</option><option value="21-50">21–50 people</option><option value="51-plus">51+ people</option></select>
+                </label>
+                <label class="assessment-field">Approximate monthly lead volume
+                  <select name="lead-volume" required><option value="">Select lead volume</option><option value="0-10">0–10</option><option value="11-50">11–50</option><option value="51-200">51–200</option><option value="201-500">201–500</option><option value="500-plus">500+</option></select>
+                </label>
+                <label class="assessment-field">Current tools
+                  <input name="current-tools" type="text" maxlength="300" placeholder="CRM, scheduling, accounting, spreadsheets…" />
+                </label>
+              </div>
+            </section>
+
+            <section class="assessment-step" data-step="2" hidden>
+              <div class="assessment-step-heading"><span>02 · Friction</span><h2 tabindex="-1">Where does work slow down?</h2><p>Select every recurring issue that costs time, delays customers, or creates avoidable risk.</p></div>
+              <div class="assessment-options" data-required-group="challenges">
+                {[
+                  ["lead-follow-up","Lead follow-up"],["missed-calls","Missed calls"],["manual-entry","Manual data entry"],["scheduling","Scheduling"],["customer-communication","Customer communication"],["proposals","Proposals and estimates"],["invoicing","Invoicing and payment"],["crm","CRM management"],["reporting","Reporting"],["handoffs","Internal handoffs"],["documents","Document generation"],["support","Customer support"]
+                ].map(([value,label]) => <label class="assessment-option"><input type="checkbox" name="challenges" value={value} /><span>{label}</span></label>)}
+              </div>
+            </section>
+
+            <section class="assessment-step" data-step="3" hidden>
+              <div class="assessment-step-heading"><span>03 · Current process</span><h2 tabindex="-1">Measure the manual load.</h2><p>These answers shape the opportunity score. A higher score means more potential leverage—not a guaranteed result.</p></div>
+              <div class="assessment-fields">
+                <label class="assessment-field">Typical lead response time
+                  <select name="response-time" required><option value="">Select response time</option><option value="minutes">Within minutes</option><option value="hours">Within a few hours</option><option value="same-day">Same day</option><option value="next-day">Next business day or later</option><option value="inconsistent">Inconsistent or not tracked</option></select>
+                </label>
+                <label class="assessment-field">How connected are your systems?
+                  <select name="systems" required><option value="">Select system state</option><option value="connected">Mostly connected</option><option value="partial">Some connections, some manual work</option><option value="manual">Mostly manual or disconnected</option></select>
+                </label>
+                <label class="assessment-field">Hours lost to repetitive work each week
+                  <select name="hours-lost" required><option value="">Select a range</option><option value="0-5">0–5 hours</option><option value="6-10">6–10 hours</option><option value="11-20">11–20 hours</option><option value="21-40">21–40 hours</option><option value="40-plus">40+ hours</option></select>
+                </label>
+                <label class="assessment-field">Is follow-up automated?
+                  <select name="follow-up" required><option value="">Select an answer</option><option value="yes">Yes, reliably</option><option value="partial">Partially</option><option value="no">No</option></select>
+                </label>
+              </div>
+            </section>
+
+            <section class="assessment-step" data-step="4" hidden>
+              <div class="assessment-step-heading"><span>04 · Objectives</span><h2 tabindex="-1">What needs to improve first?</h2><p>Choose the outcomes that matter most over the next six to twelve months.</p></div>
+              <div class="assessment-options" data-required-group="objectives">
+                {[
+                  ["more-leads","Generate more qualified leads"],["respond-faster","Respond faster"],["reduce-manual-work","Reduce manual work"],["improve-conversion","Improve conversion"],["customer-experience","Improve customer experience"],["internal-app","Build an internal app"],["ai-agents","Implement AI agents"],["reporting","Improve reporting"],["replace-spreadsheets","Replace spreadsheets"],["connect-software","Connect existing software"],["scale","Scale operations"],["proposal-flow","Improve proposal-to-payment"]
+                ].map(([value,label]) => <label class="assessment-option"><input type="checkbox" name="objectives" value={value} /><span>{label}</span></label>)}
+              </div>
+            </section>
+
+            <section class="assessment-step" data-step="5" hidden>
+              <div class="assessment-step-heading"><span>05 · Readiness</span><h2 tabindex="-1">How ready is the project?</h2><p>This helps route you to a useful next step instead of forcing every visitor into the same sales path.</p></div>
+              <div class="assessment-fields">
+                <label class="assessment-field">Preferred timeline
+                  <select name="timeline" required><option value="">Select a timeline</option><option value="within-month">Within a month</option><option value="1-3-months">1–3 months</option><option value="3-6-months">3–6 months</option><option value="exploring">Exploring for later</option></select>
+                </label>
+                <label class="assessment-field">Working investment range
+                  <select name="budget" required><option value="">Select a range</option><option value="under-10k">Under $10,000</option><option value="10k-25k">$10,000–$25,000</option><option value="25k-50k">$25,000–$50,000</option><option value="50k-plus">$50,000+</option><option value="guidance">Need guidance</option></select>
+                </label>
+                <label class="assessment-field">Are you involved in the decision?
+                  <select name="decision-maker" required><option value="">Select an answer</option><option value="yes">Yes, I make or share the decision</option><option value="influencer">I influence the decision</option><option value="researching">I am researching for someone else</option></select>
+                </label>
+                <label class="assessment-field">Preferred next step
+                  <select name="preferred-next-step" required><option value="">Select a next step</option><option value="report">View my assessment results</option><option value="strategy-call">Discuss the opportunities</option><option value="proposal">Request a proposal</option></select>
+                </label>
+              </div>
+            </section>
+
+            <section class="assessment-step" data-step="6" hidden>
+              <div class="assessment-step-heading"><span>06 · Your result</span><h2 tabindex="-1">Create your personalized result.</h2><p>Your score appears immediately on this page. Velixon uses these details to respond only as permitted below.</p></div>
+              <div class="assessment-fields">
+                <label class="assessment-field">Full name<input data-private type="text" name="full-name" autocomplete="name" maxlength="120" required /></label>
+                <label class="assessment-field">Business email<input data-private type="email" name="email" autocomplete="email" maxlength="254" required /></label>
+                <label class="assessment-field">Company name<input data-private type="text" name="company" autocomplete="organization" maxlength="140" required /></label>
+                <label class="assessment-field">Phone <span>(optional)</span><input data-private type="tel" name="phone" autocomplete="tel" maxlength="40" /></label>
+                <label class="assessment-consent"><input data-private type="checkbox" name="contact-permission" value="accepted" required /><span>I agree to the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use this information to provide my assessment and respond to my request.</span></label>
+                <label class="assessment-consent"><input data-private type="checkbox" name="marketing-consent" value="accepted" /><span>Send me occasional practical automation guidance. Optional and not required to receive the assessment.</span></label>
+              </div>
+            </section>
+
+            <p class="assessment-error" id="assessment-error" role="alert" hidden></p>
+            <div class="assessment-actions">
+              <button class="assessment-back" type="button" data-back hidden>← Back</button>
+              <button class="button" type="button" data-next>Continue</button>
+              <button class="button" type="submit" data-submit hidden>Calculate My Score</button>
+            </div>
+          </form>
+
+          <section class="assessment-result" id="assessment-result" aria-live="polite" tabindex="-1" hidden>
+            <div class="result-header">
+              <div class="result-score"><div><strong data-result-score>0</strong><span>out of 100</span></div></div>
+              <div><p class="assessment-eyebrow" data-result-category>Assessment complete</p><h2 data-result-title>Your opportunity is ready to review.</h2><p data-result-summary></p></div>
+            </div>
+            <div class="result-grid">
+              <article><span>Operational load</span><strong data-result-hours>—</strong><p>Reported repetitive time each week</p></article>
+              <article><span>Lead response</span><strong data-result-response>—</strong><p>Your current speed-to-lead pattern</p></article>
+              <article><span>System readiness</span><strong data-result-systems>—</strong><p>How connected the current stack is</p></article>
+            </div>
+            <p class="assessment-eyebrow">Your top three opportunities</p>
+            <ol class="result-opportunities" data-result-opportunities></ol>
+            <div class="result-actions">
+              <a class="button" data-primary-route href="/contact/?source=assessment">Discuss My Assessment</a>
+              <button class="button button-secondary" type="button" onclick="window.print()">Print or Save as PDF</button>
+              <a class="button button-secondary" href="/resources/">Explore Practical Guides</a>
+            </div>
+            <p class="result-disclaimer">This assessment is directional, not a guarantee of savings, revenue, compliance, or project results. Recommendations depend on workflow validation, data quality, adoption, system constraints, and implementation scope.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
+
+<script>
+  import { assessmentScoring, getAssessmentCategory } from "../lib/assessment-scoring";
+
+  const form = document.querySelector<HTMLFormElement>("#automation-assessment");
+  const steps = Array.from(document.querySelectorAll<HTMLElement>("[data-step]"));
+  const nextButton = document.querySelector<HTMLButtonElement>("[data-next]");
+  const backButton = document.querySelector<HTMLButtonElement>("[data-back]");
+  const submitButton = document.querySelector<HTMLButtonElement>("[data-submit]");
+  const errorBox = document.querySelector<HTMLElement>("#assessment-error");
+  const result = document.querySelector<HTMLElement>("#assessment-result");
+  const progress = document.querySelector<HTMLElement>("[data-progress-bar]");
+  const currentStepLabel = document.querySelector<HTMLElement>("[data-current-step]");
+  const analytics = (window as Window & { velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void } }).velixonAnalytics;
+  const weights = assessmentScoring.weights as unknown as Record<string, unknown>;
+  let currentStep = 0;
+
+  const fieldValue = (name: string) => String(new FormData(form!).get(name) || "");
+  const checkedValues = (name: string) => Array.from(form!.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)).map((input) => input.value);
+  const scoreFromMap = (mapName: string, value: string) => Number((weights[mapName] as Record<string, number>)?.[value] || 0);
+  const setHidden = (id: string, value: string | number) => { const field = document.querySelector<HTMLInputElement>(id); if (field) field.value = String(value); };
+
+  const showError = (message: string) => {
+    if (!errorBox) return;
+    errorBox.textContent = message;
+    errorBox.hidden = false;
+    errorBox.focus();
+  };
+  const clearError = () => { if (errorBox) { errorBox.hidden = true; errorBox.textContent = ""; } };
+
+  const validateStep = () => {
+    const step = steps[currentStep];
+    const invalid = step.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(":invalid");
+    if (invalid) { invalid.reportValidity(); invalid.focus(); return false; }
+    const requiredGroup = step.querySelector<HTMLElement>("[data-required-group]")?.dataset.requiredGroup;
+    if (requiredGroup && checkedValues(requiredGroup).length === 0) { showError("Choose at least one option to continue."); return false; }
+    return true;
+  };
+
+  const saveProgress = () => {
+    if (!form) return;
+    const values: Record<string, string | string[]> = {};
+    form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input[name], select[name], textarea[name]").forEach((field) => {
+      if (field.hasAttribute("data-private") || field.type === "hidden" || field.name === "bot-field") return;
+      if (field instanceof HTMLInputElement && field.type === "checkbox") {
+        if (!values[field.name]) values[field.name] = [];
+        if (field.checked) (values[field.name] as string[]).push(field.value);
+      } else values[field.name] = field.value;
+    });
+    try { sessionStorage.setItem("velixon_assessment_progress", JSON.stringify(values)); } catch {}
+  };
+
+  const restoreProgress = () => {
+    if (!form) return;
+    try {
+      const values = JSON.parse(sessionStorage.getItem("velixon_assessment_progress") || "{}") as Record<string, string | string[]>;
+      Object.entries(values).forEach(([name, value]) => {
+        form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${CSS.escape(name)}"]`).forEach((field) => {
+          if (field instanceof HTMLInputElement && field.type === "checkbox") field.checked = Array.isArray(value) && value.includes(field.value);
+          else if (typeof value === "string") field.value = value;
+        });
+      });
+    } catch {}
+  };
+
+  const renderStep = (moveToStep = false) => {
+    steps.forEach((step, index) => step.hidden = index !== currentStep);
+    if (currentStepLabel) currentStepLabel.textContent = String(currentStep + 1);
+    if (progress) progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+    if (backButton) backButton.hidden = currentStep === 0;
+    if (nextButton) nextButton.hidden = currentStep === steps.length - 1;
+    if (submitButton) submitButton.hidden = currentStep !== steps.length - 1;
+    if (moveToStep) {
+      const heading = steps[currentStep]?.querySelector<HTMLElement>("h2");
+      document.querySelector<HTMLElement>(".assessment-card")?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start"
+      });
+      window.setTimeout(() => heading?.focus({ preventScroll: true }), 250);
+    }
+  };
+
+  const opportunityMap: Record<string, string> = {
+    "lead-follow-up": "Build one lead intake, qualification, and follow-up flow that preserves source and ownership.",
+    "missed-calls": "Capture missed calls, gather the right context, and route urgent requests to a person.",
+    "manual-entry": "Remove duplicate entry by defining a source of truth and synchronizing approved fields.",
+    scheduling: "Connect qualification, availability, reminders, rescheduling, and attendance status.",
+    "customer-communication": "Trigger timely customer updates from real workflow status instead of manual memory.",
+    proposals: "Generate proposals from approved intake data and keep review, signature, and status traceable.",
+    invoicing: "Connect approved work, invoices, payment status, and exception follow-up.",
+    crm: "Create a reliable customer record with clear stages, owners, and required next actions.",
+    reporting: "Build an operating dashboard from source records instead of manually assembled reports.",
+    handoffs: "Turn cross-team handoffs into owned, observable workflow states with exception alerts.",
+    documents: "Generate controlled documents from validated data while preserving human approval.",
+    support: "Route repeatable support requests with context, escalation rules, and a human fallback."
+  };
+
+  const calculate = () => {
+    const challenges = checkedValues("challenges");
+    const objectives = checkedValues("objectives");
+    const factors = [
+      ["Team size", scoreFromMap("teamSize", fieldValue("team-size"))],
+      ["Lead volume", scoreFromMap("leadVolume", fieldValue("lead-volume"))],
+      ["Lead response", scoreFromMap("responseTime", fieldValue("response-time"))],
+      ["Repetitive work", scoreFromMap("hoursLost", fieldValue("hours-lost"))],
+      ["Timeline", scoreFromMap("timeline", fieldValue("timeline"))],
+      ["Investment readiness", scoreFromMap("budget", fieldValue("budget"))],
+      ["Decision involvement", scoreFromMap("decisionMaker", fieldValue("decision-maker"))],
+      ["System connectivity", scoreFromMap("systems", fieldValue("systems"))],
+      ["Operational challenges", Math.min(challenges.length * Number(weights.challengeEach), Number(weights.challengeMaximum))],
+      ["Objectives", Math.min(objectives.length * Number(weights.objectiveEach), Number(weights.objectiveMaximum))],
+      ["Assessment completion", Number(weights.assessmentCompletion)]
+    ] as [string, number][];
+    const total = Math.min(100, factors.reduce((sum, factor) => sum + factor[1], 0));
+    const category = getAssessmentCategory(total);
+    const opportunities = challenges.slice(0, 3).map((key) => opportunityMap[key]).filter(Boolean);
+    while (opportunities.length < 3) opportunities.push([
+      "Map one high-volume workflow from trigger through completion, including exceptions and ownership.",
+      "Establish first-touch and last-touch source tracking before adding more acquisition channels.",
+      "Define a small, measurable automation pilot with a baseline and a human review path."
+    ][opportunities.length]);
+    return {
+      total,
+      category,
+      factors,
+      opportunities,
+      hoursLost: fieldValue("hours-lost"),
+      responseTime: fieldValue("response-time"),
+      systems: fieldValue("systems"),
+      preferredNextStep: fieldValue("preferred-next-step")
+    };
+  };
+
+  const renderResult = (calculation: ReturnType<typeof calculate>) => {
+    const setText = (selector: string, value: string) => { const element = document.querySelector<HTMLElement>(selector); if (element) element.textContent = value; };
+    setText("[data-result-score]", String(calculation.total));
+    setText("[data-result-category]", calculation.category.publicLabel);
+    const titles: Record<string, string> = { "Priority lead":"Your highest-value workflows are ready for a scoped conversation.", "Sales qualified":"You have a clear automation opportunity.", "Marketing qualified":"Your strongest next move is a focused workflow assessment.", Nurture:"Build the foundation before committing to a large automation project." };
+    const summaries: Record<string, string> = { "Priority lead":"Your answers show meaningful operational friction and strong project readiness. A proposal-oriented discovery is the most direct next step.", "Sales qualified":"There is enough recurring work, volume, and readiness to justify mapping a practical first system.", "Marketing qualified":"The opportunity is real, but a narrower pilot and clearer baseline will make the eventual build safer and easier to measure.", Nurture:"Start by documenting the workflow, improving data consistency, and measuring the current baseline. That work will make future automation more valuable." };
+    setText("[data-result-title]", titles[calculation.category.label]);
+    setText("[data-result-summary]", summaries[calculation.category.label]);
+    const hourLabels: Record<string,string> = { "0-5":"0–5 hours", "6-10":"6–10 hours", "11-20":"11–20 hours", "21-40":"21–40 hours", "40-plus":"40+ hours" };
+    const responseLabels: Record<string,string> = { minutes:"Within minutes", hours:"A few hours", "same-day":"Same day", "next-day":"Next day+", inconsistent:"Inconsistent" };
+    const systemLabels: Record<string,string> = { connected:"Mostly connected", partial:"Partially connected", manual:"Mostly manual" };
+    setText("[data-result-hours]", hourLabels[calculation.hoursLost] || "Not reported");
+    setText("[data-result-response]", responseLabels[calculation.responseTime] || "Not reported");
+    setText("[data-result-systems]", systemLabels[calculation.systems] || "Not reported");
+    const list = document.querySelector<HTMLOListElement>("[data-result-opportunities]");
+    if (list) { list.innerHTML = ""; calculation.opportunities.forEach((opportunity) => { const item = document.createElement("li"); item.textContent = opportunity; list.appendChild(item); }); }
+    const primary = document.querySelector<HTMLAnchorElement>("[data-primary-route]");
+    if (primary) {
+      const routes = {
+        proposal: { href: "/proposal-request/?source=assessment", label: "Request a Proposal" },
+        booking: { href: "/contact/?source=assessment&campaign=qualified", label: "Discuss My Assessment" },
+        guidance: { href: "/resources/high-value-ai-automation-workflows/", label: "Plan a Focused Pilot" },
+        resources: { href: "/resources/", label: "Build My Automation Foundation" }
+      } as const;
+      const requestedRoute = calculation.preferredNextStep === "proposal"
+        ? "proposal"
+        : calculation.preferredNextStep === "strategy-call"
+          ? "booking"
+          : calculation.category.route;
+      const route = routes[requestedRoute];
+      primary.href = route.href;
+      primary.textContent = route.label;
+    }
+  };
+
+  nextButton?.addEventListener("click", () => {
+    clearError();
+    if (!validateStep()) return;
+    saveProgress();
+    analytics?.track("assessment_step_completed", { step_number: currentStep + 1 });
+    currentStep = Math.min(currentStep + 1, steps.length - 1);
+    renderStep(true);
+  });
+  backButton?.addEventListener("click", () => { clearError(); currentStep = Math.max(0, currentStep - 1); renderStep(true); });
+
+  form?.addEventListener("focusin", () => analytics?.track("assessment_started", { page_path: window.location.pathname }), { once:true });
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearError();
+    if (!validateStep() || !form.checkValidity()) { form.reportValidity(); return; }
+    const calculation = calculate();
+    setHidden("#lead-score", calculation.total);
+    setHidden("#lead-category", calculation.category.label);
+    setHidden("#routing-decision", calculation.category.route);
+    setHidden("#scoring-factors", calculation.factors.map(([name,score]) => `${name}: ${score}`).join(" | "));
+    setHidden("#top-opportunities", calculation.opportunities.join(" | "));
+    submitButton!.disabled = true; submitButton!.textContent = "Building your report…"; form.setAttribute("aria-busy", "true");
+    try {
+      const entries = Array.from(new FormData(form).entries()).map(([key,value]) => [key, String(value)] as [string,string]);
+      const response = await fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body:new URLSearchParams(entries).toString() });
+      if (!response.ok) throw new Error("Submission failed");
+      renderResult(calculation);
+      try {
+        const handoff = {
+          fullName: fieldValue("full-name"),
+          email: fieldValue("email"),
+          company: fieldValue("company"),
+          phone: fieldValue("phone"),
+          currentTools: fieldValue("current-tools"),
+          timeline: fieldValue("timeline"),
+          budget: fieldValue("budget"),
+          score: calculation.total,
+          category: calculation.category.label,
+          publicLabel: calculation.category.publicLabel,
+          opportunities: calculation.opportunities,
+          calculation
+        };
+        sessionStorage.setItem("velixon_assessment_handoff", JSON.stringify(handoff));
+        sessionStorage.setItem("velixon_assessment_result", JSON.stringify(calculation));
+      } catch {}
+      form.hidden = true;
+      if (result) { result.hidden = false; result.focus(); }
+      try { sessionStorage.removeItem("velixon_assessment_progress"); } catch {}
+      analytics?.track("assessment_completed", { lead_category: calculation.category.label.toLowerCase().replaceAll(" ", "_"), score_band: Math.floor(calculation.total / 10) * 10 });
+      window.history.replaceState({}, "", "/automation-assessment/?submitted=true");
+    } catch {
+      submitButton!.disabled = false; submitButton!.textContent = "Calculate My Score"; form.removeAttribute("aria-busy");
+      showError("We couldn't securely submit the assessment. Please try again or contact Velixon directly.");
+      analytics?.track("assessment_submission_error");
+    }
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  let attribution: Record<string,string> = {};
+  try { attribution = JSON.parse(sessionStorage.getItem("velixon_session_attribution") || "{}"); } catch {}
+  setHidden("#assessment-source", params.get("source") || params.get("utm_source") || attribution.utm_source || "website");
+  setHidden("#assessment-utm-source", params.get("utm_source") || attribution.utm_source || "");
+  setHidden("#assessment-utm-medium", params.get("utm_medium") || attribution.utm_medium || "");
+  setHidden("#assessment-utm-campaign", params.get("utm_campaign") || attribution.utm_campaign || "");
+  setHidden("#assessment-landing-page", attribution.landing_page || `${window.location.pathname}${window.location.search}`);
+  setHidden("#assessment-referrer", attribution.referrer || document.referrer || "direct");
+  restoreProgress();
+  let restoredResult = false;
+  if (params.get("submitted") === "true") {
+    try {
+      const savedResult = JSON.parse(sessionStorage.getItem("velixon_assessment_result") || "null") as ReturnType<typeof calculate> | null;
+      if (savedResult?.category?.route && Array.isArray(savedResult.opportunities)) {
+        renderResult(savedResult);
+        if (form) form.hidden = true;
+        if (result) result.hidden = false;
+        restoredResult = true;
+      }
+    } catch {}
+  }
+  if (!restoredResult) renderStep();
+</script>

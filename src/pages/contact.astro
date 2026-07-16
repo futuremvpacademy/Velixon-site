@@ -47,7 +47,7 @@ const page = siteContent.pages.contact;
           <input type="hidden" name="attribution-captured-at" id="contact-attribution-time" value="" />
           <input type="hidden" name="submission-page" id="contact-submission-page" value="/contact/" />
           <input type="hidden" name="requested-service" id="contact-requested-service" value="" />
-          <p class="form-honeypot" aria-hidden="true">
+          <p class="form-honeypot" hidden>
             <label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <div class="contact-form-intro">
@@ -175,7 +175,7 @@ const page = siteContent.pages.contact;
           <h2 id="contact-success-heading" tabindex="-1">Thanks. We’ve received your inquiry.</h2>
           <p>Your project details are with the Velixon team. We’ll review them and reply with a clear next step.</p>
           <div class="contact-success-actions">
-            <a class="button" href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}>Call Velixon</a>
+            <a class="button" href="/proposal-request/?source=contact">Request a Proposal</a>
             <a class="button button-secondary" href="/resources/">Explore Resources</a>
           </div>
         </div>

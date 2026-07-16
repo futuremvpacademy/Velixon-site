@@ -1,0 +1,147 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import { siteContent } from "../data/site";
+
+const { companyName, logo, nav, cta, contactInfo } = siteContent;
+---
+
+<MainLayout title="Request a Project Proposal | Velixon" description="Share the business outcome, workflow, systems, stakeholders, timeline, and requirements Velixon needs to evaluate a project proposal.">
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/proposal-request" />
+  <main id="main-content">
+    <PageHero eyebrow="Structured project intake" title="Request a proposal-ready review." description="Give Velixon the operational and technical context needed to determine whether the project is a fit and what discovery should happen next." helper="Submitting this form does not guarantee a proposal or project acceptance." />
+    <section class="page-section">
+      <div class="container contact-page-grid">
+        <form class="contact-form-card" id="proposal-request-form" name="proposal-request" method="POST" action="/proposal-request/?submitted=true" data-netlify="true" data-netlify-honeypot="bot-field" data-contact-email={contactInfo.email}>
+          <input type="hidden" name="form-name" value="proposal-request" />
+          <input type="hidden" name="subject" value="New Velixon proposal request" />
+          <input type="hidden" name="status" value="Submitted" />
+          <input type="hidden" name="source" id="proposal-source" value="website" />
+          <input type="hidden" name="campaign" id="proposal-campaign" value="direct" />
+          <input type="hidden" name="referrer" id="proposal-referrer" value="direct" />
+          <input type="hidden" name="assessment-score" id="proposal-assessment-score" />
+          <input type="hidden" name="assessment-category" id="proposal-assessment-category" />
+          <input type="hidden" name="assessment-opportunities" id="proposal-assessment-opportunities" />
+          <p class="form-honeypot" hidden><label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="contact-form-intro"><p class="tech-label">Project context</p><h2>Define the outcome before the implementation.</h2><p>Specific context helps us evaluate scope, dependencies, risk, and the right first release.</p></div>
+          <div class="contact-form-row">
+            <label>Full name<input name="full-name" type="text" autocomplete="name" maxlength="120" required /></label>
+            <label>Business email<input name="email" type="email" autocomplete="email" maxlength="254" required /></label>
+          </div>
+          <div class="contact-form-row">
+            <label>Company name<input name="company" type="text" autocomplete="organization" maxlength="140" required /></label>
+            <label>Phone<input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
+          </div>
+          <div class="contact-form-row">
+            <label>Primary service<select name="service" required><option value="">Select a service</option><option value="ai-automation">AI automation or agent</option><option value="workflow-automation">Workflow automation</option><option value="custom-software">Custom software or SaaS</option><option value="crm-portal">CRM, portal, or dashboard</option><option value="integration">Systems integration</option><option value="not-sure">Not sure yet</option></select></label>
+            <label>Timeline<select name="timeline" required><option value="">Select a timeline</option><option value="within-month">Within a month</option><option value="1-3-months">1–3 months</option><option value="3-6-months">3–6 months</option><option value="exploring">Exploring</option></select></label>
+          </div>
+          <div class="contact-form-row">
+            <label>Working budget<select name="budget" required><option value="">Select a range</option><option value="under-10k">Under $10,000</option><option value="10k-25k">$10,000–$25,000</option><option value="25k-50k">$25,000–$50,000</option><option value="50k-100k">$50,000–$100,000</option><option value="100k-plus">$100,000+</option><option value="guidance">Need guidance</option></select></label>
+            <label>Decision role<select name="decision-role" required><option value="">Select your role</option><option value="decision-maker">Decision-maker</option><option value="shared-decision">Shared decision</option><option value="project-owner">Project owner or evaluator</option><option value="researching">Researching for the team</option></select></label>
+          </div>
+          <label>Desired business outcomes<textarea name="desired-outcomes" rows="4" minlength="20" maxlength="2000" placeholder="What should become faster, clearer, more reliable, or possible?" required></textarea></label>
+          <label>Current workflow and constraints<textarea name="current-workflow" rows="6" minlength="30" maxlength="4000" placeholder="Describe the trigger, people, steps, systems, exceptions, and current bottleneck." required></textarea></label>
+          <label>Current tools and required integrations<textarea name="integrations" rows="3" maxlength="2000" placeholder="CRM, accounting, payments, scheduling, messaging, documents, databases…"></textarea></label>
+          <label>Stakeholders and users<textarea name="stakeholders" rows="3" maxlength="1500" placeholder="Who approves the project, uses the system, owns the data, and supports the workflow?"></textarea></label>
+          <label>Security, compliance, or technical requirements<textarea name="requirements" rows="3" maxlength="2000" placeholder="Authentication, roles, audit history, data retention, vendors, environments, or other constraints"></textarea></label>
+          <label class="contact-consent"><input type="checkbox" name="privacy-acknowledgment" value="accepted" required /><span>I agree to the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use this information to evaluate and respond to this request.</span></label>
+          <button class="button" type="submit">Submit Proposal Request</button>
+          <p class="contact-form-error" id="proposal-error" role="alert" tabindex="-1" hidden></p>
+          <p class="contact-note">Velixon will review the request and may ask for discovery or additional information before deciding whether to prepare a proposal.</p>
+        </form>
+        <div class="contact-form-card contact-form-status" id="proposal-success" role="status" hidden>
+          <p class="tech-label">Request received</p>
+          <h2 tabindex="-1" id="proposal-success-heading">Your project is ready for review.</h2>
+          <p>Velixon will evaluate the outcome, workflow, dependencies, and constraints you provided, then reply with the clearest next step.</p>
+          <div class="contact-success-actions"><a class="button" href="/resources/">Explore Resources</a><a class="button button-secondary" href="/">Return Home</a></div>
+        </div>
+        <aside class="contact-side">
+          <div class="detail-card"><p class="tech-label">Review process</p><h3>What happens next</h3><ol><li>Fit and completeness review</li><li>Clarifying questions or discovery</li><li>Architecture and scope decision</li><li>Proposal, referral, or clear next-step recommendation</li></ol></div>
+          <div class="detail-card"><p class="tech-label">Not ready yet?</p><h3>Start with the free assessment.</h3><p>Use the assessment to identify the most valuable workflow and receive an explainable readiness score first.</p><a class="button button-secondary" href="/automation-assessment/">Take the Assessment</a></div>
+          <div class="detail-card"><p class="tech-label">Direct contact</p><h3>Prefer a conversation?</h3><p><a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a><br /><a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}>{contactInfo.phone}</a></p></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</MainLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const setValue = (selector: string, value: string) => { const input = document.querySelector<HTMLInputElement>(selector); if (input) input.value = value; };
+  let attribution: Record<string,string> = {};
+  try { attribution = JSON.parse(sessionStorage.getItem("velixon_session_attribution") || "{}"); } catch {}
+  setValue("#proposal-source", params.get("source") || params.get("utm_source") || attribution.utm_source || "website");
+  setValue("#proposal-campaign", params.get("campaign") || params.get("utm_campaign") || attribution.utm_campaign || "direct");
+  setValue("#proposal-referrer", attribution.referrer || document.referrer || "direct");
+  if (params.get("source") === "assessment") {
+    try {
+      const handoff = JSON.parse(sessionStorage.getItem("velixon_assessment_handoff") || "{}") as Record<string, string | number | string[]>;
+      const setNamedValue = (name: string, value: unknown) => {
+        const field = document.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${name}"]`);
+        if (field && typeof value === "string") field.value = value;
+      };
+      setNamedValue("full-name", handoff.fullName);
+      setNamedValue("email", handoff.email);
+      setNamedValue("company", handoff.company);
+      setNamedValue("phone", handoff.phone);
+      setNamedValue("integrations", handoff.currentTools);
+      const setSelectValue = (name: string, value: unknown) => {
+        const field = document.querySelector<HTMLSelectElement>(`select[name="${name}"]`);
+        if (field && typeof value === "string" && field.querySelector(`option[value="${CSS.escape(value)}"]`)) field.value = value;
+      };
+      setSelectValue("timeline", handoff.timeline);
+      setSelectValue("budget", handoff.budget === "50k-plus" ? "50k-100k" : handoff.budget);
+      setValue("#proposal-assessment-score", String(handoff.score || ""));
+      setValue("#proposal-assessment-category", String(handoff.category || ""));
+      setValue("#proposal-assessment-opportunities", Array.isArray(handoff.opportunities) ? handoff.opportunities.join(" | ") : "");
+      const outcomes = document.querySelector<HTMLTextAreaElement>("[name='desired-outcomes']");
+      if (outcomes && Array.isArray(handoff.opportunities)) outcomes.value = `Assessment priorities:\n${handoff.opportunities.map((item) => `• ${item}`).join("\n")}`;
+    } catch {}
+  }
+  const form = document.querySelector<HTMLFormElement>("#proposal-request-form");
+  const success = document.querySelector<HTMLElement>("#proposal-success");
+  const successHeading = document.querySelector<HTMLElement>("#proposal-success-heading");
+  const errorMessage = document.querySelector<HTMLElement>("#proposal-error");
+  const analytics = (window as Window & { velixonAnalytics?: { track:(name:string,parameters?:Record<string,unknown>)=>void } }).velixonAnalytics;
+  form?.addEventListener("focusin", () => analytics?.track("proposal_request_started"), { once:true });
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const originalLabel = button?.textContent || "Submit Proposal Request";
+    if (button) { button.disabled = true; button.textContent = "Sending…"; }
+    form.setAttribute("aria-busy", "true");
+    if (errorMessage) { errorMessage.hidden = true; errorMessage.textContent = ""; }
+    try {
+      const entries = Array.from(new FormData(form).entries()).map(([key,value]) => [key, String(value)] as [string,string]);
+      const response = await fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body:new URLSearchParams(entries).toString() });
+      if (!response.ok) throw new Error("Submission failed");
+      try { sessionStorage.setItem("velixon_proposal_submitted", "true"); } catch {}
+      analytics?.track("proposal_request_submitted", { source: document.querySelector<HTMLInputElement>("#proposal-source")?.value || "website" });
+      form.hidden = true;
+      if (success) success.hidden = false;
+      successHeading?.focus();
+      window.history.replaceState({}, "", "/proposal-request/?submitted=true");
+    } catch {
+      if (button) { button.disabled = false; button.textContent = originalLabel; }
+      form.removeAttribute("aria-busy");
+      if (errorMessage) {
+        errorMessage.hidden = false;
+        errorMessage.textContent = `We couldn't send your request. Please email ${form.dataset.contactEmail || "Velixon.web@gmail.com"}.`;
+        errorMessage.focus();
+      }
+    }
+  });
+  let verifiedSubmission = false;
+  try {
+    verifiedSubmission = sessionStorage.getItem("velixon_proposal_submitted") === "true";
+    if (verifiedSubmission) sessionStorage.removeItem("velixon_proposal_submitted");
+  } catch {}
+  if (params.get("submitted") === "true" && verifiedSubmission) {
+    if (form) form.hidden = true;
+    if (success) success.hidden = false;
+    successHeading?.focus();
+  }
+</script>

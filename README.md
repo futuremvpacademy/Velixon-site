@@ -2,6 +2,8 @@
 
 Production Astro site for Velixon, a custom software, AI, and business automation company. The site is statically generated, deployed on Netlify, and uses data-driven landing-page systems for services, solutions, industries, integrations, and locations.
 
+The public growth funnel connects industry, integration, guide, case-study, and calculator traffic to a six-step Automation Assessment. The assessment calculates a versioned, explainable visitor-facing score, stores the client-calculated factors with the Netlify submission, routes the visitor to the right next step, and securely prefills the proposal form within the current browser session. First-touch campaign data is carried through both forms even when optional analytics is disabled.
+
 ## Local development
 
 ```bash
@@ -18,10 +20,14 @@ Astro serves the site at `http://localhost:4321` by default.
 - `src/data/seo/` — structured landing-page content, directories, indexation allowlist, and internal-link relationships
 - `src/layouts/MainLayout.astro` — canonical metadata, social cards, analytics, robots directives, and global schema graph
 - `src/lib/schema.ts` — JSON-LD helpers
+- `src/lib/assessment-scoring.ts` — centralized scoring thresholds, weights, routing, and scoring version
+- `src/pages/automation-assessment.astro` — multi-step assessment, progress recovery, scoring, results, and lead intake
+- `src/pages/proposal-request.astro` — structured proposal-ready project intake
 - `src/styles/` — global and route-system styles
 - `public/` — crawl directives, favicons, manifest, social image, and other static assets
 - `scripts/audit-site.mjs` — generated-site SEO and internal-link verification
 - `docs/` — Phase 1 audit, keyword map, content backlog, and measurement plan
+- `ops/` — private, review-controlled authority opportunity tracker and operating rules (not deployed)
 
 ## Verification
 
@@ -50,4 +56,10 @@ Netlify uses the settings in `netlify.toml`:
 - Publish directory: `dist`
 - Node version: `22`
 
-Run `npm run verify` before deploying. Netlify Forms processes the contact form in production; local form submissions do not reproduce that backend behavior.
+Run `npm run verify` before deploying. Netlify Forms processes the contact, assessment, and proposal-request forms in production; local form submissions do not reproduce that backend behavior. Netlify form notifications and spam controls must be verified after the first production deployment.
+
+## Current service boundaries
+
+The static site intentionally does not pretend to provide a secure admin dashboard, CRM sync, calendar completion callback, scheduled email sequences, or authenticated backlink tracker. Those capabilities require a selected identity, database, email, and booking provider. The public funnel stores structured submissions in Netlify now and keeps scoring logic centralized so those services can be connected without rewriting the assessment.
+
+Assessment scores submitted through the public static form are explicitly labeled `client-calculated-unverified`. Treat them as visitor guidance only; any future automated sales routing must recompute the score in trusted server-side code from the submitted answers.

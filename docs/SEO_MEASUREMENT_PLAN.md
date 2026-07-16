@@ -29,6 +29,8 @@ Do not put secrets, service-account credentials, API secrets, or private form-de
 | Conversion | Definition | Event | Deduplication / evidence | Status |
 | --- | --- | --- | --- | --- |
 | Qualified inquiry submitted | Netlify confirms successful receipt of the main website inquiry form. | `generate_lead` | Fire once after a successful response, not on button click. Reconcile monthly with received Netlify submissions. | Implemented; verify in production |
+| Automation assessment completed | Netlify confirms receipt and the visitor receives a versioned, explainable score. | `assessment_completed` | Fire once after successful Netlify receipt; store only score band and category in analytics, never answers or contact details. | Implemented; verify in production |
+| Proposal request submitted | Visitor submits the structured proposal intake. | `proposal_request_submitted` | Reconcile with the `proposal-request` Netlify form and do not send free-form fields to analytics. | Implemented; verify in production |
 | Strategy call intent | Visitor activates a clearly labeled strategy-call CTA. | `strategy_call_click` | Use the public label and destination; clicks are intent signals, not completed appointments. | Implemented |
 | Phone lead | Visitor activates a `tel:` link. | `contact_click` with `contact_method: "phone"` | Count unique sessions separately from total clicks. Do not send the phone number. | Implemented |
 | Email lead | Visitor activates a `mailto:` link. | `contact_click` with `contact_method: "email"` | Count unique sessions separately from total clicks. Do not send the email address. | Implemented |
@@ -38,6 +40,9 @@ Do not put secrets, service-account credentials, API secrets, or private form-de
 | Action | Event | Purpose | Status |
 | --- | --- | --- | --- |
 | First meaningful form interaction | `form_start` | Diagnose contact-page engagement and abandonment. | Implemented |
+| Assessment started | `assessment_started` | Measure entry into the qualification funnel. | Implemented |
+| Assessment step completed | `assessment_step_completed` | Diagnose step progression without recording answers. | Implemented |
+| Proposal request started | `proposal_request_started` | Measure high-intent intake starts. | Implemented |
 | Form delivery or validation failure | `form_error` | Detect conversion-blocking failures without recording submitted values. | Implemented |
 | Commercial CTA click | `cta_click` with `content_type: "call_to_action"` | Compare CTA placement and landing-page intent. | Implemented for shared buttons, homepage buttons, mobile CTAs, and explicitly tagged links |
 | Automation calculator interaction | `roi_calculator_engaged` | Measure use of the decision tool. | Implemented |

@@ -209,6 +209,26 @@ const structuredDataJson = serializeJsonLd(structuredData);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <script is:inline type="application/ld+json" set:html={structuredDataJson}></script>
+    <script is:inline>
+      (() => {
+        try {
+          const attributionKey = "velixon_session_attribution";
+          const url = new URL(window.location.href);
+          const campaignKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid"];
+          const campaign = Object.fromEntries(campaignKeys.map((key) => [key, url.searchParams.get(key) || ""]));
+          if (!sessionStorage.getItem(attributionKey)) {
+            sessionStorage.setItem(attributionKey, JSON.stringify({
+              ...campaign,
+              landing_page: `${url.pathname}${url.search}`,
+              referrer: document.referrer || "direct",
+              captured_at: new Date().toISOString()
+            }));
+          }
+        } catch {
+          // Attribution is optional; forms remain usable when browser storage is unavailable.
+        }
+      })();
+    </script>
     {analyticsEnabled && <script is:inline define:vars={{ analyticsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -228,7 +248,6 @@ const structuredDataJson = serializeJsonLd(structuredData);
 
       (() => {
         const consentKey = "velixon_analytics_consent";
-        const attributionKey = "velixon_session_attribution";
         let configured = false;
 
         const getConsent = () => {
@@ -283,23 +302,6 @@ const structuredDataJson = serializeJsonLd(structuredData);
         };
 
         window.velixonAnalytics = { getConsent, setConsent: updateConsent, track };
-
-        try {
-          const url = new URL(window.location.href);
-          const campaignKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid"];
-          const campaign = Object.fromEntries(campaignKeys.map((key) => [key, url.searchParams.get(key) || ""]));
-          const existing = sessionStorage.getItem(attributionKey);
-          if (!existing) {
-            sessionStorage.setItem(attributionKey, JSON.stringify({
-              ...campaign,
-              landing_page: `${url.pathname}${url.search}`,
-              referrer: document.referrer || "direct",
-              captured_at: new Date().toISOString()
-            }));
-          }
-        } catch {
-          // Attribution is optional; the inquiry form still works if storage is unavailable.
-        }
 
         if (getConsent() === "granted") {
           gtag("consent", "update", {
