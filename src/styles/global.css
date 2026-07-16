@@ -703,6 +703,7 @@ h2,
   border-radius: 14px;
   font-size: 0.92rem;
   font-weight: 600;
+  white-space: nowrap;
   position: relative;
   transition:
     color 240ms ease,

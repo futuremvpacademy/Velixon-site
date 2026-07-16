@@ -6,12 +6,10 @@ export const siteContent = {
   secondaryCta: "Explore Our Work",
   secondaryCtaHref: "/#products",
   nav: [
-    { label: "Services", href: "/services/" },
-    { label: "Solutions", href: "/solutions/" },
+    { label: "Services", href: "/services/", activePrefixes: ["/services", "/solutions", "/integrations"] },
     { label: "Industries", href: "/industries/" },
-    { label: "Integrations", href: "/integrations/" },
-    { label: "Resources", href: "/resources/" },
-    { label: "Case Studies", href: "/case-studies/" }
+    { label: "Work", href: "/case-studies/", activePrefixes: ["/work", "/case-studies"] },
+    { label: "Resources", href: "/resources/", activePrefixes: ["/resources", "/guides", "/comparisons"] }
   ],
   footerNav: [
     { label: "Home", href: "/" },

@@ -2,6 +2,7 @@
 interface NavItem {
   label: string;
   href: string;
+  activePrefixes?: string[];
 }
 
 interface Props {
@@ -14,7 +15,14 @@ interface Props {
 }
 
 const { companyName, logo, nav, cta, currentPath = "/", replayIntro = false } = Astro.props;
-const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
+const normalizePath = (path: string) => path.split("#")[0].replace(/\/$/, "") || "/";
+const normalizedCurrentPath = normalizePath(currentPath);
+const isNavItemActive = (item: NavItem) => {
+  const paths = [item.href, ...(item.activePrefixes ?? [])].map(normalizePath);
+  return paths.some((path) =>
+    normalizedCurrentPath === path || (path !== "/" && normalizedCurrentPath.startsWith(`${path}/`))
+  );
+};
 ---
 
 <header class="site-header">
@@ -27,7 +35,7 @@ const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
     <nav class="desktop-nav" aria-label="Primary navigation">
       {
         nav.map((item) => (
-          <a href={item.href} aria-current={normalizedCurrentPath === (item.href.split("#")[0].replace(/\/$/, "") || "/") ? "page" : undefined}>
+          <a href={item.href} aria-current={isNavItemActive(item) ? "page" : undefined}>
             {item.label}
           </a>
         ))
@@ -46,7 +54,7 @@ const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
       <nav class="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
         {
           nav.map((item) => (
-            <a href={item.href} aria-current={normalizedCurrentPath === (item.href.split("#")[0].replace(/\/$/, "") || "/") ? "page" : undefined}>
+            <a href={item.href} aria-current={isNavItemActive(item) ? "page" : undefined}>
               {item.label}<span aria-hidden="true">↗</span>
             </a>
           ))
