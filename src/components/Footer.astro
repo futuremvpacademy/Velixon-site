@@ -15,6 +15,15 @@ interface NavGroup {
   items: NavItem[];
 }
 
+interface FooterCta {
+  label: string;
+  href: string;
+  analyticsEvent?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  secondaryAnalyticsEvent?: string;
+}
+
 interface Props {
   logo: string;
   companyName: string;
@@ -22,13 +31,20 @@ interface Props {
   footer: {
     blurb: string;
     email: string;
+    details: string;
     socials: SocialItem[];
   };
   phone: string;
+  businessInfo: {
+    legalName: string;
+    doingBusinessAs: string;
+    mailingAddress: { formatted: string };
+  };
+  cta: FooterCta;
   analyticsEnabled?: boolean;
 }
 
-const { logo, companyName, nav, footer, phone, analyticsEnabled = false } = Astro.props;
+const { logo, companyName, nav, footer, phone, businessInfo, cta, analyticsEnabled = false } = Astro.props;
 const phoneHref = `tel:${phone.replace(/[^0-9+]/g, "")}`;
 const currentYear = new Date().getFullYear();
 ---
@@ -36,26 +52,42 @@ const currentYear = new Date().getFullYear();
 <footer class="site-footer">
   <div class="container footer-conversion">
     <div class="footer-conversion-copy">
-      <p class="footer-conversion-kicker">Have a workflow worth fixing?</p>
-      <h2>Start with the process creating the most drag.</h2>
-      <p>Get a focused assessment of what should be automated, connected, or built first.</p>
+      <p class="footer-conversion-kicker">Free Business Systems Audit</p>
+      <h2>Find the gap. Fix the right system first.</h2>
+      <p>Receive a personalized one-page scorecard and three prioritized recommendations within three business days.</p>
     </div>
     <div class="footer-conversion-action">
-      <a class="button" href="/automation-assessment/?source=site-footer">Take the Free Assessment <span aria-hidden="true">↗</span></a>
-      <p>Useful guidance first. No obligation.</p>
+      <a
+        class="button"
+        href={cta.href}
+        data-analytics-cta="free-audit"
+        data-analytics-event={cta.analyticsEvent}
+        data-analytics-location="site-footer"
+      >{cta.label} <span aria-hidden="true">↗</span></a>
+      {cta.secondaryLabel && cta.secondaryHref && (
+        <a
+          class="button button-secondary"
+          href={cta.secondaryHref}
+          data-analytics-event={cta.secondaryAnalyticsEvent}
+          data-analytics-location="site-footer"
+        >{cta.secondaryLabel} <span aria-hidden="true">↗</span></a>
+      )}
+      <p>After delivery, an optional 20-minute strategy call can be arranged manually by replying to the audit email.</p>
     </div>
   </div>
 
   <div class="container footer-shell">
     <div class="footer-brand">
       <div class="footer-brand-top">
-        <img class="footer-brand-logo" src={logo} alt="" width="612" height="408" loading="lazy" decoding="async" />
+        <img class="footer-brand-logo" src={logo} alt="" width="432" height="288" loading="lazy" decoding="async" />
         <p class="footer-title">{companyName}</p>
       </div>
       <p class="footer-description">{footer.blurb}</p>
+      <p class="footer-business-details">{footer.details}</p>
       <address class="footer-contact-links" aria-label="Contact Velixon">
         <a href={`mailto:${footer.email}`}>{footer.email}</a>
         <a href={phoneHref}>{phone}</a>
+        <span>Mailing address: {businessInfo.mailingAddress.formatted}</span>
       </address>
       <nav class="footer-socials" aria-label="Social links">
         {footer.socials.map((item) => (
@@ -71,7 +103,7 @@ const currentYear = new Date().getFullYear();
         <div class="footer-column">
           <p class="footer-heading">{group.heading}</p>
           <nav class="footer-nav" aria-label={group.ariaLabel}>
-            {group.items.map((item) => <a href={item.href}>{item.label}</a>)}
+            {group.items.map((item) => <a href={item.href} data-navigation-location="footer">{item.label}</a>)}
           </nav>
         </div>
       ))}
@@ -79,13 +111,16 @@ const currentYear = new Date().getFullYear();
   </div>
 
   <div class="container footer-disclosure">
-    <p>Website content, calculators, and estimates are general information—not legal, financial, compliance, or accounting advice—and do not guarantee project or business results.</p>
+    <p>Website content and estimates are general information and do not guarantee project or business results.</p>
   </div>
 
   <div class="container footer-bottom">
-    <p>© {currentYear} {companyName}. All rights reserved.</p>
+    <p>© {currentYear} {businessInfo.legalName}, doing business as {businessInfo.doingBusinessAs}. All rights reserved.</p>
     <nav class="footer-utility" aria-label="Footer utility navigation">
       <a href="/privacy/#choices">Privacy choices</a>
+      <a href="/terms/">Terms</a>
+      <a href="/accessibility/">Accessibility</a>
+      <a href="/security/">Security</a>
       {analyticsEnabled && <button class="footer-settings-button" type="button" data-consent-settings>Analytics preferences</button>}
     </nav>
   </div>

@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.astro";
 import { siteContent } from "../data/site";
 import "../styles/legal.css";
 
-const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const { companyName, logo, nav, cta, contactInfo, businessInfo } = siteContent;
 const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 ---
 
@@ -20,7 +20,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <h1>Useful systems should work for more people.</h1>
         <p class="legal-lede">Velixon aims to make velixon.net understandable, navigable, and usable across a wide range of devices and assistive technologies.</p>
         <p class="legal-meta">
-          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Effective:</strong> <time datetime="2026-08-08">August 8, 2026</time></span>
           <span><strong>Applies to:</strong> velixon.net</span>
         </p>
 
@@ -49,7 +49,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <p class="legal-section-label">01 · Commitment</p>
           <h2>Accessibility is an ongoing engineering responsibility</h2>
           <p>Velixon aims to support the Web Content Accessibility Guidelines (WCAG) 2.2 Level AA as a practical benchmark for this website. Accessibility needs and technologies vary, and this statement does not claim that every page will be barrier-free for every person or configuration.</p>
-          <p>We prioritize access to the site's core information and actions, including navigation, service information, contact, the Automation Assessment, proposal requests, and privacy choices.</p>
+          <p>We prioritize access to the site's core information and actions, including navigation, service information, contact, the Automation Assessment, Free Business Systems Audit, Project Estimate requests, and privacy choices.</p>
         </section>
 
         <section class="legal-section" id="practices">
@@ -90,6 +90,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <aside class="legal-contact" aria-labelledby="accessibility-contact-title">
           <h2 id="accessibility-contact-title">Accessibility feedback and support</h2>
           <p>Use “Accessibility Feedback” as the email subject so the request can be identified quickly.</p>
+          <p><strong>{businessInfo.legalName}</strong>, doing business as {businessInfo.doingBusinessAs}<br />Mailing address: {businessInfo.mailingAddress.formatted}</p>
           <div class="legal-contact-links">
             <a href={`mailto:${contactInfo.email}?subject=Accessibility%20Feedback`}>{contactInfo.email}</a>
             <a href={phoneHref}>{contactInfo.phone}</a>

@@ -1,338 +1,62 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
-import PageHero from "../components/PageHero.astro";
-import CardSection from "../components/CardSection.astro";
+import InquiryForm from "../components/InquiryForm.astro";
 import { siteContent } from "../data/site";
+import "../styles/contact-clean.css";
 
-const { companyName, logo, nav, cta, contactInfo } = siteContent;
-const page = siteContent.pages.contact;
+const { companyName, logo, nav, cta, contactInfo, businessInfo } = siteContent;
+const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 ---
 
-<MainLayout title="Contact Velixon | Custom Software & AI Automation" description="Tell Velixon about the AI automation, custom software, CRM, workflow, integration, or connected business system your company needs.">
+<MainLayout
+  title="Contact Velixon | Custom Software & AI Automation"
+  description="Tell Velixon what should work better across your website, leads, workflows, software, or connected business systems, and get a clear next step."
+>
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/contact" />
-  <main id="main-content">
-    <PageHero
-      eyebrow={page.hero.eyebrow}
-      title={page.hero.title}
-      description={page.hero.description}
-      helper={page.helper}
-    />
-
-    <section class="page-section">
-      <div class="container contact-page-grid">
-        <form
-          class="contact-form-card"
-          id="contact-form"
-          name="website-inquiry"
-          method="POST"
-          action="/contact/?submitted=true"
-          accept-charset="UTF-8"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          data-contact-email={contactInfo.email}
-        >
-          <input type="hidden" name="form-name" value="website-inquiry" />
-          <input type="hidden" name="subject" value="New qualified project inquiry from velixon.net" />
-          <input type="hidden" name="source" id="contact-source" value="website" />
-          <input type="hidden" name="campaign" id="contact-campaign" value="direct" />
-          <input type="hidden" name="utm-source" id="utm-source" value="" />
-          <input type="hidden" name="utm-medium" id="utm-medium" value="" />
-          <input type="hidden" name="utm-campaign" id="utm-campaign" value="" />
-          <input type="hidden" name="utm-content" id="utm-content" value="" />
-          <input type="hidden" name="utm-term" id="utm-term" value="" />
-          <input type="hidden" name="gclid" id="contact-gclid" value="" />
-          <input type="hidden" name="landing-page" id="contact-landing-page" value="" />
-          <input type="hidden" name="referrer" id="contact-referrer" value="" />
-          <input type="hidden" name="attribution-captured-at" id="contact-attribution-time" value="" />
-          <input type="hidden" name="submission-page" id="contact-submission-page" value="/contact/" />
-          <input type="hidden" name="requested-service" id="contact-requested-service" value="" />
-          <p class="form-honeypot" hidden>
-            <label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
-          </p>
-          <div class="contact-form-intro">
-            <p class="tech-label">Start here</p>
-            <h2>Tell us what the system needs to do</h2>
-            <p>Share the workflow, constraint, or product opportunity. We will help define the clearest technical path.</p>
+  <main id="main-content" class="contact-clean">
+    <section class="contact-clean-hero">
+      <div class="contact-clean-glow" aria-hidden="true"></div>
+      <div class="container contact-clean-layout">
+        <div class="contact-clean-copy">
+          <p class="contact-clean-eyebrow">Questions and support</p>
+          <h1>Ask a question or <em>send a quick note.</em></h1>
+          <p>Use this page for a general question, support need, partnership note, or anything that does not require a full project brief.</p>
+          <p><strong>{businessInfo.legalName}</strong> is {businessInfo.entityDescription}, founded by {businessInfo.founder}. Mailing address: {businessInfo.mailingAddress.formatted}.</p>
+          <div class="contact-clean-direct" aria-label="Direct contact options">
+            <a href={`mailto:${contactInfo.email}`}><span>Email</span><strong>{contactInfo.email}</strong></a>
+            <a href={phoneHref}><span>Phone</span><strong>{contactInfo.phone}</strong></a>
           </div>
-          <div class="contact-direct">
-            <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
-            <a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}>{contactInfo.phone}</a>
-          </div>
-          <div class="contact-form-row">
-            <label>
-              First Name
-              <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" maxlength="80" required />
-            </label>
-            <label>
-              Last Name
-              <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" maxlength="80" required />
-            </label>
-          </div>
-          <label>
-            Business Name
-            <input type="text" name="business-name" placeholder="Business name (optional)" autocomplete="organization" maxlength="120" />
-          </label>
-          <label>
-            Email Address
-            <input type="email" name="email" placeholder="you@example.com" autocomplete="email" maxlength="254" required />
-          </label>
-          <label>
-            Existing Business Website
-            <input type="url" name="website" placeholder="https://yourwebsite.com (optional)" autocomplete="url" inputmode="url" maxlength="2048" />
-          </label>
-          <label>
-            Phone Number
-            <input type="tel" name="phone" placeholder="(555) 555-5555 (optional)" autocomplete="tel" inputmode="tel" maxlength="40" />
-          </label>
-          <div class="contact-form-row">
-            <label>
-              What do you need?
-              <select name="project-type" required>
-                <option value="" selected disabled>Select a project type</option>
-                <option value="ai-automation">AI automation or AI agent</option>
-                <option value="voice-ai">AI receptionist or voice AI</option>
-                <option value="workflow-automation">Workflow or process automation</option>
-                <option value="custom-software">Custom software, SaaS, or application</option>
-                <option value="crm-portal">CRM, dashboard, or client portal</option>
-                <option value="integration">API or software integration</option>
-                <option value="business-infrastructure">Connected business infrastructure</option>
-                <option value="existing-system">Improve an existing system</option>
-                <option value="not-sure">Not sure yet</option>
-              </select>
-            </label>
-            <label>
-              Current stage
-              <select name="project-stage">
-                <option value="" selected disabled>Select the current stage</option>
-                <option value="exploring">Exploring the opportunity</option>
-                <option value="requirements">Defining requirements</option>
-                <option value="ready">Ready to start</option>
-                <option value="replacing">Replacing an existing system</option>
-                <option value="rescue">Rescuing a stalled build</option>
-              </select>
-            </label>
-          </div>
-          <div class="contact-form-row">
-            <label>
-              Estimated investment
-              <select name="budget-range">
-                <option value="" selected disabled>Select a working range</option>
-                <option value="under-10k">Under $10,000</option>
-                <option value="10k-25k">$10,000–$25,000</option>
-                <option value="25k-50k">$25,000–$50,000</option>
-                <option value="50k-100k">$50,000–$100,000</option>
-                <option value="100k-plus">$100,000+</option>
-                <option value="need-guidance">Need guidance</option>
-              </select>
-            </label>
-            <label>
-              Desired launch window
-              <select name="launch-window">
-                <option value="" selected disabled>Select a target window</option>
-                <option value="asap">As soon as responsibly possible</option>
-                <option value="1-3-months">Within 1–3 months</option>
-                <option value="3-6-months">Within 3–6 months</option>
-                <option value="6-plus-months">More than 6 months</option>
-                <option value="flexible">Flexible or still evaluating</option>
-              </select>
-            </label>
-          </div>
-          <label>
-            Primary project goal
-            <input type="text" name="project-wants" placeholder="What should become faster, clearer, or possible?" maxlength="240" required />
-          </label>
-          <label>
-            Project details
-            <textarea name="project-details" rows="6" placeholder="Describe the current workflow, the biggest constraint, who will use the system, and what a successful outcome looks like" minlength="20" maxlength="4000" required></textarea>
-          </label>
-          <label>
-            Preferred first follow-up
-            <select name="preferred-contact">
-              <option value="" selected disabled>Select a contact preference</option>
-              <option value="email">Email</option>
-              <option value="phone">Phone</option>
-              <option value="video-call">Video call invitation</option>
-            </select>
-          </label>
-          <p class="form-safety-note"><strong>Keep sensitive material out of this form.</strong> Do not include passwords, secret keys, regulated data, confidential source code, or production datasets. Ask us for a safer transfer method if needed.</p>
-          <label class="contact-consent">
-            <input type="checkbox" name="privacy-acknowledgment" value="accepted" required />
-            <span>I acknowledge the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and understand Velixon will use these details to respond to my inquiry.</span>
-          </label>
-          <div class="contact-reassurance">
-            <span>Direct reply</span>
-            <span>Clear next step</span>
-            <span>No pressure</span>
-          </div>
-          <button class="button" type="submit">Request My Strategy Call</button>
-          <p class="contact-form-error" id="contact-error" role="alert" tabindex="-1" hidden></p>
-          <p class="contact-note">We’ll review the operation and map out the clearest next step.</p>
-          <p class="contact-note contact-note-strong">Clear architecture. Production-ready engineering. Long-term value.</p>
-        </form>
-
-        <div class="contact-form-card contact-form-status" id="contact-success" role="status" hidden>
-          <p class="tech-label">Message received</p>
-          <h2 id="contact-success-heading" tabindex="-1">Thanks. We’ve received your inquiry.</h2>
-          <p>Your project details are with the Velixon team. We’ll review them and reply with a clear next step.</p>
-          <div class="contact-success-actions">
-            <a class="button" href="/proposal-request/?source=contact">Request a Proposal</a>
-            <a class="button button-secondary" href="/resources/">Explore Resources</a>
+          <div class="contact-clean-audit">
+            <span>Starting a project?</span>
+            <a href="/free-audit/?source=contact-page#book-audit" data-analytics-event="free_audit_cta_clicked" data-analytics-location="contact-page">Existing or unclear: Free Business Systems Audit <span aria-hidden="true">↗</span></a>
+            <a class="contact-clean-proposal" href="/estimate-request/?source=contact-page#estimate-request-form" data-analytics-event="estimate_request_cta_clicked" data-analytics-location="contact-page">Defined or new: Project Estimate <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
-        <div class="contact-side">
-          <CardSection
-            eyebrow="What to send"
-            title="What helps us give you the best next step"
-            description="A short message is enough. These details just help us point you in the right direction faster."
-            items={page.whatToSend}
-          />
-          <CardSection
-            eyebrow="What happens next"
-            title="What you can expect after reaching out"
-            description="The goal is a low-friction start: quick communication, clear direction, and no unnecessary back-and-forth."
-            items={page.nextSteps}
+        <div class="contact-clean-form">
+          <InquiryForm
+            id="contact-form"
+            formLocation="contact_page"
+            heading="Send your message."
+            description="A sentence or two is enough. We’ll reply within 1 business day."
           />
         </div>
       </div>
     </section>
+
+    <section class="contact-clean-next" aria-labelledby="contact-next-title">
+      <div class="container">
+        <div class="contact-clean-next-heading">
+          <p class="contact-clean-eyebrow">What happens next</p>
+          <h2 id="contact-next-title">A direct response without a project intake form.</h2>
+        </div>
+        <ol>
+          <li><span>01</span><div><h3>We read the message</h3><p>We review the question or context you chose to share.</p></div></li>
+          <li><span>02</span><div><h3>You get a direct reply</h3><p>Within 1 business day, we answer, ask one useful follow-up, or point you to the right resource.</p></div></li>
+          <li><span>03</span><div><h3>Projects use one clear lane</h3><p>If project intake is the right next step, we direct you to either the audit or Project Estimate.</p></div></li>
+        </ol>
+      </div>
+    </section>
   </main>
 </MainLayout>
-
-<script>
-  const form = document.querySelector<HTMLFormElement>("#contact-form");
-  const success = document.querySelector<HTMLElement>("#contact-success");
-  const params = new URLSearchParams(window.location.search);
-  const source = document.querySelector<HTMLInputElement>("#contact-source");
-  const campaign = document.querySelector<HTMLInputElement>("#contact-campaign");
-  const errorMessage = document.querySelector<HTMLElement>("#contact-error");
-  const successHeading = document.querySelector<HTMLElement>("#contact-success-heading");
-  const analytics = (window as Window & { velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void } }).velixonAnalytics;
-
-  const setHiddenValue = (selector: string, value: string | null | undefined) => {
-    const input = document.querySelector<HTMLInputElement>(selector);
-    if (input) input.value = value || "";
-  };
-
-  let attribution: Record<string, string> = {};
-  try {
-    attribution = JSON.parse(sessionStorage.getItem("velixon_session_attribution") || "{}") as Record<string, string>;
-  } catch {
-    attribution = {};
-  }
-
-  setHiddenValue("#utm-source", params.get("utm_source") || attribution.utm_source);
-  setHiddenValue("#utm-medium", params.get("utm_medium") || attribution.utm_medium);
-  setHiddenValue("#utm-campaign", params.get("utm_campaign") || attribution.utm_campaign);
-  setHiddenValue("#utm-content", params.get("utm_content") || attribution.utm_content);
-  setHiddenValue("#utm-term", params.get("utm_term") || attribution.utm_term);
-  setHiddenValue("#contact-gclid", params.get("gclid") || attribution.gclid);
-  setHiddenValue("#contact-landing-page", attribution.landing_page || `${window.location.pathname}${window.location.search}`);
-  setHiddenValue("#contact-referrer", attribution.referrer || document.referrer || "direct");
-  setHiddenValue("#contact-attribution-time", attribution.captured_at);
-  setHiddenValue("#contact-submission-page", window.location.pathname);
-  setHiddenValue("#contact-requested-service", params.get("service"));
-
-  const requestedService = params.get("service") || "";
-  const projectType = form?.querySelector<HTMLSelectElement>('[name="project-type"]');
-  const projectTypeMap: Record<string, string> = {
-    "ai-automation": "ai-automation",
-    "ai-agents": "ai-automation",
-    "voice-ai": "voice-ai",
-    "workflow-automation": "workflow-automation",
-    "business-process-automation": "workflow-automation",
-    "custom-software": "custom-software",
-    "custom-saas": "custom-software",
-    "custom-crm": "crm-portal",
-    "dashboards-portals": "crm-portal",
-    "ai-integrations": "integration",
-    "api-integrations": "integration"
-  };
-  const requestedProjectType = params.get("project_type") || projectTypeMap[requestedService];
-  if (projectType && requestedProjectType && projectType.querySelector(`option[value="${CSS.escape(requestedProjectType)}"]`)) {
-    projectType.value = requestedProjectType;
-  }
-
-  if (source) source.value = params.get("source") || params.get("utm_source") || attribution.utm_source || "website";
-  if (campaign) campaign.value = params.get("campaign") || params.get("utm_campaign") || attribution.utm_campaign || "direct";
-
-  const showSuccess = () => {
-    if (form) form.hidden = true;
-    if (success) success.hidden = false;
-    successHeading?.focus();
-  };
-
-  let verifiedSubmission = false;
-  try {
-    verifiedSubmission = sessionStorage.getItem("velixon_contact_submitted") === "true";
-    if (verifiedSubmission) sessionStorage.removeItem("velixon_contact_submitted");
-  } catch {
-    verifiedSubmission = false;
-  }
-  if (params.get("submitted") === "true" && verifiedSubmission) showSuccess();
-
-  form?.addEventListener("focusin", () => {
-    analytics?.track("form_start", { form_name: "website-inquiry", page_path: window.location.pathname });
-  }, { once: true });
-
-  form?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[type="text"], input[type="email"], input[type="url"], input[type="tel"], textarea').forEach((field) => {
-      field.value = field.value.trim();
-    });
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    const originalLabel = button?.textContent || "Request My Strategy Call";
-
-    if (button) {
-      button.disabled = true;
-      button.textContent = "Sending...";
-    }
-    form.setAttribute("aria-busy", "true");
-    if (errorMessage) {
-      errorMessage.hidden = true;
-      errorMessage.textContent = "";
-    }
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString(),
-      });
-
-      if (!response.ok) throw new Error("Form submission failed");
-      const formData = new FormData(form);
-      const safeAnalyticsDimension = (value: FormDataEntryValue | null) => {
-        const normalized = String(value || "").trim();
-        return /^[a-z0-9._-]{1,60}$/i.test(normalized) ? normalized : "other";
-      };
-      analytics?.track("generate_lead", {
-        lead_source: safeAnalyticsDimension(formData.get("source")),
-        form_name: "website-inquiry",
-        project_type: safeAnalyticsDimension(formData.get("project-type"))
-      });
-      try { sessionStorage.setItem("velixon_contact_submitted", "true"); } catch {}
-      form.removeAttribute("aria-busy");
-      showSuccess();
-      window.history.replaceState({}, "", "/contact/?submitted=true");
-    } catch {
-      analytics?.track("form_error", { form_name: "website-inquiry", page_path: window.location.pathname });
-      if (button) {
-        button.disabled = false;
-        button.textContent = originalLabel;
-      }
-      form.removeAttribute("aria-busy");
-      if (errorMessage) {
-        errorMessage.hidden = false;
-        errorMessage.textContent = `We couldn't send your message. Please email ${form.dataset.contactEmail || "Velixon.web@gmail.com"}.`;
-        errorMessage.focus();
-      }
-    }
-  });
-</script>

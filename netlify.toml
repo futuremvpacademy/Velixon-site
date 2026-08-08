@@ -1,11 +1,14 @@
 [build]
-  command = "npm run build"
+  command = "npm run build:netlify"
   publish = "dist"
 
 [build.environment]
   ASTRO_TELEMETRY_DISABLED = "1"
   NODE_VERSION = "22"
-  PUBLIC_GOOGLE_SITE_VERIFICATION = "Jjx9Epy0Nj-SnyQBSlCxcFG0tDAX0Ej-WZJW1kmstGk"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
 
 [context.production.environment]
   PUBLIC_SITE_NOINDEX = "false"
@@ -26,6 +29,24 @@
   from = "/sitemap.xml"
   to = "/sitemap-index.xml"
   status = 200
+  force = true
+
+[[redirects]]
+  from = "/security.txt"
+  to = "/.well-known/security.txt"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/proposal-request"
+  to = "/estimate-request/#estimate-request-form"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/proposal-request/"
+  to = "/estimate-request/#estimate-request-form"
+  status = 301
   force = true
 
 [[redirects]]
@@ -212,14 +233,17 @@
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    Content-Security-Policy = "default-src 'self'; base-uri 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com; font-src 'self' data:; form-action 'self'; frame-ancestors 'self'; frame-src 'none'; img-src 'self' data: https:; manifest-src 'self'; media-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
+    Content-Security-Policy = "base-uri 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
     X-Content-Type-Options = "nosniff"
     X-DNS-Prefetch-Control = "off"
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     X-Permitted-Cross-Domain-Policies = "none"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Origin-Agent-Cluster = "?1"
+    Permissions-Policy = "accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), hid=(), magnetometer=(), microphone=(), midi=(), payment=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), usb=(), xr-spatial-tracking=()"
 
 [[headers]]
   for = "/_astro/*"
@@ -230,6 +254,11 @@
   for = "/og.png"
   [headers.values]
     Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/business-systems-audit-social.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
 
 [[headers]]
   for = "/images/*"
@@ -253,6 +282,11 @@
 
 [[headers]]
   for = "/image-sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/video-sitemap.xml"
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 
@@ -282,7 +316,7 @@
     Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
 
 [[headers]]
-  for = "/velixon-logo.png"
+  for = "/velixon-logo.webp"
   [headers.values]
     Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
 

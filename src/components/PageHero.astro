@@ -11,6 +11,11 @@ interface Props {
 }
 
 const { eyebrow, title, description, cta, ctaHref, secondaryCta, secondaryCtaHref, helper } = Astro.props;
+const analyticsEventForHref = (href?: string) => {
+  if (href?.startsWith("/free-audit")) return "free_audit_cta_clicked";
+  if (href?.startsWith("/estimate-request")) return "estimate_request_cta_clicked";
+  return undefined;
+};
 ---
 
 <section class="page-hero">
@@ -23,8 +28,8 @@ const { eyebrow, title, description, cta, ctaHref, secondaryCta, secondaryCtaHre
 
     {(cta || secondaryCta) && (
       <div class="page-hero-actions">
-        {cta && ctaHref && <a class="button" href={ctaHref}>{cta}</a>}
-        {secondaryCta && secondaryCtaHref && <a class="button button-secondary" href={secondaryCtaHref}>{secondaryCta}</a>}
+        {cta && ctaHref && <a class="button" href={ctaHref} data-analytics-event={analyticsEventForHref(ctaHref)} data-analytics-location="page-hero">{cta}</a>}
+        {secondaryCta && secondaryCtaHref && <a class="button button-secondary" href={secondaryCtaHref} data-analytics-event={analyticsEventForHref(secondaryCtaHref)} data-analytics-location="page-hero-secondary">{secondaryCta}</a>}
       </div>
     )}
 

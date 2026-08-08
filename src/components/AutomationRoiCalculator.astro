@@ -1,0 +1,127 @@
+<div class="audit-roi" data-roi-calculator>
+  <div class="audit-roi-inputs" aria-labelledby="roi-input-title">
+    <div class="audit-roi-panel-heading">
+      <span>01</span>
+      <div>
+        <p>Build an illustrative baseline</p>
+        <h3 id="roi-input-title">Where is time or opportunity leaking?</h3>
+      </div>
+    </div>
+
+    <div class="audit-roi-field-grid">
+      <label>
+        <span>Employees doing repetitive admin work</span>
+        <span class="audit-roi-input-wrap"><input type="number" name="employees" min="1" max="100" step="1" value="5" inputmode="numeric" data-roi-input /><i>people</i></span>
+      </label>
+      <label>
+        <span>Hours wasted per employee each week</span>
+        <span class="audit-roi-input-wrap"><input type="number" name="hours" min="0" max="40" step="0.5" value="6" inputmode="decimal" data-roi-input /><i>hours</i></span>
+      </label>
+      <label>
+        <span>Average hourly labor cost</span>
+        <span class="audit-roi-input-wrap"><b>$</b><input type="number" name="hourlyCost" min="1" max="500" step="1" value="30" inputmode="decimal" data-roi-input /><i>/ hour</i></span>
+      </label>
+      <label>
+        <span>Estimated missed leads each month</span>
+        <span class="audit-roi-input-wrap"><input type="number" name="missedLeads" min="0" max="1000" step="1" value="4" inputmode="numeric" data-roi-input /><i>leads</i></span>
+      </label>
+      <label class="audit-roi-field-wide">
+        <span>Average customer value</span>
+        <span class="audit-roi-input-wrap"><b>$</b><input type="number" name="customerValue" min="0" max="10000000" step="100" value="2000" inputmode="decimal" data-roi-input /><i>per customer</i></span>
+      </label>
+    </div>
+  </div>
+
+  <aside class="audit-roi-results" aria-labelledby="roi-result-title" aria-live="polite">
+    <div class="audit-roi-panel-heading">
+      <span>02</span>
+      <div>
+        <p>Illustrative exposure</p>
+        <h3 id="roi-result-title">A clearer cost picture</h3>
+      </div>
+    </div>
+
+    <dl class="audit-roi-metrics">
+      <div>
+        <dt>Monthly labor waste</dt>
+        <dd data-roi-output="monthlyLabor">$0</dd>
+      </div>
+      <div>
+        <dt>Monthly missed opportunity</dt>
+        <dd data-roi-output="missedRevenue">$0</dd>
+      </div>
+      <div>
+        <dt>Estimated annual operational cost</dt>
+        <dd data-roi-output="annualCost">$0</dd>
+      </div>
+      <div class="audit-roi-recovery">
+        <dt>Illustrative annual value recovered</dt>
+        <dd data-roi-output="annualRecovered">$0</dd>
+        <dd class="audit-roi-recovery-note"><small>Uses a conservative 40% recovery scenario.</small></dd>
+      </div>
+    </dl>
+
+    <p class="audit-roi-disclaimer">This estimate is illustrative, not a forecast or guarantee. It treats every missed lead as an opportunity—not booked revenue—and uses 4.33 weeks per month. Actual costs, conversion, recoverability, and results vary.</p>
+    <a class="audit-button audit-button-primary audit-roi-cta" href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="calculator">Request Your Free Audit <span aria-hidden="true">↗</span></a>
+  </aside>
+</div>
+
+<script>
+  type AnalyticsApi = { track: (name: string, parameters?: Record<string, unknown>) => void };
+
+  const calculator = document.querySelector<HTMLElement>("[data-roi-calculator]");
+  if (calculator) {
+    const fields = Array.from(calculator.querySelectorAll<HTMLInputElement>("[data-roi-input]"));
+    const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    const analytics = () => (window as Window & { velixonAnalytics?: AnalyticsApi }).velixonAnalytics;
+    let started = false;
+    let completed = false;
+    let completionTimer = 0;
+
+    const value = (name: string) => {
+      const field = calculator.querySelector<HTMLInputElement>(`[name="${name}"]`);
+      const minimum = Number(field?.min || 0);
+      const maximum = Number(field?.max || Number.MAX_SAFE_INTEGER);
+      return Math.min(maximum, Math.max(minimum, Number(field?.value || 0)));
+    };
+
+    const render = () => {
+      const monthlyLabor = value("employees") * value("hours") * value("hourlyCost") * 4.33;
+      const missedRevenue = value("missedLeads") * value("customerValue");
+      const annualCost = (monthlyLabor + missedRevenue) * 12;
+      const annualRecovered = annualCost * 0.4;
+      const outputs = { monthlyLabor, missedRevenue, annualCost, annualRecovered };
+      Object.entries(outputs).forEach(([key, amount]) => {
+        const output = calculator.querySelector<HTMLElement>(`[data-roi-output="${key}"]`);
+        if (output) output.textContent = formatter.format(amount);
+      });
+    };
+
+    const markComplete = () => {
+      if (!started || completed) return;
+      render();
+      completed = true;
+      analytics()?.track("calculator_completed", {
+        calculator_name: "automation_roi",
+        completion_method: "valid_input_settled",
+        page_path: window.location.pathname
+      });
+    };
+
+    fields.forEach((field) => field.addEventListener("input", () => {
+      if (!started) {
+        started = true;
+        analytics()?.track("calculator_started", {
+          calculator_name: "automation_roi",
+          page_path: window.location.pathname
+        });
+      }
+      render();
+      window.clearTimeout(completionTimer);
+      completionTimer = window.setTimeout(markComplete, 900);
+    }));
+
+    calculator.querySelector(".audit-roi-cta")?.addEventListener("click", markComplete);
+    render();
+  }
+</script>

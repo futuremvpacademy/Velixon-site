@@ -1,0 +1,361 @@
+---
+import { siteContent } from "../data/site";
+import { automationAuditFormAnchor, automationAuditPrimaryCta } from "../data/automation-audit";
+
+interface Props {
+  ctaHref?: string;
+}
+
+const { ctaHref = automationAuditFormAnchor } = Astro.props;
+const { companyName } = siteContent;
+const auditLogo = "/velixon-v-mark.png";
+
+const links = [
+  { label: "Solutions", href: "#solutions" },
+  { label: "Process", href: "#process" },
+  { label: "Results", href: "#results" },
+  { label: "FAQ", href: "#faq" }
+] as const;
+---
+
+<header class="automation-audit-nav" data-automation-audit-nav>
+  <div class="automation-audit-nav__inner">
+    <a class="automation-audit-nav__brand" href="/" aria-label={`${companyName} home`}>
+      <img src={auditLogo} alt="" width="592" height="592" decoding="async" />
+      <span>{companyName}</span>
+    </a>
+
+    <nav class="automation-audit-nav__desktop" aria-label="Business Systems Audit navigation">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+
+    <a
+      class="automation-audit-nav__cta"
+      href={ctaHref}
+      data-analytics-event="free_audit_cta_clicked"
+      data-analytics-location="navigation"
+    >
+      <span class="automation-audit-nav__cta-full">{automationAuditPrimaryCta}</span>
+      <span class="automation-audit-nav__cta-short">Request Audit</span>
+    </a>
+
+    <details class="automation-audit-nav__menu" data-automation-audit-menu>
+      <summary aria-label="Open Business Systems Audit navigation" aria-expanded="false">
+        <span aria-hidden="true"></span>
+      </summary>
+      <nav aria-label="Mobile Business Systems Audit navigation">
+        {links.map((link) => <a href={link.href}>{link.label}<span aria-hidden="true">↘</span></a>)}
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-automation-audit-nav]").forEach((nav) => {
+    if (nav.dataset.ready === "true") return;
+    nav.dataset.ready = "true";
+
+    const menu = nav.querySelector<HTMLDetailsElement>("[data-automation-audit-menu]");
+    const summary = menu?.querySelector<HTMLElement>("summary");
+    const desktop = window.matchMedia("(min-width: 901px)");
+    let frame = 0;
+
+    const updateScrolledState = () => {
+      frame = 0;
+      nav.classList.toggle("is-scrolled", window.scrollY > 16);
+    };
+
+    const requestScrolledState = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateScrolledState);
+    };
+
+    const closeMenu = (restoreFocus = false) => {
+      if (!menu?.open) return;
+      menu.open = false;
+      if (restoreFocus) summary?.focus({ preventScroll: true });
+    };
+
+    menu?.addEventListener("toggle", () => {
+      const isOpen = Boolean(menu.open);
+      summary?.setAttribute("aria-expanded", String(isOpen));
+      summary?.setAttribute("aria-label", isOpen ? "Close Business Systems Audit navigation" : "Open Business Systems Audit navigation");
+    });
+
+    menu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => closeMenu()));
+    menu?.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      closeMenu(true);
+    });
+    desktop.addEventListener("change", (event) => {
+      if (event.matches) closeMenu();
+    });
+
+    window.addEventListener("scroll", requestScrolledState, { passive: true });
+    updateScrolledState();
+  });
+</script>
+
+<style>
+  .automation-audit-nav {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    width: 100%;
+    border-bottom: 1px solid transparent;
+    background: rgba(8, 6, 10, 0.62);
+    backdrop-filter: blur(8px) saturate(115%);
+    -webkit-backdrop-filter: blur(8px) saturate(115%);
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, backdrop-filter 180ms ease;
+  }
+
+  .automation-audit-nav.is-scrolled {
+    border-bottom-color: rgba(255, 255, 255, 0.09);
+    background: rgba(8, 6, 10, 0.94);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(22px) saturate(135%);
+    -webkit-backdrop-filter: blur(22px) saturate(135%);
+  }
+
+  .automation-audit-nav__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    align-items: center;
+    width: min(calc(100% - 2rem), 1220px);
+    min-height: 72px;
+    margin: 0 auto;
+  }
+
+  .automation-audit-nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: fit-content;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .automation-audit-nav__brand img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 16px rgba(198, 182, 242, 0.24));
+  }
+
+  .automation-audit-nav__desktop {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .automation-audit-nav__desktop a {
+    padding: 0.6rem 0.78rem;
+    border-radius: 10px;
+    color: #a8afbe;
+    font-size: 0.86rem;
+    font-weight: 600;
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .automation-audit-nav__desktop a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .automation-audit-nav__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.72rem 1rem;
+    border: 1px solid rgba(229, 220, 250, 0.72);
+    border-radius: 11px;
+    color: #17111f;
+    background: #c6b6f2;
+    box-shadow: 0 10px 30px rgba(164, 132, 231, 0.24);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+    transition: transform 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .automation-audit-nav__cta:hover {
+    transform: translateY(-1px);
+    background: #ded5f8;
+    box-shadow: 0 14px 36px rgba(183, 155, 239, 0.3);
+  }
+
+  .automation-audit-nav__cta-short {
+    display: none;
+  }
+
+  .automation-audit-nav__menu {
+    display: none;
+  }
+
+  :where(.automation-audit-nav__brand, .automation-audit-nav__desktop a, .automation-audit-nav__cta, .automation-audit-nav__menu summary, .automation-audit-nav__menu nav a):focus-visible {
+    outline: 2px solid #c6b6f2;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .automation-audit-nav__inner {
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      gap: 0.7rem;
+    }
+
+    .automation-audit-nav__desktop {
+      display: none;
+    }
+
+    .automation-audit-nav__cta {
+      grid-column: 3;
+    }
+
+    .automation-audit-nav__menu {
+      position: relative;
+      display: block;
+      grid-column: 4;
+    }
+
+    .automation-audit-nav__menu summary {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.045);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .automation-audit-nav__menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .automation-audit-nav__menu summary span,
+    .automation-audit-nav__menu summary span::before,
+    .automation-audit-nav__menu summary span::after {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: #fff;
+      content: "";
+      transition: transform 150ms ease, opacity 150ms ease;
+    }
+
+    .automation-audit-nav__menu summary span::before {
+      transform: translateY(-6px);
+    }
+
+    .automation-audit-nav__menu summary span::after {
+      transform: translateY(4.5px);
+    }
+
+    .automation-audit-nav__menu[open] summary span {
+      background: transparent;
+    }
+
+    .automation-audit-nav__menu[open] summary span::before {
+      transform: translateY(1px) rotate(45deg);
+    }
+
+    .automation-audit-nav__menu[open] summary span::after {
+      transform: translateY(-0.5px) rotate(-45deg);
+    }
+
+    .automation-audit-nav__menu nav {
+      position: absolute;
+      top: calc(100% + 0.75rem);
+      right: 0;
+      display: grid;
+      width: min(310px, calc(100vw - 2rem));
+      padding: 0.55rem;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 15px;
+      background: rgba(13, 9, 16, 0.98);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.46);
+    }
+
+    .automation-audit-nav__menu nav a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 48px;
+      padding: 0.7rem 0.85rem;
+      border-radius: 10px;
+      color: #d8dce5;
+      font-size: 0.95rem;
+      font-weight: 650;
+    }
+
+    .automation-audit-nav__menu nav a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .automation-audit-nav__inner {
+      width: min(calc(100% - 1rem), 1220px);
+      min-height: 64px;
+      gap: 0.45rem;
+    }
+
+    .automation-audit-nav__brand img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .automation-audit-nav__brand span {
+      display: none;
+    }
+
+    .automation-audit-nav__cta {
+      min-height: 42px;
+      padding: 0.65rem 0.78rem;
+    }
+
+    .automation-audit-nav__cta-full {
+      display: none;
+    }
+
+    .automation-audit-nav__cta-short {
+      display: inline;
+    }
+
+    .automation-audit-nav__menu summary {
+      width: 42px;
+      height: 42px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .automation-audit-nav,
+    .automation-audit-nav__desktop a,
+    .automation-audit-nav__cta,
+    .automation-audit-nav__menu summary span,
+    .automation-audit-nav__menu summary span::before,
+    .automation-audit-nav__menu summary span::after {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .automation-audit-nav,
+    .automation-audit-nav__cta,
+    .automation-audit-nav__menu summary,
+    .automation-audit-nav__menu nav {
+      border-color: CanvasText;
+    }
+  }
+</style>

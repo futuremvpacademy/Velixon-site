@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.astro";
 import { siteContent } from "../data/site";
 import "../styles/legal.css";
 
-const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const { companyName, logo, nav, cta, contactInfo, businessInfo } = siteContent;
 const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 ---
 
@@ -20,7 +20,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <h1>Clear terms for using this website.</h1>
         <p class="legal-lede">These Terms of Use set the ground rules for accessing velixon.net. Client projects and paid services are governed by their own written agreements.</p>
         <p class="legal-meta">
-          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Effective:</strong> <time datetime="2026-08-08">August 8, 2026</time></span>
           <span><strong>Applies to:</strong> velixon.net</span>
         </p>
 
@@ -41,6 +41,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <li><a href="#acceptable-use">Acceptable use</a></li>
           <li><a href="#content">Intellectual property</a></li>
           <li><a href="#submissions">Information you submit</a></li>
+          <li><a href="#free-audit">Free Audit terms</a></li>
           <li><a href="#third-parties">Third parties</a></li>
           <li><a href="#disclaimers">Disclaimers</a></li>
           <li><a href="#liability">Liability</a></li>
@@ -53,6 +54,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <p class="legal-section-label">01 · Agreement</p>
           <h2>Acceptance of these terms</h2>
           <p>By accessing or using velixon.net, you agree to these Terms of Use and the <a href="/privacy/">Privacy Policy</a>. If you do not agree, do not use the website.</p>
+          <p>“Velixon,” “we,” and “us” mean <strong>{businessInfo.legalName}</strong>, {businessInfo.entityDescription}.</p>
           <p>You must be legally able to enter into these terms. If you use the website for a company or other organization, you represent that you have authority to act for that organization.</p>
         </section>
 
@@ -60,7 +62,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <p class="legal-section-label">02 · Purpose</p>
           <h2>What the website provides</h2>
           <p>This website describes Velixon, our capabilities, products, process, and potential engagements. Its content is general information, not professional legal, financial, tax, compliance, or security advice.</p>
-          <p>Submitting a contact form, scheduling a conversation, or exchanging preliminary information does not create a client, partnership, fiduciary, employment, or other professional relationship. A project begins only when the parties sign an applicable written agreement.</p>
+          <p>Submitting a contact form, arranging or joining a conversation, or exchanging preliminary information does not create a client, partnership, fiduciary, employment, or other professional relationship. A project begins only when the parties sign an applicable written agreement.</p>
         </section>
 
         <section class="legal-section" id="acceptable-use">
@@ -96,22 +98,30 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           </div>
         </section>
 
+        <section class="legal-section" id="free-audit">
+          <p class="legal-section-label">06 · Free Audit</p>
+          <h2>Free Business Systems Audit offer</h2>
+          <p>The Free Business Systems Audit is a no-cost preliminary review for legitimate business inquiries. For complete requests Velixon accepts, Velixon will email a personalized one-page scorecard and 3 prioritized recommendations within 3 business days. No call is required. After delivery, you may request an optional 20-minute strategy call by replying to the audit email; Velixon arranges that call manually and does not offer public self-scheduling. No purchase is required. Submission does not guarantee acceptance, continued availability, or any business result.</p>
+          <p>Velixon may decline duplicate, incomplete, abusive, unlawful, out-of-scope, or non-business requests. Any scorecard, roadmap, calculator output, recommendation, or conversation is based on the limited information available and is general planning information—not legal, financial, tax, accounting, employment, privacy, accessibility, compliance, or security advice.</p>
+          <p>You remain responsible for decisions, implementation, professional review, and verifying that any recommendation fits your business, contracts, systems, data, customers, and legal obligations.</p>
+        </section>
+
         <section class="legal-section" id="third-parties">
-          <p class="legal-section-label">06 · External services</p>
+          <p class="legal-section-label">07 · External services</p>
           <h2>Third-party links and services</h2>
           <p>The website may link to or rely on third-party websites, platforms, tools, and content. Those third parties control their own services, terms, privacy practices, availability, and security. A link does not necessarily mean Velixon endorses or guarantees the third party.</p>
           <p>You are responsible for reviewing third-party terms before using their services. Velixon is not responsible for third-party content or conduct to the extent permitted by law.</p>
         </section>
 
         <section class="legal-section" id="disclaimers">
-          <p class="legal-section-label">07 · Disclaimers</p>
+          <p class="legal-section-label">08 · Disclaimers</p>
           <h2>Website provided as available</h2>
           <p>Velixon works to keep the website useful, accurate, and available, but content may be incomplete, outdated, or interrupted. To the fullest extent permitted by applicable law, the website is provided “as is” and “as available,” without warranties of uninterrupted operation, error-free content, fitness for a particular purpose, noninfringement, or results.</p>
           <p>Nothing on the website promises a specific business, financial, technical, search-ranking, or operational outcome. Project commitments and warranties, if any, appear only in the applicable signed agreement.</p>
         </section>
 
         <section class="legal-section" id="liability">
-          <p class="legal-section-label">08 · Limits</p>
+          <p class="legal-section-label">09 · Limits</p>
           <h2>Limitation of liability</h2>
           <p>To the fullest extent permitted by applicable law, Velixon and its owners, team members, contractors, and service providers will not be liable for indirect, incidental, special, consequential, exemplary, or punitive damages, or for lost profits, revenue, data, goodwill, or business opportunity arising from use of—or inability to use—the website.</p>
           <p>Where liability cannot be excluded, Velixon's total liability arising from the website will not exceed the greater of the amount you paid Velixon specifically for website access during the prior twelve months or one hundred U.S. dollars. Some jurisdictions do not allow certain exclusions or limits, so portions of this section may not apply to you.</p>
@@ -119,7 +129,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         </section>
 
         <section class="legal-section" id="changes">
-          <p class="legal-section-label">09 · General</p>
+          <p class="legal-section-label">10 · General</p>
           <h2>Changes, enforceability, and contact</h2>
           <p>We may update these terms as the website or our practices change. The effective date above identifies the current version. Continued use after an update means you accept the revised terms to the extent permitted by law.</p>
           <p>If any provision is found unenforceable, the remaining provisions remain in effect. Failure to enforce a provision is not a waiver. Applicable mandatory consumer protections are not limited by these terms.</p>
@@ -129,6 +139,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <aside class="legal-contact" aria-labelledby="terms-contact-title">
           <h2 id="terms-contact-title">Questions about these terms?</h2>
           <p>Contact Velixon for a plain-language answer. Project-specific terms are addressed in the written agreement for that engagement.</p>
+          <p><strong>{businessInfo.legalName}</strong>, doing business as {businessInfo.doingBusinessAs}<br />Mailing address: {businessInfo.mailingAddress.formatted}</p>
           <div class="legal-contact-links">
             <a href={`mailto:${contactInfo.email}?subject=Website%20Terms%20Question`}>{contactInfo.email}</a>
             <a href={phoneHref}>{contactInfo.phone}</a>

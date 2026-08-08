@@ -1,0 +1,318 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import PageHero from "../components/PageHero.astro";
+import { siteContent } from "../data/site";
+import "../styles/estimate-request.css";
+
+const { companyName, logo, nav, cta, contactInfo } = siteContent;
+
+const services = [
+  {
+    name: "Custom software & SaaS",
+    value: "custom-software",
+    description: "Purpose-built applications, platforms, and internal tools shaped around your business.",
+    href: "/services/custom-software/"
+  },
+  {
+    name: "Workflow automation",
+    value: "workflow-automation",
+    description: "Connected processes that reduce repetitive work, delays, and manual handoffs.",
+    href: "/services/workflow-automation/"
+  },
+  {
+    name: "AI systems & agents",
+    value: "ai-systems",
+    description: "Practical AI for customer response, operations, knowledge work, and decision support.",
+    href: "/services/ai-automation/"
+  },
+  {
+    name: "CRM, portals & dashboards",
+    value: "crm-portals-dashboards",
+    description: "Clear interfaces for customers, teams, records, reporting, and operational visibility.",
+    href: "/services/dashboards-portals/"
+  },
+  {
+    name: "API & system integrations",
+    value: "api-integrations",
+    description: "Reliable connections between the software, data, and services your team already uses.",
+    href: "/services/api-integrations/"
+  },
+  {
+    name: "Websites & lead systems",
+    value: "websites-lead-systems",
+    description: "Conversion-focused websites, forms, and follow-up paths that make action easier.",
+    href: "/services/"
+  }
+];
+---
+
+<MainLayout
+  title="Project Estimate | Velixon"
+  description="Request a Project Estimate for a defined or new custom software, workflow automation, AI, integration, or website project from Velixon."
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/estimate-request" />
+
+  <main id="main-content">
+    <PageHero
+      eyebrow="Project Estimate"
+      title="Estimate a defined or new project."
+      description="Share what you plan to build, the outcome it should create, and enough context for Velixon to estimate the right starting scope."
+      cta="Start My Project Estimate"
+      ctaHref="#estimate-request-form"
+      secondaryCta="Request Your Free Audit"
+      secondaryCtaHref="/free-audit/?source=estimate-page#book-audit"
+      helper="Still diagnosing an existing system or unsure what should change? Start with the Free Business Systems Audit."
+    />
+
+    <section class="page-section estimate-page" aria-labelledby="estimate-services-title">
+      <div class="container">
+        <div class="estimate-form-heading">
+          <p class="eyebrow">Project Estimate</p>
+          <h2>Give us the project essentials.</h2>
+          <p>We will review your request and respond with questions, a recommended first step, or an estimate when the scope is clear enough.</p>
+        </div>
+
+        <div class="contact-page-grid estimate-form-layout">
+          <form
+            class="contact-form-card"
+            id="estimate-request-form"
+            name="estimate-request"
+            method="POST"
+            action="/estimate-request/?submitted=true"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            data-contact-email={contactInfo.email}
+          >
+            <input type="hidden" name="form-name" value="estimate-request" />
+            <input type="hidden" name="subject" value="New Velixon estimate request" />
+            <input type="hidden" name="status" value="Submitted" />
+            <input type="hidden" name="source" id="estimate-source" value="website" />
+            <input type="hidden" name="campaign" id="estimate-campaign" value="direct" />
+            <input type="hidden" name="referrer" id="estimate-referrer" value="direct" />
+            <p class="form-honeypot" hidden><label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+            <div class="contact-form-intro">
+              <p class="tech-label">Your project</p>
+              <h2>What new or defined project should we estimate?</h2>
+              <p>A concise description is enough to start. We will follow up if the scope needs clarification.</p>
+            </div>
+
+            <div class="contact-form-row">
+              <label>Full name<input name="full-name" type="text" autocomplete="name" maxlength="120" required /></label>
+              <label>Business email<input name="email" type="email" autocomplete="email" maxlength="254" required /></label>
+            </div>
+
+            <div class="contact-form-row">
+              <label>Company name<input name="company" type="text" autocomplete="organization" maxlength="140" required /></label>
+              <label>Phone <span class="sr-only">optional</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
+            </div>
+
+            <label>
+              Primary service
+              <select name="service" required>
+                <option value="">Choose a service</option>
+                {services.map((service) => <option value={service.value}>{service.name}</option>)}
+                <option value="not-sure">Not sure yet</option>
+              </select>
+            </label>
+
+            <div class="contact-form-row">
+              <label>
+                Estimated budget
+                <select name="budget" required>
+                  <option value="">Choose a range</option>
+                  <option value="200-1k">$200–$1,000</option>
+                  <option value="1k-5k">$1,000–$5,000</option>
+                  <option value="5k-10k">$5,000–$10,000</option>
+                  <option value="10k-25k">$10,000–$25,000</option>
+                  <option value="25k-50k">$25,000–$50,000</option>
+                  <option value="50k-100k">$50,000–$100,000</option>
+                  <option value="100k-plus">$100,000+</option>
+                  <option value="guidance">I need guidance</option>
+                </select>
+              </label>
+              <label>
+                Preferred timeline
+                <select name="timeline" required>
+                  <option value="">Choose a timeline</option>
+                  <option value="within-month">Within a month</option>
+                  <option value="1-3-months">1–3 months</option>
+                  <option value="3-6-months">3–6 months</option>
+                  <option value="exploring">Just exploring</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Project details
+              <textarea name="project-details" rows="6" minlength="30" maxlength="4000" placeholder="What do you want to build or improve? Who will use it, what should it make easier, and what systems may need to connect?" required></textarea>
+            </label>
+
+            <p class="form-safety-note"><strong>Describe the project, not private data.</strong> Do not include passwords, confidential source code, regulated records, or production datasets.</p>
+
+            <label class="contact-consent">
+              <input type="checkbox" name="privacy-acknowledgment" value="accepted" required />
+              <span>I acknowledge the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use this information to evaluate and respond to my request.</span>
+            </label>
+
+            <button class="button" type="submit">Request My Project Estimate</button>
+            <p class="contact-form-error" id="estimate-error" role="alert" tabindex="-1" hidden></p>
+            <p class="contact-note">An estimate is not a final proposal. Pricing may change if requirements, integrations, or project boundaries change.</p>
+          </form>
+
+          <div class="contact-form-card contact-form-status" id="estimate-success" role="status" hidden>
+            <p class="tech-label">Estimate request received</p>
+            <h2 tabindex="-1" id="estimate-success-heading">We have your project details.</h2>
+            <p>Velixon will review the service, desired outcome, timeline, and budget you provided, then reply with the clearest next step within 1 business day.</p>
+            <div class="contact-success-actions">
+              <a class="button" href="/case-studies/">View Our Work</a>
+              <a class="button button-secondary" href="/">Return Home</a>
+            </div>
+          </div>
+
+          <aside class="contact-side">
+            <div class="detail-card">
+              <p class="tech-label">What happens next</p>
+              <h3>A practical review—not an instant guess.</h3>
+              <ol class="estimate-process-list">
+                <li><span>01</span>We review the outcome and service fit.</li>
+                <li><span>02</span>We identify missing scope or integration details.</li>
+                <li><span>03</span>We reply with questions, a next step, or an estimate.</li>
+              </ol>
+            </div>
+            <div class="detail-card">
+              <p class="tech-label">Existing system?</p>
+              <h3>Start with the Free Business Systems Audit.</h3>
+              <p>If the problem is existing or the right fix is still unclear, the audit is the better first step.</p>
+              <a class="button button-secondary" href="/free-audit/?source=estimate-request#book-audit">Request Your Free Audit</a>
+            </div>
+            <div class="detail-card">
+              <p class="tech-label">Direct contact</p>
+              <h3>Prefer to talk first?</h3>
+              <p><a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a><br /><a href={`tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`}>{contactInfo.phone}</a></p>
+            </div>
+          </aside>
+        </div>
+
+        <div class="estimate-services">
+          <div class="estimate-services-heading">
+            <div>
+              <p class="eyebrow">Project types</p>
+              <h2 id="estimate-services-title">Projects Velixon can estimate.</h2>
+            </div>
+            <p>Select the closest fit. You do not need a finished specification, and projects can combine more than one service.</p>
+          </div>
+
+          <div class="estimate-service-grid">
+            {services.map((service, index) => (
+              <article class="estimate-service-card" data-index={String(index + 1).padStart(2, "0")}>
+                <h3><a href={service.href}>{service.name}</a></h3>
+                <p>{service.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>
+
+<script>
+  import { sanitizeAnalyticsSource } from "../lib/analytics";
+
+  const params = new URLSearchParams(window.location.search);
+  const setValue = (selector: string, value: string) => {
+    const input = document.querySelector<HTMLInputElement>(selector);
+    if (input) input.value = value;
+  };
+
+  let attribution: Record<string, string> = {};
+  try { attribution = JSON.parse(sessionStorage.getItem("velixon_session_attribution") || "{}"); } catch {}
+
+  setValue("#estimate-source", params.get("source") || params.get("utm_source") || attribution.utm_source || "website");
+  setValue("#estimate-campaign", params.get("campaign") || params.get("utm_campaign") || attribution.utm_campaign || "direct");
+  setValue("#estimate-referrer", attribution.referrer || document.referrer || "direct");
+
+  const form = document.querySelector<HTMLFormElement>("#estimate-request-form");
+  const success = document.querySelector<HTMLElement>("#estimate-success");
+  const successHeading = document.querySelector<HTMLElement>("#estimate-success-heading");
+  const errorMessage = document.querySelector<HTMLElement>("#estimate-error");
+  const analytics = (window as Window & { velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void } }).velixonAnalytics;
+  const estimateAnalyticsSource = () => sanitizeAnalyticsSource(
+    document.querySelector<HTMLInputElement>("#estimate-source")?.value || "website"
+  );
+
+  form?.addEventListener("focusin", () => analytics?.track("estimate_request_started", {
+    form_name: "estimate-request",
+    page_path: window.location.pathname
+  }), { once: true });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const originalLabel = button?.textContent || "Request My Estimate";
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Sending…";
+    }
+    form.setAttribute("aria-busy", "true");
+    if (errorMessage) {
+      errorMessage.hidden = true;
+      errorMessage.textContent = "";
+    }
+
+    try {
+      const entries = Array.from(new FormData(form).entries()).map(([key, value]) => [key, String(value)] as [string, string]);
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(entries).toString()
+      });
+      if (!response.ok) throw new Error("Submission failed");
+
+      try { sessionStorage.setItem("velixon_estimate_submitted", "true"); } catch {}
+      analytics?.track("estimate_request_submitted", {
+        source: estimateAnalyticsSource(),
+        form_name: "estimate-request",
+        page_path: window.location.pathname
+      });
+      form.hidden = true;
+      if (success) success.hidden = false;
+      successHeading?.focus();
+      window.history.replaceState({}, "", "/estimate-request/?submitted=true");
+    } catch {
+      if (button) {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
+      form.removeAttribute("aria-busy");
+      if (errorMessage) {
+        errorMessage.hidden = false;
+        errorMessage.textContent = `We couldn't send your request. Please email ${form.dataset.contactEmail || "velixon@velixon.net"}.`;
+        errorMessage.focus();
+      }
+      analytics?.track("estimate_request_error", {
+        form_name: "estimate-request",
+        page_path: window.location.pathname
+      });
+    }
+  });
+
+  let verifiedSubmission = false;
+  try {
+    verifiedSubmission = sessionStorage.getItem("velixon_estimate_submitted") === "true";
+    if (verifiedSubmission) sessionStorage.removeItem("velixon_estimate_submitted");
+  } catch {}
+
+  if (params.get("submitted") === "true" && verifiedSubmission) {
+    if (form) form.hidden = true;
+    if (success) success.hidden = false;
+    successHeading?.focus();
+  }
+</script>

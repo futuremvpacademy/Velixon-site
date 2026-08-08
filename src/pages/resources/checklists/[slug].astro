@@ -1,0 +1,169 @@
+---
+import MainLayout from "../../../layouts/MainLayout.astro";
+import Navbar from "../../../components/Navbar.astro";
+import InteractiveChecklist from "../../../components/InteractiveChecklist.astro";
+import { siteContent } from "../../../data/site";
+import { checklists, type ChecklistDefinition } from "../../../data/checklists";
+import "../../../styles/resources.css";
+import "../../../styles/checklist.css";
+
+export const getStaticPaths = () => checklists.map((checklist) => ({
+  params: { slug: checklist.slug },
+  props: { checklist }
+}));
+
+interface Props {
+  checklist: ChecklistDefinition;
+}
+
+const { checklist } = Astro.props;
+const { companyName, logo, nav, cta } = siteContent;
+const canonicalPath = `/resources/checklists/${checklist.slug}/`;
+const totalItems = checklist.categories.reduce((total, category) => total + category.items.length, 0);
+const relatedChecklists = checklists.filter((item) => item.slug !== checklist.slug).slice(0, 3);
+const publishedDate = "2026-07-19";
+const faqs = [
+  {
+    question: `Is the ${checklist.title} free to use?`,
+    answer: "Yes. The checklist is available without providing contact information, and every item can be reviewed before deciding whether to request a personalized audit."
+  },
+  {
+    question: "Does the checklist save my progress?",
+    answer: "Yes. Checked item IDs are stored locally on the current device when browser storage is available. The Reset checklist control removes that saved progress."
+  },
+  {
+    question: "Can I download or print the completed checklist?",
+    answer: "Use the Print or Save as PDF control. Your browser can print the checklist or save the current checked state as a PDF without an email gate."
+  },
+  {
+    question: "What should I do if several items are incomplete?",
+    answer: "Start with the missing items that affect customer response, ownership, reliability, or measurement. A Free Velixon Audit can help prioritize the findings for your specific business."
+  }
+];
+const pageSchema = [
+  {
+    "@type": "WebApplication",
+    "@id": `https://velixon.net${canonicalPath}#tool`,
+    name: checklist.title,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    description: checklist.description,
+    url: `https://velixon.net${canonicalPath}`,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
+  },
+  {
+    "@type": "Article",
+    "@id": `https://velixon.net${canonicalPath}#article`,
+    headline: checklist.title,
+    description: checklist.description,
+    url: `https://velixon.net${canonicalPath}`,
+    mainEntityOfPage: { "@id": `https://velixon.net${canonicalPath}#webpage` },
+    datePublished: publishedDate,
+    dateModified: publishedDate,
+    articleSection: "Interactive business checklists",
+    image: "https://velixon.net/og.png",
+    author: { "@type": "Organization", "@id": "https://velixon.net/#organization", name: "Velixon" },
+    publisher: { "@id": "https://velixon.net/#organization" }
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `https://velixon.net${canonicalPath}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer }
+    }))
+  }
+];
+---
+
+<MainLayout
+  title={`${checklist.title} | Free Velixon Resource`}
+  description={checklist.description}
+  imageAlt={`${checklist.title} from Velixon`}
+  canonicalPath={canonicalPath}
+  ogType="article"
+  publishedTime={publishedDate}
+  modifiedTime={publishedDate}
+  articleSection="Interactive business checklists"
+  breadcrumbLabels={{ checklists: "Checklists", [checklist.slug]: checklist.title }}
+  schema={pageSchema}
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/resources" />
+  <main id="main-content" class="checklist-page">
+    <header class="checklist-page-hero">
+      <div class="resource-orb resource-orb-one" aria-hidden="true"></div>
+      <div class="resource-orb resource-orb-two" aria-hidden="true"></div>
+      <div class="container">
+        <nav class="checklist-breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href="/resources/">Resources</a></li>
+            <li><a href="/resources/#checklists">Checklists</a></li>
+            <li aria-current="page">{checklist.shortTitle}</li>
+          </ol>
+        </nav>
+        <div class="checklist-page-hero-grid">
+          <div>
+            <p class="checklist-page-kicker">Free interactive checklist · {totalItems} checks</p>
+            <h1>{checklist.title}</h1>
+            <p class="checklist-page-lead">{checklist.description}</p>
+          </div>
+          <aside class="checklist-page-note">
+            <strong>How to use it</strong>
+            {checklist.intro}
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <section class="checklist-tool-section">
+      <div class="container">
+        <InteractiveChecklist checklist={checklist} />
+      </div>
+    </section>
+
+    <section class="checklist-faq resource-faq" aria-labelledby="checklist-faq-heading">
+      <div class="container checklist-faq-layout">
+        <div>
+          <p class="checklist-page-kicker">Using this resource</p>
+          <h2 id="checklist-faq-heading">Checklist questions</h2>
+        </div>
+        <div class="resource-faq-list">
+          {faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="checklist-related" aria-labelledby="related-checklists-heading">
+      <div class="container">
+        <div class="resource-section-heading">
+          <div>
+            <p class="eyebrow">Keep improving</p>
+            <h2 id="related-checklists-heading">Related business checklists</h2>
+          </div>
+          <a href="/resources/#checklists">View all checklists <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="resource-card-grid resource-card-grid-three">
+          {relatedChecklists.map((item) => (
+            <article class="resource-card">
+              <p class="resource-card-category">Interactive checklist</p>
+              <h3><a href={`/resources/checklists/${item.slug}/`}>{item.title}</a></h3>
+              <p>{item.description}</p>
+              <a
+                class="resource-card-link"
+                href={`/resources/checklists/${item.slug}/`}
+                aria-label={`Open ${item.title}`}
+              >Open the checklist <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</MainLayout>

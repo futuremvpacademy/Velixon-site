@@ -9,6 +9,7 @@ interface Props { page: ComparisonData; }
 const { page } = Astro.props;
 const { companyName, logo, nav, cta } = siteContent;
 const pageUrl = `https://velixon.net/comparisons/${page.slug}/`;
+const auditHref = `/free-audit/?${new URLSearchParams({ source: "comparison", campaign: page.slug }).toString()}#book-audit`;
 const schema = [
   {
     "@type": "Article",
@@ -46,7 +47,7 @@ const schema = [
       <div class="container cluster-hero-shell">
         <nav class="cluster-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/comparisons/">Comparisons</a></li><li aria-current="page">{page.headline}</li></ol></nav>
         <div class="cluster-hero-layout">
-          <div><p class="cluster-eyebrow">Decision guide</p><h1>{page.headline}</h1><p class="cluster-summary">{page.summary}</p><div class="cluster-actions"><a class="button" href="/contact/">Discuss your system</a><a class="button button-secondary" href="#comparison">Compare the options</a></div></div>
+          <div><p class="cluster-eyebrow">Decision guide</p><h1>{page.headline}</h1><p class="cluster-summary">{page.summary}</p><div class="cluster-actions"><a class="button" href={auditHref} data-analytics-event="free_audit_cta_clicked" data-analytics-location="comparison-hero">Request Your Free Audit</a><a class="button button-secondary" href="#comparison">Compare the options</a></div></div>
           <aside class="cluster-answer"><span>{page.verdictLabel}</span><h2>Quick verdict</h2><p>{page.verdict}</p><small>Reviewed by Velixon · July 2026</small></aside>
         </div>
       </div>
@@ -70,6 +71,5 @@ const schema = [
     <section class="comparison-sources" aria-labelledby="comparison-sources-title"><div class="container"><h2 id="comparison-sources-title">Primary documentation consulted</h2><ul>{page.sources.map((source) => <li><a href={source.href} rel="noopener" target="_blank">{source.title}<span class="sr-only"> (opens in a new tab)</span></a></li>)}</ul></div></section>
 
     <section class="cluster-section cluster-related"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Related decisions</p><h2>Keep evaluating the system</h2></div><div class="cluster-related-grid">{page.related.map((item) => <a href={item.href}><span>{item.label ?? "Related"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>)}</div></div></section>
-    <section class="cluster-final"><div class="container"><p class="cluster-eyebrow">Need a third option?</p><h2>Design the system around the business.</h2><p>Velixon can evaluate the workflow and recommend the simplest maintainable path.</p><div class="cluster-actions"><a class="button" href="/contact/">Schedule a strategy call</a></div></div></section>
   </main>
 </MainLayout>

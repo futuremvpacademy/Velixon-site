@@ -2,7 +2,6 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "./Navbar.astro";
 import PageHero from "./PageHero.astro";
-import FinalCtaSection from "./FinalCtaSection.astro";
 import { siteContent } from "../data/site";
 import "../styles/service-landing.css";
 
@@ -84,14 +83,13 @@ const {
   fitDescription,
   fitSignals,
   faqs,
-  relatedServices,
-  ctaTitle,
-  ctaDescription,
-  ctaPoints
+  relatedServices
 } = Astro.props;
 
 const { companyName, logo, nav, cta } = siteContent;
 const pageUrl = new URL(canonicalPath, "https://velixon.net").toString();
+const auditCampaign = canonicalPath.split("/").filter(Boolean).pop() || "service";
+const auditHref = `/free-audit/?${new URLSearchParams({ source: "service-page", campaign: auditCampaign }).toString()}#book-audit`;
 const serviceSchema = {
   "@type": "Service",
   "@id": `${pageUrl}#service`,
@@ -128,17 +126,6 @@ const faqSchema = {
     }
   }))
 };
-const finalCta = {
-  eyebrow: "Build with Velixon",
-  title: ctaTitle,
-  description: ctaDescription,
-  points: ctaPoints,
-  primary: "Discuss Your System",
-  primaryHref: "/contact/",
-  secondary: "See How We Work",
-  secondaryHref: "/process/",
-  helper: "You do not need a finished specification. Start with the operational problem."
-};
 ---
 
 <MainLayout
@@ -164,8 +151,8 @@ const finalCta = {
       eyebrow={eyebrow}
       title={headline}
       description={heroDescription}
-      cta="Discuss Your System"
-      ctaHref="/contact/"
+      cta="Request Your Free Audit"
+      ctaHref={auditHref}
       secondaryCta="See What's Included"
       secondaryCtaHref="#deliverables"
       helper={heroHelper}
@@ -304,6 +291,5 @@ const finalCta = {
       </div>
     </section>
 
-    <FinalCtaSection cta={finalCta} />
   </main>
 </MainLayout>

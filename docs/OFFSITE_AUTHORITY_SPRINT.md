@@ -7,7 +7,7 @@ This plan covers the work that turns Velixon's technical and content foundation 
 ## Verified starting point
 
 - Google Search Console reported one external link to `velixon.net`, from `ksl.com`, in the July 15 snapshot.
-- The public site currently uses `Velixon.web@gmail.com`.
+- The public site uses `velixon@velixon.net`.
 - `velixon.net` had no published MX record in the July 15 DNS check, so a working domain mailbox must be provisioned before the site or partner applications can safely publish `hello@velixon.net` or `partnerships@velixon.net`.
 - The site can honestly use FormEsque and ShareCal as first-party product evidence. It must not describe them as independent client outcomes or invent adoption, revenue, time-saving, or ROI figures.
 

@@ -17,7 +17,7 @@ After deployment, verify representative production responses rather than treatin
 - `https://velixon.net/` returns `200` with the current canonical, title, description, and robots directive.
 - `https://www.velixon.net/...` permanently redirects to the same path on `https://velixon.net`.
 - Representative legacy aliases return one `301` directly to their canonical route.
-- `/robots.txt`, `/sitemap-index.xml`, `/sitemap-0.xml`, `/image-sitemap.xml`, and the IndexNow key file return `200`.
+- `/robots.txt`, `/sitemap-index.xml`, `/sitemap-0.xml`, `/image-sitemap.xml`, `/video-sitemap.xml`, and the IndexNow key file return `200`.
 - An unknown path returns a real `404`, not a `200` soft error.
 - Search Console can fetch the sitemap and sees the new canonical count after processing.
 

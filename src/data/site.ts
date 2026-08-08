@@ -1,8 +1,14 @@
 export const siteContent = {
   companyName: "Velixon",
-  logo: "/velixon-logo.png",
-  cta: "Free Assessment",
-  ctaHref: "/automation-assessment/",
+  logo: "/velixon-logo.webp",
+  cta: {
+    label: "Request Your Free Audit",
+    href: "/free-audit/#book-audit",
+    analyticsEvent: "free_audit_cta_clicked",
+    secondaryLabel: "Get a Project Estimate",
+    secondaryHref: "/estimate-request/?source=site-cta&campaign=estimate#estimate-request-form",
+    secondaryAnalyticsEvent: "estimate_request_cta_clicked"
+  },
   secondaryCta: "Explore Our Work",
   secondaryCtaHref: "/#products",
   nav: [
@@ -13,51 +19,60 @@ export const siteContent = {
   ],
   footerNav: [
     {
-      heading: "Explore",
-      ariaLabel: "Explore Velixon",
+      heading: "What we do",
+      ariaLabel: "Velixon services and work",
       items: [
         { label: "Services", href: "/services/" },
         { label: "Industries", href: "/industries/" },
         { label: "Work", href: "/case-studies/" },
-        { label: "Resources", href: "/resources/" },
-        { label: "Integrations", href: "/integrations/" },
-        { label: "Service areas", href: "/locations/" }
+        { label: "Integrations", href: "/integrations/" }
       ]
     },
     {
-      heading: "Company",
-      ariaLabel: "Velixon company links",
+      heading: "Start here",
+      ariaLabel: "Start with Velixon",
       items: [
+        { label: "Free systems audit", href: "/free-audit/#book-audit" },
+        { label: "Project estimate", href: "/estimate-request/#estimate-request-form" },
+        { label: "Resources", href: "/resources/" },
         { label: "About", href: "/about/" },
         { label: "Process", href: "/process/" },
         { label: "Engagements", href: "/pricing/" },
-        { label: "Contact", href: "/contact/" },
-        { label: "Proposal request", href: "/proposal-request/" }
-      ]
-    },
-    {
-      heading: "Legal & trust",
-      ariaLabel: "Legal and trust links",
-      items: [
-        { label: "Privacy policy", href: "/privacy/" },
-        { label: "Terms of use", href: "/terms/" },
-        { label: "Cookies & storage", href: "/cookies/" },
-        { label: "Accessibility", href: "/accessibility/" },
-        { label: "Security practices", href: "/security/" },
-        { label: "Website disclaimers", href: "/terms/#disclaimers" }
+        { label: "Contact", href: "/contact/" }
       ]
     }
   ],
   footer: {
-    blurb: "Velixon is an AI automation agency and custom software company building AI agents, connected workflows, and business systems for growing companies.",
-    email: "Velixon.web@gmail.com",
+    blurb: "Velixon Solutions LLC, doing business as Velixon, helps growing service businesses across the United States improve lead flow, operations, automation, and software.",
+    email: "velixon@velixon.net",
+    details: "Founded by Peter Munnich · Utah single-member LLC · Remote delivery across the United States",
     socials: [
       { label: "Instagram", href: "https://www.instagram.com/velixon.digital/" }
     ]
   },
   contactInfo: {
-    email: "Velixon.web@gmail.com",
+    email: "velixon@velixon.net",
     phone: "801-602-5389"
+  },
+  businessInfo: {
+    legalName: "Velixon Solutions LLC",
+    doingBusinessAs: "Velixon",
+    entityDescription: "a Utah single-member limited liability company doing business as Velixon",
+    founder: "Peter Munnich",
+    founderTitle: "Founder of Velixon",
+    location: "Utah",
+    mailingAddress: {
+      streetAddress: "718 N 1130 W",
+      addressLocality: "Orem",
+      addressRegion: "UT",
+      postalCode: "84057",
+      addressCountry: "US",
+      formatted: "718 N 1130 W, Orem, UT 84057"
+    },
+    serviceArea: "Businesses throughout the United States; projects are delivered remotely.",
+    responseTime: "Project Estimates and general inquiries: within 1 business day",
+    minimumEngagement: 200,
+    pricingStatement: "Projects starting at $200. Final pricing is based on project scope, complexity, integrations, and ongoing support requirements."
   },
   home: {
     eyebrow: "SYSTEM",
@@ -110,10 +125,10 @@ export const siteContent = {
     },
     pricing: {
       eyebrow: "Pricing preview",
-      title: "Simple pricing that starts with a one-time build, then optional monthly support.",
+      title: "Projects start at $200, then scale with the actual scope.",
       description:
-        "Start with a $500 custom website build, then choose the level of updates and support your business needs.",
-      bullets: ["$500 one-time build", "Monthly plans from $100/mo", "No contracts. Cancel anytime."],
+        "Final pricing is based on project scope, complexity, integrations, and ongoing support requirements.",
+      bullets: ["Projects starting at $200", "Scope-based estimates", "Ongoing support priced to the need"],
       cta: "View Pricing",
       href: "/pricing"
     }
@@ -172,11 +187,6 @@ export const siteContent = {
         position: "right"
       }
     ]
-  },
-  walkthrough: {
-    title: "Live Website Walkthrough",
-    video: "/videos/velixon-walkthrough.mp4",
-    description: "A real walkthrough showing the improved structure, flow, and experience."
   },
   pricingPlans: {
     eyebrow: "Pricing",
@@ -276,8 +286,8 @@ export const siteContent = {
     description:
       "Get a clean, modern website built for your business, then let us handle the updates, fixes, and improvements.",
     trustLine: "Fast turnaround. Affordable pricing. No contracts.",
-    primary: "Start My Website",
-    primaryHref: "/contact",
+    primary: "Request Your Free Audit",
+    primaryHref: "/free-audit/?source=site-closing-cta#book-audit",
     secondary: "Contact Velixon",
     secondaryHref: "/contact"
   },
@@ -351,8 +361,8 @@ export const siteContent = {
     description:
       "If your current site feels outdated, unclear, or too weak to support your business properly, we can build something cleaner, stronger, and easier for customers to act on.",
     points: ["Simple process", "Fast launch", "Clear communication"],
-    primary: "Start My Website",
-    primaryHref: "/contact",
+    primary: "Request Your Free Audit",
+    primaryHref: "/free-audit/?source=site-final-cta#book-audit",
     secondary: "See Pricing",
     secondaryHref: "/pricing",
     helper: "We’ll respond quickly and map out the right site for you."
@@ -411,8 +421,8 @@ export const siteContent = {
         description:
           "Whether you need a full site, a redesign, or a focused landing page, we’ll recommend the clearest option and keep the process moving.",
         points: ["Clear recommendation", "Fast communication", "Built around your goals"],
-        primary: "Start My Website",
-        primaryHref: "/contact",
+        primary: "Request Your Free Audit",
+        primaryHref: "/free-audit/?source=site-services-cta#book-audit",
         secondary: "See Pricing",
         secondaryHref: "/pricing",
         helper: "We’ll respond quickly and map out the right site for you."
@@ -449,8 +459,8 @@ export const siteContent = {
         description:
           "If your current site feels weak, unclear, or dated, we can build something that supports real customer decisions more effectively.",
         points: ["Practical improvements", "Clear messaging", "Built to convert"],
-        primary: "Get My Website",
-        primaryHref: "/contact",
+        primary: "Request Your Free Audit",
+        primaryHref: "/free-audit/?source=site-results-cta#book-audit",
         secondary: "View Services",
         secondaryHref: "/services",
         helper: "We’ll respond quickly and map out the right site for you."
@@ -491,8 +501,8 @@ export const siteContent = {
         description:
           "If you want a clearer idea of budget and fit, send a quick overview and we’ll point you toward the right type of site.",
         points: ["Flexible scope", "Clear recommendation", "No hidden fees"],
-        primary: "Start My Website",
-        primaryHref: "/contact",
+        primary: "Request Your Free Audit",
+        primaryHref: "/free-audit/?source=site-pricing-cta#book-audit",
         secondary: "View Services",
         secondaryHref: "/services",
         helper: "We’ll respond quickly and map out the right site for you."

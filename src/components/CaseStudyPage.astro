@@ -9,27 +9,92 @@ interface Props { page: CaseStudyData; }
 const { page } = Astro.props;
 const { companyName, logo, nav, cta } = siteContent;
 const url = `https://velixon.net/case-studies/${page.slug}/`;
-const articleSchema = { "@type": "Article", "@id": `${url}#article`, headline: page.headline, description: page.metaDescription, url, author: { "@id": "https://velixon.net/#organization" }, publisher: { "@id": "https://velixon.net/#organization" }, datePublished: "2026-07-15", dateModified: "2026-07-15" };
+const auditHref = `/free-audit/?${new URLSearchParams({ source: "case-study", campaign: page.slug }).toString()}#book-audit`;
+const isClientCaseStudy = page.caseStudyType === "client";
+const publishedTime = page.datePublished ?? "2026-07-15";
+const modifiedTime = page.dateModified ?? "2026-07-21";
+const articleSchema = {
+  "@type": "Article",
+  "@id": `${url}#article`,
+  headline: page.headline,
+  description: page.metaDescription,
+  url,
+  author: { "@id": "https://velixon.net/#organization" },
+  publisher: { "@id": "https://velixon.net/#organization" },
+  datePublished: publishedTime,
+  dateModified: modifiedTime,
+  about: {
+    "@type": isClientCaseStudy ? "Organization" : "SoftwareApplication",
+    name: page.subject,
+    ...(page.subjectUrl ? { url: page.subjectUrl } : {})
+  },
+  ...(page.media ? { image: new URL(page.media.poster ?? page.media.src, "https://velixon.net").toString() } : {})
+};
 ---
 
 <MainLayout
   title={page.metaTitle}
   description={page.metaDescription}
   ogType="article"
-  publishedTime="2026-07-15"
-  modifiedTime="2026-07-15"
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
   articleSection="Case Study"
   schema={[articleSchema]}
 >
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/case-studies/" />
   <main id="main-content" class="cluster-page case-study-page">
-    <header class="cluster-hero"><div class="cluster-grid" aria-hidden="true"></div><div class="container cluster-hero-shell"><nav class="cluster-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/case-studies/">Case studies</a></li><li aria-current="page">{page.subject}</li></ol></nav><div class="cluster-hero-layout"><div><p class="cluster-eyebrow">{page.engagementType}</p><h1>{page.headline}</h1><p class="cluster-summary">{page.summary}</p><div class="cluster-actions"><a class="button" href="/contact/">Discuss a similar system</a><a class="button button-secondary" href="#solution">See the solution</a></div></div><aside class="cluster-answer"><span>{page.evidenceLabel}</span><h2>About this evidence</h2><p>{page.evidenceNote}</p></aside></div></div></header>
+    <header class="cluster-hero"><div class="cluster-grid" aria-hidden="true"></div><div class="container cluster-hero-shell"><nav class="cluster-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/case-studies/">Case studies</a></li><li aria-current="page">{page.subject}</li></ol></nav><div class="cluster-hero-layout"><div><p class="cluster-eyebrow">{page.engagementType}</p><h1>{page.headline}</h1><p class="cluster-summary">{page.summary}</p><div class="cluster-actions"><a class="button" href={auditHref} data-analytics-event="free_audit_cta_clicked" data-analytics-location="case-study-hero">Request Your Free Audit</a><a class="button button-secondary" href="#solution">See the solution</a></div></div><aside class="cluster-answer"><span>{page.evidenceLabel}</span><h2>About this evidence</h2><p>{page.evidenceNote}</p></aside></div></div></header>
+    {page.media && (
+      <section class="case-study-media-section" aria-labelledby={`${page.slug}-media-title`}>
+        <div class="container">
+          <div class="cluster-heading cluster-heading-wide case-study-media-heading">
+            <p class="cluster-eyebrow">{page.media.eyebrow}</p>
+            <h2 id={`${page.slug}-media-title`}>{page.media.title}</h2>
+          </div>
+          <figure class="case-study-media">
+            <div class="case-study-media-frame">
+              {page.media.type === "video" ? (
+                <video
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  poster={page.media.poster}
+                  aria-label={page.media.alt}
+                >
+                  <source src={page.media.src} type="video/mp4" />
+                  <p>Your browser cannot play this demonstration.</p>
+                </video>
+              ) : (
+                <img
+                  src={page.media.src}
+                  alt={page.media.alt}
+                  width={page.media.width}
+                  height={page.media.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+            </div>
+            <figcaption>
+              <p>{page.media.caption}</p>
+              {page.media.demoHref && (
+                <a href={page.media.demoHref} target="_blank" rel="noopener noreferrer">
+                  {page.media.demoLabel ?? "Open the product preview"} <span aria-hidden="true">↗</span>
+                </a>
+              )}
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    )}
     <section class="cluster-section"><div class="container cluster-split"><div class="cluster-heading"><p class="cluster-eyebrow">The problem</p><h2>What the system needed to make possible</h2></div><ul class="case-study-problems">{page.problem.map((item) => <li>{item}</li>)}</ul></div></section>
-    <section class="cluster-section cluster-section-light" id="solution"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">The solution</p><h2>One connected product, designed around the workflow</h2></div><div class="cluster-card-grid">{page.solution.map((item) => <article><i aria-hidden="true"></i><h3>{item.title}</h3><p>{item.description}</p></article>)}</div></div></section>
-    <section class="cluster-section"><div class="container cluster-split"><div class="cluster-heading cluster-sticky"><p class="cluster-eyebrow">Delivery</p><h2>How the system took shape</h2></div><ol class="cluster-process">{page.timeline.map((step) => <li><span>{step.label}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>)}</ol></div></section>
-    <section class="cluster-section cluster-section-light"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Business impact</p><h2>What the connected workflow changes</h2></div><div class="cluster-card-grid">{page.impact.map((item) => <article><i aria-hidden="true"></i><h3>{item.title}</h3><p>{item.description}</p></article>)}</div><p class="case-study-roi"><strong>ROI framework:</strong> {page.roiFramework}</p></div></section>
-    <section class="cluster-section cluster-technology"><div class="container cluster-tech-layout"><div class="cluster-heading"><p class="cluster-eyebrow">Technology</p><h2>A maintainable production stack</h2></div><div class="cluster-tech-list">{page.technology.map((item) => <span>{item}</span>)}</div></div></section>
+    <section class="cluster-section cluster-section-light" id="solution"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">The solution</p><h2>{isClientCaseStudy ? "Customer-facing systems and business infrastructure improved" : "One connected product, designed around the workflow"}</h2></div><div class="cluster-card-grid">{page.solution.map((item) => <article><i aria-hidden="true"></i><h3>{item.title}</h3><p>{item.description}</p></article>)}</div></div></section>
+    {page.timeline && page.timeline.length > 0 && (
+      <section class="cluster-section"><div class="container cluster-split"><div class="cluster-heading cluster-sticky"><p class="cluster-eyebrow">Delivery</p><h2>How the system took shape</h2></div><ol class="cluster-process">{page.timeline.map((step) => <li><span>{step.label}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>)}</ol></div></section>
+    )}
+    <section class="cluster-section cluster-section-light"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">{isClientCaseStudy ? "Observable delivery" : "Business impact"}</p><h2>{isClientCaseStudy ? "What customers can use on the live site" : "What the connected workflow changes"}</h2></div><div class="cluster-card-grid">{page.impact.map((item) => <article><i aria-hidden="true"></i><h3>{item.title}</h3><p>{item.description}</p></article>)}</div><p class="case-study-roi"><strong>{isClientCaseStudy ? "Evidence boundary:" : "ROI framework:"}</strong> {page.roiFramework}</p></div></section>
+    <section class="cluster-section cluster-technology"><div class="container cluster-tech-layout"><div class="cluster-heading"><p class="cluster-eyebrow">{isClientCaseStudy ? "Live-site capabilities" : "Technology"}</p><h2>{isClientCaseStudy ? "Features visible in the published customer experience" : "A maintainable production stack"}</h2></div><div class="cluster-tech-list">{page.technology.map((item) => <span>{item}</span>)}</div></div></section>
     <section class="cluster-section cluster-related"><div class="container"><div class="cluster-heading cluster-heading-wide"><p class="cluster-eyebrow">Related systems</p><h2>Explore connected capabilities</h2></div><div class="cluster-related-grid">{page.related.map((item) => <a href={item.href}><span>{item.label ?? "Related"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>)}</div></div></section>
-    <section class="cluster-final"><div class="container"><p class="cluster-eyebrow">Build the next operating advantage</p><h2>Turn a fragmented workflow into one system.</h2><div class="cluster-actions"><a class="button" href="/contact/">Schedule a strategy call</a></div></div></section>
   </main>
 </MainLayout>

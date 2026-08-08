@@ -14,6 +14,15 @@ interface OrganizationOptions {
   imageUrl: string;
   email: string;
   telephone: string;
+  legalName?: string;
+  founderName?: string;
+  address?: {
+    streetAddress: string;
+    addressLocality: string;
+    addressRegion: string;
+    postalCode: string;
+    addressCountry: string;
+  };
   sameAs?: string[];
   knowsAbout?: string[];
 }
@@ -78,6 +87,9 @@ export const buildOrganizationSchema = ({
   imageUrl,
   email,
   telephone,
+  legalName,
+  founderName,
+  address,
   sameAs = [],
   knowsAbout = []
 }: OrganizationOptions): SchemaNode => {
@@ -107,6 +119,9 @@ export const buildOrganizationSchema = ({
     },
     image: imageUrl,
     description,
+    ...(legalName ? { legalName } : {}),
+    ...(founderName ? { founder: { "@type": "Person", name: founderName } } : {}),
+    ...(address ? { address: { "@type": "PostalAddress", ...address } } : {}),
     email,
     telephone,
     contactPoint,

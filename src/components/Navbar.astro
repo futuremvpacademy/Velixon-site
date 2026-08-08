@@ -5,18 +5,31 @@ interface NavItem {
   activePrefixes?: string[];
 }
 
+interface NavCta {
+  label: string;
+  href: string;
+  analyticsEvent?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  secondaryAnalyticsEvent?: string;
+}
+
 interface Props {
   companyName: string;
   logo: string;
   nav: NavItem[];
-  cta: string;
+  cta: NavCta;
   currentPath?: string;
   replayIntro?: boolean;
 }
 
-const { companyName, logo, nav, cta, currentPath = "/", replayIntro = false } = Astro.props;
-const normalizePath = (path: string) => path.split("#")[0].replace(/\/$/, "") || "/";
+const { companyName, logo, nav, cta, currentPath = "/" } = Astro.props;
+const normalizePath = (path: string) => path.split(/[?#]/)[0].replace(/\/$/, "") || "/";
 const normalizedCurrentPath = normalizePath(currentPath);
+const isCtaActive = normalizedCurrentPath === normalizePath(cta.href);
+const isSecondaryCtaActive = cta.secondaryHref
+  ? normalizedCurrentPath === normalizePath(cta.secondaryHref)
+  : false;
 const isNavItemActive = (item: NavItem) => {
   const paths = [item.href, ...(item.activePrefixes ?? [])].map(normalizePath);
   return paths.some((path) =>
@@ -27,15 +40,15 @@ const isNavItemActive = (item: NavItem) => {
 
 <header class="site-header">
   <div class="container nav-shell">
-    <a class="brand" href="/" aria-label={replayIntro ? `Replay the ${companyName} intro` : `${companyName} home`} data-replay-intro={replayIntro ? "" : undefined}>
-      <img class="brand-logo" src={logo} alt={`${companyName} logo`} width="612" height="408" decoding="async" />
+    <a class="brand" href="/" aria-label={`${companyName} home`} data-navigation-location="header">
+      <img class="brand-logo" src={logo} alt={`${companyName} logo`} width="432" height="288" decoding="async" />
       <span class="brand-name">{companyName}</span>
     </a>
 
     <nav class="desktop-nav" aria-label="Primary navigation">
       {
         nav.map((item) => (
-          <a href={item.href} aria-current={isNavItemActive(item) ? "page" : undefined}>
+          <a href={item.href} aria-current={isNavItemActive(item) ? "page" : undefined} data-navigation-location="header">
             {item.label}
           </a>
         ))
@@ -43,8 +56,23 @@ const isNavItemActive = (item: NavItem) => {
     </nav>
 
     <div class="nav-cta-wrap">
-      <span class="nav-status">AI · Automation · Software</span>
-      <a class="button button-small" href="/automation-assessment/">{cta}</a>
+      {cta.secondaryLabel && cta.secondaryHref && (
+        <a
+          class="nav-question nav-quote-cta"
+          href={cta.secondaryHref}
+          aria-current={isSecondaryCtaActive ? "page" : undefined}
+          data-analytics-event={cta.secondaryAnalyticsEvent}
+          data-analytics-location="site-header"
+        >{cta.secondaryLabel}</a>
+      )}
+      <a
+        class="button button-small nav-primary-cta"
+        href={cta.href}
+        aria-current={isCtaActive ? "page" : undefined}
+        data-analytics-cta="free-audit"
+        data-analytics-event={cta.analyticsEvent}
+        data-analytics-location="site-header"
+      ><span class="nav-cta-label-full">{cta.label}</span><span class="nav-cta-label-short">Free Audit</span></a>
     </div>
   </div>
 
@@ -54,18 +82,35 @@ const isNavItemActive = (item: NavItem) => {
       <nav class="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
         {
           nav.map((item) => (
-            <a href={item.href} aria-current={isNavItemActive(item) ? "page" : undefined}>
+            <a href={item.href} aria-current={isNavItemActive(item) ? "page" : undefined} data-navigation-location="mobile-menu">
               {item.label}<span aria-hidden="true">↗</span>
             </a>
           ))
         }
-        <a class="mobile-nav-cta" href="/automation-assessment/">{cta}<span aria-hidden="true">↗</span></a>
+        {cta.secondaryLabel && cta.secondaryHref && (
+          <a
+            class="mobile-nav-question mobile-nav-quote-cta"
+            href={cta.secondaryHref}
+            aria-current={isSecondaryCtaActive ? "page" : undefined}
+            data-analytics-event={cta.secondaryAnalyticsEvent}
+            data-analytics-location="mobile-menu"
+          >{cta.secondaryLabel}<span aria-hidden="true">↗</span></a>
+        )}
+        <a
+          class="mobile-nav-cta"
+          href={cta.href}
+          aria-current={isCtaActive ? "page" : undefined}
+          data-analytics-cta="free-audit"
+          data-analytics-event={cta.analyticsEvent}
+          data-analytics-location="mobile-menu"
+        >{cta.label}<span aria-hidden="true">↗</span></a>
       </nav>
     </details>
   </div>
 </header>
 
-<script is:inline>
+<script>
+  // @ts-nocheck -- DOM element capabilities are guarded before use.
   (() => {
     document.querySelectorAll("[data-mobile-menu]").forEach((menu) => {
       const summary = menu.querySelector("summary");
@@ -75,7 +120,7 @@ const isNavItemActive = (item: NavItem) => {
 
       const setBackgroundInert = (value) => {
         document.querySelectorAll(
-          ".skip-link, .site-header .brand, .site-header .desktop-nav, .site-header .nav-cta-wrap, .site-content > main, .site-footer, [data-consent-banner]"
+          ".skip-link, .site-header .brand, .site-header .desktop-nav, .site-header .nav-cta-wrap, .site-content > main, .site-footer, .quick-contact, [data-consent-banner]"
         ).forEach((element) => {
           if (value) {
             if (element.hasAttribute("inert")) return;
@@ -99,7 +144,7 @@ const isNavItemActive = (item: NavItem) => {
         menu.removeAttribute("open");
       };
 
-      menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => closeMenu()));
+      menu.querySelectorAll("a, [data-inquiry-open]").forEach((control) => control.addEventListener("click", () => closeMenu()));
       menu.addEventListener("toggle", () => {
         const isOpen = menu.hasAttribute("open");
         const label = summary?.querySelector("span");

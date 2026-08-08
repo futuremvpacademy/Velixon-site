@@ -25,11 +25,18 @@ const requiredPhaseOneRoutes = [
   "/integrations/n8n/",
   "/integrations/make/",
   "/resources/",
+  "/free-audit/",
+  "/automation-assessment/",
+  "/resources/checklists/website-conversion/",
+  "/resources/checklists/lead-follow-up/",
+  "/resources/checklists/business-automation/",
+  "/resources/checklists/operations/",
   "/resources/ai-automation-roi-calculator/",
   "/resources/what-is-business-process-automation/",
   "/resources/how-much-does-ai-automation-cost/",
   "/resources/when-business-needs-custom-software/",
   "/case-studies/",
+  "/case-studies/frontier-fence-digital-systems/",
   "/case-studies/formesque-proposal-to-payment-platform/",
   "/case-studies/sharecal-collaborative-scheduling-platform/",
   "/contact/"
@@ -339,7 +346,7 @@ for (const page of indexablePages) {
 }
 
 for (const page of indexablePages.filter(({ route }) => (
-  (route.startsWith("/resources/") && route !== "/resources/")
+  (route.startsWith("/resources/") && route !== "/resources/" && !route.startsWith("/resources/checklists/"))
   || (route.startsWith("/guides/") && route !== "/guides/")
   || (route.startsWith("/comparisons/") && route !== "/comparisons/")
   || (route.startsWith("/case-studies/") && route !== "/case-studies/")
@@ -348,6 +355,11 @@ for (const page of indexablePages.filter(({ route }) => (
   if (!types.has("Article")) errors.push(`${page.route}: JSON-LD is missing Article`);
   if (!page.route.startsWith("/case-studies/") && !types.has("FAQPage")) errors.push(`${page.route}: JSON-LD is missing FAQPage`);
   if (page.route.startsWith("/guides/") && !types.has("HowTo")) errors.push(`${page.route}: JSON-LD is missing HowTo`);
+}
+
+for (const page of indexablePages.filter(({ route }) => route.startsWith("/resources/checklists/"))) {
+  const types = schemaTypes(page.schemas);
+  if (!types.has("WebApplication")) errors.push(`${page.route}: JSON-LD is missing WebApplication`);
 }
 
 for (const route of ["/case-studies/", "/comparisons/", "/guides/", "/industries/", "/integrations/", "/locations/", "/resources/", "/services/", "/solutions/"]) {
@@ -389,7 +401,7 @@ for (const url of sitemapUrls) {
 }
 
 const sitemapIndex = await readFile(path.join(dist, "sitemap-index.xml"), "utf8");
-for (const requiredSitemap of [`${siteOrigin}/sitemap-0.xml`, `${siteOrigin}/image-sitemap.xml`]) {
+for (const requiredSitemap of [`${siteOrigin}/sitemap-0.xml`, `${siteOrigin}/image-sitemap.xml`, `${siteOrigin}/video-sitemap.xml`]) {
   if (!sitemapIndex.includes(`<loc>${requiredSitemap}</loc>`)) errors.push(`sitemap index is missing ${requiredSitemap}`);
 }
 
@@ -398,6 +410,13 @@ for (const [, imageUrl] of imageSitemap.matchAll(/<image:loc>(.*?)<\/image:loc>/
   const url = new URL(decodeHtml(imageUrl));
   const asset = path.join(dist, decodeURIComponent(url.pathname).replace(/^\//, ""));
   if (!(await fileExists(asset))) errors.push(`image sitemap asset not found: ${url.href}`);
+}
+
+const videoSitemap = await readFile(path.join(dist, "video-sitemap.xml"), "utf8");
+for (const [, mediaUrl] of videoSitemap.matchAll(/<video:(?:thumbnail_loc|content_loc)>(.*?)<\/video:(?:thumbnail_loc|content_loc)>/g)) {
+  const url = new URL(decodeHtml(mediaUrl));
+  const asset = path.join(dist, decodeURIComponent(url.pathname).replace(/^\//, ""));
+  if (!(await fileExists(asset))) errors.push(`video sitemap asset not found: ${url.href}`);
 }
 
 const robotsTxt = await readFile(path.join(dist, "robots.txt"), "utf8");

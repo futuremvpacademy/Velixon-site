@@ -2,5 +2,6 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "baseUrl": "."
-  }
+  },
+  "exclude": [".astro", ".netlify", ".playwright-cli", "dist", "node_modules", "ops/private-proof", "output", "velixon-video"]
 }

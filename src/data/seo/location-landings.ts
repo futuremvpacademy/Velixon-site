@@ -68,7 +68,7 @@ export const locationLandingPages: SeoLandingData[] = [
       { label: "05", title: "Controlled Utah rollout", description: "Launch by workflow, team, location, territory, or customer cohort; compare evidence; and expand only after the system is stable." }
     ],
     technology: ["OpenAI", "Anthropic", "Google Gemini", "n8n", "Make", "Zapier", "Supabase", "PostgreSQL", "HubSpot", "QuickBooks", "Twilio", "Microsoft 365", "Google Workspace"],
-    technologyNote: "Technology depends on the workflow, data, risk, vendor access, and ownership model. This page identifies Utah as an area Velixon serves; it does not claim a walk-in office or physical address in Utah. Remote meetings are available, and any on-site work, travel, availability, or location requirement must be confirmed in the project scope.",
+    technologyNote: "Technology depends on the workflow, data, risk, vendor access, and ownership model. Velixon publishes a mailing address in Orem, Utah; it is not represented as a walk-in office. Remote meetings are available, and any on-site work, travel, availability, or location requirement must be confirmed in the project scope.",
     roi: {
       title: "Build a Utah automation case from local operating evidence.",
       description: "Use actual Utah team, customer, branch, project, or facility volume. Separate software-addressable coordination from travel, labor, market, regulatory, and physical constraints that remain.",
@@ -77,7 +77,7 @@ export const locationLandingPages: SeoLandingData[] = [
       disclaimer: "This is a planning framework, not a guarantee of Utah market growth, jobs, revenue, savings, compliance, or operational outcomes. Validate assumptions with company records."
     },
     faqs: [
-      { question: "Does Velixon have a physical office in Utah?", answer: "This page does not claim a physical or walk-in Utah office. It identifies Utah as a service area for project-based AI automation and custom software. Confirm meeting format, on-site needs, travel, and availability directly for the proposed engagement." },
+      { question: "Does Velixon have a physical office in Utah?", answer: "Velixon Solutions LLC has a public mailing address at 718 N 1130 W, Orem, UT 84057. It is not represented as a walk-in office. Confirm meeting format, on-site needs, travel, and availability directly for the proposed engagement." },
       { question: "Can Velixon serve businesses outside the Wasatch Front?", answer: "Yes, projects can be delivered remotely to Utah organizations. A statewide field or branch workflow should explicitly account for territory, travel, connectivity, and local process differences. Any on-site work is agreed case by case." },
       { question: "Which Utah industries are a strong fit for automation?", answer: "Strong fit depends on workflow rather than industry label. Utah's technology, advanced manufacturing, healthcare and life sciences, finance and fintech, aerospace, construction, field service, and professional firms can all have high-value processes when volume, rules, data, risk, and outcomes are clear." },
       { question: "Can you work with our existing Utah software vendor or IT provider?", answer: "Yes. Velixon can define responsibilities with internal IT, managed providers, software vendors, and security or compliance teams. Discovery confirms access, environments, change control, support ownership, and incident communication before production work." },

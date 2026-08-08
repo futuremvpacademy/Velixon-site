@@ -5,11 +5,25 @@
 >
   <url>
     <loc>https://velixon.net/</loc>
-    <image:image>
-      <image:loc>https://velixon.net/og.png</image:loc>
-    </image:image>
-    <image:image>
-      <image:loc>https://velixon.net/velixon-logo.png</image:loc>
-    </image:image>
+    <image:image><image:loc>https://velixon.net/business-systems-audit-social.png</image:loc></image:image>
+    <image:image><image:loc>https://velixon.net/images/velixon-audit-poster.webp</image:loc></image:image>
+    <image:image><image:loc>https://velixon.net/velixon-logo.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://velixon.net/free-audit/</loc>
+    <image:image><image:loc>https://velixon.net/business-systems-audit-social.png</image:loc></image:image>
+    <image:image><image:loc>https://velixon.net/velixon-v-mark.png</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://velixon.net/case-studies/formesque-proposal-to-payment-platform/</loc>
+    <image:image><image:loc>https://velixon.net/images/case-studies/formesque-workflow.png</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://velixon.net/case-studies/sharecal-collaborative-scheduling-platform/</loc>
+    <image:image><image:loc>https://velixon.net/images/case-studies/sharecal-interface-prototype.png</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://velixon.net/case-studies/frontier-fence-digital-systems/</loc>
+    <image:image><image:loc>https://velixon.net/images/case-studies/frontier-fence-cedar-privacy.webp</image:loc></image:image>
   </url>
 </urlset>

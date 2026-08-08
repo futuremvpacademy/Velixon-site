@@ -1,0 +1,6 @@
+Contact: mailto:velixon@velixon.net?subject=Security%20Report%3A%20velixon.net
+Contact: https://velixon.net/security/
+Expires: 2027-07-01T00:00:00Z
+Preferred-Languages: en
+Canonical: https://velixon.net/.well-known/security.txt
+Policy: https://velixon.net/security/

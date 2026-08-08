@@ -1,0 +1,162 @@
+.estimate-page {
+  padding-top: 0;
+}
+
+.estimate-services {
+  display: grid;
+  gap: 1.4rem;
+  margin-top: clamp(2.75rem, 6vw, 5.5rem);
+  padding-top: clamp(2.25rem, 5vw, 4rem);
+  border-top: 1px solid rgba(172, 162, 190, 0.13);
+}
+
+.estimate-services-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.estimate-services-heading h2 {
+  max-width: 13ch;
+  margin: 0.45rem 0 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2.15rem, 4.6vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.estimate-services-heading > p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.estimate-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.estimate-service-card {
+  position: relative;
+  display: grid;
+  min-height: 14rem;
+  align-content: start;
+  gap: 0.7rem;
+  padding: 1.3rem;
+  overflow: hidden;
+  border: 1px solid rgba(172, 162, 190, 0.13);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(154, 140, 255, 0.1), transparent 52%),
+    rgba(10, 8, 15, 0.72);
+}
+
+.estimate-service-card::after {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  color: rgba(203, 189, 242, 0.2);
+  font-family: var(--font-heading);
+  font-size: 2.35rem;
+  content: attr(data-index);
+}
+
+.estimate-service-card h3 {
+  max-width: 15ch;
+  margin: 0;
+  font-size: 1.22rem;
+  line-height: 1.2;
+}
+
+.estimate-service-card h3 a {
+  color: var(--text);
+}
+
+.estimate-service-card h3 a::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.estimate-service-card p {
+  max-width: 30ch;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.estimate-form-heading {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1.2rem;
+}
+
+.estimate-form-heading h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.estimate-form-heading p:last-child {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.estimate-form-layout {
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+}
+
+#estimate-request-form {
+  scroll-margin-top: clamp(5.5rem, 10vw, 7.5rem);
+}
+
+.estimate-process-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.estimate-process-list li {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr;
+  gap: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.estimate-process-list span {
+  color: var(--primary-bright);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 920px) {
+  .estimate-services-heading,
+  .estimate-form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .estimate-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .estimate-service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .estimate-service-card {
+    min-height: 11.5rem;
+  }
+}

@@ -4,13 +4,13 @@ import Navbar from "../components/Navbar.astro";
 import { siteContent } from "../data/site";
 import "../styles/legal.css";
 
-const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const { companyName, logo, nav, cta, contactInfo, businessInfo } = siteContent;
 const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 ---
 
 <MainLayout
   title="Cookie & Browser Storage Policy | Velixon"
-  description="Learn how velixon.net uses essential browser storage, optional analytics cookies, session attribution, and assessment handoff data."
+  description="Learn how velixon.net uses essential browser storage, optional analytics cookies, session attribution, audit progress, quiz progress, and checklist data."
 >
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/cookies" />
   <main id="main-content" class="legal-page">
@@ -20,12 +20,12 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <h1>Storage should have a clear purpose.</h1>
         <p class="legal-lede">This policy explains the cookies and browser storage velixon.net may use, what each category does, and how you can control optional analytics.</p>
         <p class="legal-meta">
-          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Effective:</strong> <time datetime="2026-08-08">August 8, 2026</time></span>
           <span><strong>Applies to:</strong> velixon.net</span>
         </p>
 
         <div class="legal-summary" aria-label="Cookie and storage policy summary">
-          <div class="legal-summary-item"><span class="legal-summary-number">01 · OPERATIONAL</span><p>Short-lived first-party storage supports the intro, attribution, forms, and assessment handoff.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">01 · OPERATIONAL</span><p>First-party storage supports attribution, audit progress, quiz progress, and checklists.</p></div>
           <div class="legal-summary-item"><span class="legal-summary-number">02 · OPTIONAL</span><p>Google Analytics loads only when it is configured and you allow analytics.</p></div>
           <div class="legal-summary-item"><span class="legal-summary-number">03 · YOUR CONTROL</span><p>You can revisit analytics preferences or clear site data in your browser.</p></div>
         </div>
@@ -50,7 +50,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <p class="legal-section-label">01 · Basics</p>
           <h2>Cookies and browser storage</h2>
           <p>Cookies are small values a website or provider can store through your browser. Local storage can remain after a browser tab closes. Session storage normally lasts only for the current tab. This site uses these tools for specific operational purposes and, when available and approved by you, optional measurement.</p>
-          <p>The site remains usable when optional analytics is declined. Disabling all browser storage may reset preferences or interrupt the assessment and proposal handoff.</p>
+          <p>The site remains usable when optional analytics is declined. Disabling all browser storage may reset preferences or interrupt audit progress, quiz handoff, or saved checklist progress.</p>
         </section>
 
         <section class="legal-section" id="operational">
@@ -60,8 +60,9 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <ul>
             <li>Remember that you completed or skipped the opening experience for the current visit.</li>
             <li>Preserve first-touch campaign, landing-page, and referral information during a session so an inquiry can include its source.</li>
-            <li>Temporarily preserve non-contact assessment progress in the current tab.</li>
-            <li>After a successful assessment submission, temporarily preserve the completed result and information you entered so a proposal request can be prefilled if you choose to continue.</li>
+            <li>Temporarily preserve unfinished Free Business Systems Audit field values and a random submission identifier in the current tab for up to 24 hours so the intake can be resumed and accidental duplicate submissions can be recognized. The saved draft is removed after a successful submission.</li>
+            <li>Temporarily preserve Automation Maturity Quiz progress and its browser-local result separately from the audit request.</li>
+            <li>Save interactive checklist progress on the current device until you reset the checklist or clear site data.</li>
             <li>Prevent a successful submission message from being shown repeatedly after navigation.</li>
           </ul>
           <p>This operational storage is separate from Google Analytics. It is used to provide the requested workflow, maintain continuity, or record the source of an inquiry—not for cross-site advertising.</p>
@@ -70,7 +71,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <section class="legal-section" id="analytics">
           <p class="legal-section-label">03 · Optional analytics</p>
           <h2>Analytics loads only after permission</h2>
-          <p>If Velixon configures a verified Google Analytics property, the Google Analytics library loads only after you select <strong>Allow analytics</strong>. It may then set analytics cookies, such as identifiers beginning with <code>_ga</code>, to distinguish visits and measure how the website is used.</p>
+          <p>If Velixon configures a verified Google Analytics property, Google Tag Manager container, or Microsoft Clarity project, the applicable library loads only after you select <strong>Allow analytics</strong>. Those services may then use cookies or similar browser technologies to distinguish visits and measure how the website is used.</p>
           <p>Advertising storage, advertising user-data storage, and ad-personalization storage remain denied. Velixon does not use the website's consent choice to enable advertising cookies.</p>
           <p>If analytics is configured, local storage remembers whether your choice is granted or denied so the website can respect it on later visits. When analytics is not configured, no analytics preference or Google Analytics cookie is needed.</p>
         </section>
@@ -78,15 +79,16 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <section class="legal-section" id="providers">
           <p class="legal-section-label">04 · Providers</p>
           <h2>Hosting and service-provider operations</h2>
-          <p>Netlify delivers the website, processes forms, and provides operational security and network services. Netlify and other infrastructure providers may process request or device information and use their own necessary technologies to operate and protect their services. Those provider operations are governed by their own policies and are not optional Google Analytics on velixon.net.</p>
-          <p>Learn more in the <a href="https://www.netlify.com/privacy/">Netlify Privacy Statement</a> and <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
+          <p>Netlify delivers the website, processes forms, runs the audit endpoint, stores audit requests, and provides operational security and network services. Resend may be configured to deliver audit-related email. Optional strategy calls are arranged manually after audit delivery, so this website does not load a scheduling provider. These and other infrastructure providers may process request or device information and use their own necessary technologies to operate and protect their services. Those provider operations are governed by their own policies and are distinct from optional site analytics.</p>
+          <p>Submitted website inquiries and audit records are subject to the retention periods described in the <a href="/privacy/#retention">Privacy Policy</a>. Clearing browser storage removes browser-local data but does not delete a form or audit request already submitted to Velixon.</p>
+          <p>Learn more in the <a href="https://www.netlify.com/privacy/">Netlify Privacy Statement</a>, <a href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</a>, <a href="https://policies.google.com/privacy">Google Privacy Policy</a>, and <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.</p>
         </section>
 
         <section class="legal-section" id="controls">
           <p class="legal-section-label">05 · Controls</p>
           <h2>Change or remove stored information</h2>
           <p>When optional analytics is configured, use <strong>Analytics preferences</strong> in the footer to allow, decline, or revisit analytics. Withdrawing permission applies to future analytics activity and does not automatically erase data already processed by a provider.</p>
-          <p>You can also use your browser settings to block cookies, remove site data, or clear local and session storage. Those controls vary by browser. Clearing storage may reset your analytics choice, intro preference, attribution, or unfinished assessment.</p>
+          <p>You can also use your browser settings to block cookies, remove site data, or clear local and session storage. Those controls vary by browser. Clearing storage may reset your analytics choice, intro preference, attribution, unfinished audit or quiz, or saved checklist progress.</p>
         </section>
 
         <section class="legal-section" id="updates">
@@ -98,6 +100,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <aside class="legal-contact" aria-labelledby="cookie-contact-title">
           <h2 id="cookie-contact-title">Questions about cookies or storage?</h2>
           <p>Contact Velixon if you want help understanding the website's storage practices or exercising a privacy choice.</p>
+          <p><strong>{businessInfo.legalName}</strong>, doing business as {businessInfo.doingBusinessAs}<br />Mailing address: {businessInfo.mailingAddress.formatted}</p>
           <div class="legal-contact-links">
             <a href={`mailto:${contactInfo.email}?subject=Cookie%20and%20Storage%20Question`}>{contactInfo.email}</a>
             <a href={phoneHref}>{contactInfo.phone}</a>

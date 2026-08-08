@@ -59,7 +59,7 @@ const {
   groups,
   selectionTitle,
   selectionGuidance,
-  primaryAction = { label: "Schedule a strategy call", href: "/contact/" },
+  primaryAction = { label: "Request Your Free Audit", href: "/free-audit/?source=directory-hub#book-audit" },
   secondaryAction = { label: "Explore capabilities", href: "#directory" },
   statusNotice,
   pathways
@@ -78,7 +78,7 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
         <h1>{headline}</h1>
         <p>{summary}</p>
         <div class="cluster-actions">
-          <a class="button" href={primaryAction.href}>{primaryAction.label}</a>
+          <a class="button" href={primaryAction.href} data-analytics-event={primaryAction.href.startsWith("/free-audit") ? "free_audit_cta_clicked" : undefined} data-analytics-location="directory-hero">{primaryAction.label}</a>
           <a class="button button-secondary" href={secondaryAction.href}>{secondaryAction.label}</a>
         </div>
       </div>
@@ -141,7 +141,7 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
             {pathways.actions && pathways.actions.length > 0 && (
               <div class="cluster-actions">
                 {pathways.actions.map((action, index) => (
-                  <a class:list={["button", { "button-secondary": index > 0 }]} href={action.href}>{action.label}</a>
+                  <a class:list={["button", { "button-secondary": index > 0 }]} href={action.href} data-analytics-event={action.href.startsWith("/free-audit") ? "free_audit_cta_clicked" : undefined} data-analytics-location="directory-pathways">{action.label}</a>
                 ))}
               </div>
             )}

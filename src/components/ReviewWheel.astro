@@ -1,0 +1,808 @@
+---
+import { featuredCustomerReviews, googleReviewsUrl } from "../data/customer-reviews";
+
+const initialsFor = (name: string) => name
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((part) => part[0]?.toUpperCase())
+  .join("");
+const reviewAngleStep = 360 / Math.max(featuredCustomerReviews.length, 1);
+---
+
+<section class="review-wheel" aria-labelledby="review-wheel-title" data-review-wheel data-inquiry-prompt-suppress>
+  <div class="container review-wheel__stage" data-review-wheel-stage>
+    <div class="review-wheel__ring" aria-hidden="true"></div>
+    <div class="review-wheel__trail" aria-hidden="true"></div>
+    <div class="review-wheel__energy" aria-hidden="true">
+      {Array.from({ length: 12 }, (_, index) => (
+        <span style={`--energy-index: ${index};`}></span>
+      ))}
+    </div>
+
+    <article class="review-wheel__center">
+      <p class="review-wheel__eyebrow">Public customer feedback</p>
+      <h2 id="review-wheel-title">Work delivered.<br /><em>Feedback published.</em></h2>
+      <p><strong>{featuredCustomerReviews.length} public Google reviews.</strong> Browse complete-sentence excerpts covering websites, branding, and customer service.</p>
+      <div class="review-wheel__actions">
+        <a
+          class="button"
+          href="/free-audit/?source=homepage-reviews#book-audit"
+          data-analytics-event="free_audit_cta_clicked"
+          data-analytics-location="homepage-reviews"
+        >Request Your Free Audit <span aria-hidden="true">↗</span></a>
+        <a
+          class="review-wheel__source"
+          href={googleReviewsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-analytics-event="review_source_clicked"
+          data-analytics-location="homepage-reviews-summary"
+        >
+          View all reviews on Google
+        </a>
+        <button class="review-wheel__motion" type="button" aria-pressed="false" data-review-wheel-motion>
+          <span aria-hidden="true" data-review-wheel-motion-icon>Ⅱ</span>
+          <span data-review-wheel-motion-label>Pause motion</span>
+        </button>
+      </div>
+    </article>
+
+    <div class="review-wheel__orbit" aria-label={`${featuredCustomerReviews.length} public Google review highlights`}>
+      {featuredCustomerReviews.map((review, index) => (
+        <article class="review-wheel__card" style={`--review-angle: ${index * reviewAngleStep}deg;`}>
+          <div class="review-wheel__card-inner">
+            <header class="review-wheel__reviewer">
+              <span class="review-wheel__initials" aria-hidden="true">{initialsFor(review.name)}</span>
+              <div>
+                <h3>{review.name}</h3>
+                <p>{review.service}</p>
+              </div>
+              <span class="review-wheel__google" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path fill="#4285f4" d="M22.6 12.23c0-.78-.07-1.53-.2-2.23H12v4.26h5.95a5.1 5.1 0 0 1-2.2 3.35v2.78h3.56c2.09-1.92 3.29-4.75 3.29-8.16Z"></path>
+                  <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.78c-.99.66-2.25 1.05-3.72 1.05-2.86 0-5.29-1.93-6.16-4.53H2.18v2.86A11 11 0 0 0 12 23Z"></path>
+                  <path fill="#fbbc05" d="M5.84 14.08A6.6 6.6 0 0 1 5.49 12c0-.72.12-1.42.35-2.08V7.06H2.18A11 11 0 0 0 1 12c0 1.78.43 3.46 1.18 4.94l3.66-2.86Z"></path>
+                  <path fill="#ea4335" d="M12 5.39c1.62 0 3.07.56 4.22 1.65l3.14-3.14C17.46 2.13 14.97 1 12 1A11 11 0 0 0 2.18 7.06l3.66 2.86C6.71 7.32 9.14 5.39 12 5.39Z"></path>
+                </svg>
+              </span>
+            </header>
+
+            <div class="review-wheel__stars" role="img" aria-label={`${review.stars} out of 5 stars`}>
+              {Array.from({ length: 5 }, (_, starIndex) => (
+                <span class:list={{ "is-muted": starIndex >= review.stars }} aria-hidden="true">★</span>
+              ))}
+            </div>
+
+            <blockquote lang={review.language ?? "en"}>“{review.featuredQuote}”</blockquote>
+            <a
+              href={googleReviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View Google reviews — source for ${review.name}`}
+              data-analytics-event="review_source_clicked"
+              data-analytics-location="homepage-reviews-card"
+            >
+              View source on Google <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="review-wheel__swipe-hint" aria-hidden="true">Swipe to browse reviews <span>→</span></p>
+
+  </div>
+
+  <p class="container review-wheel__note">These complete-sentence excerpts are taken from public Google reviews. No result or performance claim has been added. Velixon does not condition review requests or benefits on positive sentiment.</p>
+</section>
+
+<style>
+  .review-wheel {
+    --review-wheel-tilt-x: 0deg;
+    --review-wheel-tilt-y: 0deg;
+    --review-wheel-glow-x: 50%;
+    --review-wheel-glow-y: 45%;
+    position: relative;
+    contain: layout paint style;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(4.8rem, 9vw, 8rem) 0;
+    border-block: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      radial-gradient(circle at 50% 45%, rgba(154, 140, 255, 0.14), transparent 26%),
+      linear-gradient(180deg, #08080a, #050506);
+    color: #f8f7fb;
+  }
+
+  .review-wheel::after {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle 24rem at var(--review-wheel-glow-x) var(--review-wheel-glow-y),
+      rgba(190, 178, 255, 0.105),
+      transparent 72%
+    );
+    content: "";
+    opacity: 0.75;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+
+  .review-wheel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(circle at center, black, transparent 72%);
+  }
+
+  .review-wheel__stage {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .review-wheel__ring,
+  .review-wheel__trail,
+  .review-wheel__energy {
+    display: none;
+  }
+
+  .review-wheel__orbit {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(270px, 86vw);
+    gap: 0.9rem;
+    width: 100%;
+    padding: 0.2rem 0.1rem 1rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(190, 178, 255, 0.38) transparent;
+  }
+
+  .review-wheel__card {
+    scroll-snap-align: center;
+  }
+
+  .review-wheel__card-inner {
+    position: relative;
+    isolation: isolate;
+    height: 100%;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.15rem;
+    border: 1px solid rgba(190, 178, 217, 0.22);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(21, 21, 25, 0.98), rgba(12, 12, 15, 0.98));
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    scale: 1;
+    transition:
+      border-color 300ms ease,
+      box-shadow 360ms ease,
+      scale 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .review-wheel__card-inner::before {
+    position: absolute;
+    z-index: -1;
+    inset: -45%;
+    background: conic-gradient(
+      from 180deg,
+      transparent,
+      rgba(190, 178, 255, 0.16),
+      transparent 22%,
+      transparent 70%,
+      rgba(154, 140, 255, 0.1),
+      transparent
+    );
+    content: "";
+    opacity: 0;
+    transform: rotate(0deg);
+    transition: opacity 300ms ease;
+  }
+
+  .review-wheel__card:hover .review-wheel__card-inner,
+  .review-wheel__card:focus-within .review-wheel__card-inner {
+    border-color: rgba(205, 197, 255, 0.48);
+    box-shadow:
+      0 34px 76px rgba(0, 0, 0, 0.52),
+      0 0 42px rgba(154, 140, 255, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    scale: 1.035;
+  }
+
+  .review-wheel__card:hover .review-wheel__card-inner::before,
+  .review-wheel__card:focus-within .review-wheel__card-inner::before {
+    opacity: 1;
+    animation: reviewCardSheen 4s linear infinite;
+  }
+
+  .review-wheel__reviewer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .review-wheel__initials {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(197, 188, 255, 0.26);
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(154, 140, 255, 0.22), rgba(74, 66, 122, 0.18));
+    color: #ded8ff;
+    font-size: 0.77rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+
+  .review-wheel__reviewer h3,
+  .review-wheel__reviewer p,
+  .review-wheel__center h2,
+  .review-wheel__center p,
+  .review-wheel__note {
+    margin: 0;
+  }
+
+  .review-wheel__reviewer h3 {
+    color: #fff;
+    font-size: 0.94rem;
+    line-height: 1.2;
+  }
+
+  .review-wheel__reviewer p {
+    margin-top: 0.2rem;
+    color: #8e8b98;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .review-wheel__google,
+  .review-wheel__google svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .review-wheel__stars {
+    display: flex;
+    gap: 0.12rem;
+    margin: 1rem 0 0.65rem;
+    color: #fbbc05;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  .review-wheel__stars .is-muted {
+    color: #5e5b66;
+  }
+
+  .review-wheel blockquote {
+    flex: 1;
+    margin: 0;
+    color: #e5e2ec;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .review-wheel__card a {
+    width: fit-content;
+    margin-top: 0.85rem;
+    color: #bfb6ff;
+    font-size: 0.75rem;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .review-wheel__card a:hover,
+  .review-wheel__card a:focus-visible,
+  .review-wheel__source:hover,
+  .review-wheel__source:focus-visible {
+    color: #fff;
+  }
+
+  .review-wheel__center {
+    order: -1;
+    width: min(100%, 680px);
+    margin-inline: auto;
+    padding: clamp(1.5rem, 5vw, 2.1rem);
+    border: 1px solid rgba(204, 197, 242, 0.2);
+    border-radius: 30px;
+    background:
+      linear-gradient(180deg, rgba(19, 18, 24, 0.98), rgba(9, 9, 12, 0.98));
+    box-shadow:
+      0 34px 90px rgba(0, 0, 0, 0.52),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .review-wheel__eyebrow {
+    margin-bottom: 0.85rem !important;
+    color: #bfb6ff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .review-wheel__center h2 {
+    font-size: clamp(2.3rem, 7vw, 3.8rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+
+  .review-wheel__center h2 em {
+    color: #bfb6ff;
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  .review-wheel__center > p:not(.review-wheel__eyebrow) {
+    margin-top: 1.1rem;
+    color: #aaa8b3;
+    font-size: 0.94rem;
+    line-height: 1.65;
+  }
+
+  .review-wheel__center > p:not(.review-wheel__eyebrow) strong {
+    display: block;
+    margin-bottom: 0.15rem;
+    color: #ddd9e7;
+    font-weight: 700;
+  }
+
+  .review-wheel__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .review-wheel__actions .button {
+    min-height: 48px;
+    padding-inline: 1.2rem;
+  }
+
+  .review-wheel__source {
+    color: #c7c3d1;
+    font-size: 0.82rem;
+    font-weight: 750;
+    text-underline-offset: 0.25em;
+  }
+
+  .review-wheel__motion {
+    display: none;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #9f9ba9;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .review-wheel__motion:hover,
+  .review-wheel__motion:focus-visible {
+    color: #fff;
+  }
+
+  .review-wheel__note {
+    position: relative;
+    z-index: 1;
+    margin-top: 1.4rem;
+    color: #76737f;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .review-wheel__swipe-hint {
+    margin: -0.35rem 0 0;
+    color: #8f8a9a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .review-wheel__swipe-hint span {
+    color: #bfb6ff;
+  }
+
+  @media (min-width: 640px) {
+    .review-wheel__orbit {
+      grid-auto-columns: minmax(280px, 45vw);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .review-wheel__orbit {
+      grid-auto-columns: minmax(270px, 31vw);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .review-wheel__stage {
+      min-height: 940px;
+      display: grid;
+      place-items: center;
+      transform:
+        perspective(1500px)
+        rotateX(var(--review-wheel-tilt-x))
+        rotateY(var(--review-wheel-tilt-y));
+      transform-style: preserve-3d;
+      transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .review-wheel__ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(720px, 61vw);
+      aspect-ratio: 1;
+      display: block;
+      border: 1px solid rgba(185, 178, 217, 0.16);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 36px rgba(154, 140, 255, 0.018),
+        inset 0 0 80px rgba(154, 140, 255, 0.025);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: reviewWheelRingPulse 7s ease-in-out infinite;
+    }
+
+    .review-wheel__ring::before,
+    .review-wheel__ring::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border: 1px solid rgba(185, 178, 217, 0.09);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .review-wheel__ring::before {
+      width: 76%;
+      height: 76%;
+    }
+
+    .review-wheel__ring::after {
+      width: 7px;
+      height: 7px;
+      border: 0;
+      background: #bfb6ff;
+      box-shadow: 0 0 24px rgba(191, 182, 255, 0.88);
+    }
+
+    .review-wheel__trail {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(780px, 65vw);
+      aspect-ratio: 1;
+      display: block;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg 245deg,
+        rgba(154, 140, 255, 0.02) 260deg,
+        rgba(154, 140, 255, 0.72) 332deg,
+        #e3deff 350deg,
+        transparent 360deg
+      );
+      filter: drop-shadow(0 0 10px rgba(154, 140, 255, 0.42));
+      mask: radial-gradient(
+        farthest-side,
+        transparent calc(100% - 3px),
+        #000 calc(100% - 2px)
+      );
+      opacity: 0.8;
+      transform: translate(-50%, -50%);
+      animation: reviewWheelTrailSpin 18s linear infinite;
+      pointer-events: none;
+    }
+
+    .review-wheel__energy {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: min(830px, 69vw);
+      aspect-ratio: 1;
+      display: block;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: reviewWheelEnergySpin 110s linear infinite reverse;
+      pointer-events: none;
+    }
+
+    .review-wheel__energy span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      margin: -2px;
+      border-radius: 50%;
+      background: #cfc7ff;
+      box-shadow:
+        0 0 8px rgba(207, 199, 255, 0.9),
+        0 0 22px rgba(154, 140, 255, 0.44);
+      opacity: calc(0.25 + (var(--energy-index) * 0.045));
+      transform:
+        rotate(calc(var(--energy-index) * 30deg))
+        translateY(clamp(-395px, -36vw, -350px));
+    }
+
+    .review-wheel__orbit {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: auto;
+      padding: 0;
+      overflow: visible;
+      animation: reviewWheelSpin 64s linear infinite;
+      backface-visibility: hidden;
+      pointer-events: none;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .review-wheel__card {
+      --review-radius: clamp(330px, 30vw, 360px);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(228px, 20vw, 260px);
+      pointer-events: auto;
+      transform:
+        translate(-50%, -50%)
+        rotate(var(--review-angle))
+        translateY(calc(var(--review-radius) * -1))
+        rotate(calc(var(--review-angle) * -1));
+      transform-origin: center;
+    }
+
+    .review-wheel__card-inner {
+      min-height: 196px;
+      animation: reviewWheelCounterSpin 64s linear infinite;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .review-wheel.is-hovering .review-wheel__ring {
+      border-color: rgba(205, 197, 255, 0.3);
+      box-shadow:
+        0 0 0 42px rgba(154, 140, 255, 0.026),
+        0 0 76px rgba(154, 140, 255, 0.14),
+        inset 0 0 96px rgba(154, 140, 255, 0.045);
+    }
+
+    .review-wheel__center {
+      position: relative;
+      z-index: 3;
+      order: initial;
+      width: min(310px, 26vw);
+      padding: 1.65rem;
+      text-align: center;
+    }
+
+    .review-wheel__center h2 {
+      font-size: clamp(2.45rem, 3.4vw, 3.35rem);
+    }
+
+    .review-wheel__actions {
+      justify-content: center;
+    }
+
+    .review-wheel__motion {
+      display: inline-flex;
+    }
+
+    .review-wheel:is(.is-paused, .is-interaction-paused, .is-out-of-view, .is-document-hidden) .review-wheel__orbit,
+    .review-wheel:is(.is-paused, .is-interaction-paused, .is-out-of-view, .is-document-hidden) .review-wheel__card-inner,
+    .review-wheel:is(.is-paused, .is-interaction-paused, .is-out-of-view, .is-document-hidden) .review-wheel__trail,
+    .review-wheel:is(.is-paused, .is-interaction-paused, .is-out-of-view, .is-document-hidden) .review-wheel__energy,
+    .review-wheel:is(.is-paused, .is-interaction-paused, .is-out-of-view, .is-document-hidden) .review-wheel__ring {
+      animation-play-state: paused;
+    }
+
+    .review-wheel__swipe-hint {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .review-wheel__orbit {
+      grid-auto-columns: 88vw;
+    }
+
+    .review-wheel__actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .review-wheel__actions .button,
+    .review-wheel__source {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .review-wheel__orbit,
+    .review-wheel__card-inner,
+    .review-wheel__trail,
+    .review-wheel__energy,
+    .review-wheel__ring {
+      animation: none !important;
+      will-change: auto;
+    }
+
+    .review-wheel__motion {
+      display: none;
+    }
+  }
+
+  @keyframes reviewWheelSpin {
+    from { transform: translateZ(0) rotate(0turn); }
+    to { transform: translateZ(0) rotate(1turn); }
+  }
+
+  @keyframes reviewWheelCounterSpin {
+    from { transform: translateZ(0) rotate(0turn); }
+    to { transform: translateZ(0) rotate(-1turn); }
+  }
+
+  @keyframes reviewWheelTrailSpin {
+    from { transform: translate(-50%, -50%) rotate(0turn); }
+    to { transform: translate(-50%, -50%) rotate(1turn); }
+  }
+
+  @keyframes reviewWheelEnergySpin {
+    from { transform: translate(-50%, -50%) rotate(0turn); }
+    to { transform: translate(-50%, -50%) rotate(1turn); }
+  }
+
+  @keyframes reviewWheelRingPulse {
+    0%,
+    100% {
+      opacity: 0.72;
+      scale: 0.99;
+    }
+    50% {
+      opacity: 1;
+      scale: 1.015;
+    }
+  }
+
+  @keyframes reviewCardSheen {
+    to { transform: rotate(1turn); }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-review-wheel]").forEach((wheel) => {
+    const stage = wheel.querySelector<HTMLElement>("[data-review-wheel-stage]");
+    const motionButton = wheel.querySelector<HTMLButtonElement>("[data-review-wheel-motion]");
+    const motionLabel = wheel.querySelector<HTMLElement>("[data-review-wheel-motion-label]");
+    const motionIcon = wheel.querySelector<HTMLElement>("[data-review-wheel-motion-icon]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const precisePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    if (stage && !reducedMotion.matches && precisePointer.matches) {
+      let frame = 0;
+      let tiltX = 0;
+      let tiltY = 0;
+      let glowX = 50;
+      let glowY = 45;
+
+      const paintDepth = () => {
+        frame = 0;
+        wheel.style.setProperty("--review-wheel-tilt-x", `${tiltX.toFixed(2)}deg`);
+        wheel.style.setProperty("--review-wheel-tilt-y", `${tiltY.toFixed(2)}deg`);
+        wheel.style.setProperty("--review-wheel-glow-x", `${glowX.toFixed(1)}%`);
+        wheel.style.setProperty("--review-wheel-glow-y", `${glowY.toFixed(1)}%`);
+      };
+
+      wheel.addEventListener("pointermove", (event) => {
+        const rect = wheel.getBoundingClientRect();
+        const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        tiltX = (0.5 - py) * 1.8;
+        tiltY = (px - 0.5) * 2.4;
+        glowX = px * 100;
+        glowY = py * 100;
+        if (!frame) frame = window.requestAnimationFrame(paintDepth);
+      });
+
+      wheel.addEventListener("pointerleave", () => {
+        tiltX = 0;
+        tiltY = 0;
+        glowX = 50;
+        glowY = 45;
+        if (!frame) frame = window.requestAnimationFrame(paintDepth);
+      });
+    }
+
+    let hoveredCard: HTMLElement | null = null;
+    let focusedCard: HTMLElement | null = null;
+
+    const syncInteractionPause = () => {
+      wheel.classList.toggle("is-interaction-paused", Boolean(hoveredCard || focusedCard));
+    };
+
+    wheel.querySelectorAll<HTMLElement>(".review-wheel__card").forEach((card) => {
+      card.addEventListener("pointerenter", () => {
+        if (reducedMotion.matches || !precisePointer.matches) return;
+        hoveredCard = card;
+        wheel.classList.add("is-hovering");
+        syncInteractionPause();
+      });
+
+      card.addEventListener("pointerleave", () => {
+        if (hoveredCard === card) hoveredCard = null;
+        wheel.classList.remove("is-hovering");
+        syncInteractionPause();
+      });
+
+      card.addEventListener("focusin", () => {
+        focusedCard = card;
+        syncInteractionPause();
+      });
+
+      card.addEventListener("focusout", () => {
+        window.requestAnimationFrame(() => {
+          if (card.contains(document.activeElement)) return;
+          if (focusedCard === card) focusedCard = null;
+          syncInteractionPause();
+        });
+      });
+    });
+
+    const syncDocumentVisibility = () => {
+      wheel.classList.toggle("is-document-hidden", document.visibilityState !== "visible");
+    };
+
+    const bounds = wheel.getBoundingClientRect();
+    wheel.classList.toggle("is-out-of-view", bounds.bottom < -160 || bounds.top > window.innerHeight + 160);
+    if ("IntersectionObserver" in window) {
+      const visibilityObserver = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry) wheel.classList.toggle("is-out-of-view", !entry.isIntersecting);
+      }, { rootMargin: "160px 0px", threshold: 0.01 });
+      visibilityObserver.observe(wheel);
+    }
+    document.addEventListener("visibilitychange", syncDocumentVisibility);
+    syncDocumentVisibility();
+
+    motionButton?.addEventListener("click", () => {
+      const isPaused = wheel.classList.toggle("is-paused");
+      motionButton.setAttribute("aria-pressed", String(isPaused));
+
+      if (motionLabel) motionLabel.textContent = isPaused ? "Resume motion" : "Pause motion";
+      if (motionIcon) motionIcon.textContent = isPaused ? "▶" : "Ⅱ";
+    });
+  });
+</script>

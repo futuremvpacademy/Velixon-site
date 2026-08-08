@@ -1,6 +1,6 @@
 # Velixon SEO measurement plan
 
-Updated: July 15, 2026
+Updated: July 20, 2026
 
 ## Measurement principles
 
@@ -29,9 +29,10 @@ Do not put secrets, service-account credentials, API secrets, or private form-de
 | Conversion | Definition | Event | Deduplication / evidence | Status |
 | --- | --- | --- | --- | --- |
 | Qualified inquiry submitted | Netlify confirms successful receipt of the main website inquiry form. | `generate_lead` | Fire once after a successful response, not on button click. Reconcile monthly with received Netlify submissions. | Implemented; verify in production |
-| Automation assessment completed | Netlify confirms receipt and the visitor receives a versioned, explainable score. | `assessment_completed` | Fire once after successful Netlify receipt; store only score band and category in analytics, never answers or contact details. | Implemented; verify in production |
-| Proposal request submitted | Visitor submits the structured proposal intake. | `proposal_request_submitted` | Reconcile with the `proposal-request` Netlify form and do not send free-form fields to analytics. | Implemented; verify in production |
-| Strategy call intent | Visitor activates a clearly labeled strategy-call CTA. | `strategy_call_click` | Use the public label and destination; clicks are intent signals, not completed appointments. | Implemented |
+| Unique Free Audit submitted | The Free Audit API accepts the request and reports that it is not a duplicate. | `audit_submitted` with `duplicate: false` | Fire after a successful API response. Retain duplicate responses as diagnostics, but exclude `duplicate: true` from conversion totals. | Implemented; verify in production |
+| Automation quiz completed | The client-side quiz validates every answer and renders a versioned, explainable score. | `quiz_completed` | Fire once per completed attempt. Store only score band and maturity level in analytics, never the exact score, answers, or contact details. | Implemented; verify in production |
+| Project Estimate submitted | Visitor submits the single structured intake for a defined or new project. | `estimate_request_submitted` | Reconcile with the `estimate-request` Netlify form and do not send free-form fields, budget, or timeline to analytics. | Implemented; verify in production |
+| Strategy call request | Audit recipient replies after delivery to request a manually arranged call. | None in browser | No public scheduling CTA or booking destination exists. Reconcile any request operationally from the delivery-email reply. | Manual/off-site |
 | Phone lead | Visitor activates a `tel:` link. | `contact_click` with `contact_method: "phone"` | Count unique sessions separately from total clicks. Do not send the phone number. | Implemented |
 | Email lead | Visitor activates a `mailto:` link. | `contact_click` with `contact_method: "email"` | Count unique sessions separately from total clicks. Do not send the email address. | Implemented |
 
@@ -40,13 +41,31 @@ Do not put secrets, service-account credentials, API secrets, or private form-de
 | Action | Event | Purpose | Status |
 | --- | --- | --- | --- |
 | First meaningful form interaction | `form_start` | Diagnose contact-page engagement and abandonment. | Implemented |
-| Assessment started | `assessment_started` | Measure entry into the qualification funnel. | Implemented |
-| Assessment step completed | `assessment_step_completed` | Diagnose step progression without recording answers. | Implemented |
-| Proposal request started | `proposal_request_started` | Measure high-intent intake starts. | Implemented |
+| Contact invitation viewed | `contact_prompt_viewed` | Measure whether the once-per-session prompt is actually shown after meaningful engagement. | Implemented |
+| Contact form opened | `contact_form_opened` | Compare manual popup entry points without treating an open as a lead. | Implemented |
+| Contact form dismissed | `contact_form_dismissed` | Diagnose popup abandonment by safe trigger and dismissal method. | Implemented; directional only |
+| Contact invitation dismissed | `contact_prompt_dismissed` | Measure prompt rejection without repeatedly showing it in the same session. | Implemented; directional only |
+| Free Audit CTA activated | `free_audit_cta_clicked` | Compare entry points into the primary audit funnel. Emit one event per physical click; page path and CTA location identify quiz, checklist, calculator, and other assists. | Implemented |
+| Google review source opened | `review_source_clicked` | Measure whether customer proof prompts visitors to validate the public source. Keep this supporting-only and exclude reviewer names, excerpts, and Google query details. | Implemented |
+| Audit overview viewed | `audit_video_viewed` | Record the homepage film reaching 50% visibility once per page lifecycle. | Implemented; directional only |
+| Audit overview started | `audit_video_started` | Measure the first user-initiated play without recording playback position or browser details. | Implemented |
+| Audit overview completed | `audit_video_completed` | Record the first complete playback without treating it as a primary conversion. | Implemented; directional only |
+| Free Audit started | `audit_started` | Measure the first form interaction using only a cataloged source value. | Implemented |
+| Free Audit step completed | `audit_step_completed` | Diagnose validated progression, once per step per page attempt, without recording answers. | Implemented |
+| Free Audit submission failed | `audit_submission_error` | Detect delivery failures without recording submitted values. | Implemented |
+| Free Audit abandoned | `audit_abandoned` | Directional diagnostic emitted at most once per page lifecycle; starts minus accepted submissions remain the more reliable abandonment measure. | Implemented; directional only |
+| Automation quiz started | `quiz_started` | Measure entry into the qualification funnel. | Implemented |
+| Automation quiz step completed | `quiz_step_completed` | Diagnose progression once per question per attempt without recording answers. | Implemented |
+| Automation quiz abandoned | `quiz_abandoned` | Directional diagnostic emitted at most once per attempt. | Implemented; directional only |
+| Project Estimate started | `estimate_request_started` | Measure high-intent project-intake starts. | Implemented |
+| Project Estimate failed | `estimate_request_error` | Detect estimate delivery failures without recording submitted values. | Implemented |
 | Form delivery or validation failure | `form_error` | Detect conversion-blocking failures without recording submitted values. | Implemented |
 | Commercial CTA click | `cta_click` with `content_type: "call_to_action"` | Compare CTA placement and landing-page intent. | Implemented for shared buttons, homepage buttons, mobile CTAs, and explicitly tagged links |
+| Navigation activated | `navigation_clicked` | Compare header, mobile-menu, and footer paths using normalized public destinations. | Implemented |
 | Automation calculator interaction | `roi_calculator_engaged` | Measure use of the decision tool. | Implemented |
-| Calculator-to-contact click | `roi_calculator_cta` | Measure assisted conversion intent. | Implemented |
+| Checklist loaded | `checklist_opened` | Record that a checklist component initialized; do not interpret this as meaningful engagement. | Implemented; rename or replace with a first-interaction event in a future pass |
+| Checklist completed | `checklist_completed` | Measure a checklist reaching 100% without recording individual checked items. | Implemented |
+| Checklist printed | `checklist_print_clicked` | Measure print or Save-as-PDF intent. | Implemented |
 | Resource-to-service click | `select_content` or `resource_cta_click` | Measure whether educational content assists commercial discovery. | Recommended |
 | Case-study-to-contact click | `select_content` or `case_study_cta_click` | Measure evidence-assisted conversion intent. | Recommended |
 | Navigation to a service from an industry/location page | `select_content` with source cluster | Evaluate internal-link usefulness. | Recommended; sample only key links to avoid event noise |
@@ -64,9 +83,13 @@ Recommended non-PII parameters:
 - `form_name`
 - `contact_method`
 - `calculator_name`
+- `video_id`
+- `video_location`
 - `link_url` only for public Velixon paths, not user-provided URLs
 
 Do not send budget selections, launch timing, free-form project details, query-string attribution containing personal information, or contact fields to GA4.
+
+Analytics source dimensions must use the authored catalog in `src/lib/analytics.ts`. Unknown URL or campaign values resolve to `other`; they must never be copied into analytics verbatim. Detailed form attribution can remain in the submitted operational record under the privacy policy, but it is separate from consented analytics.
 
 ## Google Search Console setup
 
@@ -109,7 +132,7 @@ The groups below are reporting segments, not claims that Velixon currently ranks
 | Automation platforms | n8n automation agency, Make.com automation agency, Zapier automation services | Integration/platform pages and comparisons |
 | Application platforms | Supabase development services, Stripe integration services, Twilio automation services | Integration pages |
 | Utah | AI automation Utah, business automation Utah, custom software Utah, CRM development Utah | Utah location page and related services |
-| Lehi | AI automation Lehi, custom software development Lehi | Lehi location page and related services |
+| Lehi | custom software company Lehi Utah, custom software development Lehi, AI automation company Lehi | Lehi location page and related services |
 | Contractors/construction | AI automation for contractors, construction automation, CRM software for contractors | Contractor/construction pages and relevant guides |
 | Service businesses | AI automation for service businesses, custom software for service businesses | Service-business/home-services pages and case evidence |
 | Educational cost/selection | AI automation cost, custom software cost, when to build custom software | Resource articles |
@@ -121,7 +144,7 @@ Maintain a query-to-principal-page mapping in `docs/SEO_KEYWORD_MAP.md`. If two 
 
 | Page type | Primary KPIs | Diagnostic KPIs | Decision question |
 | --- | --- | --- | --- |
-| Homepage | Organic qualified inquiries, strategy-call intent, non-branded clicks | Impressions, CTR, service-path clicks, intro exits, mobile engagement | Does the page quickly route qualified visitors to the right capability? |
+| Homepage | Organic qualified inquiries and non-branded clicks | Impressions, CTR, service-path clicks, intro exits, mobile engagement | Does the page quickly route qualified visitors to the right capability? |
 | Core service page | Qualified inquiries and CTA conversion rate | Non-branded clicks, query coverage, CTR, assisted resource/case-study views | Does the page own one commercial intent and produce qualified action? |
 | Industry/solution page | Qualified inquiries and service click-through | Industry-query clicks, engagement with workflows/FAQs, assisted conversions | Does the page demonstrate distinct operational understanding? |
 | Location page | Qualified local inquiries | Local impressions/clicks, CTR, map/directory referral context where available | Is the page genuinely useful for that service area without doorway duplication? |
@@ -146,7 +169,7 @@ Calculate form completion rate as successful `generate_lead` events divided by `
 - Confirm unknown paths return HTTP 404, not a soft 404.
 - Validate robots and sitemap responses in production.
 - Test contact submission success/failure without recording test PII in analytics.
-- Test keyboard navigation, visible focus, skip link, mobile menu, intro dismissal, and reduced-motion behavior.
+- Test keyboard navigation, visible focus, skip link, mobile menu, contact dialog, and reduced-motion behavior.
 - Test mobile, tablet, and desktop layouts for overflow and obstructed actions.
 - Compare production metadata and structured data with the built artifact.
 
@@ -178,7 +201,7 @@ Use a 28-day reporting window compared with the previous 28 days, plus year-over
 
 1. **Executive outcome**
    - Qualified organic inquiries
-   - Strategy-call, phone, and email intent
+   - Phone and email intent; strategy-call requests are reconciled manually from post-delivery email replies
    - Material changes and the business implication
 2. **Search visibility**
    - Non-branded clicks and impressions

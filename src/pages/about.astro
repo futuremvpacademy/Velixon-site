@@ -5,13 +5,71 @@ import PageHero from "../components/PageHero.astro";
 import CardSection from "../components/CardSection.astro";
 import FinalCtaSection from "../components/FinalCtaSection.astro";
 import { siteContent } from "../data/site";
-const { companyName, logo, nav, cta } = siteContent;
+import "../styles/business-pages.css";
+
+const { companyName, logo, nav, cta, businessInfo, contactInfo } = siteContent;
 const principles = [
   { title: "Business first", description: "We begin with the operation, customer, and outcome before choosing technology." },
-  { title: "Complete systems", description: "We connect the application, data, AI, payments, communication, and workflow instead of optimizing one isolated step." },
+  { title: "Complete systems", description: "We connect the website, data, communication, payments, and workflow instead of optimizing one isolated step." },
   { title: "Built to last", description: "Maintainability, security, performance, and clear ownership are part of the architecture from day one." },
   { title: "Products of our own", description: "FormEsque and ShareCal keep Velixon close to the realities of building and evolving real software products." }
 ];
-const finalCta = { eyebrow: "Smarter Systems. Better Business.", title: "Build software that becomes an advantage—not another tool to manage.", description: "Velixon is ready to become the product and engineering partner behind your next operating system.", points: ["Custom software", "Applied AI", "Connected infrastructure"], primary: "Build Your System", primaryHref: "/contact", secondary: "Review Product Evidence", secondaryHref: "/case-studies/", helper: "Start with the business problem. We will help define the system." };
+const auditHref = "/free-audit/?source=about-page#book-audit";
+const finalCta = {
+  eyebrow: "A practical first step",
+  title: "Find the system costing the business time, leads, or money.",
+  description: "Request the free audit for an existing or unclear problem, or request an estimate when the project is already defined.",
+  points: ["One-page scorecard", "Three priorities", "Delivered within 3 business days"],
+  primary: "Request Your Free Audit",
+  primaryHref: auditHref,
+  secondary: "Get a Project Estimate",
+  secondaryHref: "/estimate-request/?source=about-page&campaign=estimate#estimate-request-form",
+  helper: "Project Estimate and general-inquiry responses arrive within 1 business day; audits arrive within 3 business days."
+};
 ---
-<MainLayout title="About Velixon | Software, AI & Business Systems" description="Velixon is a software and AI company building custom client systems and products including FormEsque and ShareCal."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/about" /><main id="main-content"><PageHero eyebrow="About Velixon" title="A software company built around real business operations." description="Velixon builds custom systems for clients while developing products of its own. That combination brings product thinking, operational understanding, and engineering discipline to every engagement." cta="Build Your System" ctaHref="/contact/" helper="Software · AI systems · Business infrastructure" /><CardSection eyebrow="How we think" title="The system should reduce work—not create more of it" description="We build around long-term business value, not the novelty of a tool or trend." items={principles} /><FinalCtaSection cta={finalCta} /></main></MainLayout>
+
+<MainLayout
+  title="About Velixon | Business Systems, Software & Automation"
+  description="Meet Peter Munnich, founder of Velixon—the trade name of Utah single-member LLC Velixon Solutions LLC—serving businesses across the United States."
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/about" />
+  <main id="main-content">
+    <PageHero
+      eyebrow="About Velixon"
+      title="A Utah partner for better business systems."
+      description="Velixon helps growing service businesses improve the systems behind lead flow, daily operations, customer experience, and delivery. Projects are delivered remotely across the United States."
+      cta="Request Your Free Audit"
+      ctaHref={auditHref}
+      secondaryCta="Get a Project Estimate"
+      secondaryCtaHref="/estimate-request/?source=about-page&campaign=estimate#estimate-request-form"
+      helper={`Led by ${businessInfo.founder} · ${businessInfo.location} · Serving U.S. businesses remotely`}
+    />
+
+    <section class="business-identity" aria-labelledby="business-identity-title">
+      <div class="container business-identity-shell">
+        <div class="business-identity-copy">
+          <p class="eyebrow">Who you will work with</p>
+          <h2 id="business-identity-title">Direct accountability from the first conversation.</h2>
+          <p><strong>{businessInfo.founder}</strong> is the {businessInfo.founderTitle.toLowerCase()}. He leads the work from business problem and system scope through the recommended next step.</p>
+          <p><strong>{businessInfo.legalName}</strong> is {businessInfo.entityDescription}. Velixon works remotely with businesses throughout the United States.</p>
+        </div>
+        <dl class="business-facts">
+          <div><dt>Founder</dt><dd>{businessInfo.founder}</dd></div>
+          <div><dt>Based in</dt><dd>{businessInfo.location}</dd></div>
+          <div><dt>Mailing address</dt><dd>{businessInfo.mailingAddress.formatted}</dd></div>
+          <div><dt>Service area</dt><dd>United States</dd></div>
+          <div><dt>Inquiry response</dt><dd>{businessInfo.responseTime}</dd></div>
+        </dl>
+        <p class="business-identity-contact">Prefer email? <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a></p>
+      </div>
+    </section>
+
+    <CardSection
+      eyebrow="How we work"
+      title="The system should reduce work—not create more of it"
+      description="Velixon builds around long-term business value, not the novelty of a tool or trend."
+      items={principles}
+    />
+    <FinalCtaSection cta={finalCta} />
+  </main>
+</MainLayout>

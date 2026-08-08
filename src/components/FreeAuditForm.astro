@@ -1,0 +1,408 @@
+---
+import { automationAuditOfferName } from "../data/automation-audit";
+
+interface Props {
+  variant: string;
+}
+
+const { variant } = Astro.props;
+---
+
+<div
+  class="audit-form-shell"
+  data-audit-form-shell
+  data-variant={variant}
+>
+  <form class="audit-form" id="free-audit-form" action="/api/free-audit" method="POST" data-api-endpoint="/api/free-audit">
+    <div class="audit-honeypot" aria-hidden="true" inert>
+      <label>Leave this field blank<input type="text" name="company-fax" tabindex="-1" autocomplete="off" /></label>
+    </div>
+
+    <div class="audit-form-topline">
+      <div>
+        <span class="audit-kicker">{automationAuditOfferName}</span>
+        <h3>Request your personalized audit.</h3>
+      </div>
+      <p>About 2 minutes</p>
+    </div>
+
+    <section class="audit-form-step" data-form-step="1" data-step-name="Audit request">
+      <div class="audit-form-step-heading">
+        <span>01</span>
+        <div><h4 tabindex="-1">Tell us where the business is getting stuck.</h4><p>A short description is enough to begin.</p></div>
+      </div>
+      <div class="audit-form-fields">
+        <label>
+          <span>First name <b aria-hidden="true">*</b></span>
+          <input type="text" name="firstName" autocomplete="given-name" maxlength="80" required />
+        </label>
+        <label>
+          <span>Last name <b aria-hidden="true">*</b></span>
+          <input type="text" name="lastName" autocomplete="family-name" maxlength="80" required />
+        </label>
+        <label>
+          <span>Business name <b aria-hidden="true">*</b></span>
+          <input type="text" name="businessName" autocomplete="organization" maxlength="160" required />
+        </label>
+        <label>
+          <span>Work email <b aria-hidden="true">*</b></span>
+          <input type="email" name="workEmail" autocomplete="email" inputmode="email" maxlength="254" required />
+        </label>
+        <label>
+          <span>Phone number <small>Optional</small></span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" pattern={"[+0-9 .\\(\\)\\-]{7,40}"} />
+        </label>
+        <label>
+          <span>Website <small>Optional</small></span>
+          <input type="url" name="website" autocomplete="url" inputmode="url" maxlength="300" placeholder="https://example.com" />
+        </label>
+        <label class="audit-form-field-wide">
+          <span>What is the main bottleneck? <b aria-hidden="true">*</b></span>
+          <textarea
+            name="mainOperationalProblem"
+            rows="5"
+            minlength="10"
+            maxlength="2000"
+            placeholder="For example: leads wait too long for follow-up, information is copied between tools, or estimates take too much manual work."
+            required
+          ></textarea>
+        </label>
+        <label class="audit-form-consent audit-form-field-wide">
+          <input type="checkbox" name="processingConsent" value="accepted" required />
+          <span>I have reviewed the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use these details to review and respond to my audit request. <b aria-hidden="true">*</b></span>
+        </label>
+        <div class="audit-form-privacy audit-form-field-wide">
+          <span aria-hidden="true">⌁</span>
+          <p><strong>Business context only.</strong> Do not submit passwords, payment-card data, health information, customer records, or other sensitive information.</p>
+        </div>
+      </div>
+    </section>
+
+    <p class="audit-form-error" data-form-error role="alert" tabindex="-1" hidden></p>
+
+    <div class="audit-form-actions">
+      <button type="submit" class="audit-button audit-button-primary" data-form-submit><span data-form-submit-label>Request Your Free Audit</span> <span aria-hidden="true">→</span></button>
+    </div>
+    <p class="audit-form-save-note">Your progress is saved in this browser tab for 24 hours. You will receive a one-page scorecard and 3 prioritized recommendations within 3 business days.</p>
+  </form>
+
+  <section class="audit-form-success" data-form-success role="status" tabindex="-1" hidden>
+    <div class="audit-form-success-heading">
+      <span class="audit-success-mark" aria-hidden="true">✓</span>
+      <div>
+        <p class="audit-kicker">Request received</p>
+        <h3>Your personalized audit is on the way.</h3>
+        <p>Velixon will email your one-page scorecard and 3 prioritized recommendations within 3 business days. No call is required.</p>
+      </div>
+    </div>
+
+    <div class="audit-booking-fallback" data-manual-call-note>
+      <strong>Your audit request is complete.</strong>
+      <p>No call is required. After the audit is delivered, reply to that email if you want an optional 20-minute strategy call. Velixon will arrange it with you manually.</p>
+    </div>
+
+    <div class="audit-booking-contact">
+      <a href="mailto:velixon@velixon.net">velixon@velixon.net</a>
+      <a href="tel:+18016025389">801-602-5389</a>
+    </div>
+  </section>
+</div>
+
+<script>
+  import { sanitizeAnalyticsSource } from "../lib/analytics";
+  import { AUDIT_SCHEMA_VERSION } from "../lib/free-audit-config";
+
+  type AnalyticsApi = { track: (name: string, parameters?: Record<string, unknown>) => void };
+  type Attribution = Record<string, string>;
+  const shell = document.querySelector<HTMLElement>("[data-audit-form-shell]");
+  const form = shell?.querySelector<HTMLFormElement>("#free-audit-form");
+
+  if (shell && form) {
+    const steps = Array.from(form.querySelectorAll<HTMLElement>("[data-form-step]"));
+    const submitButton = form.querySelector<HTMLButtonElement>("[data-form-submit]");
+    const submitButtonLabel = form.querySelector<HTMLElement>("[data-form-submit-label]");
+    const errorBox = form.querySelector<HTMLElement>("[data-form-error]");
+    const success = shell.querySelector<HTMLElement>("[data-form-success]");
+    const variant = shell.dataset.variant || "a";
+    const analytics = () => (window as Window & { velixonAnalytics?: AnalyticsApi }).velixonAnalytics;
+    const progressKey = "velixon_automation_audit_progress";
+    const submissionKey = "velixon_automation_audit_submission_id";
+    const startedAtKey = "velixon_automation_audit_started_at";
+    const attributionKey = "velixon_session_attribution";
+    let currentStep = 0;
+    let started = false;
+    let submitted = false;
+    let submitting = false;
+    let abandonmentTracked = false;
+
+    const safeUuid = () => {
+      try { return crypto.randomUUID(); } catch { return `${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`; }
+    };
+
+    const getStartedAt = () => {
+      try {
+        const saved = sessionStorage.getItem(startedAtKey);
+        if (saved && Number.isFinite(Date.parse(saved))) return saved;
+        const value = new Date().toISOString();
+        sessionStorage.setItem(startedAtKey, value);
+        return value;
+      } catch {
+        return new Date().toISOString();
+      }
+    };
+
+    const getSubmissionId = () => {
+      try {
+        const saved = sessionStorage.getItem(submissionKey);
+        if (saved && /^[a-zA-Z0-9-]{20,80}$/.test(saved)) return saved;
+        const value = safeUuid();
+        sessionStorage.setItem(submissionKey, value);
+        return value;
+      } catch {
+        return safeUuid();
+      }
+    };
+
+    const setError = (message = "", focus = false) => {
+      if (!errorBox) return;
+      errorBox.textContent = message;
+      errorBox.hidden = !message;
+      if (message && focus) errorBox.focus({ preventScroll: true });
+    };
+
+    const showStep = (index: number, focus = false) => {
+      currentStep = Math.min(steps.length - 1, Math.max(0, index));
+      steps.forEach((step, stepIndex) => { step.hidden = stepIndex !== currentStep; });
+      setError();
+      saveProgress();
+      if (focus) steps[currentStep]?.querySelector<HTMLElement>("h4")?.focus({ preventScroll: true });
+    };
+
+    const validateCurrentStep = () => {
+      const step = steps[currentStep];
+      if (!step) return false;
+      const controls = Array.from(step.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input, select, textarea"));
+      for (const control of controls) {
+        if (!control.checkValidity()) {
+          control.setAttribute("aria-invalid", "true");
+          control.reportValidity();
+          setError("Check the highlighted field before continuing.");
+          control.focus({ preventScroll: true });
+          return false;
+        }
+        control.removeAttribute("aria-invalid");
+      }
+      return true;
+    };
+
+    const collectValues = () => {
+      const values: Record<string, string | boolean> = {};
+      Array.from(form.elements).forEach((element) => {
+        if (!(element instanceof HTMLInputElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement)) return;
+        if (!element.name || element.name === "company-fax") return;
+        values[element.name] = element instanceof HTMLInputElement && element.type === "checkbox" ? element.checked : element.value;
+      });
+      return values;
+    };
+
+    const saveProgress = () => {
+      if (submitted) return;
+      try {
+        sessionStorage.setItem(progressKey, JSON.stringify({ savedAt: Date.now(), step: currentStep, values: collectValues() }));
+      } catch {
+        // The form remains usable when browser storage is unavailable.
+      }
+    };
+
+    const restoreProgress = () => {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(progressKey) || "null") as { savedAt?: number; step?: number; values?: Record<string, string | boolean> } | null;
+        if (!saved?.values || !saved.savedAt || Date.now() - saved.savedAt > 86_400_000) {
+          sessionStorage.removeItem(progressKey);
+          return;
+        }
+        Object.entries(saved.values).forEach(([name, value]) => {
+          const control = form.elements.namedItem(name);
+          if (control instanceof HTMLInputElement && control.type === "checkbox") control.checked = value === true;
+          else if (control instanceof HTMLInputElement || control instanceof HTMLSelectElement || control instanceof HTMLTextAreaElement) control.value = String(value);
+        });
+        currentStep = Math.min(steps.length - 1, Math.max(0, Number(saved.step || 0)));
+      } catch {
+        // Ignore malformed or inaccessible session data.
+      }
+    };
+
+    const getAttribution = (): Attribution => {
+      let stored: Attribution = {};
+      try { stored = JSON.parse(sessionStorage.getItem(attributionKey) || "{}") as Attribution; } catch {}
+      const url = new URL(window.location.href);
+      const googleClickId = stored.gclid || stored.gbraid || stored.wbraid || url.searchParams.get("gclid") || url.searchParams.get("gbraid") || url.searchParams.get("wbraid");
+      const facebookClickId = stored.fbclid || url.searchParams.get("fbclid");
+      return {
+        source: url.searchParams.get("source") || stored.utm_source || (googleClickId ? "google" : facebookClickId ? "facebook" : "website"),
+        utmSource: stored.utm_source || url.searchParams.get("utm_source") || "",
+        utmMedium: stored.utm_medium || url.searchParams.get("utm_medium") || "",
+        utmCampaign: stored.utm_campaign || url.searchParams.get("utm_campaign") || "",
+        utmTerm: stored.utm_term || url.searchParams.get("utm_term") || "",
+        utmContent: stored.utm_content || url.searchParams.get("utm_content") || "",
+        gclid: stored.gclid || url.searchParams.get("gclid") || "",
+        gbraid: stored.gbraid || url.searchParams.get("gbraid") || "",
+        wbraid: stored.wbraid || url.searchParams.get("wbraid") || "",
+        fbclid: stored.fbclid || url.searchParams.get("fbclid") || "",
+        referralSource: stored.referrer || document.referrer || "direct",
+        landingPage: stored.landing_page || `${url.pathname}${url.search}`,
+        capturedAt: stored.captured_at || new Date().toISOString(),
+        submissionPage: `${url.pathname}${url.search}`,
+        landingVariant: variant
+      };
+    };
+
+    const buildPayload = () => {
+      const data = new FormData(form);
+      const text = (name: string) => String(data.get(name) || "").trim();
+      return {
+        schemaVersion: AUDIT_SCHEMA_VERSION,
+        idempotencyKey: getSubmissionId(),
+        botField: text("company-fax"),
+        startedAt: getStartedAt(),
+        contact: {
+          firstName: text("firstName"),
+          lastName: text("lastName"),
+          businessName: text("businessName"),
+          workEmail: text("workEmail"),
+          phone: text("phone"),
+          website: text("website")
+        },
+        qualification: {
+          mainOperationalProblem: text("mainOperationalProblem")
+        },
+        attribution: getAttribution(),
+        consent: { processing: data.get("processingConsent") === "accepted" }
+      };
+    };
+
+    const markStarted = () => {
+      if (started) return;
+      started = true;
+      analytics()?.track("audit_started", {
+        form_name: "free_business_automation_audit",
+        form_version: AUDIT_SCHEMA_VERSION,
+        hero_variant: variant,
+        source: sanitizeAnalyticsSource(getAttribution().source),
+        page_path: window.location.pathname
+      });
+    };
+
+    form.addEventListener("focusin", markStarted, { once: true });
+    form.addEventListener("input", saveProgress);
+    form.addEventListener("change", saveProgress);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      markStarted();
+      if (submitting || !validateCurrentStep()) return;
+      submitting = true;
+      form.setAttribute("aria-busy", "true");
+      if (submitButton) {
+        submitButton.disabled = true;
+        if (submitButtonLabel) submitButtonLabel.textContent = "Submitting…";
+      }
+      setError();
+
+      const payload = buildPayload();
+      try {
+        const response = await fetch(form.dataset.apiEndpoint || form.action, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json().catch(() => ({})) as {
+          ok?: boolean;
+          message?: string;
+          requestId?: string;
+          submissionId?: string;
+          duplicate?: boolean;
+        };
+        if (!response.ok || !result.ok || !result.submissionId) {
+          const supportReference = typeof result.requestId === "string" && /^[a-zA-Z0-9-]{8,100}$/.test(result.requestId)
+            ? ` Reference: ${result.requestId}.`
+            : "";
+          throw new Error(`${result.message || "The request could not be submitted."}${supportReference}`);
+        }
+
+        submitted = true;
+        try {
+          sessionStorage.removeItem(progressKey);
+          sessionStorage.removeItem(startedAtKey);
+          sessionStorage.removeItem(submissionKey);
+        } catch {}
+        analytics()?.track("audit_step_completed", {
+          form_name: "free_business_automation_audit",
+          step_number: 1,
+          step_name: "Audit request",
+          form_version: AUDIT_SCHEMA_VERSION,
+          hero_variant: variant,
+          page_path: window.location.pathname
+        });
+        analytics()?.track("audit_submitted", {
+          form_name: "free_business_automation_audit",
+          form_version: AUDIT_SCHEMA_VERSION,
+          hero_variant: variant,
+          duplicate: Boolean(result.duplicate),
+          source: sanitizeAnalyticsSource(getAttribution().source),
+          page_path: window.location.pathname
+        });
+        if (!result.duplicate) {
+          analytics()?.track("qualify_lead", {
+            form_name: "free_business_automation_audit",
+            form_version: AUDIT_SCHEMA_VERSION,
+            hero_variant: variant,
+            lead_source: "free_audit",
+            page_path: window.location.pathname
+          });
+        }
+
+        form.hidden = true;
+        if (success) {
+          success.hidden = false;
+          success.focus({ preventScroll: true });
+          success.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "The request could not be submitted.";
+        setError(`${message} Your progress is still saved in this tab. Please try again.`, true);
+        analytics()?.track("audit_submission_error", {
+          form_name: "free_business_automation_audit",
+          form_version: AUDIT_SCHEMA_VERSION,
+          error_type: "request_failed",
+          hero_variant: variant,
+          page_path: window.location.pathname
+        });
+      } finally {
+        submitting = false;
+        form.removeAttribute("aria-busy");
+        if (submitButton) {
+          submitButton.disabled = false;
+          if (submitButtonLabel) submitButtonLabel.textContent = "Request Your Free Audit";
+        }
+      }
+    });
+
+    const trackAbandonment = () => {
+      if (!started || submitted || abandonmentTracked) return;
+      abandonmentTracked = true;
+      analytics()?.track("audit_abandoned", {
+        form_name: "free_business_automation_audit",
+        form_version: AUDIT_SCHEMA_VERSION,
+        last_step: currentStep + 1,
+        hero_variant: variant,
+        page_path: window.location.pathname
+      });
+    };
+    window.addEventListener("pagehide", trackAbandonment);
+
+    restoreProgress();
+    getStartedAt();
+    showStep(currentStep);
+  }
+</script>

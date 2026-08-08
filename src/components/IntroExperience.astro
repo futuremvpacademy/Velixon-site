@@ -20,7 +20,7 @@ const { logo } = Astro.props;
   <div class="vx-intro-grain" aria-hidden="true"></div>
   <div class="vx-intro-content">
     <div class="vx-intro-mark">
-      <img src={logo} alt="Velixon" width="612" height="408" decoding="async" />
+      <img src={logo} alt="Velixon" width="432" height="288" decoding="async" />
     </div>
     <p class="vx-intro-question">Are you ready for</p>
     <p class="vx-intro-title" id="vx-intro-title">Smarter Systems.<br />Better Business.</p>
@@ -73,7 +73,8 @@ const { logo } = Astro.props;
   }
 </style>
 
-<script is:inline>
+<script>
+  // @ts-nocheck -- DOM element capabilities are guarded before use.
   (() => {
     const intro = document.querySelector("[data-vx-intro]");
     if (!intro) return;

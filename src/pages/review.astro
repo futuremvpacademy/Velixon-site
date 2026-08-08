@@ -1,76 +1,15 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import { featuredCustomerReviews as reviews, googleReviewsUrl } from "../data/customer-reviews";
 import { siteContent } from "../data/site";
 
 const { companyName, logo } = siteContent;
-const reviews = [
-  {
-    name: "Chiggy Combs",
-    quote: "Working with Velixon was one of the best decisions I made for my business. They built me a clean, professional website...",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-1.png",
-    angle: 280
-  },
-  {
-    name: "Giada Ferrazzano",
-    quote: "Velixon did an amazing job creating a website for my How to Be a Latina 101 book. From the beginning, they really...",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-2.png",
-    angle: 320
-  },
-  {
-    name: "Mighty Movers",
-    quote: "Velixon did a great job helping us through our rebrand at Mighty Movers. They updated our website, improved the overall...",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-3.png",
-    angle: 240
-  },
-  {
-    name: "Ready Relocation",
-    quote: "Velixon did a wonderful job creating our logo for Ready Relocation. They really understood the vision and delivered...",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-4.png",
-    angle: 40
-  },
-  {
-    name: "Geovanny Ibarra",
-    quote: "Me hicieron un trabajo excelente y todo quedó bien con mi página web",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-5.png",
-    angle: 200
-  },
-  {
-    name: "Frontier Fence Llc",
-    quote:
-      "The customer service was exemplary from beginning to end. The team demonstrated utmost professionalism throughout the entire process. I would highly recommend their services to any prospective cli",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-6.png",
-    angle: 80
-  },
-  {
-    name: "Audrey Earnshaw",
-    quote:
-      "Thanks for helping me design my website! I have seen my sales increase by 25% so far and I expect that number will increase over time!",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-7.png",
-    angle: 120
-  },
-  {
-    name: "Jorge Carrizosa",
-    quote: "Increíble la atención del lugar. Sin duda muy buena experiencia con la empresa y muy recomendable.",
-    stars: 4,
-    avatarSrc: "/images/reviews/review-8.png",
-    angle: 160
-  },
-  {
-    name: "Future MVP Soccer Academy",
-    quote:
-      "Velixon did an incredible job building our website for Future MVP Soccer Academy. They created a clean, professional...",
-    stars: 5,
-    avatarSrc: "/images/reviews/review-9.png",
-    angle: 0
-  }
-];
+const initialsFor = (name: string) => name
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((part) => part[0]?.toUpperCase())
+  .join("");
 ---
 
 <MainLayout
@@ -111,6 +50,20 @@ const reviews = [
       display: grid;
       place-items: center;
       isolation: isolate;
+    }
+
+    .review-results-disclosure {
+      position: absolute;
+      z-index: 4;
+      left: 50%;
+      bottom: clamp(0.75rem, 2vw, 1.5rem);
+      width: min(680px, calc(100% - 2rem));
+      margin: 0;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 0.72rem;
+      line-height: 1.45;
+      text-align: center;
     }
 
     .review-showcase::before {
@@ -233,6 +186,8 @@ const reviews = [
       pointer-events: none;
       z-index: 3;
       animation: reviewFerrisWheel 72s linear infinite;
+      backface-visibility: hidden;
+      will-change: transform;
     }
 
     .review-mini-card {
@@ -263,24 +218,23 @@ const reviews = [
         0 18px 34px rgba(0, 0, 0, 0.42),
         inset 0 1px 0 rgba(255, 255, 255, 0.03);
       animation: reviewFerrisCard 72s linear infinite;
+      backface-visibility: hidden;
       transform-origin: center;
+      will-change: transform;
     }
 
     .review-mini-avatar {
       width: 46px;
       height: 46px;
-      overflow: hidden;
+      display: grid;
+      place-items: center;
       border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 999px;
-      background: #1d1d21;
-    }
-
-    .review-mini-avatar img {
-      width: 1300px;
-      max-width: none;
-      height: auto;
-      transform: translate(-9px, -18px) scale(0.81);
-      transform-origin: top left;
+      background: linear-gradient(145deg, rgba(154, 140, 255, 0.22), rgba(74, 66, 122, 0.18));
+      color: #ded8ff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
     }
 
     .review-mini-body {
@@ -505,10 +459,6 @@ const reviews = [
         height: 44px;
       }
 
-      .review-mini-avatar img {
-        transform: translate(-9px, -18px) scale(0.78);
-      }
-
       .review-mini-card p {
         font-size: 0.82rem;
       }
@@ -541,8 +491,15 @@ const reviews = [
         width: 100%;
         display: grid;
         gap: 0.85rem;
-        order: 2;
+        order: 3;
         animation: none;
+      }
+
+      .review-results-disclosure {
+        position: static;
+        width: 100%;
+        transform: none;
+        order: 2;
       }
 
       .review-mini-card {
@@ -555,6 +512,7 @@ const reviews = [
 
       .review-mini-card-inner {
         animation: none;
+        will-change: auto;
       }
 
       .review-card {
@@ -578,6 +536,14 @@ const reviews = [
         min-width: 0;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .review-testimonials,
+      .review-mini-card-inner {
+        animation: none;
+        will-change: auto;
+      }
+    }
   </style>
 
   <main class="review-page" id="main-content">
@@ -591,12 +557,10 @@ const reviews = [
 
           <div class="review-testimonials" aria-label="Customer review highlights">
             {
-              reviews.map((review) => (
-                <article class="review-mini-card" style={`--review-angle:${review.angle}deg;`}>
+              reviews.map((review, index) => (
+                <article class="review-mini-card" style={`--review-angle:${index * (360 / reviews.length)}deg;`}>
                   <div class="review-mini-card-inner">
-                    <div class="review-mini-avatar" aria-hidden="true">
-                      <img src={review.avatarSrc} alt="" loading="lazy" width="320" height="320" />
-                    </div>
+                    <div class="review-mini-avatar" aria-hidden="true">{initialsFor(review.name)}</div>
                     <div class="review-mini-body">
                       <div class="review-mini-topline">
                         <h2>{review.name}</h2>
@@ -614,30 +578,32 @@ const reviews = [
                           <span class={index < review.stars ? "" : "review-star-muted"}>★</span>
                         ))}
                       </div>
-                      <p>{review.quote}</p>
+                      <p>“{review.featuredQuote}”</p>
+                      <a
+                        class="review-mini-source"
+                        href={googleReviewsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >View source review <span class="sr-only">for {review.name}</span></a>
                     </div>
                   </div>
                 </article>
               ))
             }
           </div>
+          <p class="review-results-disclosure">
+            These are complete-sentence excerpts from public Google reviews. Velixon does not condition review requests
+            or benefits on positive sentiment. Customer feedback reflects individual experiences; no specific business result is promised.
+          </p>
 
           <article class="review-card">
-            <img class="review-logo" src={logo} alt={`${companyName} logo`} width="640" height="400" />
+            <img class="review-logo" src={logo} alt={`${companyName} logo`} width="432" height="288" />
             <p class="review-brand-label">Velixon</p>
-
-            <div class="review-stars" aria-label="5 out of 5 stars">
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-            </div>
 
             <h1>Leave Us <span>a Review</span></h1>
             <p class="review-text">
-              If we did a great job for you, we’d really appreciate a quick Google review. It helps our business grow
-              and helps other people feel confident working with us.
+              Share your honest experience with Velixon—positive, critical, or somewhere in between. Your feedback
+              helps us improve and helps other people make an informed decision.
             </p>
 
             <div class="review-actions">
@@ -657,8 +623,8 @@ const reviews = [
                 </span>
                 Leave a Google Review
               </a>
-              <p class="review-helper">Takes less than a minute. We really appreciate it.</p>
-              <a class="review-secondary-link" href="/contact/">Having an issue? Contact us directly</a>
+              <p class="review-helper">No purchase benefit or incentive is offered for leaving a review.</p>
+              <a class="review-secondary-link" href="/contact/">Need service or support? Contact us</a>
             </div>
           </article>
         </div>

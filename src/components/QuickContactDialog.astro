@@ -1,0 +1,361 @@
+---
+import InquiryForm from "./InquiryForm.astro";
+
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+const contactEmail = email.trim();
+---
+
+<div class="quick-contact" data-quick-contact>
+  <dialog
+    class="inquiry-dialog"
+    data-inquiry-dialog
+    aria-labelledby="quick-contact-title"
+    aria-describedby="quick-contact-description"
+  >
+    <div class="inquiry-dialog-surface">
+      <button class="inquiry-dialog-close" type="button" data-inquiry-close aria-label="Close contact form">
+        <span aria-hidden="true">×</span>
+      </button>
+
+      <header class="inquiry-dialog-header">
+        <p class="inquiry-kicker">A clear next step</p>
+        <h2 id="quick-contact-title" tabindex="-1">Tell us what you want to improve.</h2>
+        <p id="quick-contact-description">Send the essentials. We’ll review them and reply directly.</p>
+      </header>
+
+      <InquiryForm id="quick-contact-form" formLocation="popup" compact />
+
+      {contactEmail && (
+        <p class="inquiry-direct-contact">
+          Prefer email? <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        </p>
+      )}
+    </div>
+  </dialog>
+
+  <aside class="inquiry-invitation" data-inquiry-invitation aria-label="Contact Velixon" hidden>
+    <button class="inquiry-invitation-dismiss" type="button" data-inquiry-invitation-dismiss aria-label="Dismiss contact invitation">
+      <span aria-hidden="true">×</span>
+    </button>
+    <p class="inquiry-kicker">Need a second opinion?</p>
+    <strong>Tell us what feels stuck.</strong>
+    <button
+      class="inquiry-invitation-action"
+      type="button"
+      data-inquiry-open
+      data-inquiry-location="engagement-prompt"
+    >Send a quick message <span aria-hidden="true">→</span></button>
+  </aside>
+</div>
+
+<script>
+  type AnalyticsApi = {
+    track: (name: string, parameters?: Record<string, unknown>) => void;
+  };
+
+  const analytics = () => (window as Window & { velixonAnalytics?: AnalyticsApi }).velixonAnalytics;
+  const promptSeenKey = "velixon_inquiry_prompt_seen_v1";
+  const promptDismissedKey = "velixon_inquiry_prompt_dismissed_v1";
+  const inquirySubmittedKey = "velixon_inquiry_submitted_v1";
+
+  const readSessionFlag = (key: string) => {
+    try { return sessionStorage.getItem(key) === "true"; } catch { return false; }
+  };
+
+  const writeSessionFlag = (key: string) => {
+    try { sessionStorage.setItem(key, "true"); } catch {}
+  };
+
+  const safeDimension = (value: unknown, fallback = "unknown") => {
+    const normalized = String(value || "").trim();
+    return /^[a-z0-9._-]{1,60}$/i.test(normalized) ? normalized : fallback;
+  };
+
+  const excludedPromptPaths = new Set([
+    "/contact",
+    "/free-audit",
+    "/estimate-request",
+    "/proposal-request",
+    "/privacy",
+    "/terms",
+    "/cookies",
+    "/accessibility",
+    "/security",
+    "/review"
+  ]);
+
+  const initializeQuickContact = (root: HTMLElement) => {
+    if (root.dataset.quickContactReady === "true") return;
+    root.dataset.quickContactReady = "true";
+
+    const dialog = root.querySelector<HTMLDialogElement>("[data-inquiry-dialog]");
+    const heading = dialog?.querySelector<HTMLElement>("#quick-contact-title");
+    const closeButton = dialog?.querySelector<HTMLButtonElement>("[data-inquiry-close]");
+    const invitation = root.querySelector<HTMLElement>("[data-inquiry-invitation]");
+    const invitationDismiss = root.querySelector<HTMLButtonElement>("[data-inquiry-invitation-dismiss]");
+    const normalizedPath = window.location.pathname.replace(/\/$/, "") || "/";
+    let opener: HTMLElement | null = null;
+    let triggerLocation = "manual";
+    let closeReason = "close_button";
+    let submittedDuringOpen = false;
+    let backdropPointerStarted = false;
+    let engagementReached = false;
+    let invitationShown = false;
+    let promptSuppressedByViewport = false;
+    let invitationViewportHidden = false;
+    let invitationViewportHidePending = false;
+    let dwellTimer = 0;
+    let scrollFrame = 0;
+    let bodyObserver: MutationObserver | null = null;
+
+    if (!dialog) return;
+    if (typeof dialog.showModal !== "function") return;
+
+    const setTriggerLocation = (value: string) => {
+      triggerLocation = safeDimension(value, "manual");
+      const field = dialog.querySelector<HTMLInputElement>('[name="trigger-location"]');
+      if (field) field.value = triggerLocation;
+    };
+
+    const consentBannerVisible = () => Boolean(document.querySelector("[data-consent-banner]:not([hidden])"));
+    const formControlFocused = () => document.activeElement instanceof HTMLElement
+      && document.activeElement.matches("input, textarea, select, [contenteditable='true']");
+
+    const promptPermanentlySuppressed = () => (
+      excludedPromptPaths.has(normalizedPath)
+      || readSessionFlag(promptDismissedKey)
+      || readSessionFlag(inquirySubmittedKey)
+    );
+
+    const promptIsSuppressed = () => (
+      promptPermanentlySuppressed()
+      || readSessionFlag(promptSeenKey)
+    );
+
+    const invitationCanAppear = () => (
+      document.visibilityState === "visible"
+      && !dialog.open
+      && !consentBannerVisible()
+      && !document.body.classList.contains("mobile-menu-open")
+      && !formControlFocused()
+    );
+
+    const cleanupInvitationListeners = () => {
+      window.removeEventListener("scroll", handleEngagementScroll);
+      document.removeEventListener("visibilitychange", maybeShowInvitation);
+      window.removeEventListener("velixon:consentchange", handleConsentChange);
+      bodyObserver?.disconnect();
+      bodyObserver = null;
+      if (dwellTimer) window.clearTimeout(dwellTimer);
+      dwellTimer = 0;
+      if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+      scrollFrame = 0;
+    };
+
+    const handleConsentChange = () => window.setTimeout(maybeShowInvitation, 0);
+
+    function maybeShowInvitation() {
+      if (!invitation || invitationShown || !engagementReached || promptIsSuppressed()) return;
+      if (promptSuppressedByViewport || !invitationCanAppear()) return;
+
+      invitationShown = true;
+      invitationViewportHidden = false;
+      invitationViewportHidePending = false;
+      invitation.hidden = false;
+      writeSessionFlag(promptSeenKey);
+      cleanupInvitationListeners();
+      analytics()?.track("contact_prompt_viewed", {
+        form_location: "popup",
+        page_path: window.location.pathname
+      });
+    }
+
+    const maybeRestorePresentedInvitation = () => {
+      if (!invitation || !invitationShown || promptPermanentlySuppressed()) return;
+      if (promptSuppressedByViewport || !invitationCanAppear()) return;
+      invitation.hidden = false;
+    };
+
+    const setPromptSuppressedByViewport = (value: boolean) => {
+      if (promptSuppressedByViewport === value) return;
+      promptSuppressedByViewport = value;
+
+      if (value) {
+        if (!invitation || invitation.hidden) return;
+        if (invitation.contains(document.activeElement)) {
+          invitationViewportHidePending = true;
+          return;
+        }
+        invitationViewportHidden = true;
+        invitation.hidden = true;
+        return;
+      }
+
+      invitationViewportHidePending = false;
+      if (invitationViewportHidden) {
+        invitationViewportHidden = false;
+        maybeRestorePresentedInvitation();
+        return;
+      }
+      maybeShowInvitation();
+    };
+
+    function handleEngagementScroll() {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = 0;
+        const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        if (window.scrollY / scrollable < 0.35) return;
+        engagementReached = true;
+        maybeShowInvitation();
+      });
+    }
+
+    const openDialog = (trigger: HTMLElement) => {
+      if (dialog.open || typeof dialog.showModal !== "function") return false;
+      opener = trigger;
+      submittedDuringOpen = false;
+      closeReason = "close_button";
+      setTriggerLocation(trigger.dataset.inquiryLocation || trigger.dataset.analyticsLocation || "manual");
+
+      try {
+        dialog.showModal();
+      } catch {
+        return false;
+      }
+
+      writeSessionFlag(promptSeenKey);
+      invitationShown = false;
+      invitationViewportHidden = false;
+      invitationViewportHidePending = false;
+      if (invitation) invitation.hidden = true;
+      cleanupInvitationListeners();
+      document.body.classList.add("inquiry-dialog-open");
+      analytics()?.track("contact_form_opened", {
+        form_location: "popup",
+        trigger_location: triggerLocation,
+        page_path: window.location.pathname
+      });
+      window.requestAnimationFrame(() => heading?.focus({ preventScroll: true }));
+      return true;
+    };
+
+    const closeDialog = (reason: string) => {
+      if (!dialog.open) return;
+      closeReason = reason;
+      dialog.close();
+    };
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-inquiry-open]") : null;
+      if (!trigger) return;
+      if (openDialog(trigger)) event.preventDefault();
+    });
+
+    closeButton?.addEventListener("click", () => closeDialog("close_button"));
+
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeDialog("escape");
+    });
+
+    dialog.addEventListener("pointerdown", (event) => {
+      backdropPointerStarted = event.target === dialog;
+    });
+
+    dialog.addEventListener("pointerup", (event) => {
+      if (backdropPointerStarted && event.target === dialog) closeDialog("backdrop");
+      backdropPointerStarted = false;
+    });
+
+    dialog.addEventListener("close", () => {
+      document.body.classList.remove("inquiry-dialog-open");
+      if (!submittedDuringOpen) {
+        analytics()?.track("contact_form_dismissed", {
+          form_location: "popup",
+          trigger_location: triggerLocation,
+          dismiss_method: safeDimension(closeReason, "unknown"),
+          page_path: window.location.pathname
+        });
+      }
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+      opener = null;
+    });
+
+    root.addEventListener("velixon:inquiry-submitted", (event) => {
+      const detail = (event as CustomEvent<{ formLocation?: string }>).detail;
+      if (detail?.formLocation !== "popup") return;
+      submittedDuringOpen = true;
+      writeSessionFlag(inquirySubmittedKey);
+      invitationShown = false;
+      invitationViewportHidden = false;
+      invitationViewportHidePending = false;
+      if (invitation) invitation.hidden = true;
+      cleanupInvitationListeners();
+    });
+
+    invitationDismiss?.addEventListener("click", () => {
+      invitationShown = false;
+      invitationViewportHidden = false;
+      invitationViewportHidePending = false;
+      if (invitation) invitation.hidden = true;
+      writeSessionFlag(promptDismissedKey);
+      writeSessionFlag(promptSeenKey);
+      analytics()?.track("contact_prompt_dismissed", {
+        form_location: "popup",
+        page_path: window.location.pathname
+      });
+    });
+
+    invitation?.addEventListener("focusout", () => {
+      window.requestAnimationFrame(() => {
+        if (!invitationViewportHidePending || !promptSuppressedByViewport) return;
+        if (invitation.contains(document.activeElement)) return;
+        invitationViewportHidePending = false;
+        invitationViewportHidden = true;
+        invitation.hidden = true;
+      });
+    });
+
+    const suppressionZones = Array.from(document.querySelectorAll<HTMLElement>("[data-inquiry-prompt-suppress]"));
+    if (suppressionZones.length) {
+      const activeSuppressionZones = new Set<Element>();
+      suppressionZones.forEach((zone) => {
+        const rect = zone.getBoundingClientRect();
+        if (rect.bottom >= -160 && rect.top <= window.innerHeight + 160) activeSuppressionZones.add(zone);
+      });
+      setPromptSuppressedByViewport(activeSuppressionZones.size > 0);
+
+      if ("IntersectionObserver" in window) {
+        const suppressionObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) activeSuppressionZones.add(entry.target);
+            else activeSuppressionZones.delete(entry.target);
+          });
+          setPromptSuppressedByViewport(activeSuppressionZones.size > 0);
+        }, { rootMargin: "160px 0px", threshold: 0 });
+        suppressionZones.forEach((zone) => suppressionObserver.observe(zone));
+      }
+    }
+
+    if (!promptIsSuppressed()) {
+      window.addEventListener("scroll", handleEngagementScroll, { passive: true });
+      handleEngagementScroll();
+      dwellTimer = window.setTimeout(() => {
+        engagementReached = true;
+        maybeShowInvitation();
+      }, 12_000);
+
+      document.addEventListener("visibilitychange", maybeShowInvitation);
+      window.addEventListener("velixon:consentchange", handleConsentChange);
+      bodyObserver = new MutationObserver(maybeShowInvitation);
+      bodyObserver.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    }
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-quick-contact]").forEach(initializeQuickContact);
+</script>

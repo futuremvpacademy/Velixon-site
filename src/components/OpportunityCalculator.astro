@@ -82,8 +82,15 @@
       <a class="vx-calculator-method-link" href="/resources/ai-automation-roi-calculator/">
         Run the full AI automation ROI calculator <span aria-hidden="true">→</span>
       </a>
-      <a class="vx-calculator-cta" data-calculator-cta href="/contact/?source=roi-calculator&amp;campaign=automation-opportunity">
-        Request an automation assessment <span aria-hidden="true">↗</span>
+      <a
+        class="vx-calculator-cta"
+        data-calculator-cta
+        data-analytics-cta="free-audit"
+        data-analytics-event="free_audit_cta_clicked"
+        data-analytics-location="homepage-roi-calculator"
+        href="/free-audit/#book-audit"
+      >
+        Request Your Free Audit <span aria-hidden="true">↗</span>
       </a>
     </form>
   </div>
@@ -104,7 +111,6 @@
     const hoursResult = calculator.querySelector<HTMLElement>("[data-hours-result]");
     const valueResult = calculator.querySelector<HTMLElement>("[data-value-result]");
     const weeksResult = calculator.querySelector<HTMLElement>("[data-weeks-result]");
-    const cta = calculator.querySelector<HTMLAnchorElement>("[data-calculator-cta]");
     const number = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
     const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
     let trackedEngagement = false;
@@ -141,13 +147,6 @@
         trackedEngagement = true;
         analytics()?.track("roi_calculator_engaged", { calculator_name: "automation-opportunity" });
       }
-    });
-
-    cta?.addEventListener("click", () => {
-      analytics()?.track("roi_calculator_cta", {
-        calculator_name: "automation-opportunity",
-        automation_share: `${share.value}-percent`
-      });
     });
 
     update();

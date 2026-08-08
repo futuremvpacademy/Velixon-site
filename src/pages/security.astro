@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.astro";
 import { siteContent } from "../data/site";
 import "../styles/legal.css";
 
-const { companyName, logo, nav, cta, contactInfo } = siteContent;
+const { companyName, logo, nav, cta, contactInfo, businessInfo } = siteContent;
 const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 ---
 
@@ -20,7 +20,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <h1>Security is part of the architecture.</h1>
         <p class="legal-lede">Velixon approaches security as an ongoing engineering responsibility: understand the risk, reduce unnecessary exposure, and apply safeguards that fit the system.</p>
         <p class="legal-meta">
-          <span><strong>Effective:</strong> <time datetime="2026-07-15">July 15, 2026</time></span>
+          <span><strong>Effective:</strong> <time datetime="2026-08-08">August 8, 2026</time></span>
           <span><strong>Coverage:</strong> Website and client systems</span>
         </p>
 
@@ -53,12 +53,14 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <h2>A practical, risk-based approach</h2>
           <p>Security decisions should follow the system's real use, data sensitivity, users, integrations, and threat model. Velixon favors clear architecture, limited data collection, least-privilege access, maintained dependencies, and simple controls that teams can operate reliably.</p>
           <p>Specific controls vary by project and are defined during architecture and delivery. This page describes our general approach; it is not a certification, audit report, warranty, or promise that every listed measure applies to every system.</p>
+          <p>Velixon is operated by <strong>{businessInfo.legalName}</strong>, {businessInfo.entityDescription}, founded by {businessInfo.founder}.</p>
         </section>
 
         <section class="legal-section" id="website">
           <p class="legal-section-label">02 · Public website</p>
           <h2>How this website is protected</h2>
-          <p>velixon.net uses HTTPS to encrypt information in transit between supported browsers and the website. It is delivered through managed hosting infrastructure and uses form-spam protections. We intentionally limit the information requested through the public site.</p>
+          <p>velixon.net uses HTTPS to encrypt information in transit between supported browsers and the website. Most pages are statically generated, which limits the public server-side attack surface. Browser security headers restrict framing, unnecessary device capabilities, cross-origin behavior, and unexpected scripts. Executable inline scripts are authorized with generated cryptographic hashes rather than a general inline-script exception.</p>
+          <p>The Free Business Systems Audit endpoint accepts only bounded JSON requests from the same origin, validates an exact schema and allowed values, rejects unsupported characters and private-network website addresses, applies platform rate limiting, deduplicates submissions, and returns non-cacheable responses. Private email credentials are read only from server-side environment variables. Contact and Project Estimate forms use Netlify Forms honeypot and provider spam controls.</p>
           <p>Hosting, analytics, email, domain, and other third-party providers maintain their own infrastructure and security programs. Their systems remain outside Velixon's direct control.</p>
           <div class="legal-callout">
             <strong>Use the website form for ordinary project inquiries only.</strong>
@@ -134,6 +136,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <aside class="legal-contact" aria-labelledby="security-contact-title">
           <h2 id="security-contact-title">Security contact</h2>
           <p>For a suspected vulnerability, use email and include “Security Report” in the subject. For ordinary project-security questions, you may also use the contact page or call Velixon.</p>
+          <p>Mailing address: {businessInfo.mailingAddress.formatted}</p>
           <div class="legal-contact-links">
             <a href={`mailto:${contactInfo.email}?subject=Security%20Report%3A%20velixon.net`}>{contactInfo.email}</a>
             <a href={phoneHref}>{contactInfo.phone}</a>

@@ -1,0 +1,416 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import AutomationAuditNav from "../components/AutomationAuditNav.astro";
+import AutomationAuditFooter from "../components/AutomationAuditFooter.astro";
+import AutomationRoiCalculator from "../components/AutomationRoiCalculator.astro";
+import FreeAuditForm from "../components/FreeAuditForm.astro";
+import { caseStudies } from "../data/seo/case-studies";
+import {
+  afterVelixonWorkflow,
+  automationAuditCapabilityProof,
+  automationAuditCredibilityPoints,
+  automationAuditFaqs,
+  automationAuditFinalCta,
+  automationAuditGoodFit,
+  automationAuditHeroVariants,
+  automationAuditNotFit,
+  automationAuditOfferName,
+  automationAuditPainPoints,
+  automationAuditPrimaryCta,
+  automationAuditProcess,
+  automationAuditProcessNote,
+  automationAuditProofDisclaimer,
+  automationAuditReassurance,
+  automationSolutions,
+  automationWorkflowStages,
+  beforeVelixonWorkflow,
+  defaultAutomationAuditHeroVariant,
+  type AutomationAuditHeroVariant
+} from "../data/automation-audit";
+import "../styles/automation-audit.css";
+
+const configuredVariant = String(import.meta.env.PUBLIC_AUTOMATION_AUDIT_HERO_VARIANT || defaultAutomationAuditHeroVariant).toUpperCase();
+const variantKey: AutomationAuditHeroVariant = configuredVariant in automationAuditHeroVariants
+  ? configuredVariant as AutomationAuditHeroVariant
+  : defaultAutomationAuditHeroVariant;
+const hero = automationAuditHeroVariants[variantKey];
+const productProof = caseStudies.filter((study) => study.caseStudyType === "product").slice(0, 2);
+const pageTitle = `${automationAuditOfferName} | Velixon`;
+const pageDescription = "Request a Free Business Systems Audit and receive a personalized one-page scorecard with 3 prioritized recommendations within 3 business days.";
+const auditLogo = "/velixon-v-mark.png";
+
+const structuredData = [
+  {
+    "@type": "Service",
+    "@id": "https://velixon.net/free-audit/#service",
+    name: automationAuditOfferName,
+    serviceType: "Business systems audit",
+    description: "A no-obligation review that delivers a personalized one-page scorecard and 3 prioritized recommendations within 3 business days. Optional 20-minute strategy calls are arranged manually after delivery.",
+    provider: { "@id": "https://velixon.net/#organization" },
+    areaServed: { "@type": "Country", name: "United States" },
+    url: "https://velixon.net/free-audit/",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" }
+  },
+  {
+    "@type": "FAQPage",
+    "@id": "https://velixon.net/free-audit/#faq",
+    mainEntity: automationAuditFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer }
+    }))
+  }
+];
+---
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  imageAlt={`Velixon ${automationAuditOfferName}`}
+  socialImage="/business-systems-audit-social.png"
+  schema={structuredData}
+  breadcrumbLabels={{ "free-audit": automationAuditOfferName }}
+  hideFooter={true}
+>
+  <AutomationAuditNav />
+
+  <main id="main-content" class="automation-audit-page" data-automation-audit-page data-hero-variant={variantKey}>
+    <section class="audit-hero" aria-labelledby="audit-hero-title">
+      <div class="audit-hero-grid" aria-hidden="true"></div>
+      <div class="audit-orb audit-orb-one" aria-hidden="true"></div>
+      <div class="audit-container audit-hero-layout">
+        <div class="audit-hero-copy">
+          <p class="audit-kicker"><span></span> {automationAuditOfferName}</p>
+          <h1 id="audit-hero-title">{hero.headline}</h1>
+          <p class="audit-hero-lead">{hero.subheadline}</p>
+          <div class="audit-hero-actions">
+            <a class="audit-button audit-button-primary" href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="hero">{hero.primaryCta} <span aria-hidden="true">↗</span></a>
+            <a class="audit-button audit-button-secondary" href="#solutions" data-analytics-event="free_audit_cta_clicked" data-analytics-location="hero-secondary">{hero.secondaryCta} <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="audit-reassurance">{automationAuditReassurance}</p>
+          <ul class="audit-credibility" aria-label="What the audit provides">
+            {automationAuditCredibilityPoints.map((point) => <li><span aria-hidden="true">✓</span>{point}</li>)}
+          </ul>
+        </div>
+
+        <div class="audit-workflow-card" aria-label="Example connected business workflow">
+          <div class="audit-workflow-card-top">
+            <div class="audit-workflow-brand"><img src={auditLogo} alt="" width="592" height="592" decoding="async" /><b>Velixon</b></div>
+            <span>Live workflow · Connected</span>
+          </div>
+          <div class="audit-workflow-title">
+            <span>Lead-to-payment system</span>
+            <strong>Every step has a next action.</strong>
+          </div>
+          <ol class="audit-workflow-list">
+            {automationWorkflowStages.map((stage, index) => (
+              <li style={`--stage:${index}`}>
+                <span class="audit-workflow-index">{String(index + 1).padStart(2, "0")}</span>
+                <div><strong>{stage}</strong><small>{index === 0 ? "Source recorded" : index === automationWorkflowStages.length - 1 ? "Status reconciled" : "Triggered automatically"}</small></div>
+                <span class="audit-workflow-status" aria-hidden="true">✓</span>
+              </li>
+            ))}
+          </ol>
+          <div class="audit-workflow-footer"><span><i></i> System healthy</span><small>Illustrative workflow</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-form-section" id="book-audit" aria-labelledby="form-title">
+      <div class="audit-container audit-form-layout">
+        <div class="audit-form-intro" data-audit-reveal>
+          <p class="audit-kicker">{automationAuditOfferName}</p>
+          <h2 id="form-title">Request Your Free Business Systems Audit</h2>
+          <p>Share the main bottleneck in about 2 minutes. We will email your personalized audit within 3 business days.</p>
+          <ul>
+            <li><span aria-hidden="true">01</span><div><strong>Share the bottleneck</strong><small>Name, business, work email, and a short description.</small></div></li>
+            <li><span aria-hidden="true">02</span><div><strong>Receive it within 3 business days</strong><small>A personalized one-page scorecard and 3 prioritized recommendations.</small></div></li>
+            <li><span aria-hidden="true">03</span><div><strong>Choose whether to talk</strong><small>After delivery, reply to the audit email to request an optional 20-minute strategy call arranged manually by Velixon.</small></div></li>
+          </ul>
+          <div class="audit-form-contact">
+            <span>Questions before you request?</span>
+            <a href="tel:+18016025389">801-602-5389</a>
+            <a href="mailto:velixon@velixon.net">velixon@velixon.net</a>
+          </div>
+        </div>
+        <div data-audit-reveal><FreeAuditForm variant={variantKey.toLowerCase()} /></div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-pain" aria-labelledby="pain-title">
+      <div class="audit-container">
+        <div class="audit-section-heading audit-section-heading-split" data-audit-reveal>
+          <div><p class="audit-kicker">Where margin disappears</p><h2 id="pain-title">Your Business May Be Losing Money Between the Steps</h2></div>
+          <p>Operational drag is often quiet: one delayed reply, one duplicated entry, one status update, and one missed handoff at a time.</p>
+        </div>
+        <div class="audit-pain-grid">
+          {automationAuditPainPoints.map((item, index) => (
+            <article class="audit-pain-card" data-audit-reveal>
+              <div><span>{String(index + 1).padStart(2, "0")}</span><i aria-hidden="true"></i></div>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-before-after" aria-labelledby="before-after-title">
+      <div class="audit-container">
+        <div class="audit-section-heading" data-audit-reveal>
+          <p class="audit-kicker">One operating picture</p>
+          <h2 id="before-after-title">Replace a Chain of Workarounds With One Clear Workflow</h2>
+          <p>Connection does not mean forcing every tool into one application. It means deciding what owns each step and making the handoffs dependable.</p>
+        </div>
+
+        <div class="audit-transform" aria-hidden="true" data-audit-reveal>
+          <div class="audit-transform-mess">
+            <i></i><i></i><i></i><i></i><i></i>
+            <span>Inbox</span><span>Sheet</span><span>CRM</span><span>Calendar</span><span>Invoice</span>
+          </div>
+          <div class="audit-transform-action"><span>Connect</span><i>→</i></div>
+          <div class="audit-transform-clean"><span>Lead</span><i></i><span>Qualify</span><i></i><span>Deliver</span><i></i><span>Collect</span></div>
+        </div>
+
+        <div class="audit-comparison-grid">
+          <article class="audit-comparison-card audit-comparison-before" data-audit-reveal>
+            <div class="audit-comparison-label"><span>Before Velixon</span><i>Friction compounds</i></div>
+            <ul>{beforeVelixonWorkflow.map((item) => <li><span aria-hidden="true">×</span>{item}</li>)}</ul>
+          </article>
+          <article class="audit-comparison-card audit-comparison-after" data-audit-reveal>
+            <div class="audit-comparison-label"><span>After Velixon</span><i>Ownership becomes visible</i></div>
+            <ul>{afterVelixonWorkflow.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-solutions" id="solutions" aria-labelledby="solutions-title">
+      <div class="audit-container">
+        <div class="audit-section-heading audit-section-heading-split" data-audit-reveal>
+          <div><p class="audit-kicker">What we build</p><h2 id="solutions-title">Systems Built Around How Your Business Actually Works</h2></div>
+          <p>Start with the business outcome. Choose the simplest maintainable system that can produce it.</p>
+        </div>
+        <div class="audit-solutions-grid">
+          {automationSolutions.map((solution, index) => (
+            <article class="audit-solution-card" data-audit-reveal>
+              <div class="audit-solution-top"><span>{String(index + 1).padStart(2, "0")}</span><i aria-hidden="true">+</i></div>
+              <h3>{solution.title}</h3>
+              <p>{solution.description}</p>
+              <strong>{solution.outcome}</strong>
+            </article>
+          ))}
+        </div>
+        <div class="audit-inline-cta" data-audit-reveal>
+          <div><span>Not sure where to start?</span><strong>The audit finds the first system worth fixing.</strong></div>
+          <a class="audit-button audit-button-primary" href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="solutions">{automationAuditPrimaryCta} <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-calculator-section" id="calculator" aria-labelledby="calculator-title">
+      <div class="audit-container">
+        <div class="audit-section-heading audit-section-heading-split" data-audit-reveal>
+          <div><p class="audit-kicker">ROI model</p><h2 id="calculator-title">Put a Rough Number on Operational Drag</h2></div>
+          <p>Use known inputs when possible. The result is a conversation starter for prioritization—not a promise of savings or revenue.</p>
+        </div>
+        <div data-audit-reveal><AutomationRoiCalculator /></div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-process" id="process" aria-labelledby="process-title">
+      <div class="audit-container audit-process-layout">
+        <div class="audit-process-intro" data-audit-reveal>
+          <p class="audit-kicker">A practical path</p>
+          <h2 id="process-title">From Bottleneck to Working System</h2>
+          <p>Each step reduces uncertainty before the next one begins. You see the system boundary, priorities, and responsibilities before deciding on implementation.</p>
+          <a class="audit-text-link" href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="process">Request Audit <span aria-hidden="true">→</span></a>
+        </div>
+        <ol class="audit-process-list">
+          {automationAuditProcess.map((step) => (
+            <li data-audit-reveal>
+              <span>{step.number}</span>
+              <div><h3>{step.title}</h3><p>{step.description}</p><small>{step.expectation}</small></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="audit-container"><p class="audit-process-note">{automationAuditProcessNote}</p></div>
+    </section>
+
+    <section class="audit-section audit-results" id="results" aria-labelledby="results-title">
+      <div class="audit-container">
+        <div class="audit-section-heading audit-section-heading-split" data-audit-reveal>
+          <div><p class="audit-kicker">Proof without inflated claims</p><h2 id="results-title">See the Systems, Not Made-Up Metrics</h2></div>
+          <p>Velixon shows first-party product work and capability evidence clearly. Client metrics and testimonials only appear when the underlying evidence supports them.</p>
+        </div>
+
+        <div class="audit-capability-proof" aria-label="Velixon automation capabilities">
+          {automationAuditCapabilityProof.map((item, index) => (
+            <article data-audit-reveal><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.description}</p></div></article>
+          ))}
+        </div>
+        <p class="audit-proof-disclaimer">{automationAuditProofDisclaimer}</p>
+
+        <div class="audit-product-proof">
+          {productProof.map((study) => (
+            <article class="audit-product-card" data-audit-reveal>
+              <div class="audit-product-media">
+                {study.media?.type === "image" ? (
+                  <img src={study.media.src} width={study.media.width} height={study.media.height} alt={study.media.alt} loading="lazy" decoding="async" />
+                ) : study.media?.poster ? (
+                  <img src={study.media.poster} width="1200" height="630" alt={study.media.alt} loading="lazy" decoding="async" />
+                ) : null}
+              </div>
+              <div class="audit-product-copy">
+                <p><span></span>{study.evidenceLabel}</p>
+                <h3>{study.headline}</h3>
+                <p>{study.summary}</p>
+                <small>{study.evidenceNote}</small>
+                <a href={`/case-studies/${study.slug}/`}>Read the evidence-bounded case study <span aria-hidden="true">↗</span></a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div hidden aria-hidden="true" data-case-study-placeholder-library>
+          <article data-proof-placeholder>
+            <span data-client-logo>Client logo</span><span data-industry>Industry</span><span data-problem>Problem</span><span data-solution>Solution</span><span data-before-after-metric>Verified before-and-after metric</span><blockquote data-testimonial>Verified testimonial</blockquote><span data-screenshot>Product screenshot</span><span data-case-study-link>Case-study link</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-fit" aria-labelledby="fit-title">
+      <div class="audit-container">
+        <div class="audit-section-heading" data-audit-reveal>
+          <p class="audit-kicker">Mutual fit matters</p>
+          <h2 id="fit-title">Is Velixon a Good Fit?</h2>
+          <p>The audit is most useful when there is a real process problem and a willingness to improve how the work moves.</p>
+        </div>
+        <div class="audit-fit-grid">
+          <article class="audit-fit-good" data-audit-reveal>
+            <div><span aria-hidden="true">✓</span><h3>Likely a good fit</h3></div>
+            <ul>{automationAuditGoodFit.map((item) => <li>{item}</li>)}</ul>
+          </article>
+          <article class="audit-fit-not" data-audit-reveal>
+            <div><span aria-hidden="true">—</span><h3>Probably not the right fit</h3></div>
+            <ul>{automationAuditNotFit.map((item) => <li>{item}</li>)}</ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-section audit-faq" id="faq" aria-labelledby="faq-title">
+      <div class="audit-container audit-faq-layout">
+        <div class="audit-faq-intro" data-audit-reveal>
+          <p class="audit-kicker">Clear answers</p>
+          <h2 id="faq-title">Before You Request</h2>
+          <p>No vague promise, hidden obligation, or one-size-fits-all recommendation.</p>
+          <a class="audit-text-link" href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="faq">Request Audit <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="audit-faq-list">
+          {automationAuditFaqs.map((faq, index) => (
+            <details data-faq-item data-faq-index={index + 1} data-audit-reveal>
+              <summary><span>{faq.question}</span><i aria-hidden="true">+</i></summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="audit-final-cta" aria-labelledby="final-cta-title">
+      <div class="audit-final-grid" aria-hidden="true"></div>
+      <div class="audit-container audit-final-cta-inner" data-audit-reveal>
+        <img class="audit-final-mark" src={auditLogo} alt="" width="592" height="592" loading="lazy" decoding="async" />
+        <p class="audit-kicker">Smarter Systems. Better Business.</p>
+        <h2 id="final-cta-title">{automationAuditFinalCta.headline}</h2>
+        <p>{automationAuditFinalCta.supportingText}</p>
+        <a class="audit-button audit-button-primary" href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="final-cta">{automationAuditFinalCta.cta} <span aria-hidden="true">↗</span></a>
+        <small>{automationAuditFinalCta.reassurance}</small>
+      </div>
+    </section>
+  </main>
+
+  <AutomationAuditFooter />
+
+  <div class="audit-mobile-cta" data-mobile-audit-cta>
+    <a href="#book-audit" data-audit-cta data-analytics-event="free_audit_cta_clicked" data-analytics-location="sticky-mobile">{automationAuditPrimaryCta}</a>
+  </div>
+
+  <script>
+    type AnalyticsApi = { track: (name: string, parameters?: Record<string, unknown>) => void };
+    const auditPage = document.querySelector<HTMLElement>("[data-automation-audit-page]");
+    if (auditPage && auditPage.dataset.ready !== "true") {
+      auditPage.dataset.ready = "true";
+      const analytics = () => (window as Window & { velixonAnalytics?: AnalyticsApi }).velixonAnalytics;
+      const variant = auditPage.dataset.heroVariant?.toLowerCase() || "a";
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const mobileAuditCta = document.querySelector<HTMLElement>("[data-mobile-audit-cta]");
+      const auditFormSection = auditPage.querySelector<HTMLElement>("#book-audit");
+
+      if (mobileAuditCta && auditFormSection) {
+        const syncMobileCta = (formIsNear: boolean) => {
+          mobileAuditCta.hidden = formIsNear;
+        };
+        const rect = auditFormSection.getBoundingClientRect();
+        syncMobileCta(rect.bottom >= 0 && rect.top <= window.innerHeight);
+        if ("IntersectionObserver" in window) {
+          const formObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => syncMobileCta(entry.isIntersecting));
+          }, { rootMargin: "80px 0px", threshold: 0 });
+          formObserver.observe(auditFormSection);
+        }
+      }
+
+      if (!reducedMotion && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: "0px 0px -8%", threshold: 0.08 });
+        auditPage.querySelectorAll<HTMLElement>("[data-audit-reveal]").forEach((element) => {
+          element.classList.add("can-reveal");
+          observer.observe(element);
+        });
+      }
+
+      auditPage.querySelectorAll<HTMLDetailsElement>("[data-faq-item]").forEach((item) => {
+        item.addEventListener("toggle", () => {
+          if (!item.open) return;
+          analytics()?.track("faq_opened", {
+            faq_id: `automation-audit-${item.dataset.faqIndex || "unknown"}`,
+            hero_variant: variant,
+            page_path: window.location.pathname
+          });
+        });
+      });
+
+      const reached = new Set<number>();
+      const thresholds = [25, 50, 75, 90];
+      let scrollFrame = 0;
+      const measureScroll = () => {
+        scrollFrame = 0;
+        const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        const depth = Math.min(100, Math.round((window.scrollY / scrollable) * 100));
+        thresholds.forEach((threshold) => {
+          if (depth < threshold || reached.has(threshold)) return;
+          reached.add(threshold);
+          analytics()?.track("scroll_depth", {
+            percent: threshold,
+            page_type: "automation_audit_landing_page",
+            hero_variant: variant,
+            page_path: window.location.pathname
+          });
+        });
+      };
+      window.addEventListener("scroll", () => {
+        if (!scrollFrame) scrollFrame = window.requestAnimationFrame(measureScroll);
+      }, { passive: true });
+      measureScroll();
+    }
+  </script>
+</MainLayout>

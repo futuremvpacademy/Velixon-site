@@ -1,0 +1,124 @@
+<figure class="audit-film" data-audit-film data-motion-reveal="right" data-motion-tilt data-motion-parallax>
+  <div class="audit-film-frame">
+    <video
+      id="audit-overview-video"
+      width="1280"
+      height="720"
+      playsinline
+      preload="none"
+      poster="/images/velixon-audit-poster.webp"
+      aria-label="Velixon Free Business Systems Audit overview"
+      aria-describedby="audit-film-description"
+      controlslist="nodownload noremoteplayback"
+      disablepictureinpicture
+    >
+      <source src="/videos/velixon-audit-promo.mp4" type="video/mp4" />
+    </video>
+
+    <button
+      class="audit-film-play"
+      type="button"
+      aria-controls="audit-overview-video"
+      data-audit-film-play
+    >
+      <span class="audit-film-play-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="M8.25 5.6v12.8L18 12 8.25 5.6Z" fill="currentColor"></path>
+        </svg>
+      </span>
+      <span>Play the 18-second overview</span>
+    </button>
+
+    <a
+      class="audit-film-fallback"
+      href="/free-audit/#book-audit"
+      data-analytics-event="free_audit_cta_clicked"
+      data-analytics-location="homepage-video-fallback"
+      data-audit-film-fallback
+      hidden
+    >Request Audit</a>
+  </div>
+
+  <figcaption class="audit-film-caption" id="audit-film-description">
+    A silent, animated overview showing how Velixon reviews websites, leads, operations, revenue
+    flow, software, and automation before recommending what to fix first.
+  </figcaption>
+</figure>
+
+<script>
+  type AnalyticsApi = {
+    track: (name: string, parameters?: Record<string, unknown>) => void;
+  };
+
+  type AnalyticsWindow = Window & {
+    velixonAnalytics?: AnalyticsApi;
+  };
+
+  const analytics = () => (window as AnalyticsWindow).velixonAnalytics;
+
+  document.querySelectorAll<HTMLElement>("[data-audit-film]").forEach((film) => {
+    const video = film.querySelector<HTMLVideoElement>("video");
+    const playButton = film.querySelector<HTMLButtonElement>("[data-audit-film-play]");
+    const fallback = film.querySelector<HTMLAnchorElement>("[data-audit-film-fallback]");
+    if (!video || !playButton || !fallback) return;
+
+    const eventDetails = {
+      video_id: "audit_overview_18s",
+      video_location: "homepage-hero",
+      page_path: window.location.pathname
+    };
+    let viewed = false;
+    let started = false;
+    let completed = false;
+
+    const trackOnce = (eventName: string) => {
+      if (eventName === "audit_video_viewed") {
+        if (viewed) return;
+        viewed = true;
+      } else if (eventName === "audit_video_started") {
+        if (started) return;
+        started = true;
+      } else if (eventName === "audit_video_completed") {
+        if (completed) return;
+        completed = true;
+      }
+      analytics()?.track(eventName, eventDetails);
+    };
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.5)) {
+          trackOnce("audit_video_viewed");
+          observer.disconnect();
+        }
+      }, { threshold: 0.5 });
+      observer.observe(film);
+    }
+
+    playButton.addEventListener("click", async () => {
+      playButton.disabled = true;
+      video.controls = true;
+      try {
+        await video.play();
+        playButton.hidden = true;
+      } catch {
+        video.controls = false;
+        playButton.disabled = false;
+      }
+    });
+
+    video.addEventListener("play", () => {
+      trackOnce("audit_video_started");
+      playButton.hidden = true;
+    });
+
+    video.addEventListener("ended", () => {
+      trackOnce("audit_video_completed");
+    });
+
+    video.addEventListener("error", () => {
+      playButton.hidden = true;
+      fallback.hidden = false;
+    });
+  });
+</script>

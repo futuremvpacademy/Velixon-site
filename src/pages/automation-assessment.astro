@@ -2,190 +2,161 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
 import { siteContent } from "../data/site";
-import { assessmentScoring } from "../lib/assessment-scoring";
-import "../styles/assessment.css";
+import { automationQuiz } from "../data/automation-quiz";
+import "../styles/automation-quiz.css";
 
 const { companyName, logo, nav, cta } = siteContent;
-const assessmentSchema = {
+const quizSchema = {
   "@type": "WebApplication",
-  name: "Velixon Automation Assessment",
+  name: "Velixon Business Automation Score Quiz",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
-  description: "A free business automation assessment that identifies operational bottlenecks and recommends practical next steps.",
+  description: "A free ten-question business automation quiz with an immediate maturity score, category breakdown, and practical recommendations.",
   url: "https://velixon.net/automation-assessment/",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
 };
 ---
 
 <MainLayout
-  title="Free Business Automation Assessment | Velixon"
-  description="Get an explainable automation readiness score, identify your top workflow opportunities, and see the clearest next step for your business."
-  schema={assessmentSchema}
+  title="What's Your Business Automation Score? | Velixon"
+  description="Answer ten practical questions to see your business automation maturity score, category breakdown, top weaknesses, and recommended next steps."
+  imageAlt="Velixon business automation score quiz"
+  schema={quizSchema}
 >
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/automation-assessment" />
-  <main id="main-content" class="assessment-page">
-    <section class="assessment-hero">
-      <div class="container assessment-hero-grid">
+  <main id="main-content" class="automation-quiz-page">
+    <section class="quiz-hero">
+      <div class="container quiz-hero-grid">
         <div>
-          <p class="assessment-eyebrow">Free automation assessment</p>
-          <h1>Find the work your business should stop doing manually.</h1>
-          <p class="assessment-hero-copy">Answer a focused set of questions about leads, operations, software, and readiness. You’ll receive an immediate score, three practical opportunities, and a recommended next step.</p>
-          <div class="assessment-hero-actions"><a class="button" href="#assessment">Start My Free Assessment <span aria-hidden="true">↓</span></a><span>No obligation. Results appear instantly.</span></div>
+          <p class="quiz-eyebrow">Free ten-question self-assessment</p>
+          <h1>What’s your business automation score?</h1>
+          <p class="quiz-hero-copy">See how well your lead handling, follow-up, operations, documents, payments, reporting, and software work together. You’ll receive an immediate score and practical next steps.</p>
+          <div class="quiz-hero-actions">
+            <a class="button" href="#automation-score-quiz">Start the Quiz <span aria-hidden="true">↓</span></a>
+            <span>No contact details required.</span>
+          </div>
         </div>
-        <ul class="assessment-promise" aria-label="Assessment details">
-          <li>About five minutes to complete</li>
-          <li>Clear scoring—not a black box</li>
-          <li>Useful results before any sales conversation</li>
-          <li>No guaranteed savings or inflated claims</li>
-        </ul>
+        <aside class="quiz-overview" aria-label="What you will receive">
+          <p>In about three minutes</p>
+          <ul>
+            <li>A score from 0–100</li>
+            <li>Your automation maturity level</li>
+            <li>A five-category breakdown</li>
+            <li>Your top three weaknesses</li>
+            <li>Practical recommendations</li>
+          </ul>
+        </aside>
       </div>
     </section>
 
-    <section class="assessment-shell" id="assessment" aria-label="Automation assessment">
+    <section class="quiz-shell" id="automation-score-quiz" aria-labelledby="quiz-shell-heading">
       <div class="container">
-        <div class="assessment-card">
-          <form
-            id="automation-assessment"
-            name="automation-assessment"
-            method="POST"
-            action="/automation-assessment/?submitted=true"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
-            novalidate
-          >
-            <input type="hidden" name="form-name" value="automation-assessment" />
-            <input type="hidden" name="subject" value="New Velixon automation assessment" />
-            <input type="hidden" name="scoring-version" value={assessmentScoring.version} />
-            <input type="hidden" name="assessment-score-client" id="lead-score" />
-            <input type="hidden" name="assessment-category-client" id="lead-category" />
-            <input type="hidden" name="suggested-route-client" id="routing-decision" />
-            <input type="hidden" name="scoring-factors-client" id="scoring-factors" />
-            <input type="hidden" name="score-trust-level" value="client-calculated-unverified" />
-            <input type="hidden" name="top-opportunities" id="top-opportunities" />
-            <input type="hidden" name="source" id="assessment-source" value="website" />
-            <input type="hidden" name="utm-source" id="assessment-utm-source" />
-            <input type="hidden" name="utm-medium" id="assessment-utm-medium" />
-            <input type="hidden" name="utm-campaign" id="assessment-utm-campaign" />
-            <input type="hidden" name="landing-page" id="assessment-landing-page" />
-            <input type="hidden" name="referrer" id="assessment-referrer" />
-            <p class="form-honeypot" hidden><label>Do not fill this out <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
-
-            <div class="assessment-progress">
-              <div class="assessment-progress-row"><span>Automation assessment</span><strong aria-live="polite" aria-atomic="true">Step <span data-current-step>1</span> of 6</strong></div>
-              <div class="assessment-progress-track" aria-hidden="true"><span data-progress-bar></span></div>
+        <h2 class="quiz-sr-only" id="quiz-shell-heading">Business automation score quiz</h2>
+        <div class="quiz-card">
+          <form id="business-automation-quiz" autocomplete="off">
+            <div class="quiz-progress">
+              <div class="quiz-progress-row">
+                <span>Business automation score</span>
+                <strong aria-live="polite" aria-atomic="true">Question <span data-current-question>1</span> of {automationQuiz.questions.length}</strong>
+              </div>
+              <progress data-quiz-progress max={automationQuiz.questions.length} value="1">1 of {automationQuiz.questions.length}</progress>
             </div>
 
-            <section class="assessment-step" data-step="1">
-              <div class="assessment-step-heading"><span>01 · Business profile</span><h2 tabindex="-1">Start with the operating context.</h2><p>This establishes scale and helps keep the recommendations practical.</p></div>
-              <div class="assessment-fields">
-                <label class="assessment-field">Industry
-                  <select name="industry" required><option value="">Select your industry</option><option>Construction & contracting</option><option>Home services</option><option>Moving & logistics</option><option>Professional services</option><option>Healthcare administration</option><option>Legal services</option><option>Real estate & property management</option><option>E-commerce</option><option>Agency</option><option>Other</option></select>
-                </label>
-                <label class="assessment-field">Team size
-                  <select name="team-size" required><option value="">Select team size</option><option value="solo">Just me</option><option value="2-5">2–5 people</option><option value="6-20">6–20 people</option><option value="21-50">21–50 people</option><option value="51-plus">51+ people</option></select>
-                </label>
-                <label class="assessment-field">Approximate monthly lead volume
-                  <select name="lead-volume" required><option value="">Select lead volume</option><option value="0-10">0–10</option><option value="11-50">11–50</option><option value="51-200">51–200</option><option value="201-500">201–500</option><option value="500-plus">500+</option></select>
-                </label>
-                <label class="assessment-field">Current tools
-                  <input name="current-tools" type="text" maxlength="300" placeholder="CRM, scheduling, accounting, spreadsheets…" />
-                </label>
-              </div>
-            </section>
+            {automationQuiz.questions.map((question, index) => (
+              <section
+                class="quiz-step"
+                data-question-step
+                data-question-id={question.id}
+                hidden={index !== 0}
+                aria-labelledby={`quiz-question-${question.id}`}
+              >
+                <div class="quiz-step-heading">
+                  <span>{String(index + 1).padStart(2, "0")} · {automationQuiz.categories.find((category) => category.id === question.categoryId)?.shortLabel}</span>
+                  <h2 id={`quiz-question-${question.id}`} tabindex="-1">{question.prompt}</h2>
+                  <p>{question.context}</p>
+                </div>
+                <fieldset class="quiz-options" aria-labelledby={`quiz-question-${question.id}`}>
+                  <legend class="quiz-sr-only">Choose one answer</legend>
+                  {question.options.map((option) => (
+                    <label class="quiz-option" for={`${question.id}-${option.id}`}>
+                      <input
+                        id={`${question.id}-${option.id}`}
+                        type="radio"
+                        name={question.id}
+                        value={option.id}
+                        required
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  ))}
+                </fieldset>
+              </section>
+            ))}
 
-            <section class="assessment-step" data-step="2" hidden>
-              <div class="assessment-step-heading"><span>02 · Friction</span><h2 tabindex="-1">Where does work slow down?</h2><p>Select every recurring issue that costs time, delays customers, or creates avoidable risk.</p></div>
-              <div class="assessment-options" data-required-group="challenges">
-                {[
-                  ["lead-follow-up","Lead follow-up"],["missed-calls","Missed calls"],["manual-entry","Manual data entry"],["scheduling","Scheduling"],["customer-communication","Customer communication"],["proposals","Proposals and estimates"],["invoicing","Invoicing and payment"],["crm","CRM management"],["reporting","Reporting"],["handoffs","Internal handoffs"],["documents","Document generation"],["support","Customer support"]
-                ].map(([value,label]) => <label class="assessment-option"><input type="checkbox" name="challenges" value={value} /><span>{label}</span></label>)}
-              </div>
-            </section>
-
-            <section class="assessment-step" data-step="3" hidden>
-              <div class="assessment-step-heading"><span>03 · Current process</span><h2 tabindex="-1">Measure the manual load.</h2><p>These answers shape the opportunity score. A higher score means more potential leverage—not a guaranteed result.</p></div>
-              <div class="assessment-fields">
-                <label class="assessment-field">Typical lead response time
-                  <select name="response-time" required><option value="">Select response time</option><option value="minutes">Within minutes</option><option value="hours">Within a few hours</option><option value="same-day">Same day</option><option value="next-day">Next business day or later</option><option value="inconsistent">Inconsistent or not tracked</option></select>
-                </label>
-                <label class="assessment-field">How connected are your systems?
-                  <select name="systems" required><option value="">Select system state</option><option value="connected">Mostly connected</option><option value="partial">Some connections, some manual work</option><option value="manual">Mostly manual or disconnected</option></select>
-                </label>
-                <label class="assessment-field">Hours lost to repetitive work each week
-                  <select name="hours-lost" required><option value="">Select a range</option><option value="0-5">0–5 hours</option><option value="6-10">6–10 hours</option><option value="11-20">11–20 hours</option><option value="21-40">21–40 hours</option><option value="40-plus">40+ hours</option></select>
-                </label>
-                <label class="assessment-field">Is follow-up automated?
-                  <select name="follow-up" required><option value="">Select an answer</option><option value="yes">Yes, reliably</option><option value="partial">Partially</option><option value="no">No</option></select>
-                </label>
-              </div>
-            </section>
-
-            <section class="assessment-step" data-step="4" hidden>
-              <div class="assessment-step-heading"><span>04 · Objectives</span><h2 tabindex="-1">What needs to improve first?</h2><p>Choose the outcomes that matter most over the next six to twelve months.</p></div>
-              <div class="assessment-options" data-required-group="objectives">
-                {[
-                  ["more-leads","Generate more qualified leads"],["respond-faster","Respond faster"],["reduce-manual-work","Reduce manual work"],["improve-conversion","Improve conversion"],["customer-experience","Improve customer experience"],["internal-app","Build an internal app"],["ai-agents","Implement AI agents"],["reporting","Improve reporting"],["replace-spreadsheets","Replace spreadsheets"],["connect-software","Connect existing software"],["scale","Scale operations"],["proposal-flow","Improve proposal-to-payment"]
-                ].map(([value,label]) => <label class="assessment-option"><input type="checkbox" name="objectives" value={value} /><span>{label}</span></label>)}
-              </div>
-            </section>
-
-            <section class="assessment-step" data-step="5" hidden>
-              <div class="assessment-step-heading"><span>05 · Readiness</span><h2 tabindex="-1">How ready is the project?</h2><p>This helps route you to a useful next step instead of forcing every visitor into the same sales path.</p></div>
-              <div class="assessment-fields">
-                <label class="assessment-field">Preferred timeline
-                  <select name="timeline" required><option value="">Select a timeline</option><option value="within-month">Within a month</option><option value="1-3-months">1–3 months</option><option value="3-6-months">3–6 months</option><option value="exploring">Exploring for later</option></select>
-                </label>
-                <label class="assessment-field">Working investment range
-                  <select name="budget" required><option value="">Select a range</option><option value="under-10k">Under $10,000</option><option value="10k-25k">$10,000–$25,000</option><option value="25k-50k">$25,000–$50,000</option><option value="50k-plus">$50,000+</option><option value="guidance">Need guidance</option></select>
-                </label>
-                <label class="assessment-field">Are you involved in the decision?
-                  <select name="decision-maker" required><option value="">Select an answer</option><option value="yes">Yes, I make or share the decision</option><option value="influencer">I influence the decision</option><option value="researching">I am researching for someone else</option></select>
-                </label>
-                <label class="assessment-field">Preferred next step
-                  <select name="preferred-next-step" required><option value="">Select a next step</option><option value="report">View my assessment results</option><option value="strategy-call">Discuss the opportunities</option><option value="proposal">Request a proposal</option></select>
-                </label>
-              </div>
-            </section>
-
-            <section class="assessment-step" data-step="6" hidden>
-              <div class="assessment-step-heading"><span>06 · Your result</span><h2 tabindex="-1">Create your personalized result.</h2><p>Your score appears immediately on this page. Velixon uses these details to respond only as permitted below.</p></div>
-              <div class="assessment-fields">
-                <label class="assessment-field">Full name<input data-private type="text" name="full-name" autocomplete="name" maxlength="120" required /></label>
-                <label class="assessment-field">Business email<input data-private type="email" name="email" autocomplete="email" maxlength="254" required /></label>
-                <label class="assessment-field">Company name<input data-private type="text" name="company" autocomplete="organization" maxlength="140" required /></label>
-                <label class="assessment-field">Phone <span>(optional)</span><input data-private type="tel" name="phone" autocomplete="tel" maxlength="40" /></label>
-                <p class="form-safety-note"><strong>Use business-level details only.</strong> Do not enter credentials, regulated data, confidential source code, or production datasets.</p>
-                <label class="assessment-consent"><input data-private type="checkbox" name="contact-permission" value="accepted" required /><span>I acknowledge the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to use this information to provide my assessment and respond to my request.</span></label>
-                <label class="assessment-consent"><input data-private type="checkbox" name="marketing-consent" value="accepted" /><span>Email me occasional practical automation guidance. This is optional, is not required to receive the assessment, and I can unsubscribe at any time.</span></label>
-              </div>
-            </section>
-
-            <p class="assessment-error" id="assessment-error" role="alert" hidden></p>
-            <div class="assessment-actions">
-              <button class="assessment-back" type="button" data-back hidden>← Back</button>
-              <button class="button" type="button" data-next>Continue</button>
-              <button class="button" type="submit" data-submit hidden>Calculate My Score</button>
+            <p class="quiz-error" id="quiz-error" role="alert" tabindex="-1" hidden></p>
+            <div class="quiz-actions">
+              <button class="quiz-back" type="button" data-quiz-back hidden>← Back</button>
+              <button class="button" type="button" data-quiz-next>Continue</button>
+              <button class="button" type="submit" data-quiz-submit hidden>See My Automation Score</button>
             </div>
+            <noscript><p class="quiz-error">JavaScript is required to calculate this interactive score. You can still request a personalized audit from the Free Audit page.</p></noscript>
           </form>
 
-          <section class="assessment-result" id="assessment-result" aria-live="polite" tabindex="-1" hidden>
-            <div class="result-header">
-              <div class="result-score"><div><strong data-result-score>0</strong><span>out of 100</span></div></div>
-              <div><p class="assessment-eyebrow" data-result-category>Assessment complete</p><h2 data-result-title>Your opportunity is ready to review.</h2><p data-result-summary></p></div>
+          <section class="quiz-result" id="quiz-result" aria-live="polite" tabindex="-1" hidden>
+            <div class="quiz-result-header">
+              <div class="quiz-score" aria-label="Automation score">
+                <strong data-result-score>0</strong>
+                <span>out of 100</span>
+              </div>
+              <div>
+                <p class="quiz-eyebrow" data-result-level>Assessment complete</p>
+                <h2 data-result-title>Your automation score is ready.</h2>
+                <p data-result-summary></p>
+              </div>
             </div>
-            <div class="result-grid">
-              <article><span>Operational load</span><strong data-result-hours>—</strong><p>Reported repetitive time each week</p></article>
-              <article><span>Lead response</span><strong data-result-response>—</strong><p>Your current speed-to-lead pattern</p></article>
-              <article><span>System readiness</span><strong data-result-systems>—</strong><p>How connected the current stack is</p></article>
+
+            <section class="quiz-result-section" aria-labelledby="category-results-heading">
+              <div class="quiz-result-section-heading">
+                <p class="quiz-eyebrow">Category breakdown</p>
+                <h3 id="category-results-heading">Where your systems are strongest—and where they need attention</h3>
+              </div>
+              <div class="quiz-category-results" data-category-results></div>
+            </section>
+
+            <div class="quiz-result-columns">
+              <section class="quiz-result-section" aria-labelledby="weaknesses-heading">
+                <p class="quiz-eyebrow">Top weaknesses</p>
+                <h3 id="weaknesses-heading">The first areas to examine</h3>
+                <ol class="quiz-weaknesses" data-result-weaknesses></ol>
+              </section>
+              <section class="quiz-result-section" aria-labelledby="recommendations-heading">
+                <p class="quiz-eyebrow">Recommendations</p>
+                <h3 id="recommendations-heading">Practical next steps</h3>
+                <ul class="quiz-recommendations" data-result-recommendations></ul>
+              </section>
             </div>
-            <p class="assessment-eyebrow">Your top three opportunities</p>
-            <ol class="result-opportunities" data-result-opportunities></ol>
-            <div class="result-actions">
-              <a class="button" data-primary-route href="/contact/?source=assessment">Discuss My Assessment</a>
-              <button class="button button-secondary" type="button" onclick="window.print()">Print or Save as PDF</button>
-              <a class="button button-secondary" href="/resources/">Explore Practical Guides</a>
+
+            <section class="quiz-audit-cta" aria-labelledby="quiz-audit-cta-heading">
+              <div>
+                <p class="quiz-eyebrow">Go beyond the self-assessment</p>
+                <h3 id="quiz-audit-cta-heading">Get a personalized review of your actual systems.</h3>
+                <p>The Free Business Systems Audit reviews where the business may be losing time, leads, or money, then delivers a one-page scorecard and three prioritized recommendations within three business days.</p>
+              </div>
+              <a
+                class="button"
+                href="/free-audit/?source=automation-quiz#book-audit"
+                data-quiz-audit-cta
+                data-analytics-cta="free-audit"
+                data-analytics-event="free_audit_cta_clicked"
+                data-analytics-location="automation-quiz-result"
+              >Request Your Free Audit <span aria-hidden="true">↗</span></a>
+            </section>
+
+            <div class="quiz-result-actions">
+              <button class="button button-secondary" type="button" data-retake-quiz>Retake the Quiz</button>
+              <a class="button button-secondary" href="/resources/">Explore More Free Resources</a>
             </div>
-            <p class="result-disclaimer">This assessment is directional, not a guarantee of savings, revenue, compliance, or project results. Recommendations depend on workflow validation, data quality, adoption, system constraints, and implementation scope.</p>
+            <p class="quiz-disclaimer">This self-assessment is directional and based only on the answers provided. It does not guarantee savings, revenue, compliance, or implementation results.</p>
           </section>
         </div>
       </div>
@@ -194,25 +165,35 @@ const assessmentSchema = {
 </MainLayout>
 
 <script>
-  import { assessmentScoring, getAssessmentCategory } from "../lib/assessment-scoring";
+  import { automationQuiz, type AutomationQuizAnswers } from "../data/automation-quiz";
+  import { scoreAutomationQuiz, type AutomationQuizResult } from "../lib/automation-quiz-scoring";
 
-  const form = document.querySelector<HTMLFormElement>("#automation-assessment");
-  const steps = Array.from(document.querySelectorAll<HTMLElement>("[data-step]"));
-  const nextButton = document.querySelector<HTMLButtonElement>("[data-next]");
-  const backButton = document.querySelector<HTMLButtonElement>("[data-back]");
-  const submitButton = document.querySelector<HTMLButtonElement>("[data-submit]");
-  const errorBox = document.querySelector<HTMLElement>("#assessment-error");
-  const result = document.querySelector<HTMLElement>("#assessment-result");
-  const progress = document.querySelector<HTMLElement>("[data-progress-bar]");
-  const currentStepLabel = document.querySelector<HTMLElement>("[data-current-step]");
-  const analytics = (window as Window & { velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void } }).velixonAnalytics;
-  const weights = assessmentScoring.weights as unknown as Record<string, unknown>;
+  const progressStorageKey = "velixon_automation_quiz_progress";
+  const handoffStorageKey = "velixon_automation_quiz_handoff";
+  const form = document.querySelector<HTMLFormElement>("#business-automation-quiz");
+  const steps = Array.from(document.querySelectorAll<HTMLElement>("[data-question-step]"));
+  const nextButton = document.querySelector<HTMLButtonElement>("[data-quiz-next]");
+  const backButton = document.querySelector<HTMLButtonElement>("[data-quiz-back]");
+  const submitButton = document.querySelector<HTMLButtonElement>("[data-quiz-submit]");
+  const retakeButton = document.querySelector<HTMLButtonElement>("[data-retake-quiz]");
+  const errorBox = document.querySelector<HTMLElement>("#quiz-error");
+  const resultSection = document.querySelector<HTMLElement>("#quiz-result");
+  const progress = document.querySelector<HTMLProgressElement>("[data-quiz-progress]");
+  const currentQuestionLabel = document.querySelector<HTMLElement>("[data-current-question]");
+  const analytics = () => (window as Window & {
+    velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void };
+  }).velixonAnalytics;
+
   let currentStep = 0;
+  let quizStarted = false;
+  let quizCompleted = false;
+  let abandonmentTracked = false;
+  const completedQuestionEvents = new Set<string>();
 
-  const fieldValue = (name: string) => String(new FormData(form!).get(name) || "");
-  const checkedValues = (name: string) => Array.from(form!.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)).map((input) => input.value);
-  const scoreFromMap = (mapName: string, value: string) => Number((weights[mapName] as Record<string, number>)?.[value] || 0);
-  const setHidden = (id: string, value: string | number) => { const field = document.querySelector<HTMLInputElement>(id); if (field) field.value = String(value); };
+  const setText = (selector: string, value: string) => {
+    const element = document.querySelector<HTMLElement>(selector);
+    if (element) element.textContent = value;
+  };
 
   const showError = (message: string) => {
     if (!errorBox) return;
@@ -220,224 +201,276 @@ const assessmentSchema = {
     errorBox.hidden = false;
     errorBox.focus();
   };
-  const clearError = () => { if (errorBox) { errorBox.hidden = true; errorBox.textContent = ""; } };
 
-  const validateStep = () => {
-    const step = steps[currentStep];
-    const invalid = step.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(":invalid");
-    if (invalid) { invalid.reportValidity(); invalid.focus(); return false; }
-    const requiredGroup = step.querySelector<HTMLElement>("[data-required-group]")?.dataset.requiredGroup;
-    if (requiredGroup && checkedValues(requiredGroup).length === 0) { showError("Choose at least one option to continue."); return false; }
-    return true;
+  const clearError = () => {
+    if (!errorBox) return;
+    errorBox.textContent = "";
+    errorBox.hidden = true;
+  };
+
+  const trackCurrentQuestionCompleted = () => {
+    const questionId = steps[currentStep]?.dataset.questionId || `question-${currentStep + 1}`;
+    if (completedQuestionEvents.has(questionId)) return;
+    completedQuestionEvents.add(questionId);
+    analytics()?.track("quiz_step_completed", {
+      quiz_name: "business_automation_score",
+      question_number: currentStep + 1,
+      question_id: questionId
+    });
+  };
+
+  const getAnswers = (): AutomationQuizAnswers => {
+    if (!form) return {};
+    return Object.fromEntries(
+      automationQuiz.questions
+        .map((question) => [
+          question.id,
+          form.querySelector<HTMLInputElement>(`input[name="${question.id}"]:checked`)?.value ?? ""
+        ])
+        .filter(([, value]) => Boolean(value))
+    ) as AutomationQuizAnswers;
   };
 
   const saveProgress = () => {
-    if (!form) return;
-    const values: Record<string, string | string[]> = {};
-    form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input[name], select[name], textarea[name]").forEach((field) => {
-      if (field.hasAttribute("data-private") || field.type === "hidden" || field.name === "bot-field") return;
-      if (field instanceof HTMLInputElement && field.type === "checkbox") {
-        if (!values[field.name]) values[field.name] = [];
-        if (field.checked) (values[field.name] as string[]).push(field.value);
-      } else values[field.name] = field.value;
-    });
-    try { sessionStorage.setItem("velixon_assessment_progress", JSON.stringify(values)); } catch {}
+    try {
+      sessionStorage.setItem(progressStorageKey, JSON.stringify({
+        version: automationQuiz.version,
+        updatedAt: new Date().toISOString(),
+        currentStep,
+        answers: getAnswers()
+      }));
+    } catch {
+      // The quiz remains usable when browser storage is unavailable.
+    }
   };
 
   const restoreProgress = () => {
     if (!form) return;
     try {
-      const values = JSON.parse(sessionStorage.getItem("velixon_assessment_progress") || "{}") as Record<string, string | string[]>;
-      Object.entries(values).forEach(([name, value]) => {
-        form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${CSS.escape(name)}"]`).forEach((field) => {
-          if (field instanceof HTMLInputElement && field.type === "checkbox") field.checked = Array.isArray(value) && value.includes(field.value);
-          else if (typeof value === "string") field.value = value;
+      const saved = JSON.parse(sessionStorage.getItem(progressStorageKey) || "null") as {
+        version?: string;
+        currentStep?: number;
+        answers?: Record<string, string>;
+      } | null;
+      if (!saved || saved.version !== automationQuiz.version || !saved.answers) return;
+
+      Object.entries(saved.answers).forEach(([questionId, optionId]) => {
+        form.querySelectorAll<HTMLInputElement>(`input[name="${CSS.escape(questionId)}"]`).forEach((input) => {
+          input.checked = input.value === optionId;
         });
       });
-    } catch {}
+      if (Number.isInteger(saved.currentStep)) {
+        currentStep = Math.max(0, Math.min(Number(saved.currentStep), steps.length - 1));
+      }
+    } catch {
+      // Ignore unavailable or malformed optional progress data.
+    }
   };
 
-  const renderStep = (moveToStep = false) => {
-    steps.forEach((step, index) => step.hidden = index !== currentStep);
-    if (currentStepLabel) currentStepLabel.textContent = String(currentStep + 1);
-    if (progress) progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+  const renderStep = (moveFocus = false) => {
+    steps.forEach((step, index) => { step.hidden = index !== currentStep; });
+    if (currentQuestionLabel) currentQuestionLabel.textContent = String(currentStep + 1);
+    if (progress) progress.value = currentStep + 1;
     if (backButton) backButton.hidden = currentStep === 0;
     if (nextButton) nextButton.hidden = currentStep === steps.length - 1;
     if (submitButton) submitButton.hidden = currentStep !== steps.length - 1;
-    if (moveToStep) {
-      const heading = steps[currentStep]?.querySelector<HTMLElement>("h2");
-      document.querySelector<HTMLElement>(".assessment-card")?.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+
+    if (moveFocus) {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelector<HTMLElement>(".quiz-card")?.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
         block: "start"
       });
-      window.setTimeout(() => heading?.focus({ preventScroll: true }), 250);
+      window.setTimeout(() => steps[currentStep]?.querySelector<HTMLElement>("h2")?.focus({ preventScroll: true }), prefersReducedMotion ? 0 : 220);
     }
   };
 
-  const opportunityMap: Record<string, string> = {
-    "lead-follow-up": "Build one lead intake, qualification, and follow-up flow that preserves source and ownership.",
-    "missed-calls": "Capture missed calls, gather the right context, and route urgent requests to a person.",
-    "manual-entry": "Remove duplicate entry by defining a source of truth and synchronizing approved fields.",
-    scheduling: "Connect qualification, availability, reminders, rescheduling, and attendance status.",
-    "customer-communication": "Trigger timely customer updates from real workflow status instead of manual memory.",
-    proposals: "Generate proposals from approved intake data and keep review, signature, and status traceable.",
-    invoicing: "Connect approved work, invoices, payment status, and exception follow-up.",
-    crm: "Create a reliable customer record with clear stages, owners, and required next actions.",
-    reporting: "Build an operating dashboard from source records instead of manually assembled reports.",
-    handoffs: "Turn cross-team handoffs into owned, observable workflow states with exception alerts.",
-    documents: "Generate controlled documents from validated data while preserving human approval.",
-    support: "Route repeatable support requests with context, escalation rules, and a human fallback."
+  const validateCurrentQuestion = () => {
+    const questionId = steps[currentStep]?.dataset.questionId;
+    if (!questionId || !form?.querySelector(`input[name="${CSS.escape(questionId)}"]:checked`)) {
+      showError("Choose the answer that best matches your current process.");
+      steps[currentStep]?.querySelector<HTMLInputElement>("input[type='radio']")?.focus();
+      return false;
+    }
+    clearError();
+    return true;
   };
 
-  const calculate = () => {
-    const challenges = checkedValues("challenges");
-    const objectives = checkedValues("objectives");
-    const factors = [
-      ["Team size", scoreFromMap("teamSize", fieldValue("team-size"))],
-      ["Lead volume", scoreFromMap("leadVolume", fieldValue("lead-volume"))],
-      ["Lead response", scoreFromMap("responseTime", fieldValue("response-time"))],
-      ["Repetitive work", scoreFromMap("hoursLost", fieldValue("hours-lost"))],
-      ["Timeline", scoreFromMap("timeline", fieldValue("timeline"))],
-      ["Investment readiness", scoreFromMap("budget", fieldValue("budget"))],
-      ["Decision involvement", scoreFromMap("decisionMaker", fieldValue("decision-maker"))],
-      ["System connectivity", scoreFromMap("systems", fieldValue("systems"))],
-      ["Operational challenges", Math.min(challenges.length * Number(weights.challengeEach), Number(weights.challengeMaximum))],
-      ["Objectives", Math.min(objectives.length * Number(weights.objectiveEach), Number(weights.objectiveMaximum))],
-      ["Assessment completion", Number(weights.assessmentCompletion)]
-    ] as [string, number][];
-    const total = Math.min(100, factors.reduce((sum, factor) => sum + factor[1], 0));
-    const category = getAssessmentCategory(total);
-    const opportunities = challenges.slice(0, 3).map((key) => opportunityMap[key]).filter(Boolean);
-    while (opportunities.length < 3) opportunities.push([
-      "Map one high-volume workflow from trigger through completion, including exceptions and ownership.",
-      "Establish first-touch and last-touch source tracking before adding more acquisition channels.",
-      "Define a small, measurable automation pilot with a baseline and a human review path."
-    ][opportunities.length]);
-    return {
-      total,
-      category,
-      factors,
-      opportunities,
-      hoursLost: fieldValue("hours-lost"),
-      responseTime: fieldValue("response-time"),
-      systems: fieldValue("systems"),
-      preferredNextStep: fieldValue("preferred-next-step")
+  const renderResult = (result: AutomationQuizResult) => {
+    setText("[data-result-score]", String(result.score));
+    setText("[data-result-level]", `${result.level.label} automation maturity`);
+    setText("[data-result-title]", `Your business is at the ${result.level.label.toLowerCase()} stage.`);
+    setText("[data-result-summary]", result.level.summary);
+
+    const categoryContainer = document.querySelector<HTMLElement>("[data-category-results]");
+    if (categoryContainer) {
+      categoryContainer.replaceChildren(...result.categoryScores.map((category) => {
+        const article = document.createElement("article");
+        const headingRow = document.createElement("div");
+        const label = document.createElement("strong");
+        const score = document.createElement("span");
+        const meter = document.createElement("progress");
+        label.textContent = category.label;
+        score.textContent = `${category.score}/100`;
+        meter.max = 100;
+        meter.value = category.score;
+        meter.setAttribute("aria-label", `${category.label}: ${category.score} out of 100`);
+        headingRow.append(label, score);
+        article.append(headingRow, meter);
+        return article;
+      }));
+    }
+
+    const weaknessList = document.querySelector<HTMLOListElement>("[data-result-weaknesses]");
+    if (weaknessList) {
+      weaknessList.replaceChildren(...result.weaknesses.map((weakness) => {
+        const item = document.createElement("li");
+        const label = document.createElement("strong");
+        const score = document.createElement("span");
+        label.textContent = weakness.label;
+        score.textContent = `${weakness.score}/100`;
+        item.append(label, score);
+        return item;
+      }));
+    }
+
+    const recommendationList = document.querySelector<HTMLUListElement>("[data-result-recommendations]");
+    if (recommendationList) {
+      recommendationList.replaceChildren(...result.recommendations.map((recommendation) => {
+        const item = document.createElement("li");
+        item.textContent = recommendation;
+        return item;
+      }));
+    }
+  };
+
+  const completeQuiz = () => {
+    const answers = getAnswers();
+    const result = scoreAutomationQuiz(answers);
+    if (!result.complete) {
+      showError("Answer every question before calculating your score.");
+      return;
+    }
+
+    renderResult(result);
+    const handoff = {
+      version: result.version,
+      completedAt: new Date().toISOString(),
+      score: result.score,
+      level: result.level.label,
+      categoryScores: Object.fromEntries(result.categoryScores.map((category) => [category.id, category.score])),
+      weaknesses: result.weaknesses.map((weakness) => weakness.label),
+      answers
     };
+
+    try {
+      sessionStorage.setItem(handoffStorageKey, JSON.stringify(handoff));
+      sessionStorage.removeItem(progressStorageKey);
+    } catch {
+      // The result remains visible even when the optional handoff cannot be stored.
+    }
+
+    quizCompleted = true;
+    if (form) form.hidden = true;
+    if (resultSection) {
+      resultSection.hidden = false;
+      resultSection.focus();
+    }
+    analytics()?.track("quiz_completed", {
+      quiz_name: "business_automation_score",
+      score_band: Math.floor(result.score / 10) * 10,
+      maturity_level: result.level.label.toLowerCase().replaceAll(" ", "_")
+    });
+    window.history.replaceState({}, "", "/automation-assessment/?completed=true");
   };
 
-  const renderResult = (calculation: ReturnType<typeof calculate>) => {
-    const setText = (selector: string, value: string) => { const element = document.querySelector<HTMLElement>(selector); if (element) element.textContent = value; };
-    setText("[data-result-score]", String(calculation.total));
-    setText("[data-result-category]", calculation.category.publicLabel);
-    const titles: Record<string, string> = { "Priority lead":"Your highest-value workflows are ready for a scoped conversation.", "Sales qualified":"You have a clear automation opportunity.", "Marketing qualified":"Your strongest next move is a focused workflow assessment.", Nurture:"Build the foundation before committing to a large automation project." };
-    const summaries: Record<string, string> = { "Priority lead":"Your answers show meaningful operational friction and strong project readiness. A proposal-oriented discovery is the most direct next step.", "Sales qualified":"There is enough recurring work, volume, and readiness to justify mapping a practical first system.", "Marketing qualified":"The opportunity is real, but a narrower pilot and clearer baseline will make the eventual build safer and easier to measure.", Nurture:"Start by documenting the workflow, improving data consistency, and measuring the current baseline. That work will make future automation more valuable." };
-    setText("[data-result-title]", titles[calculation.category.label]);
-    setText("[data-result-summary]", summaries[calculation.category.label]);
-    const hourLabels: Record<string,string> = { "0-5":"0–5 hours", "6-10":"6–10 hours", "11-20":"11–20 hours", "21-40":"21–40 hours", "40-plus":"40+ hours" };
-    const responseLabels: Record<string,string> = { minutes:"Within minutes", hours:"A few hours", "same-day":"Same day", "next-day":"Next day+", inconsistent:"Inconsistent" };
-    const systemLabels: Record<string,string> = { connected:"Mostly connected", partial:"Partially connected", manual:"Mostly manual" };
-    setText("[data-result-hours]", hourLabels[calculation.hoursLost] || "Not reported");
-    setText("[data-result-response]", responseLabels[calculation.responseTime] || "Not reported");
-    setText("[data-result-systems]", systemLabels[calculation.systems] || "Not reported");
-    const list = document.querySelector<HTMLOListElement>("[data-result-opportunities]");
-    if (list) { list.innerHTML = ""; calculation.opportunities.forEach((opportunity) => { const item = document.createElement("li"); item.textContent = opportunity; list.appendChild(item); }); }
-    const primary = document.querySelector<HTMLAnchorElement>("[data-primary-route]");
-    if (primary) {
-      const routes = {
-        proposal: { href: "/proposal-request/?source=assessment", label: "Request a Proposal" },
-        booking: { href: "/contact/?source=assessment&campaign=qualified", label: "Discuss My Assessment" },
-        guidance: { href: "/resources/high-value-ai-automation-workflows/", label: "Plan a Focused Pilot" },
-        resources: { href: "/resources/", label: "Build My Automation Foundation" }
-      } as const;
-      const requestedRoute = calculation.preferredNextStep === "proposal"
-        ? "proposal"
-        : calculation.preferredNextStep === "strategy-call"
-          ? "booking"
-          : calculation.category.route;
-      const route = routes[requestedRoute];
-      primary.href = route.href;
-      primary.textContent = route.label;
+  const restoreCompletedResult = () => {
+    if (new URLSearchParams(window.location.search).get("completed") !== "true") return false;
+    try {
+      const handoff = JSON.parse(sessionStorage.getItem(handoffStorageKey) || "null") as {
+        version?: string;
+        answers?: AutomationQuizAnswers;
+      } | null;
+      if (!handoff || handoff.version !== automationQuiz.version || !handoff.answers) return false;
+      const restoredResult = scoreAutomationQuiz(handoff.answers);
+      if (!restoredResult.complete) return false;
+      renderResult(restoredResult);
+      quizCompleted = true;
+      if (form) form.hidden = true;
+      if (resultSection) resultSection.hidden = false;
+      return true;
+    } catch {
+      return false;
     }
+  };
+
+  const markStarted = () => {
+    if (quizStarted || quizCompleted) return;
+    quizStarted = true;
+    analytics()?.track("quiz_started", { quiz_name: "business_automation_score" });
   };
 
   nextButton?.addEventListener("click", () => {
-    clearError();
-    if (!validateStep()) return;
-    saveProgress();
-    analytics?.track("assessment_step_completed", { step_number: currentStep + 1 });
+    markStarted();
+    if (!validateCurrentQuestion()) return;
+    trackCurrentQuestionCompleted();
     currentStep = Math.min(currentStep + 1, steps.length - 1);
+    saveProgress();
     renderStep(true);
   });
-  backButton?.addEventListener("click", () => { clearError(); currentStep = Math.max(0, currentStep - 1); renderStep(true); });
 
-  form?.addEventListener("focusin", () => analytics?.track("assessment_started", { page_path: window.location.pathname }), { once:true });
-  form?.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  backButton?.addEventListener("click", () => {
     clearError();
-    if (!validateStep() || !form.checkValidity()) { form.reportValidity(); return; }
-    const calculation = calculate();
-    setHidden("#lead-score", calculation.total);
-    setHidden("#lead-category", calculation.category.label);
-    setHidden("#routing-decision", calculation.category.route);
-    setHidden("#scoring-factors", calculation.factors.map(([name,score]) => `${name}: ${score}`).join(" | "));
-    setHidden("#top-opportunities", calculation.opportunities.join(" | "));
-    submitButton!.disabled = true; submitButton!.textContent = "Building your report…"; form.setAttribute("aria-busy", "true");
-    try {
-      const entries = Array.from(new FormData(form).entries()).map(([key,value]) => [key, String(value)] as [string,string]);
-      const response = await fetch("/", { method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded" }, body:new URLSearchParams(entries).toString() });
-      if (!response.ok) throw new Error("Submission failed");
-      renderResult(calculation);
-      try {
-        const handoff = {
-          fullName: fieldValue("full-name"),
-          email: fieldValue("email"),
-          company: fieldValue("company"),
-          phone: fieldValue("phone"),
-          currentTools: fieldValue("current-tools"),
-          timeline: fieldValue("timeline"),
-          budget: fieldValue("budget"),
-          score: calculation.total,
-          category: calculation.category.label,
-          publicLabel: calculation.category.publicLabel,
-          opportunities: calculation.opportunities,
-          calculation
-        };
-        sessionStorage.setItem("velixon_assessment_handoff", JSON.stringify(handoff));
-        sessionStorage.setItem("velixon_assessment_result", JSON.stringify(calculation));
-      } catch {}
-      form.hidden = true;
-      if (result) { result.hidden = false; result.focus(); }
-      try { sessionStorage.removeItem("velixon_assessment_progress"); } catch {}
-      analytics?.track("assessment_completed", { lead_category: calculation.category.label.toLowerCase().replaceAll(" ", "_"), score_band: Math.floor(calculation.total / 10) * 10 });
-      window.history.replaceState({}, "", "/automation-assessment/?submitted=true");
-    } catch {
-      submitButton!.disabled = false; submitButton!.textContent = "Calculate My Score"; form.removeAttribute("aria-busy");
-      showError("We couldn't securely submit the assessment. Please try again or contact Velixon directly.");
-      analytics?.track("assessment_submission_error");
-    }
+    currentStep = Math.max(0, currentStep - 1);
+    saveProgress();
+    renderStep(true);
   });
 
-  const params = new URLSearchParams(window.location.search);
-  let attribution: Record<string,string> = {};
-  try { attribution = JSON.parse(sessionStorage.getItem("velixon_session_attribution") || "{}"); } catch {}
-  setHidden("#assessment-source", params.get("source") || params.get("utm_source") || attribution.utm_source || "website");
-  setHidden("#assessment-utm-source", params.get("utm_source") || attribution.utm_source || "");
-  setHidden("#assessment-utm-medium", params.get("utm_medium") || attribution.utm_medium || "");
-  setHidden("#assessment-utm-campaign", params.get("utm_campaign") || attribution.utm_campaign || "");
-  setHidden("#assessment-landing-page", attribution.landing_page || `${window.location.pathname}${window.location.search}`);
-  setHidden("#assessment-referrer", attribution.referrer || document.referrer || "direct");
-  restoreProgress();
-  let restoredResult = false;
-  if (params.get("submitted") === "true") {
+  form?.addEventListener("change", () => {
+    markStarted();
+    clearError();
+    saveProgress();
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    markStarted();
+    if (!validateCurrentQuestion()) return;
+    trackCurrentQuestionCompleted();
+    completeQuiz();
+  });
+
+  retakeButton?.addEventListener("click", () => {
+    form?.reset();
+    currentStep = 0;
+    quizStarted = false;
+    quizCompleted = false;
+    abandonmentTracked = false;
+    completedQuestionEvents.clear();
+    clearError();
     try {
-      const savedResult = JSON.parse(sessionStorage.getItem("velixon_assessment_result") || "null") as ReturnType<typeof calculate> | null;
-      if (savedResult?.category?.route && Array.isArray(savedResult.opportunities)) {
-        renderResult(savedResult);
-        if (form) form.hidden = true;
-        if (result) result.hidden = false;
-        restoredResult = true;
-      }
-    } catch {}
+      sessionStorage.removeItem(progressStorageKey);
+      sessionStorage.removeItem(handoffStorageKey);
+    } catch {
+      // Retaking still works without browser storage.
+    }
+    if (form) form.hidden = false;
+    if (resultSection) resultSection.hidden = true;
+    window.history.replaceState({}, "", "/automation-assessment/");
+    renderStep(true);
+  });
+
+  window.addEventListener("pagehide", () => {
+    if (!quizStarted || quizCompleted || abandonmentTracked) return;
+    abandonmentTracked = true;
+    analytics()?.track("quiz_abandoned", {
+      quiz_name: "business_automation_score",
+      last_question: currentStep + 1
+    });
+  });
+
+  if (!restoreCompletedResult()) {
+    restoreProgress();
+    renderStep();
   }
-  if (!restoredResult) renderStep();
 </script>

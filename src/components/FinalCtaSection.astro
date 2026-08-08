@@ -16,6 +16,11 @@ interface Props {
 }
 
 const { cta } = Astro.props;
+const analyticsEventForHref = (href: string) => {
+  if (href.startsWith("/free-audit")) return "free_audit_cta_clicked";
+  if (href.startsWith("/estimate-request")) return "estimate_request_cta_clicked";
+  return undefined;
+};
 ---
 
 <section class="final-cta" id="contact">
@@ -32,8 +37,8 @@ const { cta } = Astro.props;
           {cta.points.map((point) => <span>{point}</span>)}
         </div>
         <div class="final-cta-actions">
-          <a class="button" href={cta.primaryHref}>{cta.primary}</a>
-          <a class="button button-secondary" href={cta.secondaryHref}>{cta.secondary}</a>
+          <a class="button" href={cta.primaryHref} data-analytics-event={analyticsEventForHref(cta.primaryHref)} data-analytics-location="final-cta">{cta.primary}</a>
+          <a class="button button-secondary" href={cta.secondaryHref} data-analytics-event={analyticsEventForHref(cta.secondaryHref)} data-analytics-location="final-cta-secondary">{cta.secondary}</a>
         </div>
         <p class="final-cta-helper">{cta.helper}</p>
       </div>

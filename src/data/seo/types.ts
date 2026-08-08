@@ -126,7 +126,22 @@ export interface GuideData {
   sources: Array<{ title: string; href: string }>;
 }
 
+export interface CaseStudyMedia {
+  type: "video" | "image";
+  src: string;
+  poster?: string;
+  alt: string;
+  eyebrow: string;
+  title: string;
+  caption: string;
+  width?: number;
+  height?: number;
+  demoHref?: string;
+  demoLabel?: string;
+}
+
 export interface CaseStudyData {
+  caseStudyType: "client" | "product";
   slug: string;
   metaTitle: string;
   metaDescription: string;
@@ -136,10 +151,14 @@ export interface CaseStudyData {
   engagementType: string;
   evidenceLabel: string;
   evidenceNote: string;
+  subjectUrl?: string;
+  datePublished?: string;
+  dateModified?: string;
+  media?: CaseStudyMedia;
   problem: string[];
   solution: SeoCard[];
   technology: string[];
-  timeline: SeoProcessStep[];
+  timeline?: SeoProcessStep[];
   impact: SeoCard[];
   roiFramework: string;
   related: SeoLink[];

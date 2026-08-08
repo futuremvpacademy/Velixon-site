@@ -1,0 +1,36 @@
+---
+const auditAreas = [
+  ["01", "Website & conversion"],
+  ["02", "Lead follow-up"],
+  ["03", "Operations"],
+  ["04", "Proposals & payments"],
+  ["05", "Software & automation"]
+];
+---
+
+<section class="vx-audit" id="free-audit" aria-labelledby="vx-audit-title">
+  <div class="container vx-audit-shell">
+    <div class="vx-audit-copy" data-motion-reveal="left">
+      <p class="home-eyebrow">Free Business Systems Audit</p>
+      <h2 id="vx-audit-title">See the gaps before you invest in the fix.</h2>
+      <p>Receive a personalized one-page scorecard showing operational and automation opportunities, plus three prioritized recommendations within three business days.</p>
+      <div class="home-actions">
+        <a
+          class="button"
+          href="/free-audit/#book-audit"
+          data-analytics-cta="free-audit"
+          data-analytics-event="free_audit_cta_clicked"
+          data-analytics-location="homepage-audit-feature"
+        >Request Your Free Audit <span aria-hidden="true">↗</span></a>
+        <a class="home-text-link" href="/free-audit/">Review the audit details <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="vx-audit-note">Free. No required call. After delivery, optional 20-minute strategy calls are requested by email and arranged manually.</p>
+    </div>
+
+    <ol class="vx-audit-areas" aria-label="Five connected areas included in the audit" data-motion-stagger>
+      {auditAreas.map(([number, title]) => (
+        <li><span>{number}</span><strong>{title}</strong><i aria-hidden="true">✓</i></li>
+      ))}
+    </ol>
+  </div>
+</section>

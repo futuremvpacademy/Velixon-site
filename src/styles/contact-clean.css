@@ -1,0 +1,241 @@
+.contact-clean {
+  background: #070708;
+}
+
+.contact-clean-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(4.5rem, 8vw, 7.5rem) 0;
+}
+
+.contact-clean-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 76%);
+  content: "";
+}
+
+.contact-clean-glow {
+  position: absolute;
+  z-index: -1;
+  top: -25rem;
+  left: 18%;
+  width: 46rem;
+  height: 46rem;
+  border-radius: 50%;
+  background: rgba(133, 115, 248, 0.13);
+  filter: blur(90px);
+}
+
+.contact-clean-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(420px, 0.9fr);
+  gap: clamp(3rem, 9vw, 9rem);
+  align-items: start;
+}
+
+.contact-clean-copy {
+  position: sticky;
+  top: 7rem;
+  padding-top: 1rem;
+}
+
+.contact-clean-eyebrow {
+  margin: 0 0 1rem;
+  color: #b8aff8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.contact-clean-copy h1 {
+  max-width: 10ch;
+  margin: 0 0 1.25rem;
+  font-size: clamp(3.3rem, 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+  text-wrap: balance;
+}
+
+.contact-clean-copy h1 em {
+  color: #b9adff;
+  font-style: normal;
+}
+
+.contact-clean-copy > p:not(.contact-clean-eyebrow) {
+  max-width: 34rem;
+  margin: 0 0 1.7rem;
+  color: #aaa7b1;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.contact-clean-direct {
+  display: grid;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.contact-clean-direct a {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  min-height: 3.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.contact-clean-direct span,
+.contact-clean-audit > span {
+  color: #7f7d86;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.contact-clean-direct strong {
+  overflow-wrap: anywhere;
+  font-size: 0.92rem;
+}
+
+.contact-clean-direct a:hover strong {
+  color: #c4bcff;
+}
+
+.contact-clean-audit {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.7rem;
+}
+
+.contact-clean-audit a {
+  width: fit-content;
+  color: #c4bcff;
+  font-weight: 750;
+}
+
+.contact-clean-audit .contact-clean-proposal {
+  margin-top: 0.2rem;
+  color: #87848f;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.contact-clean-audit .contact-clean-proposal:hover {
+  color: #fff;
+}
+
+.contact-clean-form {
+  padding: clamp(1.4rem, 3vw, 2.3rem);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(20, 20, 24, 0.98), rgba(10, 10, 12, 0.98));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.32);
+}
+
+.contact-clean-next {
+  padding: clamp(4.5rem, 8vw, 7rem) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0a0a0c;
+}
+
+.contact-clean-next-heading {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 2rem 5rem;
+  align-items: end;
+  margin-bottom: clamp(2.3rem, 5vw, 4rem);
+}
+
+.contact-clean-next-heading .contact-clean-eyebrow {
+  margin: 0;
+}
+
+.contact-clean-next h2 {
+  max-width: 15ch;
+  margin: 0;
+  font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.052em;
+}
+
+.contact-clean-next ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 1px solid rgba(255, 255, 255, 0.09);
+  list-style: none;
+}
+
+.contact-clean-next li {
+  min-height: 14rem;
+  padding: 1.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.09);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.contact-clean-next li > span {
+  display: block;
+  margin-bottom: 3.5rem;
+  color: #8f80ff;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.contact-clean-next h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1.2rem;
+}
+
+.contact-clean-next li p {
+  margin: 0;
+  color: #93919b;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .contact-clean-layout,
+  .contact-clean-next-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-clean-copy {
+    position: static;
+    padding-top: 0;
+  }
+
+  .contact-clean-copy h1 {
+    max-width: 13ch;
+  }
+}
+
+@media (max-width: 700px) {
+  .contact-clean-hero {
+    padding-top: 3.4rem;
+  }
+
+  .contact-clean-copy h1 {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+
+  .contact-clean-next ol {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-clean-next li {
+    min-height: auto;
+  }
+
+  .contact-clean-next li > span {
+    margin-bottom: 1.6rem;
+  }
+}

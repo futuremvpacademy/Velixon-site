@@ -5,12 +5,77 @@ import PageHero from "../components/PageHero.astro";
 import CardSection from "../components/CardSection.astro";
 import FinalCtaSection from "../components/FinalCtaSection.astro";
 import { siteContent } from "../data/site";
+import "../styles/business-pages.css";
+
 const { companyName, logo, nav, cta } = siteContent;
 const models = [
-  { id: "discovery", title: "System discovery", description: "A focused engagement to map users, workflows, data, risks, and the right technical path before development.", meta: "Define the system", outcome: "Best for complex or unclear requirements" },
-  { id: "product-build", title: "Product build", description: "Design and engineering for a custom application, AI system, portal, or connected operational platform.", meta: "Build and launch", outcome: "Best for a defined production system" },
-  { id: "ongoing-evolution", title: "Ongoing evolution", description: "A long-term engineering partnership for improvements, new capabilities, reliability, and scale after launch.", meta: "Improve continuously", outcome: "Best for software that must keep evolving" }
+  { id: "focused-improvement", title: "Focused improvement", description: "A defined website, workflow, integration, or automation improvement with a clear boundary and outcome.", meta: "Projects start at $200", outcome: "Best for one concrete problem" },
+  { id: "system-discovery", title: "System discovery", description: "A scoped engagement to map users, workflows, data, risks, and the right technical path before a larger build.", meta: "Scope before development", outcome: "Best for complex or unclear requirements" },
+  { id: "product-build", title: "Product or system build", description: "Design and engineering for a custom application, AI system, portal, website, or connected operational platform.", meta: "Custom estimate", outcome: "Best for a defined production system" },
+  { id: "ongoing-evolution", title: "Ongoing support", description: "Continued improvements, reliability work, and new capabilities after launch when the system needs to keep evolving.", meta: "Scoped to support needs", outcome: "Best for ongoing ownership" }
 ];
-const finalCta = { eyebrow: "Scope before price", title: "The right investment starts with the right system boundary.", description: "Every business, workflow, and technical environment is different. We define the scope clearly before development begins.", points: ["No generic packages", "Clear milestones", "A maintainable long-term path"], primary: "Discuss Your System", primaryHref: "/contact", secondary: "View Solutions", secondaryHref: "/services", helper: "Tell us the outcome you need; we will recommend the clearest engagement." };
+const costDrivers = [
+  ["Scope", "The number of workflows, pages, user roles, and outcomes included."],
+  ["Complexity", "Business rules, approvals, data relationships, security, and edge cases."],
+  ["Integrations", "The systems, APIs, payment tools, and data sources that must connect."],
+  ["Ongoing support", "Monitoring, maintenance, content, improvements, and response requirements after launch."]
+];
+const estimateHref = "/estimate-request/?source=pricing-page&campaign=estimate#estimate-request-form";
+const auditHref = "/free-audit/?source=pricing-page#book-audit";
+const finalCta = {
+  eyebrow: "Choose the right starting point",
+  title: "Defined project or unresolved system problem?",
+  description: "Request an estimate when you know what needs to be built. Use the free systems audit when the right priority is still unclear.",
+  points: ["Projects starting at $200", "Scope-based final pricing", "No invented timeline promises"],
+  primary: "Get a Project Estimate",
+  primaryHref: estimateHref,
+  secondary: "Request Your Free Audit",
+  secondaryHref: auditHref,
+  helper: "Project Estimate responses arrive within 1 business day; audit delivery takes 3 business days."
+};
 ---
-<MainLayout title="Custom Software Engagements & Pricing | Velixon" description="Understand how Velixon scopes custom software through discovery, product builds, and ongoing engineering engagements."><Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/pricing" /><main id="main-content"><PageHero eyebrow="Engagements" title="Custom systems need clear scope—not generic packages." description="Velixon structures each engagement around the business outcome, system complexity, integrations, and path to production." cta="Discuss Your System" ctaHref="/contact/" helper="We define the architecture, delivery plan, and investment before the build begins." /><CardSection eyebrow="Ways to work together" title="Start where the business needs clarity" description="Engagements can begin with discovery, a defined build, or an ongoing product and engineering partnership." items={models} /><FinalCtaSection cta={finalCta} /></main></MainLayout>
+
+<MainLayout
+  title="Business Systems & Software Pricing | Velixon"
+  description="Velixon projects start at $200. Final pricing is based on scope, complexity, integrations, and ongoing support requirements."
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/pricing" />
+  <main id="main-content">
+    <PageHero
+      eyebrow="Pricing"
+      title="Projects start at $200. Scope determines the final price."
+      description="Small, focused improvements and larger connected systems require different levels of work. Velixon defines the boundary first, then provides a project-specific estimate."
+      cta="Get a Project Estimate"
+      ctaHref={estimateHref}
+      secondaryCta="Request Your Free Audit"
+      secondaryCtaHref={auditHref}
+      helper="Final pricing is based on project scope, complexity, integrations, and ongoing support requirements."
+    />
+
+    <section class="pricing-guidance" aria-labelledby="pricing-guidance-title">
+      <div class="container pricing-guidance-shell">
+        <div class="pricing-starting-point">
+          <p class="eyebrow">Published starting point</p>
+          <p class="pricing-starting-price"><span aria-hidden="true">$</span>200<small>minimum project engagement</small></p>
+          <p>This is a starting point, not a package price. You receive a clear estimate after the project boundary is understood.</p>
+        </div>
+        <div class="pricing-drivers">
+          <p class="eyebrow">What changes the price</p>
+          <h2 id="pricing-guidance-title">Four factors shape the estimate.</h2>
+          <dl>
+            {costDrivers.map(([title, description]) => <div><dt>{title}</dt><dd>{description}</dd></div>)}
+          </dl>
+          <p class="pricing-timeline-note"><strong>Timeline:</strong> Velixon does not publish one generic timeline. The estimate includes a delivery plan based on the actual service and scope.</p>
+        </div>
+      </div>
+    </section>
+
+    <CardSection
+      eyebrow="Ways to work together"
+      title="Start with the smallest useful system boundary"
+      description="Every engagement is scoped around a real business outcome, from one focused improvement to a connected production system."
+      items={models}
+    />
+    <FinalCtaSection cta={finalCta} />
+  </main>
+</MainLayout>

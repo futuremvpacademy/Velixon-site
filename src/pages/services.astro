@@ -10,20 +10,18 @@ import { automationServiceDirectory } from "../data/seo/service-landings";
 import "../styles/seo-clusters.css";
 const { companyName, logo, nav, cta } = siteContent;
 const systems = [
-  { id: "custom-applications", title: "Custom applications", description: "SaaS platforms, customer portals, internal tools, dashboards, and mobile applications built around the operation.", meta: "Product engineering", outcome: "Outcome: software that fits the business", href: "/services/custom-software/", linkLabel: "Explore custom software" },
-  { id: "ai-automation", title: "AI automation & agents", description: "Reception, sales, support, voice, and internal AI systems connected to real data and defined workflows.", meta: "Applied AI", outcome: "Outcome: faster response and less manual work", href: "/services/ai-automation/", linkLabel: "Explore AI automation" },
-  { id: "business-infrastructure", title: "Business infrastructure", description: "CRMs, scheduling, proposals, signatures, invoicing, payments, reporting, and customer databases working as one.", meta: "Connected operations", outcome: "Outcome: one reliable operating flow", href: "/services/business-infrastructure/", linkLabel: "Explore business infrastructure" },
-  { id: "workflow-automation", title: "Workflow automation", description: "Data synchronization, lead routing, notifications, and repetitive task elimination across the larger system.", meta: "Workflow infrastructure", outcome: "Outcome: fewer gaps and broken handoffs", href: "/services/workflow-automation/", linkLabel: "Explore workflow automation" },
-  { id: "business-solutions", title: "Business solutions", description: "Explore connected systems for lead intake, sales, customer service, scheduling, documents, invoicing, and finance operations.", meta: "Outcome directory", outcome: "Start with the workflow that costs the most", href: "/solutions/", linkLabel: "Browse business solutions" },
-  { id: "integrations", title: "Software integrations", description: "See how Velixon connects AI, CRM, payments, communications, accounting, and workflow platforms into dependable operating systems.", meta: "Integration directory", outcome: "Connect the tools the business depends on", href: "/integrations/", linkLabel: "Browse software integrations" },
-  { id: "service-directory", title: "Specialized automation services", description: "Explore AI agents, voice AI, custom CRM, portals, SaaS products, process automation, and API integration capabilities.", meta: "Service directory", outcome: "Find the right system boundary", href: "#specialized-services", linkLabel: "Browse every specialized service" }
+  { id: "business-infrastructure", title: "Lead-to-payment systems", description: "Connect intake, routing, scheduling, proposals, approvals, invoicing, payments, and follow-up into one reliable operating flow.", meta: "Core service-business system", outcome: "Outcome: fewer dropped handoffs", href: "/services/business-infrastructure/", linkLabel: "Explore business infrastructure" },
+  { id: "workflow-automation", title: "Workflow automation", description: "Reduce repetitive work with dependable routing, notifications, synchronization, and human approval where it matters.", meta: "Operational improvement", outcome: "Outcome: less admin and clearer ownership", href: "/services/workflow-automation/", linkLabel: "Explore workflow automation" },
+  { id: "ai-automation", title: "Practical AI systems", description: "Apply AI to reception, sales, support, voice, and internal workflows using defined data, rules, and escalation paths.", meta: "Applied AI", outcome: "Outcome: faster response with human control", href: "/services/ai-automation/", linkLabel: "Explore AI automation" },
+  { id: "custom-applications", title: "Software that fits the operation", description: "Build portals, dashboards, CRMs, internal tools, and customer-facing products when generic software creates the constraint.", meta: "Custom software", outcome: "Outcome: one system built around the business", href: "/services/custom-software/", linkLabel: "Explore custom software" }
 ];
 const fit = [
-  { title: "Disconnected tools", description: "Your team copies the same information between software, spreadsheets, and inboxes." },
-  { title: "Processes that no longer scale", description: "Manual steps are slowing response times, delivery, reporting, or cash flow.", href: "/case-studies/", linkLabel: "Review first-party product evidence" },
-  { title: "Software that dictates the workflow", description: "The business has outgrown generic tools and needs a system shaped around how it actually operates." }
+  { title: "Leads wait or disappear", description: "Inquiries are copied, routed manually, answered late, or lost between the website and the person responsible." },
+  { title: "Delivery depends on admin work", description: "Scheduling, updates, approvals, documents, and follow-up require repeated manual effort.", href: "/case-studies/", linkLabel: "Review source-backed product evidence" },
+  { title: "Tools no longer fit", description: "The business has outgrown spreadsheets or generic software and needs a clearer connected workflow." }
 ];
-const finalCta = { eyebrow: "Build the right system", title: "Start with the operation—not a list of features.", description: "Tell us how the business works today and where it is breaking down. We will map the clearest system forward.", points: ["Clear architecture", "Production-ready engineering", "Long-term improvement"], primary: "Build Your System", primaryHref: "/contact", secondary: "Explore Products", secondaryHref: "/#products", helper: "A focused first conversation is enough to identify the next step." };
+const auditHref = "/free-audit/?source=services-page#book-audit";
+const finalCta = { eyebrow: "Choose the right starting point", title: "Start with the problem—not a list of features.", description: "Use the free systems audit when the right priority is unclear. Request an estimate when the project is already defined.", points: ["One-page audit scorecard", "Projects starting at $200", "Remote delivery across the U.S."], primary: "Request Your Free Audit", primaryHref: auditHref, secondary: "Get a Project Estimate", secondaryHref: "/estimate-request/?source=services-page&campaign=estimate#estimate-request-form", helper: "Project Estimate responses arrive within 1 business day; audit delivery takes 3 business days." };
 const servicesSchema = systems.map((service) => ({
   "@type": "Service",
   name: service.title,
@@ -33,9 +31,9 @@ const servicesSchema = systems.map((service) => ({
   areaServed: "United States"
 }));
 const serviceDirectorySchema = buildDirectorySchema({
-  title: "Custom Software Development & AI Systems | Velixon",
-  description: "Explore Velixon's custom application, AI system, business infrastructure, integration, and workflow automation capabilities.",
-  headline: "Custom software and AI systems built around your operation.",
+  title: "Business Systems, Automation & Custom Software | Velixon",
+  description: "Explore Velixon's lead-to-payment systems, workflow automation, applied AI, and custom software for growing service businesses.",
+  headline: "Connected systems for growing service businesses.",
   path: "/services/",
   groups: [{
     title: "From application to infrastructure",
@@ -49,19 +47,19 @@ const serviceDirectorySchema = buildDirectorySchema({
   }]
 });
 ---
-<MainLayout title="Custom Software Development & AI Systems | Velixon" description="Explore Velixon's custom application, AI system, business infrastructure, integration, and workflow automation capabilities." canonicalPath="/services/" schema={[serviceDirectorySchema, servicesSchema]}>
+<MainLayout title="Business Systems, Automation & Custom Software | Velixon" description="Velixon helps growing service businesses improve lead flow, operations, workflow automation, AI, and custom software." canonicalPath="/services/" schema={[serviceDirectorySchema, servicesSchema]}>
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/services" />
   <main id="main-content">
-    <PageHero eyebrow="Services" title="Custom software and AI systems built around your operation." description="Velixon engineers customer-facing products, internal software, AI capabilities, and the infrastructure that connects them." cta="Build Your System" ctaHref="/contact/" secondaryCta="Browse all services" secondaryCtaHref="#specialized-services" helper="Custom-built, production-ready, and designed to evolve." />
-    <CardSection eyebrow="Capabilities" title="From application to infrastructure" description="Automation is one layer. The goal is a reliable operating system that reduces work across the entire business." items={systems} />
+    <PageHero eyebrow="Services for growing businesses" title="Move leads, work, and revenue through one clearer system." description="Velixon improves the connected path from inquiry and scheduling through delivery, follow-up, invoicing, and payment—then adds AI or custom software only where it helps." cta="Request Your Free Audit" ctaHref={auditHref} secondaryCta="Browse specialized services" secondaryCtaHref="#specialized-services" helper="Based in Utah · Serving businesses throughout the United States remotely" />
+    <CardSection eyebrow="Core capabilities" title="Fix the handoff before adding another tool" description="Begin with the workflow that is losing the most time, leads, or money. Broader technical capabilities remain available when the problem requires them." items={systems} />
 
     <section class="directory-groups" id="specialized-services" aria-labelledby="specialized-services-title">
       <div class="directory-group">
         <div class="container">
           <div class="cluster-heading cluster-heading-wide">
             <p class="cluster-eyebrow">Complete service directory</p>
-            <h2 id="specialized-services-title">Choose the operating capability that owns the bottleneck.</h2>
-            <p>Start with the narrowest service that can solve the failing handoff. When the problem crosses teams or systems, begin with process architecture and define the complete boundary before selecting platforms.</p>
+            <h2 id="specialized-services-title">Browse the technical capabilities behind the core systems.</h2>
+            <p>These services support the larger business outcome. Start with the narrowest service that can fix the failing handoff, and expand the boundary only when the problem crosses teams or systems.</p>
           </div>
         </div>
       </div>
@@ -87,7 +85,7 @@ const serviceDirectorySchema = buildDirectorySchema({
       ))}
     </section>
 
-    <CardSection eyebrow="When custom software makes sense" title="Built for companies that have outgrown workarounds" description="The strongest systems begin with an operational constraint worth solving." items={fit} />
+    <CardSection eyebrow="When improvement is worth exploring" title="Built for service businesses that have outgrown workarounds" description="The strongest projects begin with an operational constraint worth solving." items={fit} />
     <FinalCtaSection cta={finalCta} />
   </main>
 </MainLayout>

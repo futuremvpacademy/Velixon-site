@@ -23,7 +23,7 @@ const { cta } = Astro.props;
       <p class="closing-cta-text">{cta.description}</p>
       <p class="closing-cta-trust">{cta.trustLine}</p>
       <div class="closing-cta-actions">
-        <a class="button" href={cta.primaryHref}>{cta.primary}</a>
+        <a class="button" href={cta.primaryHref} data-analytics-event={cta.primaryHref.startsWith("/free-audit") ? "free_audit_cta_clicked" : undefined} data-analytics-location="closing-cta">{cta.primary}</a>
         <a class="button button-secondary" href={cta.secondaryHref}>{cta.secondary}</a>
       </div>
     </div>

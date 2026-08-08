@@ -11,6 +11,7 @@ const normalizePath = (pathname: string) => {
 export const nonIndexablePaths = [
   "/404/",
   "/404.html/",
+  "/proposal-request/",
   "/review/",
   // Thin legacy hubs that overlap stronger principal pages.
   "/results/",

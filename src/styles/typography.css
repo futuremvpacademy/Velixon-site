@@ -1,0 +1,150 @@
+:root {
+  --font-heading: "Gloock", Georgia, "Times New Roman", serif;
+  --font-body: "Host Grotesk Variable", "Avenir Next", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading);
+  --font-accent: var(--font-heading);
+  --type-display-tracking: -0.034em;
+  --type-heading-tracking: -0.024em;
+  --type-label-tracking: 0.19em;
+}
+
+html {
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-weight: 400;
+  letter-spacing: -0.004em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-synthesis: none;
+  font-weight: 400;
+}
+
+/* Gloock carries the display hierarchy; Host Grotesk retains UI clarity. */
+.home-hero h1,
+.contact-clean-copy h1,
+.audit-hero-copy h1,
+.resources-hero h1,
+.resource-article-hero h1,
+.cluster-hero h1,
+.directory-hero h1,
+.quiz-hero h1,
+.roi-tool-hero-copy h1,
+.checklist-page-hero h1,
+.assessment-hero h1,
+.page-hero-shell h1 {
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: var(--type-display-tracking);
+}
+
+.vx-audit-copy h2,
+.home-section-heading h2,
+.home-process-intro h2,
+.home-faq-layout > div > h2,
+.section-intro h2,
+.service-section-heading h2,
+.cluster-heading h2,
+.cluster-roi-shell h2,
+.resources-section-heading h2,
+.audit-section-heading h2,
+.audit-assessment-heading h2,
+.footer-conversion h2,
+.closing-cta h2 {
+  font-weight: 400;
+  letter-spacing: var(--type-heading-tracking);
+}
+
+.home-capability-grid h3,
+.home-product-card h3,
+.home-process-list h3,
+.detail-card h3,
+.resource-card h3,
+.cluster-card-grid h3,
+.cluster-outcome-grid h3 {
+  font-weight: 400;
+  letter-spacing: -0.018em;
+}
+
+/* Short labels carry the wide, gallery-like tracking from the reference. */
+.tech-label,
+.eyebrow,
+.home-eyebrow,
+.contact-clean-eyebrow,
+.audit-eyebrow,
+.audit-form-kicker,
+.resource-card-category,
+.resource-kicker,
+.resource-toc-label,
+.cluster-eyebrow,
+.quiz-eyebrow,
+.roi-tool-kicker,
+.checklist-page-kicker,
+.checklist-kicker,
+.assessment-eyebrow,
+.footer-conversion-kicker {
+  font-weight: 650;
+  letter-spacing: var(--type-label-tracking);
+}
+
+.brand-name {
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.desktop-nav a,
+.mobile-nav a,
+.mobile-nav button,
+.nav-question,
+.footer-question,
+.button {
+  font-weight: 620;
+}
+
+.button {
+  letter-spacing: 0.012em;
+}
+
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+@media (max-width: 520px) {
+  :root {
+    --type-display-tracking: -0.026em;
+    --type-heading-tracking: -0.018em;
+  }
+
+  .home-hero h1,
+  .contact-clean-copy h1,
+  .audit-hero-copy h1,
+  .resources-hero h1,
+  .resource-article-hero h1,
+  .cluster-hero h1,
+  .directory-hero h1,
+  .quiz-hero h1,
+  .roi-tool-hero-copy h1,
+  .checklist-page-hero h1,
+  .assessment-hero h1,
+  .page-hero-shell h1 {
+    line-height: 0.98;
+  }
+}
+
+@media (forced-colors: active) {
+  body {
+    -webkit-font-smoothing: auto;
+  }
+}

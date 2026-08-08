@@ -14,3 +14,12 @@ review.png
 
 # Local Netlify folder
 .netlify
+
+# Local package/cache and generated business artifacts
+.pnpm-store/
+outputs/
+velixon-video/node_modules 2/
+
+# Private evidence and recoverable release archives are not public source
+ops/private-proof/reviews/
+ops/private-proof/release-archive/

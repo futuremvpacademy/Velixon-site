@@ -1,137 +1,99 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
-import IntroExperience from "../components/IntroExperience.astro";
-import OpportunityCalculator from "../components/OpportunityCalculator.astro";
+import AuditPromoVideo from "../components/AuditPromoVideo.astro";
+import FreeAuditFeature from "../components/FreeAuditFeature.astro";
+import ReviewWheel from "../components/ReviewWheel.astro";
 import { siteContent } from "../data/site";
 import "../styles/home.css";
 
 const { companyName, logo, nav, cta } = siteContent;
 
-const buildCategories = [
+const auditAreas = [
+  ["01", "Website", "Message, trust, mobile experience, and conversion paths."],
+  ["02", "Leads", "Capture, response time, ownership, and follow-up."],
+  ["03", "Operations", "Scheduling, handoffs, consistency, and admin work."],
+  ["04", "Revenue flow", "Proposals, approvals, invoicing, and payments."],
+  ["05", "Software", "Disconnected tools, duplicate work, data, and automation."]
+];
+
+const capabilities = [
   {
     number: "01",
-    title: "Custom software",
-    description: "Purpose-built web applications and internal software shaped around your customers, team, and operating model.",
-    href: "/services/custom-software/",
-    linkLabel: "Explore custom software",
-    items: ["Custom SaaS products", "Web applications", "Customer and client portals", "Internal tools", "Business dashboards"]
+    title: "Lead paths that respond and convert",
+    description: "Clear websites, faster intake, reliable routing, and follow-up that reaches the right person.",
+    href: "/services/",
+    linkLabel: "Improve the lead system"
   },
   {
     number: "02",
-    title: "AI agents & employees",
-    description: "AI agents that understand context, take defined actions, and work inside real business workflows.",
-    href: "/services/ai-agents/",
-    linkLabel: "Explore AI agents and systems",
-    items: ["AI phone agents", "AI receptionists", "Sales and support agents", "Voice AI", "Internal AI assistants"]
+    title: "Workflows that move on their own",
+    description: "Connected lead, scheduling, document, payment, and follow-up systems—with human control where it matters.",
+    href: "/services/workflow-automation/",
+    linkLabel: "Explore workflow automation"
   },
   {
     number: "03",
-    title: "Business systems",
-    description: "The connected operational layer that keeps customer data, money, decisions, and work moving.",
-    href: "/services/business-infrastructure/",
-    linkLabel: "Explore connected business systems",
-    items: ["Custom CRM systems", "Proposals and invoicing", "Payments", "Scheduling", "Business intelligence"]
-  },
-  {
-    number: "04",
-    title: "Workflow automation",
-    description: "Business process automation that removes repetitive work and connects the tools you already use.",
-    href: "/services/workflow-automation/",
-    linkLabel: "Explore automation and integrations",
-    items: ["Lead and sales automation", "System integrations", "Data synchronization", "Document automation", "Customer service automation"]
+    title: "Software that fits the business",
+    description: "Custom portals, dashboards, CRMs, internal tools, and AI systems shaped around the way your team works.",
+    href: "/services/custom-software/",
+    linkLabel: "Explore custom software"
   }
 ];
 
-const workflow = [
-  ["01", "Lead captured", "Website, referral, or inbound call"],
-  ["02", "CRM updated", "One customer record, automatically"],
-  ["03", "AI qualifies", "Context gathered and next step chosen"],
-  ["04", "Meeting booked", "Availability checked in real time"],
-  ["05", "Proposal signed", "Scope, approval, and audit trail connected"],
-  ["06", "Payment collected", "Invoice issued and status reconciled"],
-  ["07", "Dashboard updated", "The team sees what changed instantly"]
+const products = [
+  {
+    label: "FormEsque",
+    title: "One connected path from proposal to payment.",
+    description: "A Velixon-built product connecting proposals, signatures, invoicing, customer records, and workflow.",
+    href: "/case-studies/formesque-proposal-to-payment-platform/"
+  },
+  {
+    label: "ShareCal",
+    title: "Shared time without the scheduling confusion.",
+    description: "A collaborative calendar designed to make availability, events, and group coordination easier to understand.",
+    href: "/case-studies/sharecal-collaborative-scheduling-platform/"
+  }
 ];
 
 const process = [
-  ["Discover", "We study the business, bottlenecks, people, and tools before prescribing software."],
-  ["Architect", "We map the system, data, permissions, integrations, and path to launch."],
-  ["Build", "We engineer the interface and infrastructure in clear, reviewable releases."],
-  ["Launch", "We migrate, test, train, and put the system into production with confidence."],
-  ["Improve", "We measure how it performs and keep evolving it as the business changes."]
+  ["01", "Audit", "Find the friction across the customer journey and operation."],
+  ["02", "Prioritize", "Choose the fix with the clearest business value and lowest avoidable risk."],
+  ["03", "Build", "Design, launch, and improve the system around real use."]
 ];
 
-const industries = [
-  { title: "Construction", detail: "From lead and estimate to signed job and final payment.", href: "/industries/construction/" },
-  { title: "Home services", detail: "Calls, dispatch, customer communication, and field operations.", href: "/industries/home-services/" },
-  { title: "Professional services", detail: "Intake, delivery, billing, and client visibility.", href: "/industries/professional-services/" },
-  { title: "Law firms", detail: "Intake, matter routing, documents, deadlines, and client updates.", href: "/industries/law-firms/" },
-  { title: "Healthcare practices", detail: "Accessible intake and coordinated administrative operations.", href: "/industries/healthcare-practices/" },
-  { title: "Property management", detail: "Requests, vendors, residents, documents, and portfolio reporting.", href: "/industries/property-management/" },
-  { title: "Manufacturing", detail: "Orders, production data, exceptions, and reporting in one view.", href: "/industries/manufacturing/" },
-  { title: "Accounting & finance", detail: "Document intake, approvals, reconciliation, and client workflows.", href: "/industries/accounting-financial-services/" }
-];
-
-const tech = ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Clerk", "Stripe", "Resend", "Twilio", "OpenAI", "Anthropic", "n8n", "Make", "Netlify"];
-const featuredResources = [
-  {
-    category: "Automation fundamentals",
-    title: "What Is Business Process Automation?",
-    description: "Understand the systems, rules, and human decisions behind reliable process automation.",
-    href: "/resources/what-is-business-process-automation/"
-  },
-  {
-    category: "Investment planning",
-    title: "How Much Does AI Automation Cost?",
-    description: "Plan an AI automation budget around scope, risk, integrations, and ownership—not a generic package price.",
-    href: "/resources/how-much-does-ai-automation-cost/"
-  },
-  {
-    category: "Software strategy",
-    title: "How to Know When Your Business Needs Custom Software",
-    description: "Identify when workarounds, disconnected tools, and manual handoffs justify a purpose-built system.",
-    href: "/resources/when-business-needs-custom-software/"
-  }
-];
 const faqs = [
   {
     question: "What does Velixon build?",
-    answer: "Velixon builds custom web applications, SaaS platforms, AI systems, internal tools, customer portals, CRMs, scheduling and payment workflows, dashboards, and the infrastructure that connects them."
+    answer: "Velixon builds conversion-focused websites, workflow automation, AI systems, custom software, CRMs, portals, dashboards, and the integrations that connect them."
   },
   {
-    question: "Is Velixon an automation agency?",
-    answer: "Yes. Velixon is an AI automation agency and custom software company. We design AI agents and connected workflows, then engineer the applications, data, integrations, controls, and human handoffs needed to make them reliable in production."
+    question: "What happens in the free audit?",
+    answer: "Velixon reviews the information you provide and relevant public website information, then sends a personalized one-page scorecard with three prioritized recommendations within three business days."
   },
   {
-    question: "Can Velixon connect software we already use?",
-    answer: "Yes. Existing applications, databases, communication tools, payment systems, and workflow platforms can be evaluated during discovery to determine what should be integrated, replaced, or retained."
+    question: "Do I have to buy anything after the audit?",
+    answer: "No. The audit is free and there is no obligation to purchase implementation. After delivery, you may reply to the audit email to request an optional 20-minute strategy call, which Velixon arranges manually."
   },
   {
-    question: "Does Velixon build AI receptionists and voice AI systems?",
-    answer: "Yes. Velixon builds AI reception, sales, support, voice, and internal assistant workflows around defined data, actions, escalation paths, and human oversight."
-  },
-  {
-    question: "Does Velixon build its own software products?",
-    answer: "Yes. Velixon develops products including FormEsque and ShareCal while also building custom software and connected business systems for clients."
-  },
-  {
-    question: "What happens after a custom system launches?",
-    answer: "A system can move into an ongoing improvement engagement focused on reliability, workflow refinement, new capabilities, and the changing needs of the business."
+    question: "Who is Velixon best suited to help?",
+    answer: "Velixon is especially useful for growing service businesses losing time, leads, or money through manual work, disconnected tools, slow follow-up, or systems that no longer fit."
   }
 ];
+
 const homeSchema = [
   {
     "@type": "ItemList",
-    name: "Velixon custom software and AI capabilities",
-    itemListElement: buildCategories.map((category, index) => ({
+    name: "Velixon business system capabilities",
+    itemListElement: capabilities.map((capability, index) => ({
       "@type": "ListItem",
       position: index + 1,
       item: {
         "@type": "Service",
-        name: category.title,
-        description: category.description,
+        name: capability.title,
+        description: capability.description,
         provider: { "@id": "https://velixon.net/#organization" },
-        url: new URL(category.href, "https://velixon.net").toString()
+        url: new URL(capability.href, "https://velixon.net").toString()
       }
     }))
   },
@@ -143,166 +105,133 @@ const homeSchema = [
       acceptedAnswer: { "@type": "Answer", text: faq.answer }
     }))
   },
+  {
+    "@type": "VideoObject",
+    name: "Velixon Free Business Systems Audit Overview",
+    description: "An 18-second overview of how Velixon finds friction across leads, operations, and software before recommending what to fix first.",
+    thumbnailUrl: "https://velixon.net/images/velixon-audit-poster.webp",
+    uploadDate: "2026-07-20T00:00:00-06:00",
+    duration: "PT18S",
+    contentUrl: "https://velixon.net/videos/velixon-audit-promo.mp4"
+  }
 ];
 ---
 
 <MainLayout
   title="Custom Software, AI & Automation for Business | Velixon"
-  description="Velixon builds custom software, AI automation, workflow systems, CRMs, and integrations around the way growing businesses actually operate."
+  description="Velixon finds friction across your website, leads, operations, and software—then builds the connected systems that fix it."
   schema={homeSchema}
 >
-  <IntroExperience logo={logo} />
-  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/" replayIntro={true} />
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/" />
 
-  <main class="vx-home" id="main-content">
-    <section class="vx-hero" id="top">
-      <div class="vx-hero-grid" aria-hidden="true"></div>
-      <div class="container vx-hero-layout">
-        <div class="vx-hero-copy" data-vx-reveal>
-          <p class="vx-kicker"><span></span> Smarter Systems. Better Business.</p>
-          <h1>Custom software, AI, and automation. <em>Built around your business.</em></h1>
-          <p class="vx-hero-lead">Velixon helps growing companies replace operational friction with purpose-built applications, AI automation, workflow systems, custom CRMs, and practical integrations.</p>
-          <div class="vx-actions">
-            <a class="vx-button vx-button-primary" href="/automation-assessment/?source=homepage-hero">Get Your Free Automation Assessment <span aria-hidden="true">↗</span></a>
-            <a class="vx-button vx-button-quiet" href="#solutions">Explore What We Build <span aria-hidden="true">↓</span></a>
+  <main class="home-clean" id="main-content">
+    <section class="home-hero" data-motion-hero>
+      <div class="home-hero-glow" aria-hidden="true"></div>
+      <div class="container home-hero-layout">
+        <div class="home-hero-copy" data-motion-reveal="left">
+          <p class="home-eyebrow">Systems for growing service businesses</p>
+          <h1>Fix the systems costing you <em>time, leads, and money.</em></h1>
+          <p class="home-hero-lead">Velixon helps service businesses connect the path from first inquiry to finished work—starting with a clear audit of the website, lead flow, operations, and software.</p>
+          <div class="home-actions">
+            <a
+              class="button home-primary"
+              href={cta.href}
+              data-analytics-cta="free-audit"
+              data-analytics-event={cta.analyticsEvent}
+              data-analytics-location="homepage-hero"
+            >{cta.label} <span aria-hidden="true">↗</span></a>
+            <a
+              class="button button-secondary"
+              href="/estimate-request/?source=homepage-hero&campaign=estimate#estimate-request-form"
+              data-analytics-event="estimate_request_cta_clicked"
+              data-analytics-location="homepage-hero"
+            >Get a Project Estimate <span aria-hidden="true">↗</span></a>
           </div>
-          <div class="vx-proofline">
-            <span>Strategy through launch</span><span>Human-led AI</span><span>Production-ready engineering</span>
-          </div>
+          <ul class="home-trust" aria-label="Ways to start with Velixon">
+            <li>Audit an existing system</li>
+            <li>Estimate a defined project</li>
+            <li>Utah-based · Serving U.S. businesses</li>
+          </ul>
         </div>
 
-        <div class="vx-os-window" data-vx-tilt data-vx-reveal aria-hidden="true">
-          <div class="vx-window-bar"><span></span><span></span><span></span><p>Velixon / Connected Operations</p><b>System preview</b></div>
-          <div class="vx-os-body">
-            <aside><div class="vx-os-brand">V</div><i class="is-active"></i><i></i><i></i><i></i><i></i></aside>
-            <div class="vx-os-main">
-              <div class="vx-os-heading"><div><small>Operations overview</small><strong>Good morning, Alex.</strong></div><button tabindex="-1">+ New workflow</button></div>
-              <div class="vx-os-stats">
-                <article><small>Pipeline</small><strong>Connected</strong><span>Live source data</span></article>
-                <article><small>Active work</small><strong>In sync</strong><span>Owners assigned</span></article>
-                <article><small>AI support</small><strong>Reviewed</strong><span>Human escalation</span></article>
-              </div>
-              <div class="vx-os-lower">
-                <article class="vx-flow-card"><div class="vx-card-head"><b>Connected workflow</b><span>Running</span></div><div class="vx-mini-flow"><i>Lead</i><b>→</b><i>AI</i><b>→</b><i>Book</i><b>→</b><i>Pay</i></div><div class="vx-progress"><span></span></div></article>
-                <article class="vx-activity-card"><div class="vx-card-head"><b>Live activity</b><span>Now</span></div><p><i></i> Proposal signed <small>2m</small></p><p><i></i> Payment received <small>8m</small></p><p><i></i> AI call completed <small>14m</small></p></article>
-              </div>
-            </div>
-          </div>
-          <div class="vx-float vx-float-ai"><span>AI</span><div><b>Lead qualified</b><small>Follow-up scheduled</small></div><i>✓</i></div>
-          <div class="vx-float vx-float-pay"><span>$</span><div><b>Payment received</b><small>Record reconciled</small></div><strong>Synced</strong></div>
-          <p class="vx-interface-caption">Illustrative connected-operations interface</p>
-        </div>
+        <AuditPromoVideo />
       </div>
 
-      <div class="container vx-hero-signals" aria-label="Velixon approach">
-        <p><span>01</span><strong>AI that takes defined action</strong><small>Not another disconnected chatbot</small></p>
-        <p><span>02</span><strong>Software shaped around the operation</strong><small>Not a generic template</small></p>
-        <p><span>03</span><strong>Human oversight where it matters</strong><small>Clear rules, permissions, and escalation</small></p>
-        <p><span>04</span><strong>One team from strategy to launch</strong><small>Architecture, product, and engineering</small></p>
+      <div class="container home-area-strip" aria-label="Five areas reviewed in the free audit" data-motion-stagger>
+        {auditAreas.map(([number, title, description]) => (
+          <div><span>{number}</span><strong>{title}</strong><small>{description}</small></div>
+        ))}
       </div>
     </section>
 
-    <section class="vx-builds vx-section" id="solutions">
+    <FreeAuditFeature />
+
+    <ReviewWheel />
+
+    <section class="home-section home-capabilities" aria-labelledby="home-capabilities-title">
       <div class="container">
-        <div class="vx-section-heading" data-vx-reveal><p class="vx-kicker">What Velixon builds</p><h2>Software that fits the business.<br /><em>Not the other way around.</em></h2><p>From the customer-facing product to the infrastructure behind it, we build every layer to work together.</p></div>
-        <div class="vx-build-grid">
-          {buildCategories.map((category) => (
-            <article class="vx-build-card" data-vx-reveal>
-              <div class="vx-card-number">{category.number}</div><h3>{category.title}</h3><p>{category.description}</p>
-              <ul>{category.items.map((item) => <li>{item}<span aria-hidden="true">↗</span></li>)}</ul>
-              <a class="vx-build-link" href={category.href}>{category.linkLabel} <span aria-hidden="true">↗</span></a>
+        <div class="home-section-heading" data-motion-reveal>
+          <div><p class="home-eyebrow">What Velixon fixes</p><h2 id="home-capabilities-title">A cleaner path from lead to payment.</h2></div>
+          <p>Start with the broken handoff. Build only what makes the service easier to buy, deliver, and manage.</p>
+        </div>
+        <div class="home-capability-grid" data-motion-stagger>
+          {capabilities.map((capability) => (
+            <article data-motion-tilt>
+              <span>{capability.number}</span>
+              <h3>{capability.title}</h3>
+              <p>{capability.description}</p>
+              <a href={capability.href}>{capability.linkLabel} <span aria-hidden="true">↗</span></a>
             </article>
           ))}
         </div>
-        <div class="vx-inline-decision" data-vx-reveal>
-          <div><p>Not sure what to automate first?</p><h3>Start with the workflow creating the most drag—not the newest technology.</h3></div>
-          <a href="#automation-roi">Estimate the opportunity <span aria-hidden="true">↓</span></a>
-        </div>
-        <p class="vx-section-route"><a href="/services/">Explore all AI automation and custom software services <span aria-hidden="true">↗</span></a></p>
-        <nav class="vx-section-route" aria-label="Core Velixon services">
-          <a href="/services/ai-automation/">AI automation</a>
-          <a href="/services/custom-software/">Custom software</a>
-          <a href="/services/workflow-automation/">Workflow automation</a>
-          <a href="/services/custom-crm/">Custom CRM development</a>
-          <a href="/services/ai-integrations/">AI integrations</a>
-        </nav>
+        <p class="home-resource-route">Planning an automation investment? <a href="/resources/ai-automation-roi-calculator/">Estimate the opportunity with the free ROI calculator <span aria-hidden="true">↗</span></a></p>
       </div>
     </section>
 
-    <section class="vx-system vx-section" id="system">
-      <div class="container vx-system-layout">
-        <div class="vx-system-copy" data-vx-reveal>
-          <p class="vx-kicker">One connected operating system</p>
-          <h2>Every handoff. <em>One continuous flow.</em></h2>
-          <p>Most businesses are held together by tabs, spreadsheets, and people copying data between tools. We replace the gaps with one connected system.</p>
-          <div class="vx-system-legend"><span><i></i>Automated</span><span><i></i>Human approval</span><span><i></i>Live data</span></div>
+    <section class="home-section home-products" id="products" aria-labelledby="home-products-title">
+      <div class="container">
+        <div class="home-section-heading" data-motion-reveal>
+          <div><p class="home-eyebrow">First-party product proof</p><h2 id="home-products-title">Inspect the systems behind the claims.</h2></div>
+          <p>FormEsque and our collaborative calendar product show how Velixon turns operational problems into focused, connected software without inventing client outcomes.</p>
         </div>
-        <div class="vx-workflow" data-vx-workflow data-vx-reveal>
-          {workflow.map(([number, title, detail], index) => (
-            <button class:list={["vx-workflow-step", { "is-active": index === 0 }]} data-step={index} aria-pressed={index === 0 ? "true" : "false"}>
-              <span>{number}</span><div><b>{title}</b><small>{detail}</small></div><i aria-hidden="true">{index === workflow.length - 1 ? "✓" : "→"}</i>
-            </button>
+        <div class="home-product-grid" data-motion-stagger>
+          {products.map((product, index) => (
+            <article class:list={["home-product-card", { "home-product-alt": index === 1 }]} data-motion-tilt>
+              <div class="home-product-mark" aria-hidden="true">{product.label.slice(0, 1)}</div>
+              <p>{product.label}</p>
+              <h3>{product.title}</h3>
+              <span>{product.description}</span>
+              <a href={product.href}>Read the product case study <span aria-hidden="true">↗</span></a>
+            </article>
           ))}
-          <div class="vx-workflow-status"><span></span><p><b data-flow-title>Lead captured</b><small data-flow-detail>Data is moving through the system</small></p><em>Ready</em></div>
         </div>
       </div>
     </section>
 
-    <OpportunityCalculator />
-
-    <section class="vx-products vx-section" id="products">
-      <div class="container">
-        <div class="vx-section-heading vx-heading-row" data-vx-reveal><div><p class="vx-kicker">Products built by Velixon</p><h2>We do not just build software.<br /><em>We build software companies.</em></h2></div><p>Our own products sharpen the same product thinking, engineering discipline, and operational understanding we bring to every client system.</p></div>
-        <div class="vx-product-grid">
-          <article class="vx-product vx-formesque" data-vx-reveal>
-            <div class="vx-product-copy"><p class="vx-product-label"><span>F</span> FORMESQUE</p><h3>From proposal to payment, in one connected workflow.</h3><p>Proposals, signatures, invoicing, customer records, and business workflow—without the handoff gaps.</p><a href="/case-studies/formesque-proposal-to-payment-platform/">Read the FormEsque product case study <span>↗</span></a></div>
-            <div class="vx-product-ui vx-proposal-ui" aria-hidden="true"><div class="vx-ui-top"><i></i><i></i><i></i><span>Demo proposal workflow</span></div><div class="vx-proposal-body"><aside><b>F</b><span></span><span></span><span></span></aside><div class="vx-proposal-document"><small>SAMPLE PROPOSAL</small><h4>Project workflow</h4><div class="vx-proposal-lines"><i></i><i></i><i></i></div><div class="vx-proposal-total"><span>Status</span><b>Ready for review</b></div><button tabindex="-1">Approval recorded ✓</button></div></div></div>
-          </article>
-          <article class="vx-product vx-sharecal" data-vx-reveal>
-            <div class="vx-product-copy"><p class="vx-product-label"><span>S</span> SHARECAL</p><h3>Life is better when everyone is on the same schedule.</h3><p>A collaborative calendar that makes shared time clear, current, and effortless to coordinate.</p><a href="/case-studies/sharecal-collaborative-scheduling-platform/">Read the ShareCal product case study <span>↗</span></a></div>
-            <div class="vx-product-ui vx-calendar-ui" aria-hidden="true"><div class="vx-calendar-head"><b>October</b><span>Today　‹　›</span></div><div class="vx-calendar-days">{["M","T","W","T","F","S","S"].map((d) => <b>{d}</b>)}</div><div class="vx-calendar-grid">{Array.from({length: 28}, (_, i) => <span class:list={{today: i === 16, event: [4,9,12,18,23].includes(i)}}>{i + 1}</span>)}</div><div class="vx-calendar-event"><i></i><div><b>Product review</b><small>2:00 PM · Velixon team</small></div></div></div>
-          </article>
+    <section class="home-section home-process" aria-labelledby="home-process-title">
+      <div class="container home-process-layout">
+        <div class="home-process-intro" data-motion-reveal="left">
+          <p class="home-eyebrow">How it works</p>
+          <h2 id="home-process-title">Audit. Prioritize. Improve.</h2>
+          <p>No software prescription before the operating problem and expected outcome are clear.</p>
+          <a href="/process/">See the full process <span aria-hidden="true">↗</span></a>
         </div>
-      </div>
-    </section>
-
-    <section class="vx-client-systems vx-section" id="work">
-      <div class="container vx-client-grid">
-        <div class="vx-client-copy" data-vx-reveal><p class="vx-kicker">Custom client systems</p><h2>Stop forcing your business into software that was not built for it.</h2><p>When disconnected tools start dictating how your team works, we design a system around the operation you actually run—and the one you are building toward.</p><a class="vx-text-link" href="/contact/">Discuss your system <span>↗</span></a></div>
-        <div class="vx-outcomes" data-vx-reveal>
-          <article><span>01</span><div><h3>Replace disconnected software</h3><p>One coherent experience instead of a patchwork of subscriptions.</p></div></article>
-          <article><span>02</span><div><h3>Centralize business data</h3><p>One reliable source of truth across customers, work, and money.</p></div></article>
-          <article><span>03</span><div><h3>Remove administrative drag</h3><p>Automate repetitive steps while keeping people in control.</p></div></article>
-          <article><span>04</span><div><h3>Create a long-term asset</h3><p>Own a system that compounds in value as the business grows.</p></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="vx-process vx-section" id="process">
-      <div class="container">
-        <div class="vx-section-heading" data-vx-reveal><p class="vx-kicker">How Velixon works</p><h2>Built with intent.<br /><em>Improved with evidence.</em></h2></div>
-        <ol class="vx-process-list">
-          {process.map(([title, detail], index) => <li data-vx-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{detail}</p></li>)}
+        <ol class="home-process-list" data-motion-path>
+          {process.map(([number, title, description]) => (
+            <li><span>{number}</span><div><h3>{title}</h3><p>{description}</p></div></li>
+          ))}
         </ol>
       </div>
     </section>
 
-    <section class="vx-industries vx-section" id="about">
-      <div class="container">
-        <div class="vx-heading-row" data-vx-reveal><div><p class="vx-kicker">Built for real operations</p><h2>Different industries.<br /><em>The same systems problem.</em></h2></div><p>We learn the operation first, then bring the product and engineering experience to make it work better.</p></div>
-        <div class="vx-industry-grid">{industries.map((industry) => <article data-vx-reveal><a href={industry.href}><h3>{industry.title}</h3><p>{industry.detail}</p><span aria-hidden="true">↗</span></a></article>)}</div>
-        <p class="vx-section-route"><a href="/solutions/">Explore industry automation solutions <span aria-hidden="true">↗</span></a> · <a href="/case-studies/">Review Velixon case studies <span aria-hidden="true">↗</span></a></p>
-      </div>
-    </section>
-
-    <section class="vx-stack">
-      <div class="container vx-stack-layout" data-vx-reveal><div><p class="vx-kicker">The infrastructure behind reliable systems</p><h2>Modern technology.<br />Chosen for the job.</h2><p>We use proven platforms and current AI models where they create durable business value—not for a logo wall.</p><a class="vx-text-link" href="/integrations/">Explore integration engineering <span aria-hidden="true">↗</span></a></div><div class="vx-tech-list">{tech.map((item) => <span>{item}</span>)}</div></div>
-    </section>
-
-    <section class="vx-faq vx-section" id="faq">
-      <div class="container vx-faq-layout">
-        <div class="vx-faq-heading"><p class="vx-kicker">Frequently asked questions</p><h2>Custom software, AI systems, and how Velixon works.</h2><p>Clear answers for companies evaluating a custom business system.</p><a class="vx-text-link" href="/process/">See the development process <span aria-hidden="true">↗</span></a></div>
-        <div class="vx-faq-list">
+    <section class="home-section home-faq" aria-labelledby="home-faq-title">
+      <div class="container home-faq-layout">
+        <div data-motion-reveal="left">
+          <p class="home-eyebrow">Straight answers</p>
+          <h2 id="home-faq-title">Know what you are starting.</h2>
+          <button class="home-text-button" type="button" data-inquiry-open>Still have a question? Ask Velixon <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="home-faq-list" data-motion-stagger>
           {faqs.map((faq, index) => (
             <details open={index === 0}>
               <summary>{faq.question}<span aria-hidden="true">+</span></summary>
@@ -312,77 +241,5 @@ const homeSchema = [
         </div>
       </div>
     </section>
-
-    <section class="vx-insights vx-section" aria-labelledby="vx-insights-title">
-      <div class="container">
-        <div class="vx-heading-row" data-vx-reveal>
-          <div><p class="vx-kicker">Velixon resources</p><h2 id="vx-insights-title">Make the software decision <em>before writing the code.</em></h2></div>
-          <p>Practical guides for deciding what to build, what to buy, where AI creates value, and when an operational workaround has reached its limit.</p>
-        </div>
-        <div class="vx-insights-grid">
-          {featuredResources.map((resource) => (
-            <article class="vx-insight-card" data-vx-reveal>
-              <p>{resource.category}</p>
-              <h3><a href={resource.href}>{resource.title}</a></h3>
-              <span>{resource.description}</span>
-              <a class="vx-insight-link" href={resource.href} aria-label={`Read the guide: ${resource.title}`}>Read the guide <span aria-hidden="true">↗</span></a>
-            </article>
-          ))}
-        </div>
-        <p class="vx-section-route"><a href="/resources/">Explore all software and AI resources <span aria-hidden="true">↗</span></a></p>
-      </div>
-    </section>
-
-    <section class="vx-final" id="contact">
-      <div class="vx-final-glow" aria-hidden="true"></div>
-      <div class="container" data-vx-reveal><p class="vx-kicker">The next system starts here</p><h2>Smarter systems create <em>better business.</em></h2><p>Bring us the workflow that is slowing the company down. We will help determine what should be automated, integrated, replaced, or built.</p><div class="vx-actions"><a class="vx-button vx-button-primary" href="/contact/?source=homepage-final">Request Your Assessment <span aria-hidden="true">↗</span></a><a class="vx-button vx-button-quiet" href="mailto:Velixon.web@gmail.com">Email Velixon</a></div><p class="vx-final-note">Start with a focused conversation about the operation—not a predetermined technology.</p></div>
-    </section>
   </main>
-
-  <script is:inline>
-    (() => {
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const header = document.querySelector(".site-header");
-      let headerFrame = 0;
-      const updateHeader = () => {
-        headerFrame = 0;
-        header?.classList.toggle("is-scrolled", window.scrollY > 24);
-      };
-      const requestHeaderUpdate = () => {
-        if (!headerFrame) headerFrame = window.requestAnimationFrame(updateHeader);
-      };
-      requestHeaderUpdate();
-      window.addEventListener("scroll", requestHeaderUpdate, { passive: true });
-
-      if (!reduced) {
-        const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-          if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
-        }), { threshold: 0.12, rootMargin: "0px 0px -40px" });
-        document.querySelectorAll("[data-vx-reveal]").forEach((item) => observer.observe(item));
-
-        const tilt = document.querySelector("[data-vx-tilt]");
-        let tiltRect;
-        tilt?.addEventListener("pointerenter", () => { tiltRect = tilt.getBoundingClientRect(); }, { passive: true });
-        tilt?.addEventListener("pointermove", (event) => {
-          const rect = tiltRect || tilt.getBoundingClientRect();
-          const x = (event.clientX - rect.left) / rect.width - 0.5;
-          const y = (event.clientY - rect.top) / rect.height - 0.5;
-          tilt.style.setProperty("--tilt-x", `${y * -3}deg`);
-          tilt.style.setProperty("--tilt-y", `${x * 4}deg`);
-        }, { passive: true });
-        tilt?.addEventListener("pointerleave", () => { tiltRect = undefined; tilt.style.setProperty("--tilt-x", "0deg"); tilt.style.setProperty("--tilt-y", "0deg"); });
-        window.addEventListener("resize", () => { tiltRect = undefined; }, { passive: true });
-      } else document.querySelectorAll("[data-vx-reveal]").forEach((item) => item.classList.add("is-visible"));
-
-      const steps = [...document.querySelectorAll("[data-step]")];
-      const flowTitle = document.querySelector("[data-flow-title]");
-      const flowDetail = document.querySelector("[data-flow-detail]");
-      steps.forEach((step) => step.addEventListener("click", () => {
-        steps.forEach((item) => { item.classList.remove("is-active"); item.setAttribute("aria-pressed", "false"); });
-        step.classList.add("is-active"); step.setAttribute("aria-pressed", "true");
-        if (flowTitle) flowTitle.textContent = step.querySelector("b")?.textContent || "Workflow updated";
-        if (flowDetail) flowDetail.textContent = step.querySelector("small")?.textContent || "Data is moving through the system";
-      }));
-    })();
-  </script>
 </MainLayout>

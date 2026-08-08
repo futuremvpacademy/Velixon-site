@@ -1,0 +1,438 @@
+.inquiry-form-shell,
+.inquiry-form,
+.inquiry-field-grid,
+.inquiry-field,
+.inquiry-form-intro,
+.inquiry-success {
+  display: grid;
+}
+
+.inquiry-form-shell {
+  gap: 1.2rem;
+}
+
+.inquiry-form-intro {
+  gap: 0.45rem;
+}
+
+.inquiry-form-intro h2,
+.inquiry-form-intro p,
+.inquiry-success h2,
+.inquiry-success p {
+  margin: 0;
+}
+
+.inquiry-form-intro h2,
+.inquiry-success h2 {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.08;
+}
+
+.inquiry-form-intro p,
+.inquiry-success p {
+  color: var(--text-secondary);
+}
+
+.inquiry-form {
+  gap: 1rem;
+}
+
+.inquiry-field-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.inquiry-field {
+  align-content: start;
+  gap: 0.42rem;
+  min-width: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.inquiry-field-wide {
+  grid-column: 1 / -1;
+}
+
+.inquiry-field > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.inquiry-field small,
+.inquiry-field-help {
+  color: var(--muted-ui);
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.inquiry-field input,
+.inquiry-field select,
+.inquiry-field textarea {
+  width: 100%;
+  border: 1px solid rgba(185, 178, 217, 0.16);
+  border-radius: 10px;
+  padding: 0.82rem 0.9rem;
+  color: var(--text);
+  background: rgba(7, 7, 9, 0.82);
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.inquiry-field input,
+.inquiry-field select {
+  min-height: 48px;
+}
+
+.inquiry-field textarea {
+  min-height: 112px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.inquiry-field input:focus,
+.inquiry-field select:focus,
+.inquiry-field textarea:focus {
+  border-color: rgba(154, 140, 255, 0.58);
+  background: rgba(11, 11, 15, 0.96);
+  box-shadow: 0 0 0 3px rgba(154, 140, 255, 0.12);
+}
+
+.inquiry-field :is(input, select, textarea):user-invalid {
+  border-color: rgba(255, 142, 142, 0.58);
+}
+
+.inquiry-field-help {
+  display: block;
+  line-height: 1.45;
+}
+
+.inquiry-consent {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.8rem 0.85rem;
+  border: 1px solid rgba(185, 178, 217, 0.12);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  background: rgba(154, 140, 255, 0.045);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.inquiry-consent input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.18rem 0 0;
+  accent-color: var(--primary-bright);
+}
+
+.inquiry-consent a,
+.inquiry-direct-contact a,
+.inquiry-error a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.inquiry-submit {
+  width: 100%;
+}
+
+.inquiry-submit:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.inquiry-error {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(255, 142, 142, 0.28);
+  border-radius: 10px;
+  color: #ffd0d0;
+  background: rgba(120, 25, 35, 0.16);
+  font-size: 0.86rem;
+}
+
+.inquiry-error[hidden],
+.inquiry-success[hidden],
+.inquiry-form[hidden],
+.inquiry-invitation[hidden] {
+  display: none;
+}
+
+.inquiry-success {
+  gap: 0.75rem;
+  padding: 1rem 0;
+  outline: none;
+}
+
+.inquiry-success .button {
+  width: fit-content;
+  margin-top: 0.35rem;
+}
+
+.inquiry-kicker {
+  margin: 0;
+  color: var(--primary-bright);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.inquiry-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.inquiry-dialog {
+  width: min(620px, calc(100% - 2rem));
+  max-width: none;
+  max-height: min(88dvh, 820px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(185, 178, 217, 0.22);
+  border-radius: 18px;
+  color: var(--text);
+  background: rgba(10, 10, 13, 0.98);
+  box-shadow: 0 30px 110px rgba(0, 0, 0, 0.72);
+}
+
+.inquiry-dialog::backdrop {
+  background: rgba(2, 2, 4, 0.76);
+  backdrop-filter: blur(6px);
+}
+
+.inquiry-dialog[open] {
+  animation: inquiry-dialog-in 180ms ease-out both;
+}
+
+.inquiry-dialog-surface {
+  position: relative;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(1.2rem, 4vw, 2rem);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(154, 140, 255, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(17, 17, 22, 0.98), rgba(9, 9, 12, 0.99));
+}
+
+.inquiry-dialog-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  background: rgba(8, 8, 11, 0.82);
+  cursor: pointer;
+}
+
+.inquiry-dialog-close:hover {
+  color: var(--text);
+  border-color: rgba(154, 140, 255, 0.3);
+}
+
+.inquiry-dialog-close span {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.inquiry-dialog-header {
+  display: grid;
+  gap: 0.48rem;
+  padding-right: 3.2rem;
+  margin-bottom: 1.15rem;
+}
+
+.inquiry-dialog-header h2,
+.inquiry-dialog-header p {
+  margin: 0;
+}
+
+.inquiry-dialog-header h2 {
+  max-width: 18ch;
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  line-height: 1.02;
+  outline: none;
+}
+
+.inquiry-dialog-header > p:last-child {
+  max-width: 48ch;
+  color: var(--text-secondary);
+}
+
+.inquiry-direct-contact {
+  margin: 1rem 0 0;
+  color: var(--muted-ui);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.inquiry-invitation {
+  position: fixed;
+  right: max(1rem, calc((100vw - var(--container)) / 2));
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  z-index: 900;
+  width: min(330px, calc(100% - 2rem));
+  padding: 1rem 2.75rem 1rem 1rem;
+  border: 1px solid rgba(185, 178, 217, 0.2);
+  border-radius: 14px;
+  color: var(--text);
+  background: rgba(12, 12, 16, 0.96);
+  box-shadow: 0 22px 64px rgba(0, 0, 0, 0.52);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  animation: inquiry-prompt-in 180ms ease-out both;
+}
+
+body.mobile-menu-open .inquiry-invitation {
+  display: none;
+}
+
+.inquiry-invitation strong {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 1rem;
+}
+
+.inquiry-invitation-action {
+  min-height: 44px;
+  margin-top: 0.55rem;
+  padding: 0;
+  border: 0;
+  color: var(--accent-soft);
+  background: transparent;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.inquiry-invitation-action:hover {
+  color: var(--text);
+}
+
+.inquiry-invitation-dismiss {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--muted-ui);
+  background: transparent;
+  cursor: pointer;
+}
+
+body.inquiry-dialog-open {
+  overflow: hidden;
+}
+
+@keyframes inquiry-dialog-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes inquiry-prompt-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 720px) {
+  .inquiry-dialog {
+    width: 100%;
+    max-height: min(92dvh, 820px);
+    margin: auto 0 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .inquiry-dialog-surface {
+    padding: 1.15rem 1rem calc(1.15rem + env(safe-area-inset-bottom));
+  }
+
+  .inquiry-dialog-header {
+    padding-right: 2.8rem;
+  }
+
+  .inquiry-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inquiry-field-wide {
+    grid-column: auto;
+  }
+
+  .inquiry-invitation {
+    right: 1rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .inquiry-success .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .inquiry-dialog-surface {
+    padding-inline: 0.85rem;
+  }
+
+  .inquiry-consent {
+    padding-inline: 0.7rem;
+  }
+
+  .inquiry-invitation {
+    right: 0.65rem;
+    width: calc(100% - 1.3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inquiry-dialog[open],
+  .inquiry-invitation {
+    animation: none;
+  }
+
+  .inquiry-field input,
+  .inquiry-field select,
+  .inquiry-field textarea {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .inquiry-dialog,
+  .inquiry-invitation,
+  .inquiry-field input,
+  .inquiry-field select,
+  .inquiry-field textarea,
+  .inquiry-consent {
+    border: 1px solid CanvasText;
+  }
+}

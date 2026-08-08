@@ -167,7 +167,7 @@ const faqSchema = faqs.length > 0 ? {
               {toc.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
             </ol>
           </nav>
-          <a class="resource-toc-cta" href="/contact/">Discuss your system <span aria-hidden="true">→</span></a>
+          <a class="resource-toc-cta" href="/free-audit/?source=resource-guide#book-audit" data-analytics-event="free_audit_cta_clicked" data-analytics-location="resource-toc">Request Audit <span aria-hidden="true">→</span></a>
         </div>
       </aside>
 
@@ -197,15 +197,6 @@ const faqSchema = faqs.length > 0 ? {
           </section>
         )}
 
-        <section class="resource-inline-cta" aria-labelledby="resource-cta-heading">
-          <p class="resource-kicker">Turn the decision into a plan</p>
-          <h2 id="resource-cta-heading">Map the right system before committing to a build.</h2>
-          <p>Velixon can help you clarify the workflow, business case, system boundary, and most valuable first release.</p>
-          <div class="resource-inline-cta-actions">
-            <a class="button" href="/contact/">Discuss Your Project</a>
-            <a class="button button-secondary" href="/services/">Explore Our Services</a>
-          </div>
-        </section>
       </article>
     </div>
 

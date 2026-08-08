@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+>
+  <url>
+    <loc>https://velixon.net/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://velixon.net/images/velixon-audit-poster.webp</video:thumbnail_loc>
+      <video:title>Velixon Free Business Systems Audit overview</video:title>
+      <video:description>An 18-second overview of how Velixon reviews friction across leads, operations, and software before recommending what to improve first.</video:description>
+      <video:content_loc>https://velixon.net/videos/velixon-audit-promo.mp4</video:content_loc>
+      <video:duration>18</video:duration>
+      <video:publication_date>2026-07-20T00:00:00-06:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://velixon.net/case-studies/formesque-proposal-to-payment-platform/</loc>
+    <video:video>
+      <video:thumbnail_loc>https://velixon.net/images/case-studies/formesque-workflow.png</video:thumbnail_loc>
+      <video:title>FormEsque proposal-to-payment product demonstration</video:title>
+      <video:description>A short product demonstration using illustrative data and real FormEsque interface captures to show a connected proposal, signature, invoice, and payment-record workflow.</video:description>
+      <video:content_loc>https://velixon.net/videos/case-studies/formesque-product-demo.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+</urlset>

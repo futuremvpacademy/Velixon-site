@@ -21,7 +21,8 @@ const { enabled = false } = Astro.props;
   </div>
 </aside>}
 
-{enabled && <script is:inline>
+<script>
+  // @ts-nocheck -- analytics and DOM capabilities are guarded before use.
   (() => {
     const banner = document.querySelector("[data-consent-banner]");
     const accept = banner?.querySelector("[data-consent-accept]");
@@ -60,4 +61,4 @@ const { enabled = false } = Astro.props;
       show(true);
     });
   })();
-</script>}
+</script>

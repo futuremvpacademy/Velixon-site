@@ -1,9 +1,19 @@
 ---
+import { createHash } from "node:crypto";
+import "@fontsource/gloock/latin-400.css";
+import "@fontsource-variable/host-grotesk/wght.css";
+import gloockLatinUrl from "@fontsource/gloock/files/gloock-latin-400-normal.woff2?url";
+import hostGroteskLatinUrl from "@fontsource-variable/host-grotesk/files/host-grotesk-latin-wght-normal.woff2?url";
 import "../styles/global.css";
+import "../styles/conversion.css";
+import "../styles/typography.css";
 import Footer from "../components/Footer.astro";
 import ConsentBanner from "../components/ConsentBanner.astro";
+import QuickContactDialog from "../components/QuickContactDialog.astro";
+import MotionExperience from "../components/MotionExperience.astro";
 import { seo, siteContent } from "../data/site";
 import { isPublicIndexablePath } from "../data/seo/indexing";
+import { inspectAnalyticsConfiguration } from "../lib/free-audit-config";
 import {
   absoluteUrl,
   buildBreadcrumbSchema,
@@ -32,13 +42,14 @@ interface Props {
   articleSection?: string;
   breadcrumbLabels?: Record<string, string>;
   schema?: SchemaInput | SchemaInput[];
+  hideFooter?: boolean;
 }
 
 const {
   title,
   description,
-  imageAlt = "Velixon custom software, AI systems, and connected business infrastructure",
-  socialImage: socialImagePath = "/og.png",
+  imageAlt = "Velixon business automation and custom software",
+  socialImage: socialImagePath = "/business-systems-audit-social.png",
   socialImageWidth = 1200,
   socialImageHeight = 630,
   canonicalPath: canonicalPathOverride,
@@ -48,13 +59,28 @@ const {
   modifiedTime,
   articleSection,
   breadcrumbLabels = {},
-  schema = []
+  schema = [],
+  hideFooter = false
 } = Astro.props;
-const { logo, companyName, footer, footerNav, contactInfo } = siteContent;
+const { logo, companyName, footer, footerNav, contactInfo, businessInfo, cta } = siteContent;
 const siteUrl = Astro.site?.origin ?? "https://velixon.net";
-const analyticsIdCandidate = (import.meta.env.PUBLIC_GA_MEASUREMENT_ID || "").trim();
-const analyticsId = /^G-[A-Z0-9]+$/i.test(analyticsIdCandidate) ? analyticsIdCandidate : "";
-const analyticsEnabled = Boolean(analyticsId);
+const analyticsConfiguration = inspectAnalyticsConfiguration({
+  gaMeasurementId: import.meta.env.PUBLIC_GA_MEASUREMENT_ID,
+  gtmContainerId: import.meta.env.PUBLIC_GTM_CONTAINER_ID,
+  clarityProjectId: import.meta.env.PUBLIC_CLARITY_PROJECT_ID,
+  googleAdsConversionId: import.meta.env.PUBLIC_GOOGLE_ADS_CONVERSION_ID,
+  googleAdsAuditLabel: import.meta.env.PUBLIC_GOOGLE_ADS_AUDIT_CONVERSION_LABEL
+});
+const analyticsId = analyticsConfiguration.gaMeasurementId;
+const gtmContainerId = analyticsConfiguration.gtmContainerId;
+const clarityProjectId = analyticsConfiguration.clarityProjectId;
+const googleAdsConversionId = analyticsConfiguration.googleAdsConversionId;
+const googleAdsAuditLabel = analyticsConfiguration.googleAdsAuditLabel;
+const googleAdsId = googleAdsConversionId;
+const analyticsEnabled = Boolean(analyticsId || gtmContainerId || clarityProjectId || analyticsConfiguration.directGoogleAdsConfigured);
+if (analyticsConfiguration.state === "invalid") {
+  console.warn(`[analytics] ${analyticsConfiguration.issues.join(" ")} Invalid destinations will not load.`);
+}
 const searchConsoleVerification = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "").trim();
 const deploymentNoIndex = import.meta.env.PUBLIC_SITE_NOINDEX === "true";
 const canonicalPath = normalizePathname(canonicalPathOverride ?? Astro.url.pathname);
@@ -77,6 +103,9 @@ const organizationSchema = buildOrganizationSchema({
   imageUrl: socialImage,
   email: contactInfo.email,
   telephone: contactInfo.phone,
+  legalName: businessInfo.legalName,
+  founderName: businessInfo.founder,
+  address: businessInfo.mailingAddress,
   sameAs: footer.socials.map((social) => social.href),
   knowsAbout: [
     "Custom software development",
@@ -93,6 +122,7 @@ const professionalServiceSchema = {
   "@type": "ProfessionalService",
   "@id": `${siteUrl}/#professional-service`,
   name: companyName,
+  legalName: businessInfo.legalName,
   url: absoluteUrl("/", siteUrl),
   description: seo.description,
   email: contactInfo.email,
@@ -100,7 +130,7 @@ const professionalServiceSchema = {
   areaServed: { "@type": "Country", name: "United States" },
   parentOrganization: { "@id": organizationId },
   image: socialImage,
-  priceRange: "Custom scoped engagements"
+  priceRange: "Projects starting at $200"
 };
 const websiteSchema = buildWebsiteSchema({
   siteUrl,
@@ -160,6 +190,8 @@ const imageSchema = buildImageSchema({
 });
 const structuredData = buildSchemaGraph(organizationSchema, professionalServiceSchema, websiteSchema, imageSchema, webPageSchema, breadcrumbSchema, schema);
 const structuredDataJson = serializeJsonLd(structuredData);
+const structuredDataHash = `sha384-${createHash("sha384").update(structuredDataJson).digest("base64")}` as const;
+Astro.csp?.insertScriptHash(structuredDataHash);
 ---
 
 <!doctype html>
@@ -167,6 +199,8 @@ const structuredDataJson = serializeJsonLd(structuredData);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={hostGroteskLatinUrl} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={gloockLatinUrl} as="font" type="font/woff2" crossorigin="anonymous" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="robots" content={robotsContent} />
@@ -211,12 +245,22 @@ const structuredDataJson = serializeJsonLd(structuredData);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <script is:inline type="application/ld+json" set:html={structuredDataJson}></script>
-    <script is:inline>
+    {analyticsEnabled && <meta
+      name="velixon-analytics-config"
+      data-analytics-id={analyticsId}
+      data-gtm-container-id={gtmContainerId}
+      data-clarity-project-id={clarityProjectId}
+      data-google-ads-id={googleAdsId}
+      data-google-ads-audit-label={googleAdsAuditLabel}
+    />}
+  </head>
+  <body>
+    <script>
       (() => {
         try {
           const attributionKey = "velixon_session_attribution";
           const url = new URL(window.location.href);
-          const campaignKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid"];
+          const campaignKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "gbraid", "wbraid", "fbclid"];
           const campaign = Object.fromEntries(campaignKeys.map((key) => [key, url.searchParams.get(key) || ""]));
           if (!sessionStorage.getItem(attributionKey)) {
             sessionStorage.setItem(attributionKey, JSON.stringify({
@@ -231,7 +275,16 @@ const structuredDataJson = serializeJsonLd(structuredData);
         }
       })();
     </script>
-    {analyticsEnabled && <script is:inline define:vars={{ analyticsId }}>
+    <script>
+      // @ts-nocheck -- browser-only analytics globals are validated and normalized at runtime.
+      const analyticsConfig = document.querySelector('meta[name="velixon-analytics-config"]');
+      if (analyticsConfig instanceof HTMLMetaElement) {
+      const analyticsId = analyticsConfig.dataset.analyticsId || "";
+      const gtmContainerId = analyticsConfig.dataset.gtmContainerId || "";
+      const clarityProjectId = analyticsConfig.dataset.clarityProjectId || "";
+      const googleAdsId = analyticsConfig.dataset.googleAdsId || "";
+      const googleAdsAuditLabel = analyticsConfig.dataset.googleAdsAuditLabel || "";
+      const googleAdsBookingLabel = analyticsConfig.dataset.googleAdsBookingLabel || "";
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -250,37 +303,185 @@ const structuredDataJson = serializeJsonLd(structuredData);
 
       (() => {
         const consentKey = "velixon_analytics_consent";
-        let configured = false;
+        let ga4Configured = false;
+        let googleAdsConfigured = false;
+        let gtmLoaded = false;
+        let clarityLoaded = false;
+        let pageViewSent = false;
+        let currentConsent = null;
+        const pendingEvents = [];
+        const allowedParameterKeys = new Set([
+          "calculator_name",
+          "checklist_name",
+          "completion_method",
+          "contact_method",
+          "content_type",
+          "cta_location",
+          "destination_path",
+          "dismiss_method",
+          "duplicate",
+          "error_type",
+          "faq_id",
+          "form_location",
+          "form_name",
+          "form_version",
+          "hero_variant",
+          "item_id",
+          "last_question",
+          "last_step",
+          "lead_source",
+          "link_label",
+          "link_text",
+          "location",
+          "maturity_level",
+          "nav_location",
+          "page_path",
+          "page_type",
+          "percent",
+          "question_id",
+          "question_number",
+          "quiz_name",
+          "score_band",
+          "scroll_depth",
+          "source",
+          "step_name",
+          "step_number",
+          "total_items",
+          "trigger_location",
+          "video_id",
+          "video_location"
+        ]);
+
+        const safeEventName = (value) => {
+          const normalized = String(value || "").trim().toLowerCase();
+          return /^[a-z][a-z0-9_]{0,39}$/.test(normalized) ? normalized : "";
+        };
+
+        const safeParameterValue = (value) => {
+          if (typeof value === "boolean") return value;
+          if (typeof value === "number") return Number.isFinite(value) ? value : undefined;
+          if (typeof value !== "string") return undefined;
+          const normalized = value.replace(/\s+/g, " ").trim().slice(0, 120);
+          if (!normalized) return undefined;
+          const containsEmail = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(normalized);
+          const containsPhone = /(?:\+?\d[\s().-]*){7,}/.test(normalized);
+          return containsEmail || containsPhone ? undefined : normalized;
+        };
+
+        const safeParameters = (parameters) => {
+          if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) return {};
+          return Object.fromEntries(Object.entries(parameters).flatMap(([key, value]) => {
+            if (!allowedParameterKeys.has(key)) return [];
+            const safeValue = safeParameterValue(value);
+            return safeValue === undefined ? [] : [[key, safeValue]];
+          }));
+        };
 
         const getConsent = () => {
           try {
-            return localStorage.getItem(consentKey);
+            const stored = localStorage.getItem(consentKey);
+            return stored === "granted" || stored === "denied" ? stored : currentConsent;
           } catch {
-            return null;
+            return currentConsent;
           }
         };
 
-        const loadAnalytics = () => {
-          if (!analyticsId) return;
+        const loadGoogleTag = () => {
+          const loaderId = analyticsId || googleAdsId;
+          if (!loaderId) return;
           if (!document.querySelector("script[data-velixon-analytics]")) {
             const script = document.createElement("script");
             script.async = true;
-            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(loaderId)}`;
             script.dataset.velixonAnalytics = "true";
             document.head.appendChild(script);
           }
 
-          if (!configured) {
+          if (analyticsId && !ga4Configured) {
             gtag("config", analyticsId, {
               allow_google_signals: false,
-              allow_ad_personalization_signals: false
+              allow_ad_personalization_signals: false,
+              send_page_view: false
             });
-            configured = true;
+            ga4Configured = true;
           }
+
+          if (googleAdsId && !googleAdsConfigured) {
+            gtag("config", googleAdsId, {
+              allow_google_signals: false,
+              allow_ad_personalization_signals: false,
+              send_page_view: false
+            });
+            googleAdsConfigured = true;
+          }
+        };
+
+        const loadGtm = () => {
+          if (!gtmContainerId || gtmLoaded) return;
+          gtmLoaded = true;
+          window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmContainerId)}`;
+          script.dataset.velixonGtm = "true";
+          document.head.appendChild(script);
+        };
+
+        const updateClarityConsent = (granted) => {
+          if (!clarityProjectId || typeof window.clarity !== "function") return;
+          window.clarity("consentv2", {
+            ad_Storage: "denied",
+            analytics_Storage: granted ? "granted" : "denied"
+          });
+        };
+
+        const loadClarity = () => {
+          if (!clarityProjectId || clarityLoaded) return;
+          clarityLoaded = true;
+          window.clarity = window.clarity || function () {
+            (window.clarity.q = window.clarity.q || []).push(arguments);
+          };
+          updateClarityConsent(true);
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = `https://www.clarity.ms/tag/${encodeURIComponent(clarityProjectId)}`;
+          script.dataset.velixonClarity = "true";
+          document.head.appendChild(script);
+        };
+
+        const loadDestinations = () => {
+          loadGoogleTag();
+          loadGtm();
+          loadClarity();
+        };
+
+        const sendGoogleAdsConversion = (eventName) => {
+          if (!googleAdsId) return;
+          const label = eventName === "qualify_lead" ? googleAdsAuditLabel : "";
+          if (!label) return;
+          gtag("event", "conversion", { send_to: `${googleAdsId}/${label}` });
+        };
+
+        const sendEvent = (eventName, parameters) => {
+          loadDestinations();
+          if (gtmContainerId) window.dataLayer.push({ event: eventName, ...parameters });
+          if (analyticsId) gtag("event", eventName, parameters);
+          sendGoogleAdsConversion(eventName);
+        };
+
+        const sendPageView = () => {
+          if (pageViewSent) return;
+          pageViewSent = true;
+          sendEvent("page_view", { page_path: window.location.pathname });
+        };
+
+        const flushPendingEvents = () => {
+          pendingEvents.splice(0).forEach(({ eventName, parameters }) => sendEvent(eventName, parameters));
         };
 
         const updateConsent = (choice) => {
           const granted = choice === "granted";
+          currentConsent = granted ? "granted" : "denied";
           gtag("consent", "update", {
             analytics_storage: granted ? "granted" : "denied",
             ad_storage: "denied",
@@ -292,15 +493,27 @@ const structuredDataJson = serializeJsonLd(structuredData);
           } catch {
             // The preference remains active for this page when storage is unavailable.
           }
-          if (granted) loadAnalytics();
+          if (granted) {
+            loadDestinations();
+            sendPageView();
+            flushPendingEvents();
+          } else {
+            pendingEvents.length = 0;
+            updateClarityConsent(false);
+          }
           window.dispatchEvent(new CustomEvent("velixon:consentchange", { detail: granted ? "granted" : "denied" }));
         };
 
         const track = (eventName, parameters = {}) => {
-          if (!analyticsId) return;
-          if (getConsent() !== "granted") return;
-          loadAnalytics();
-          gtag("event", eventName, parameters);
+          const normalizedEventName = safeEventName(eventName);
+          if (!normalizedEventName || normalizedEventName === "page_view") return;
+          const normalizedParameters = safeParameters(parameters);
+          const consent = getConsent();
+          if (consent === "granted") {
+            sendEvent(normalizedEventName, normalizedParameters);
+          } else if (consent !== "denied" && pendingEvents.length < 50) {
+            pendingEvents.push({ eventName: normalizedEventName, parameters: normalizedParameters });
+          }
         };
 
         window.velixonAnalytics = { getConsent, setConsent: updateConsent, track };
@@ -312,28 +525,33 @@ const structuredDataJson = serializeJsonLd(structuredData);
             ad_user_data: "denied",
             ad_personalization: "denied"
           });
-          loadAnalytics();
+          loadDestinations();
+          sendPageView();
         }
       })();
-    </script>}
-  </head>
-  <body>
+      }
+    </script>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="site-shell">
       <div class="site-content">
         <slot />
       </div>
-      <Footer
-        logo={logo}
-        companyName={companyName}
-        nav={footerNav}
-        footer={footer}
-        phone={contactInfo.phone}
-        analyticsEnabled={analyticsEnabled}
-      />
+      {!hideFooter && <Footer
+          logo={logo}
+          companyName={companyName}
+          nav={footerNav}
+          footer={footer}
+          phone={contactInfo.phone}
+          businessInfo={businessInfo}
+          cta={cta}
+          analyticsEnabled={analyticsEnabled}
+        />}
     </div>
     <ConsentBanner enabled={analyticsEnabled} />
-    <script is:inline>
+    <QuickContactDialog email={contactInfo.email} />
+    <MotionExperience />
+    <script>
+      // @ts-nocheck -- DOM element capabilities are guarded before use.
       (() => {
         const setupCompare = () => {
           document.querySelectorAll("[data-compare-root]").forEach((root) => {
@@ -362,19 +580,50 @@ const structuredDataJson = serializeJsonLd(structuredData);
           const analytics = window.velixonAnalytics;
           if (!analytics) return;
 
+          const normalizedDestination = (() => {
+            try {
+              const destination = new URL(href, window.location.href);
+              return destination.origin === window.location.origin ? destination.pathname : destination.hostname;
+            } catch {
+              return "invalid";
+            }
+          })();
+
+          const linkText = (link.textContent || "").replace(/\s+/g, " ").trim().slice(0, 80);
+          const heroVariant = document
+            .querySelector("[data-automation-audit-page]")
+            ?.getAttribute("data-hero-variant")
+            ?.toLowerCase();
+
           if (href.startsWith("tel:")) {
             analytics.track("contact_click", { contact_method: "phone", page_path: window.location.pathname });
           } else if (href.startsWith("mailto:")) {
             analytics.track("contact_click", { contact_method: "email", page_path: window.location.pathname });
-          } else if (link.matches(".button, .mobile-nav-cta, .vx-button, [data-analytics-cta]")) {
-            const linkText = (link.textContent || "").trim().slice(0, 80);
-            const eventName = /strategy call/i.test(linkText) ? "strategy_call_click" : "cta_click";
+          } else if (link.matches(".button, .mobile-nav-cta, .vx-button, [data-analytics-cta], [data-analytics-event]")) {
+            const explicitEventName = link.getAttribute("data-analytics-event") || "";
+            const eventName = explicitEventName || (/strategy call/i.test(linkText) ? "booking_cta_clicked" : "cta_click");
             analytics.track(eventName, {
               content_type: "call_to_action",
-              item_id: href || window.location.pathname,
+              item_id: normalizedDestination,
               link_text: linkText,
-              page_path: window.location.pathname
+              location: link.getAttribute("data-analytics-location") || "unspecified",
+              cta_location: link.getAttribute("data-analytics-location") || "unspecified",
+              page_path: window.location.pathname,
+              hero_variant: heroVariant
             });
+          } else {
+            const navLocation = link.getAttribute("data-navigation-location")
+              || (link.closest(".desktop-nav") ? "header" : "")
+              || (link.closest(".mobile-nav") ? "mobile-menu" : "")
+              || (link.closest(".footer-nav, .footer-utility") ? "footer" : "");
+            if (navLocation) {
+              analytics.track("navigation_clicked", {
+                nav_location: navLocation,
+                destination_path: normalizedDestination,
+                link_label: linkText,
+                page_path: window.location.pathname
+              });
+            }
           }
         });
       })();

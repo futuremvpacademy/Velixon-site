@@ -1,0 +1,332 @@
+---
+import "../styles/inquiry.css";
+
+interface Props {
+  id: string;
+  formLocation: "popup" | "contact_page";
+  heading?: string;
+  description?: string;
+  showBusiness?: boolean;
+  showProjectType?: boolean;
+  compact?: boolean;
+}
+
+const {
+  id,
+  formLocation,
+  heading,
+  description,
+  showBusiness = false,
+  showProjectType = false,
+  compact = false
+} = Astro.props;
+
+const headingId = `${id}-heading`;
+const descriptionId = `${id}-description`;
+const detailsHelpId = `${id}-details-help`;
+---
+
+<section
+  class:list={["inquiry-form-shell", { "inquiry-form-shell-compact": compact }]}
+  data-inquiry-shell
+  data-form-location={formLocation}
+>
+  {(heading || description) && (
+    <header class="inquiry-form-intro">
+      {heading && <h2 id={headingId}>{heading}</h2>}
+      {description && <p id={descriptionId}>{description}</p>}
+    </header>
+  )}
+
+  <form
+    class="inquiry-form"
+    id={id}
+    name="website-inquiry"
+    method="POST"
+    accept-charset="UTF-8"
+    data-netlify="true"
+    data-netlify-honeypot="bot-field"
+    data-inquiry-form
+    data-form-location={formLocation}
+    aria-labelledby={heading ? headingId : undefined}
+    aria-describedby={description ? descriptionId : undefined}
+    aria-label={!heading ? "Contact Velixon" : undefined}
+  >
+    <input type="hidden" name="form-name" value="website-inquiry" />
+    <input type="hidden" name="subject" value="New website inquiry from velixon.net" />
+    <input type="hidden" name="source" value="website" />
+    <input type="hidden" name="campaign" value="direct" />
+    <input type="hidden" name="utm-source" value="" />
+    <input type="hidden" name="utm-medium" value="" />
+    <input type="hidden" name="utm-campaign" value="" />
+    <input type="hidden" name="utm-content" value="" />
+    <input type="hidden" name="utm-term" value="" />
+    <input type="hidden" name="gclid" value="" />
+    <input type="hidden" name="landing-page" value="" />
+    <input type="hidden" name="referrer" value="" />
+    <input type="hidden" name="attribution-captured-at" value="" />
+    <input type="hidden" name="submission-page" value="" />
+    <input type="hidden" name="form-location" value={formLocation} />
+    <input type="hidden" name="trigger-location" value={formLocation} />
+
+    <p class="inquiry-honeypot" hidden>
+      <label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+    </p>
+
+    <div class="inquiry-field-grid">
+      <label class="inquiry-field">
+        <span>Full name <span aria-hidden="true">*</span></span>
+        <input type="text" name="full-name" autocomplete="name" maxlength="120" required />
+      </label>
+
+      {showBusiness && (
+        <label class="inquiry-field">
+          <span>Business name <small>Optional</small></span>
+          <input type="text" name="business-name" autocomplete="organization" maxlength="120" />
+        </label>
+      )}
+
+      <label class="inquiry-field">
+        <span>Email <span aria-hidden="true">*</span></span>
+        <input type="email" name="email" autocomplete="email" inputmode="email" maxlength="254" required />
+      </label>
+
+      <label class="inquiry-field">
+        <span>Phone <small>Optional</small></span>
+        <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" />
+      </label>
+
+      {showProjectType && (
+        <label class="inquiry-field inquiry-field-wide">
+          <span>What do you need? <span aria-hidden="true">*</span></span>
+          <select name="project-type" required>
+            <option value="">Choose the closest fit</option>
+            <option value="website">Website or redesign</option>
+            <option value="ai-automation">AI or workflow automation</option>
+            <option value="custom-software">Custom software or application</option>
+            <option value="business-systems">Connected business systems</option>
+            <option value="not-sure">Not sure yet</option>
+          </select>
+        </label>
+      )}
+
+      <label class="inquiry-field inquiry-field-wide">
+        <span>What would you like to improve? <span aria-hidden="true">*</span></span>
+        <textarea
+          name="project-details"
+          rows={compact ? 4 : 5}
+          minlength="10"
+          maxlength="1500"
+          aria-describedby={detailsHelpId}
+          required
+        ></textarea>
+        <small id={detailsHelpId} class="inquiry-field-help">A sentence or two is enough. Please do not include passwords or sensitive data.</small>
+      </label>
+    </div>
+
+    <label class="inquiry-consent">
+      <input type="checkbox" name="privacy-acknowledgment" value="accepted" required />
+      <span>I acknowledge the <a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a> and give Velixon permission to respond to this inquiry. <span aria-hidden="true">*</span></span>
+    </label>
+
+    <button class="button inquiry-submit" type="submit" data-inquiry-submit>Send My Request</button>
+
+    <div class="inquiry-error" data-inquiry-error role="alert" tabindex="-1" hidden>
+      <span data-inquiry-error-message>We couldn’t send this right now.</span>
+      <a href="/contact/">Open the Contact page</a>
+    </div>
+  </form>
+
+  <section class="inquiry-success" data-inquiry-success role="status" tabindex="-1" hidden>
+    <p class="inquiry-kicker">Message received</p>
+    <h2>Thanks — your message is with Velixon.</h2>
+    <p>We’ll review it and reply within 1 business day using the contact details you provided. You do not need to submit another form.</p>
+  </section>
+</section>
+
+<script>
+  type AnalyticsApi = {
+    track: (name: string, parameters?: Record<string, unknown>) => void;
+  };
+
+  type Attribution = Record<string, string>;
+
+  const analytics = () => (window as Window & { velixonAnalytics?: AnalyticsApi }).velixonAnalytics;
+  const attributionKey = "velixon_session_attribution";
+
+  const safeDimension = (value: unknown, fallback = "unknown") => {
+    const normalized = String(value || "").trim();
+    return /^[a-z0-9._-]{1,60}$/i.test(normalized) ? normalized : fallback;
+  };
+
+  const allowedLeadSources = new Set([
+    "website",
+    "direct",
+    "outreach",
+    "organic",
+    "referral",
+    "search",
+    "social",
+    "paid",
+    "email",
+    "google",
+    "linkedin",
+    "instagram",
+    "facebook",
+    "homepage",
+    "resources",
+    "navigation"
+  ]);
+
+  const safeLeadSource = (value: unknown) => {
+    const normalized = safeDimension(value, "other").toLowerCase();
+    return allowedLeadSources.has(normalized) ? normalized : "other";
+  };
+
+  const readAttribution = (): Attribution => {
+    try {
+      const parsed = JSON.parse(sessionStorage.getItem(attributionKey) || "{}") as unknown;
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed as Attribution : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const setFormValue = (form: HTMLFormElement, name: string, value: string | null | undefined) => {
+    const field = form.elements.namedItem(name);
+    if (field instanceof HTMLInputElement) field.value = value || "";
+  };
+
+  const applyAttribution = (form: HTMLFormElement) => {
+    const params = new URLSearchParams(window.location.search);
+    const stored = readAttribution();
+    const campaignValue = (param: string, storedKey = param) => params.get(param) || stored[storedKey] || "";
+
+    setFormValue(form, "source", params.get("source") || campaignValue("utm_source") || "website");
+    setFormValue(form, "campaign", params.get("campaign") || campaignValue("utm_campaign") || "direct");
+    setFormValue(form, "utm-source", campaignValue("utm_source"));
+    setFormValue(form, "utm-medium", campaignValue("utm_medium"));
+    setFormValue(form, "utm-campaign", campaignValue("utm_campaign"));
+    setFormValue(form, "utm-content", campaignValue("utm_content"));
+    setFormValue(form, "utm-term", campaignValue("utm_term"));
+    setFormValue(form, "gclid", campaignValue("gclid"));
+    setFormValue(form, "landing-page", stored.landing_page || `${window.location.pathname}${window.location.search}`);
+    setFormValue(form, "referrer", stored.referrer || document.referrer || "direct");
+    setFormValue(form, "attribution-captured-at", stored.captured_at || "");
+    setFormValue(form, "submission-page", `${window.location.pathname}${window.location.search}`);
+  };
+
+  const encodeForm = (form: HTMLFormElement) => {
+    const encoded = new URLSearchParams();
+    new FormData(form).forEach((value, key) => {
+      if (typeof value === "string") encoded.append(key, value);
+    });
+    return encoded.toString();
+  };
+
+  const initializeInquiryForm = (form: HTMLFormElement) => {
+    if (form.dataset.inquiryReady === "true") return;
+    form.dataset.inquiryReady = "true";
+
+    const shell = form.closest<HTMLElement>("[data-inquiry-shell]");
+    const success = shell?.querySelector<HTMLElement>("[data-inquiry-success]");
+    const error = form.querySelector<HTMLElement>("[data-inquiry-error]");
+    const submit = form.querySelector<HTMLButtonElement>("[data-inquiry-submit]");
+    const formLocation = safeDimension(form.dataset.formLocation, "unknown");
+    let started = false;
+    let submitting = false;
+    let submitted = false;
+
+    applyAttribution(form);
+
+    form.addEventListener("focusin", () => {
+      if (started) return;
+      started = true;
+      analytics()?.track("form_start", {
+        form_name: "website-inquiry",
+        form_location: formLocation,
+        page_path: window.location.pathname
+      });
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (submitting || submitted) return;
+
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        'input[type="text"], input[type="email"], input[type="tel"], textarea'
+      ).forEach((field) => { field.value = field.value.trim(); });
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      applyAttribution(form);
+      submitting = true;
+      form.setAttribute("aria-busy", "true");
+      if (error) error.hidden = true;
+      const originalLabel = submit?.textContent || "Send My Request";
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = "Sending…";
+      }
+
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 20_000);
+
+      try {
+        const response = await fetch("/", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encodeForm(form),
+          signal: controller.signal
+        });
+
+        if (!response.ok) throw new Error("Inquiry submission failed");
+
+        submitted = true;
+        const leadSource = safeLeadSource((form.elements.namedItem("source") as HTMLInputElement | null)?.value);
+        analytics()?.track("generate_lead", {
+          form_name: "website-inquiry",
+          form_location: formLocation,
+          lead_source: leadSource,
+          page_path: window.location.pathname
+        });
+
+        form.hidden = true;
+        if (success) {
+          success.hidden = false;
+          success.focus({ preventScroll: true });
+        }
+        form.dispatchEvent(new CustomEvent("velixon:inquiry-submitted", {
+          bubbles: true,
+          detail: { formLocation }
+        }));
+        form.reset();
+      } catch {
+        analytics()?.track("form_error", {
+          form_name: "website-inquiry",
+          form_location: formLocation,
+          error_type: "delivery",
+          page_path: window.location.pathname
+        });
+        if (error) {
+          error.hidden = false;
+          error.focus({ preventScroll: true });
+        }
+      } finally {
+        window.clearTimeout(timeout);
+        submitting = false;
+        form.removeAttribute("aria-busy");
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = originalLabel;
+        }
+      }
+    });
+  };
+
+  document.querySelectorAll<HTMLFormElement>("[data-inquiry-form]").forEach(initializeInquiryForm);
+</script>

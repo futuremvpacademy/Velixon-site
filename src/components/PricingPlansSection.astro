@@ -62,7 +62,7 @@ const baseFeaturesForHigherTiers = pricingPlans.sharedFeatures.filter(
 
       <div class="pricing-build-actions">
         <div class="pricing-cta-stack">
-          <a class="button" href="/contact">{pricingPlans.build.cta}</a>
+          <a class="button" href="/free-audit/?source=pricing-plans-build#book-audit" data-analytics-event="free_audit_cta_clicked" data-analytics-location="pricing-build">{pricingPlans.build.cta}</a>
           <p class="pricing-cta-note">Takes less than 2 minutes</p>
         </div>
       </div>
@@ -129,7 +129,7 @@ const baseFeaturesForHigherTiers = pricingPlans.sharedFeatures.filter(
             </div>
 
             <div class="pricing-cta-stack">
-              <a class="button" href="/contact">{plan.cta}</a>
+              <a class="button" href={`/free-audit/?source=pricing-plan-${index + 1}#book-audit`} data-analytics-event="free_audit_cta_clicked" data-analytics-location="pricing-plan">{plan.cta}</a>
               <p class="pricing-cta-note">Takes less than 2 minutes</p>
             </div>
           </article>

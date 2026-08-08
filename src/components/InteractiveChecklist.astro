@@ -1,0 +1,206 @@
+---
+import type { ChecklistDefinition } from "../data/checklists";
+
+interface Props {
+  checklist: ChecklistDefinition;
+}
+
+const { checklist } = Astro.props;
+const totalItems = checklist.categories.reduce((total, category) => total + category.items.length, 0);
+const storageKey = `velixon_checklist_${checklist.slug}`;
+---
+
+<section
+  class="interactive-checklist"
+  data-checklist-root
+  data-checklist-slug={checklist.slug}
+  data-storage-key={storageKey}
+  aria-labelledby="interactive-checklist-heading"
+>
+  <header class="checklist-summary">
+    <div>
+      <p class="checklist-kicker">Your progress</p>
+      <h2 id="interactive-checklist-heading">Work through the checklist at your own pace.</h2>
+      <p>Your progress stays on this device. No contact information is required.</p>
+    </div>
+    <div class="checklist-overall-progress">
+      <div>
+        <strong data-overall-percent>0%</strong>
+        <span data-overall-count>0 of {totalItems} complete</span>
+      </div>
+      <progress data-overall-progress max={totalItems} value="0">0 of {totalItems}</progress>
+    </div>
+  </header>
+
+  <form class="checklist-form" data-checklist-form>
+    <div class="checklist-category-list">
+      {checklist.categories.map((category, categoryIndex) => (
+        <fieldset class="checklist-category" data-checklist-category={category.id}>
+          <legend>
+            <span>{String(categoryIndex + 1).padStart(2, "0")}</span>
+            <strong>{category.title}</strong>
+          </legend>
+          <p>{category.description}</p>
+          <div class="checklist-category-progress">
+            <progress
+              data-category-progress
+              max={category.items.length}
+              value="0"
+              aria-label={`${category.title} progress`}
+            >0 of {category.items.length}</progress>
+            <output data-category-output>0/{category.items.length}</output>
+          </div>
+          <div class="checklist-items">
+            {category.items.map((item) => (
+              <label class="checklist-item" for={`${checklist.slug}-${item.id}`}>
+                <input
+                  id={`${checklist.slug}-${item.id}`}
+                  type="checkbox"
+                  name="checklist-item"
+                  value={item.id}
+                  data-checklist-item
+                />
+                <span>{item.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+    </div>
+
+    <p class="checklist-status" data-checklist-status role="status" aria-live="polite"></p>
+
+    <div class="checklist-controls" aria-label="Checklist controls">
+      <button class="button button-secondary" type="button" data-checklist-print>Print or Save as PDF</button>
+      <button class="checklist-reset" type="button" data-checklist-reset>Reset checklist</button>
+    </div>
+  </form>
+
+  <section class="checklist-audit-cta" aria-labelledby="checklist-audit-heading">
+    <div>
+      <p class="checklist-kicker">Want a personalized analysis?</p>
+      <h2 id="checklist-audit-heading">Get Your Free Velixon Audit.</h2>
+      <p>Velixon can review your website, lead process, operations, software, and workflows, then email a personalized one-page scorecard and three prioritized recommendations within three business days.</p>
+    </div>
+    <a
+      class="button"
+      href={`/free-audit/?source=${checklist.slug}-checklist#book-audit`}
+      data-checklist-audit-cta
+      data-analytics-cta="free-audit"
+      data-analytics-event="free_audit_cta_clicked"
+      data-analytics-location="checklist-result"
+    >Request Your Free Audit <span aria-hidden="true">↗</span></a>
+  </section>
+</section>
+
+<script>
+  const analytics = () => (window as Window & {
+    velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void };
+  }).velixonAnalytics;
+
+  document.querySelectorAll<HTMLElement>("[data-checklist-root]").forEach((root) => {
+    const slug = root.dataset.checklistSlug || "business-checklist";
+    const storageKey = root.dataset.storageKey || `velixon_checklist_${slug}`;
+    const form = root.querySelector<HTMLFormElement>("[data-checklist-form]");
+    const items = Array.from(root.querySelectorAll<HTMLInputElement>("[data-checklist-item]"));
+    const overallProgress = root.querySelector<HTMLProgressElement>("[data-overall-progress]");
+    const overallPercent = root.querySelector<HTMLElement>("[data-overall-percent]");
+    const overallCount = root.querySelector<HTMLElement>("[data-overall-count]");
+    const status = root.querySelector<HTMLElement>("[data-checklist-status]");
+    const resetButton = root.querySelector<HTMLButtonElement>("[data-checklist-reset]");
+    const printButton = root.querySelector<HTMLButtonElement>("[data-checklist-print]");
+    let completionTrackedThisSession = false;
+    let restoredCompleteState = false;
+
+    const getCheckedIds = () => items.filter((item) => item.checked).map((item) => item.value);
+
+    const save = () => {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({
+          version: 1,
+          updatedAt: new Date().toISOString(),
+          checkedItems: getCheckedIds()
+        }));
+      } catch {
+        // Progress persistence is optional; the checklist itself remains usable.
+      }
+    };
+
+    const update = ({ announce = false, persist = true } = {}) => {
+      const checkedCount = getCheckedIds().length;
+      const percent = items.length > 0 ? Math.round((checkedCount / items.length) * 100) : 0;
+      const isComplete = items.length > 0 && checkedCount === items.length;
+
+      if (overallProgress) {
+        overallProgress.value = checkedCount;
+        overallProgress.textContent = `${checkedCount} of ${items.length}`;
+      }
+      if (overallPercent) overallPercent.textContent = `${percent}%`;
+      if (overallCount) overallCount.textContent = `${checkedCount} of ${items.length} complete`;
+
+      root.querySelectorAll<HTMLElement>("[data-checklist-category]").forEach((category) => {
+        const categoryItems = Array.from(category.querySelectorAll<HTMLInputElement>("[data-checklist-item]"));
+        const categoryChecked = categoryItems.filter((item) => item.checked).length;
+        const categoryProgress = category.querySelector<HTMLProgressElement>("[data-category-progress]");
+        const categoryOutput = category.querySelector<HTMLOutputElement>("[data-category-output]");
+        if (categoryProgress) {
+          categoryProgress.value = categoryChecked;
+          categoryProgress.textContent = `${categoryChecked} of ${categoryItems.length}`;
+        }
+        if (categoryOutput) categoryOutput.value = `${categoryChecked}/${categoryItems.length}`;
+        category.classList.toggle("is-complete", categoryChecked === categoryItems.length);
+      });
+
+      root.classList.toggle("is-complete", isComplete);
+      if (announce && status) {
+        status.textContent = isComplete
+          ? "Checklist complete. Your progress is saved on this device."
+          : `${percent}% complete. Your progress is saved on this device.`;
+      }
+
+      if (isComplete && !restoredCompleteState && !completionTrackedThisSession) {
+        completionTrackedThisSession = true;
+        analytics()?.track("checklist_completed", { checklist_name: slug, total_items: items.length });
+      }
+      restoredCompleteState = false;
+      if (persist) save();
+    };
+
+    const restore = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null") as {
+          version?: number;
+          checkedItems?: string[];
+        } | null;
+        if (!saved || saved.version !== 1 || !Array.isArray(saved.checkedItems)) return;
+        const checkedIds = new Set(saved.checkedItems);
+        items.forEach((item) => { item.checked = checkedIds.has(item.value); });
+        restoredCompleteState = items.length > 0 && items.every((item) => item.checked);
+      } catch {
+        // Ignore unavailable or malformed optional progress data.
+      }
+    };
+
+    form?.addEventListener("submit", (event) => event.preventDefault());
+    form?.addEventListener("change", () => update({ announce: true }));
+
+    resetButton?.addEventListener("click", () => {
+      items.forEach((item) => { item.checked = false; });
+      completionTrackedThisSession = false;
+      restoredCompleteState = false;
+      try { localStorage.removeItem(storageKey); } catch {}
+      update({ announce: false, persist: false });
+      if (status) status.textContent = "Checklist reset. Saved progress was removed from this device.";
+      items[0]?.focus();
+    });
+
+    printButton?.addEventListener("click", () => {
+      analytics()?.track("checklist_print_clicked", { checklist_name: slug });
+      window.print();
+    });
+
+    restore();
+    update({ persist: false });
+    analytics()?.track("checklist_opened", { checklist_name: slug, total_items: items.length });
+  });
+</script>

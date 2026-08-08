@@ -6,13 +6,13 @@ export const phaseOneLocationLandingPages: SeoLandingData[] = [
     slug: "lehi",
     name: "AI Automation Agency in Lehi",
     eyebrow: "Lehi service area",
-    metaTitle: "AI Automation & Custom Software in Lehi, Utah | Velixon",
-    metaDescription: "Velixon serves Lehi and Utah County businesses with AI automation, custom software, CRM, workflow, portal, voice, and integration systems.",
-    headline: "AI automation and custom software for Lehi businesses building the next operating system.",
-    summary: "Velixon serves companies in Lehi and the surrounding Utah County market with custom AI, workflow automation, CRM, portals, integrations, and business software designed around the operation—not a manufactured local-office claim.",
-    primaryKeyword: "AI automation Lehi",
-    secondaryKeywords: ["AI automation company Lehi", "custom software development Lehi", "business automation Lehi", "custom software Utah County", "CRM development Lehi"],
-    definition: "An AI automation and custom software partner serving Lehi can deliver discovery, architecture, engineering, integration, testing, training, and continued improvement for local businesses through a remote-first process. Any in-person work is discussed and scoped for the project; this page does not represent a Velixon office or storefront in Lehi.",
+    metaTitle: "Custom Software Company in Lehi, Utah | Velixon",
+    metaDescription: "Velixon builds custom software, web applications, portals, CRM systems, integrations, and AI automation for Lehi and Utah County businesses.",
+    headline: "Custom software and AI automation for Lehi businesses building the next operating system.",
+    summary: "Velixon serves companies in Lehi and the surrounding Utah County market with custom software, web applications, CRM systems, portals, integrations, and governed AI automation designed around the operation—not a manufactured local-office claim.",
+    primaryKeyword: "custom software company Lehi Utah",
+    secondaryKeywords: ["custom software development Lehi", "custom software developer Lehi Utah", "custom software Utah County", "AI automation company Lehi", "business automation Lehi", "CRM development Lehi"],
+    definition: "A custom software and AI automation company serving Lehi can deliver discovery, product design, architecture, engineering, integration, testing, launch, and continued improvement for local businesses through a remote-first process. Any in-person work is discussed and scoped for the project; this page does not represent a Velixon office or storefront in Lehi.",
     definitionLabel: "How Lehi engagements work",
     challengesTitle: "Lehi growth can turn fast-moving workarounds into operating constraints.",
     challengesIntro: "Lehi sits between the Salt Lake City and Provo markets along the Wasatch Front. Companies and service teams working across Utah County and neighboring areas often need systems that support distributed customers, employees, territories, and software without adding another disconnected tool.",
@@ -34,8 +34,8 @@ export const phaseOneLocationLandingPages: SeoLandingData[] = [
         description: "A company adapts its operation to vendor assumptions even when its customer experience, delivery model, data, or approval path is central to how it competes."
       }
     ],
-    capabilitiesTitle: "Build a focused system for the Lehi operation.",
-    capabilitiesIntro: "Velixon starts with the business constraint and can retain effective current platforms, integrate the missing handoffs, or build a custom application where ownership creates durable value.",
+    capabilitiesTitle: "Build custom software around the Lehi operation.",
+    capabilitiesIntro: "Velixon starts with the business constraint and can retain effective current platforms, integrate the missing handoffs, or build a custom application where owning the workflow creates durable value.",
     capabilities: [
       {
         title: "Lehi workflow and AI assessment",
@@ -51,7 +51,7 @@ export const phaseOneLocationLandingPages: SeoLandingData[] = [
       },
       {
         title: "Custom web applications and portals",
-        description: "Build secure employee, customer, partner, or product experiences with role-specific data, workflows, administration, and responsive interfaces."
+        description: "Build secure employee, customer, partner, or product experiences for Lehi and Utah County organizations with role-specific data, workflows, administration, and responsive interfaces."
       },
       {
         title: "Software and data integrations",
@@ -169,6 +169,10 @@ export const phaseOneLocationLandingPages: SeoLandingData[] = [
       {
         question: "What services does Velixon provide to Lehi businesses?",
         answer: "Velixon provides AI automation, workflow and business process automation, custom software, custom CRM, dashboards, customer or client portals, voice AI, and API integration services. Discovery determines which boundary is appropriate for the operating problem."
+      },
+      {
+        question: "Does Velixon build custom software for Lehi businesses?",
+        answer: "Yes, when the project and operating fit are appropriate. Velixon can design and engineer custom web applications, internal tools, SaaS products, customer portals, dashboards, CRM systems, and integrations for Lehi and Utah County organizations. Discovery defines the users, workflow, data, security responsibilities, integrations, and smallest production-ready release before implementation begins."
       },
       {
         question: "Can Velixon work with a Lehi technology company?",

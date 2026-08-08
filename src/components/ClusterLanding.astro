@@ -22,31 +22,10 @@ const parentLabels: Record<SeoLandingData["collection"], string> = {
 };
 const parentLabel = parentLabels[page.collection];
 const reviewedDate = page.reviewedDate ?? "July 2026";
-const serviceProjectTypes: Record<string, string> = {
-  "ai-automation": "ai-automation",
-  "ai-integrations": "integration",
-  "ai-agents": "ai-automation",
-  "voice-ai": "voice-ai",
-  "workflow-automation": "workflow-automation",
-  "business-process-automation": "workflow-automation",
-  "custom-software": "custom-software",
-  "custom-saas": "custom-software",
-  "custom-crm": "crm-portal",
-  "dashboards-portals": "crm-portal",
-  "api-integrations": "integration"
-};
-const projectType = page.collection === "integrations"
-  ? "integration"
-  : page.collection === "solutions"
-    ? "workflow-automation"
-    : page.collection === "industries" || page.collection === "locations"
-      ? "business-infrastructure"
-      : serviceProjectTypes[page.slug] ?? "not-sure";
-const contactHref = `/contact/?${new URLSearchParams({
+const auditHref = `/free-audit/?${new URLSearchParams({
   source: `${page.collection}-page`,
-  service: page.slug,
-  project_type: projectType
-}).toString()}`;
+  campaign: page.slug
+}).toString()}#book-audit`;
 
 const serviceSchema = {
   "@type": "Service",
@@ -116,7 +95,7 @@ const faqSchema = {
             <h1>{page.headline}</h1>
             <p class="cluster-summary">{page.summary}</p>
             <div class="cluster-actions">
-              <a class="button" href={contactHref}>Schedule a strategy call</a>
+              <a class="button" href={auditHref} data-analytics-event="free_audit_cta_clicked" data-analytics-location="cluster-hero">Request Your Free Audit</a>
               <a class="button button-secondary" href="#examples">See example workflows</a>
             </div>
             <p class="cluster-helper">Clear scope · Production-ready build · Your business owns the system</p>
@@ -289,16 +268,5 @@ const faqSchema = {
       </div>
     </section>
 
-    <section class="cluster-final">
-      <div class="container">
-        <p class="cluster-eyebrow">Smarter systems. Better business.</p>
-        <h2>Find the highest-value system to build first.</h2>
-        <p>Start with the workflow, constraint, or opportunity. Velixon will help translate it into a clear technical plan.</p>
-        <div class="cluster-actions">
-          <a class="button" href={contactHref}>Schedule a strategy call</a>
-          <a class="button button-secondary" href="/resources/">Explore practical guides</a>
-        </div>
-      </div>
-    </section>
   </main>
 </MainLayout>

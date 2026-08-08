@@ -36,8 +36,8 @@ const {
   logo
 } = Astro.props;
 
-const headlineHtml = headline.replace(/\n/g, "<br />");
-const subheadlineHtml = subheadline.replace(/\n/g, "<br />");
+const headlineLines = headline.split("\n");
+const subheadlineLines = subheadline.split("\n");
 ---
 
 <section class="hero" id="top">
@@ -47,8 +47,8 @@ const subheadlineHtml = subheadline.replace(/\n/g, "<br />");
   <div class="container hero-grid">
     <div class="hero-copy hero-copy-minimal">
       <div class="tech-label">{eyebrow}</div>
-      <h1 set:html={headlineHtml}></h1>
-      <p class="hero-text hero-lead" set:html={subheadlineHtml}></p>
+      <h1>{headlineLines.map((line, index) => <>{index > 0 && <br />}{line}</>)}</h1>
+      <p class="hero-text hero-lead">{subheadlineLines.map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
       <div class="hero-actions">
         <a class="button" href={ctaHref}>{cta}</a>
         <a class="button button-secondary" href={secondaryCtaHref}>{secondaryCta}</a>
@@ -68,7 +68,7 @@ const subheadlineHtml = subheadline.replace(/\n/g, "<br />");
 
         <div class="preview-stage">
           <div class="preview-brand">
-            <img src={logo} alt="" aria-hidden="true" />
+            <img src={logo} alt="" aria-hidden="true" width="432" height="288" />
             <span>Velixon</span>
           </div>
 

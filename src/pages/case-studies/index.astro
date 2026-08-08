@@ -2,30 +2,39 @@
 import DirectoryHub from "../../components/DirectoryHub.astro";
 import { caseStudies } from "../../data/seo/case-studies";
 
-const groups = [{
-  title: "Products designed and built by Velixon",
-  description: "First-party product evidence focused on the operating problem, architecture, delivery decisions, and intended business value—without invented client metrics.",
-  items: caseStudies.map((page) => ({ title: page.subject, description: page.summary, href: `/case-studies/${page.slug}/`, label: page.engagementType }))
-}];
+const clientStudies = caseStudies.filter((page) => page.caseStudyType === "client");
+const productStudies = caseStudies.filter((page) => page.caseStudyType === "product");
+const groups = [
+  {
+    title: "External client work",
+    description: "Authorized engagement facts and observable delivery evidence, published without invented performance metrics.",
+    items: clientStudies.map((page) => ({ title: page.subject, description: page.summary, href: `/case-studies/${page.slug}/`, label: page.engagementType }))
+  },
+  {
+    title: "Products designed and built by Velixon",
+    description: "First-party product evidence focused on the operating problem, architecture, delivery decisions, and intended business value.",
+    items: productStudies.map((page) => ({ title: page.subject, description: page.summary, href: `/case-studies/${page.slug}/`, label: page.engagementType }))
+  }
+];
 ---
 
 <DirectoryHub
-  title="AI Automation & Software Case Studies | Velixon"
-  description="Explore first-party Velixon product case studies covering proposal-to-payment workflows, collaborative scheduling, and connected business software."
-  eyebrow="Product evidence"
+  title="Business Systems & Software Case Studies | Velixon"
+  description="Explore authorized Frontier Fence client work alongside clearly labeled first-party Velixon product case studies for FormEsque and ShareCal."
+  eyebrow="Case study evidence"
   headline="See how operating problems become working systems."
-  summary="Transparent product case studies that explain the problem, architecture, delivery path, and value model. No fabricated client logos, ratings, or performance claims."
+  summary="External client work and Velixon-owned products are labeled separately, with source-backed media and no fabricated performance claims."
   path="/case-studies/"
   groups={groups}
-  primaryAction={{ label: "Discuss your system", href: "/contact/?source=case-studies-hub" }}
-  secondaryAction={{ label: "Review first-party product evidence", href: "#directory" }}
+  primaryAction={{ label: "Request Your Free Audit", href: "/free-audit/?source=case-studies-hub#book-audit" }}
+  secondaryAction={{ label: "Browse the case studies", href: "#directory" }}
   statusNotice={{
-    eyebrow: "Client case study status",
-    title: "Detailed client implementation case studies are being prepared.",
-    description: "The published studies below document Velixon-owned products and the operating problems, design decisions, and engineering approaches behind them. Velixon will add client names, testimonials, metrics, and implementation results only when the work, permission, and supporting evidence are verified."
+    eyebrow: "Evidence boundaries",
+    title: "Client work and Velixon-owned product work are labeled separately.",
+    description: "The Frontier Fence study uses authorized engagement facts and features visible on the live client site. The FormEsque and ShareCal studies document Velixon-owned products. None of the studies invent client metrics or imply evidence beyond the material shown."
   }}
   selectionTitle="Choose the evidence closest to your system"
-  selectionGuidance="Start with FormEsque when evaluating connected commercial operations such as proposals, signatures, invoices, and payments. Start with ShareCal when evaluating collaborative scheduling, shared state, permissions, and responsive product experience."
+  selectionGuidance="Start with Frontier Fence for an external website and business-infrastructure engagement. Use FormEsque for connected commercial operations or ShareCal for collaborative scheduling and shared-state product design."
   pathways={{
     eyebrow: "Related services",
     title: "Explore the capabilities behind these systems",
@@ -54,7 +63,7 @@ const groups = [{
       }
     ],
     actions: [
-      { label: "Discuss your system", href: "/contact/?source=case-studies-pathways" },
+      { label: "Request Your Free Audit", href: "/free-audit/?source=case-studies-pathways#book-audit" },
       { label: "Explore all services", href: "/services/" }
     ]
   }}

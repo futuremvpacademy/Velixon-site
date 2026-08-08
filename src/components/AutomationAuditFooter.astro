@@ -1,0 +1,175 @@
+---
+import { siteContent } from "../data/site";
+import { automationAuditTagline } from "../data/automation-audit";
+
+const { companyName, contactInfo, businessInfo } = siteContent;
+const auditLogo = "/velixon-v-mark.png";
+const currentYear = new Date().getFullYear();
+const linkedInCandidate = (import.meta.env.PUBLIC_LINKEDIN_URL || "").trim();
+let linkedInUrl = "";
+try {
+  const linkedIn = new URL(linkedInCandidate);
+  if (linkedIn.protocol === "https:" && (linkedIn.hostname === "linkedin.com" || linkedIn.hostname.endsWith(".linkedin.com"))) {
+    linkedInUrl = linkedIn.toString();
+  }
+} catch {
+  // The unverified social link stays out of production until configured.
+}
+const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
+---
+
+<footer class="automation-audit-footer">
+  <div class="automation-audit-footer__inner">
+    <div class="automation-audit-footer__brand">
+      <a href="/" aria-label={`${companyName} home`}>
+        <img src={auditLogo} alt="" width="592" height="592" loading="lazy" decoding="async" />
+        <span>{companyName}</span>
+      </a>
+      <p>{automationAuditTagline}</p>
+    </div>
+
+    <nav class="automation-audit-footer__nav" aria-label="Business Systems Audit footer navigation">
+      <a href="#solutions">Solutions</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/contact/">Contact</a>
+      {linkedInUrl && <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
+    </nav>
+
+    <address class="automation-audit-footer__contact">
+      <a href={`mailto:${contactInfo.email}`} data-analytics-event="contact_click" data-analytics-location="automation-audit-footer">{contactInfo.email}</a>
+      <a href={phoneHref} data-analytics-event="contact_click" data-analytics-location="automation-audit-footer">{contactInfo.phone}</a>
+      <a href="https://velixon.net/">velixon.net</a>
+      <span>Mailing address: {businessInfo.mailingAddress.formatted}</span>
+    </address>
+  </div>
+
+  <div class="automation-audit-footer__bottom">
+    <p>© {currentYear} {businessInfo.legalName}, doing business as {businessInfo.doingBusinessAs}. All rights reserved.</p>
+    <p>No obligation. Clear recommendations. Built for your business.</p>
+  </div>
+</footer>
+
+<style>
+  .automation-audit-footer {
+    color: #f7f9fc;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    background: #08060a;
+  }
+
+  .automation-audit-footer__inner,
+  .automation-audit-footer__bottom {
+    width: min(calc(100% - 2rem), 1220px);
+    margin: 0 auto;
+  }
+
+  .automation-audit-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.25fr) minmax(180px, 0.8fr) minmax(220px, 0.9fr);
+    gap: clamp(2.5rem, 7vw, 6rem);
+    padding: clamp(3.5rem, 7vw, 6rem) 0;
+  }
+
+  .automation-audit-footer__brand > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .automation-audit-footer__brand img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px rgba(198, 182, 242, 0.22));
+  }
+
+  .automation-audit-footer__brand p {
+    margin: 1.2rem 0 0;
+    color: #9da5b5;
+    font-size: 0.94rem;
+  }
+
+  .automation-audit-footer__nav,
+  .automation-audit-footer__contact {
+    display: grid;
+    align-content: start;
+    gap: 0.8rem;
+  }
+
+  .automation-audit-footer__nav a,
+  .automation-audit-footer__contact a,
+  .automation-audit-footer__contact span {
+    width: fit-content;
+    color: #aeb5c2;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    transition: color 150ms ease;
+  }
+
+  .automation-audit-footer__nav a:hover,
+  .automation-audit-footer__contact a:hover {
+    color: #fff;
+  }
+
+  .automation-audit-footer__contact {
+    margin: 0;
+    font-style: normal;
+  }
+
+  .automation-audit-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 0 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    color: #747d8d;
+    font-size: 0.75rem;
+  }
+
+  .automation-audit-footer__bottom p {
+    margin: 0;
+  }
+
+  :where(.automation-audit-footer a):focus-visible {
+    outline: 2px solid #c6b6f2;
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 760px) {
+    .automation-audit-footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .automation-audit-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .automation-audit-footer__inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .automation-audit-footer__brand {
+      grid-column: auto;
+    }
+
+    .automation-audit-footer__bottom {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .automation-audit-footer__nav a,
+    .automation-audit-footer__contact a {
+      transition: none;
+    }
+  }
+</style>
