@@ -47,7 +47,12 @@ test("free audit terms and machine-readable security disclosure are published", 
   assert.match(securityTxt, /^Canonical: https:\/\/velixon\.net\/\.well-known\/security\.txt$/m);
 });
 
-test("review evidence is retained outside the public deployment directory", () => {
+test("review evidence is excluded from public deployment and private proof paths stay ignored", () => {
+  const gitignore = read("../.gitignore");
+  const privateProofPolicy = read("../ops/private-proof/README.md");
   assert.equal(existsSync(new URL("../public/images/reviews", import.meta.url)), false);
-  assert.equal(existsSync(new URL("../ops/private-proof/reviews/review-4.png", import.meta.url)), true);
+  assert.match(gitignore, /^ops\/private-proof\/reviews\/$/m);
+  assert.match(gitignore, /^ops\/private-proof\/release-archive\/$/m);
+  assert.match(privateProofPolicy, /not deployed with the website/);
+  assert.match(privateProofPolicy, /Do not copy these files into `public\/`/);
 });
