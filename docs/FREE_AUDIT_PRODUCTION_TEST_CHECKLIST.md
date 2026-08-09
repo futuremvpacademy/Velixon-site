@@ -17,7 +17,7 @@ The visitor journey is one request step. An accepted request receives a personal
 ## One controlled submission
 
 - [ ] Open `/free-audit/?source=google&utm_source=google&utm_medium=cpc&utm_campaign=production-test&utm_term=internal-test&gclid=TEST-GCLID&gbraid=TEST-GBRAID&wbraid=TEST-WBRAID`.
-- [ ] Complete the single-step request with a labeled internal address. Confirm first name, last name, business name, work email, main bottleneck, and consent are required; phone and website are optional; and client-side validation and 24-hour tab-scoped progress recovery work.
+- [ ] Complete the single-step request with a labeled internal address. Confirm first name, last name, business name, work email, main bottleneck, and consent are required; website is optional; there is no public phone control; and client-side validation and 24-hour tab-scoped progress recovery work.
 - [ ] Confirm `POST /api/free-audit` returns `200`, `Cache-Control: no-store`, the same request reference in `X-Request-Id` and the JSON body, a `submissionId`, and no credential or stack-trace data.
 - [ ] Confirm the `velixon-free-audit-submissions` Blob record contains the expected contact, qualification, consent, and test attribution fields.
 - [ ] Retry the identical submission in the same tab and confirm `duplicate: true`, the same trusted record is used, and no duplicate email marked `sent` is resent.

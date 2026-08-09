@@ -15,12 +15,14 @@ This file is the source of truth for the Free Business Systems Audit landing-pag
 
 No destination loads when all analytics and conversion IDs are blank or invalid. Google Ads conversion IDs and labels are browser-visible identifiers, not credentials or API secrets. Keep private keys and access tokens out of every `PUBLIC_` variable. Meta Pixel is intentionally absent because no verified Pixel configuration exists.
 
-Do not configure a GA4 Configuration tag or GA4 Event tag in GTM while direct GA4 is enabled unless intentional deduplication has been designed and tested. Direct GA4 plus a GA4 tag in GTM can send the same page view and conversion twice.
+Configure either direct GA4 or GTM, not both. The production validator rejects simultaneous `PUBLIC_GA_MEASUREMENT_ID` and `PUBLIC_GTM_CONTAINER_ID` values because the repository cannot prove that a container avoids duplicate page views and conversions.
 
 Choose exactly one Google Ads delivery path:
 
 - **GTM-owned:** configure `PUBLIC_GTM_CONTAINER_ID` and leave the direct Google Ads ID and audit label blank.
 - **Direct Google tag:** configure `PUBLIC_GOOGLE_ADS_CONVERSION_ID` and `PUBLIC_GOOGLE_ADS_AUDIT_CONVERSION_LABEL`, and do not create an equivalent Google Ads conversion tag in GTM.
+
+The production validator also rejects a GTM container combined with direct Google Ads values.
 
 ## Event contract
 
@@ -30,6 +32,7 @@ All landing-page events use lowercase snake case. `page_path` contains only the 
 | --- | --- | --- | --- | --- |
 | `page_view` | One consented page load. The shared analytics layer disables GA4's automatic page view and emits this event once per page lifecycle to direct GA4 and GTM. Do not call the custom wrapper for page views. | `page_path` | None | No |
 | `free_audit_cta_clicked` | One physical activation of a primary audit CTA. Hero, navigation, section, and sticky-mobile placements use the same event. | `location`, `page_path` | `cta_location` compatibility alias, `link_text`, `item_id`, `hero_variant` | Intent only |
+| `estimate_request_cta_clicked` | One physical activation of a CTA that opens the Project Estimate route or its form. | `location`, `page_path` | `cta_location` compatibility alias, `link_text`, `item_id` | Intent only |
 | `calculator_started` | First user change to any ROI calculator input in the current page lifecycle. | `calculator_name`, `page_path` | `hero_variant` | No |
 | `calculator_completed` | The calculator has valid inputs and renders its complete result for the first time after user interaction. Do not fire on initial default rendering or every input change. | `calculator_name`, `page_path` | `completion_method`, `hero_variant` | Supporting |
 | `audit_started` | First meaningful interaction with the audit request. | `form_name`, `page_path` | `form_version`, `source`, `hero_variant` | No |
@@ -46,7 +49,7 @@ All landing-page events use lowercase snake case. `page_path` contains only the 
 | `faq_opened` | An FAQ disclosure changes from closed to open. | `faq_id`, `page_path` | `hero_variant` | No |
 | `scroll_depth` | The page crosses 25%, 50%, 75%, or 90% for the first time in the current page lifecycle. | `percent`, `page_path` | `page_type`, `hero_variant` | No |
 
-`free_audit_cta_clicked` is the canonical primary-CTA event. Use the `location` property (`hero`, `navigation`, `section`, `sticky_mobile`, or another authored slug) instead of creating separate hero-CTA and navigation-CTA event names.
+`free_audit_cta_clicked` is the canonical primary-audit CTA event. Use the `location` property (`hero`, `navigation`, `section`, `sticky_mobile`, or another authored slug) instead of creating separate hero-CTA and navigation-CTA event names. Informational in-page links such as “See how it works” must not emit this event. `estimate_request_cta_clicked` applies the same rule to Project Estimate entry points.
 
 ## Dispatch behavior
 

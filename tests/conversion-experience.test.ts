@@ -46,14 +46,16 @@ test("public identity, pricing, and offer positioning use approved business fact
 });
 
 test("project estimates are the single detailed project-intake lane", async () => {
-  const [page, styles, proposal, contact, inquiry, netlify, dialog] = await Promise.all([
+  const [page, styles, proposal, contact, inquiry, netlify, dialog, pageHero, analyticsDocumentation] = await Promise.all([
     read("src/pages/estimate-request.astro"),
     read("src/styles/estimate-request.css"),
     read("src/pages/proposal-request.astro"),
     read("src/pages/contact.astro"),
     read("src/components/InquiryForm.astro"),
     read("netlify.toml"),
-    read("src/components/QuickContactDialog.astro")
+    read("src/components/QuickContactDialog.astro"),
+    read("src/components/PageHero.astro"),
+    read("docs/CONVERSION_ANALYTICS.md")
   ]);
 
   const heroPosition = page.indexOf("<PageHero");
@@ -71,6 +73,8 @@ test("project estimates are the single detailed project-intake lane", async () =
   assert.match(page, /AI systems & agents/);
   assert.match(page, /estimate_request_started/);
   assert.match(page, /estimate_request_submitted/);
+  assert.match(pageHero, /href === "#estimate-request-form"[\s\S]*estimate_request_cta_clicked/);
+  assert.match(analyticsDocumentation, /\| `estimate_request_cta_clicked` \|/);
   assert.match(page, /privacy-acknowledgment/);
   assert.match(styles, /#estimate-request-form\s*\{[\s\S]*scroll-margin-top/);
 
@@ -86,6 +90,17 @@ test("project estimates are the single detailed project-intake lane", async () =
   assert.match(inquiry, /You do not need to submit another form/);
   assert.match(inquiry, /within 1 business day/);
   assert.match(dialog, /"\/estimate-request"/);
+});
+
+test("informational audit links do not inflate primary audit CTA intent", async () => {
+  const [page, documentation] = await Promise.all([
+    read("src/pages/free-audit.astro"),
+    read("docs/CONVERSION_ANALYTICS.md")
+  ]);
+
+  assert.match(page, /href="#solutions"/);
+  assert.doesNotMatch(page, /href="#solutions"[^>]+data-analytics-event="free_audit_cta_clicked"/);
+  assert.match(documentation, /Informational in-page links[^.]+must not emit this event/);
 });
 
 test("the audit form stays concise and consent visibility coordinates fixed mobile layers", async () => {

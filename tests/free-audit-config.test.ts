@@ -79,3 +79,24 @@ test("direct Google Ads configuration validates public IDs and labels without ec
   ]);
   assert.doesNotMatch(JSON.stringify(invalid), /AW-secret|bad label/);
 });
+
+test("analytics configuration rejects duplicate GA and Ads delivery paths", () => {
+  const duplicateGa = inspectAnalyticsConfiguration({
+    gaMeasurementId: "G-ABC123",
+    gtmContainerId: "GTM-ABC123"
+  });
+  assert.equal(duplicateGa.state, "invalid");
+  assert.deepEqual(duplicateGa.issues, [
+    "Configure either PUBLIC_GA_MEASUREMENT_ID or PUBLIC_GTM_CONTAINER_ID, not both."
+  ]);
+
+  const duplicateAds = inspectAnalyticsConfiguration({
+    gtmContainerId: "GTM-ABC123",
+    googleAdsConversionId: "AW-123456789",
+    googleAdsAuditLabel: "AbCdEfGhIjK"
+  });
+  assert.equal(duplicateAds.state, "invalid");
+  assert.deepEqual(duplicateAds.issues, [
+    "When PUBLIC_GTM_CONTAINER_ID is configured, Google Ads conversion tags must be configured in GTM; remove direct PUBLIC_GOOGLE_ADS_* values."
+  ]);
+});

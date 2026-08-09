@@ -13,7 +13,7 @@ interface Props {
 const { eyebrow, title, description, cta, ctaHref, secondaryCta, secondaryCtaHref, helper } = Astro.props;
 const analyticsEventForHref = (href?: string) => {
   if (href?.startsWith("/free-audit")) return "free_audit_cta_clicked";
-  if (href?.startsWith("/estimate-request")) return "estimate_request_cta_clicked";
+  if (href?.startsWith("/estimate-request") || href === "#estimate-request-form") return "estimate_request_cta_clicked";
   return undefined;
 };
 ---

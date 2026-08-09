@@ -8,7 +8,7 @@ The conversion route is `/free-audit/`. It stays within the existing Astro, Type
 - Premium responsive landing page, sticky page navigation, and sticky mobile CTA
 - Explanatory lead-to-payment workflow and before/after system visualization
 - Five-input illustrative ROI calculator
-- One-step audit request for core contact/business details, the main bottleneck, and consent, with optional phone and website fields, native inline validation, a no-JavaScript form fallback, and 24-hour tab-scoped progress recovery
+- One-step audit request for core contact/business details, the main bottleneck, and consent, with an optional website field, native inline validation, a no-JavaScript form fallback, and 24-hour tab-scoped progress recovery. The server keeps backward-compatible support for an absent legacy phone value; there is no public phone control.
 - An explicit fulfillment promise: a personalized one-page scorecard and 3 prioritized recommendations within 3 business days
 - First-touch UTM, `gclid`, `gbraid`, `wbraid`, `fbclid`, referrer, landing-page, and hero-variant attribution stored with each lead
 - Strict server validation, honeypot, request-size/origin checks, Netlify rate limiting, duplicate handling, and durable Blob storage

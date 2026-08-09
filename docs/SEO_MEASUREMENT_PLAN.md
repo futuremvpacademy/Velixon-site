@@ -46,6 +46,7 @@ Do not put secrets, service-account credentials, API secrets, or private form-de
 | Contact form dismissed | `contact_form_dismissed` | Diagnose popup abandonment by safe trigger and dismissal method. | Implemented; directional only |
 | Contact invitation dismissed | `contact_prompt_dismissed` | Measure prompt rejection without repeatedly showing it in the same session. | Implemented; directional only |
 | Free Audit CTA activated | `free_audit_cta_clicked` | Compare entry points into the primary audit funnel. Emit one event per physical click; page path and CTA location identify quiz, checklist, calculator, and other assists. | Implemented |
+| Project Estimate CTA activated | `estimate_request_cta_clicked` | Compare entry points into the defined-project funnel without treating a click as a submitted estimate. | Implemented |
 | Google review source opened | `review_source_clicked` | Measure whether customer proof prompts visitors to validate the public source. Keep this supporting-only and exclude reviewer names, excerpts, and Google query details. | Implemented |
 | Audit overview viewed | `audit_video_viewed` | Record the homepage film reaching 50% visibility once per page lifecycle. | Implemented; directional only |
 | Audit overview started | `audit_video_started` | Measure the first user-initiated play without recording playback position or browser details. | Implemented |

@@ -92,6 +92,12 @@ export const inspectAnalyticsConfiguration = (values: {
   if (googleAdsIdCandidate && !googleAdsAuditLabelCandidate) {
     issues.push("PUBLIC_GOOGLE_ADS_AUDIT_CONVERSION_LABEL is required when PUBLIC_GOOGLE_ADS_CONVERSION_ID is configured.");
   }
+  if (gaMeasurementId && gtmContainerId) {
+    issues.push("Configure either PUBLIC_GA_MEASUREMENT_ID or PUBLIC_GTM_CONTAINER_ID, not both.");
+  }
+  if (gtmContainerId && googleAdsConversionId && googleAdsAuditLabel) {
+    issues.push("When PUBLIC_GTM_CONTAINER_ID is configured, Google Ads conversion tags must be configured in GTM; remove direct PUBLIC_GOOGLE_ADS_* values.");
+  }
 
   const directGoogleAdsConfigured = Boolean(googleAdsConversionId && googleAdsAuditLabel);
   const configured = Boolean(gaCandidate || gtmCandidate || clarityCandidate || googleAdsValuesConfigured);
