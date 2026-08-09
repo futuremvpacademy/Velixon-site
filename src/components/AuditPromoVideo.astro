@@ -1,3 +1,15 @@
+---
+const posterSource = "/images/velixon-audit-poster.webp";
+const posterTransform = (width: number) => {
+  const height = Math.round(width * 9 / 16);
+  return `/.netlify/images?url=${encodeURIComponent(posterSource)}&w=${width}&h=${height}&fit=cover&fm=webp&q=86`;
+};
+const posterSrcset = [480, 720]
+  .map((width) => `${posterTransform(width)} ${width}w`)
+  .concat(`${posterSource} 960w`)
+  .join(", ");
+---
+
 <figure class="audit-film" data-audit-film data-motion-reveal="right" data-motion-tilt data-motion-parallax>
   <div class="audit-film-frame">
     <video
@@ -6,7 +18,6 @@
       height="720"
       playsinline
       preload="none"
-      poster="/images/velixon-audit-poster.webp"
       aria-label="Velixon Free Business Systems Audit overview"
       aria-describedby="audit-film-description"
       controlslist="nodownload noremoteplayback"
@@ -14,6 +25,19 @@
     >
       <source src="/videos/velixon-audit-promo.mp4" type="video/mp4" />
     </video>
+
+    <picture class="audit-film-poster" data-audit-film-poster aria-hidden="true">
+      <img
+        data-audit-film-poster-image
+        src={posterSource}
+        srcset={posterSrcset}
+        sizes="(max-width: 900px) calc(100vw - 2rem), 50vw"
+        alt=""
+        width="960"
+        height="540"
+        decoding="async"
+      />
+    </picture>
 
     <button
       class="audit-film-play"
@@ -58,6 +82,8 @@
 
   document.querySelectorAll<HTMLElement>("[data-audit-film]").forEach((film) => {
     const video = film.querySelector<HTMLVideoElement>("video");
+    const poster = film.querySelector<HTMLElement>("[data-audit-film-poster]");
+    const posterImage = film.querySelector<HTMLImageElement>("[data-audit-film-poster-image]");
     const playButton = film.querySelector<HTMLButtonElement>("[data-audit-film-play]");
     const fallback = film.querySelector<HTMLAnchorElement>("[data-audit-film-fallback]");
     if (!video || !playButton || !fallback) return;
@@ -70,6 +96,15 @@
     let viewed = false;
     let started = false;
     let completed = false;
+
+    const loadPosterFallback = () => {
+      if (!posterImage?.hasAttribute("srcset")) return;
+      const fallbackSource = posterImage.getAttribute("src") || "";
+      posterImage.removeAttribute("srcset");
+      if (fallbackSource) posterImage.src = fallbackSource;
+    };
+    posterImage?.addEventListener("error", loadPosterFallback);
+    if (posterImage?.complete && posterImage.naturalWidth === 0) loadPosterFallback();
 
     const trackOnce = (eventName: string) => {
       if (eventName === "audit_video_viewed") {
@@ -112,13 +147,44 @@
       playButton.hidden = true;
     });
 
+    video.addEventListener("playing", () => {
+      poster?.setAttribute("hidden", "");
+    });
+
     video.addEventListener("ended", () => {
       trackOnce("audit_video_completed");
     });
 
     video.addEventListener("error", () => {
+      poster?.removeAttribute("hidden");
       playButton.hidden = true;
       fallback.hidden = false;
     });
   });
 </script>
+
+<style>
+  .audit-film-poster {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: block;
+    pointer-events: none;
+  }
+
+  .audit-film-poster[hidden] {
+    display: none;
+  }
+
+  .audit-film-poster img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .audit-film-play,
+  .audit-film-fallback {
+    z-index: 2;
+  }
+</style>

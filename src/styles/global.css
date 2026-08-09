@@ -3469,13 +3469,16 @@ h2,
 .consent-banner {
   position: fixed;
   right: max(1rem, calc((100vw - var(--container)) / 2));
-  bottom: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom));
   z-index: 1000;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1.2rem;
   align-items: end;
   width: min(680px, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 1.25rem;
   border: 1px solid rgba(185, 178, 217, 0.24);
   border-radius: 20px;
@@ -3534,8 +3537,10 @@ h2,
 
 @media (max-width: 720px) {
   .consent-banner {
-    right: 1rem;
+    right: max(1rem, env(safe-area-inset-right));
+    left: max(1rem, env(safe-area-inset-left));
     grid-template-columns: 1fr;
+    width: auto;
   }
 
   .consent-banner-actions,

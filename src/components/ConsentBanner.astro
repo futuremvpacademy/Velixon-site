@@ -6,11 +6,17 @@ interface Props {
 const { enabled = false } = Astro.props;
 ---
 
-{enabled && <aside class="consent-banner" data-consent-banner aria-label="Analytics preferences" hidden>
+{enabled && <aside
+  class="consent-banner"
+  data-consent-banner
+  aria-labelledby="consent-banner-title"
+  aria-describedby="consent-banner-description"
+  hidden
+>
   <div class="consent-banner-copy">
     <p class="tech-label">Your privacy</p>
-    <h2>Help us improve Velixon</h2>
-    <p>
+    <h2 id="consent-banner-title">Help us improve Velixon</h2>
+    <p id="consent-banner-description">
       Optional analytics show us which pages help visitors most. We do not use advertising cookies, and declining will not affect the site.
       <a href="/cookies/">Read the cookie and storage policy</a>.
     </p>
@@ -30,18 +36,30 @@ const { enabled = false } = Astro.props;
     let returnFocus = null;
 
     const analytics = () => window.velixonAnalytics;
+    const publishVisibility = (visible) => {
+      document.documentElement.dataset.consentBannerVisible = visible ? "true" : "false";
+      window.dispatchEvent(new CustomEvent("velixon:consentbannerchange", {
+        detail: { visible }
+      }));
+    };
     const show = (focus = false) => {
-      if (!banner) return;
+      if (!banner) {
+        publishVisibility(false);
+        return;
+      }
       banner.hidden = false;
-      if (focus) banner.querySelector("button")?.focus();
+      publishVisibility(true);
+      if (focus) banner.querySelector("button")?.focus({ preventScroll: true });
     };
     const hide = () => {
       if (banner) banner.hidden = true;
-      if (returnFocus instanceof HTMLElement) returnFocus.focus();
+      publishVisibility(false);
+      if (returnFocus instanceof HTMLElement) returnFocus.focus({ preventScroll: true });
       returnFocus = null;
     };
 
-    if (!analytics()?.getConsent()) show();
+    if (banner && !analytics()?.getConsent()) show();
+    else hide();
 
     accept?.addEventListener("click", () => {
       analytics()?.setConsent("granted");

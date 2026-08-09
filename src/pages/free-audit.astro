@@ -4,10 +4,10 @@ import AutomationAuditNav from "../components/AutomationAuditNav.astro";
 import AutomationAuditFooter from "../components/AutomationAuditFooter.astro";
 import AutomationRoiCalculator from "../components/AutomationRoiCalculator.astro";
 import FreeAuditForm from "../components/FreeAuditForm.astro";
+import { featuredCustomerReviews, googleReviewsUrl } from "../data/customer-reviews";
 import { caseStudies } from "../data/seo/case-studies";
 import {
   afterVelixonWorkflow,
-  automationAuditCapabilityProof,
   automationAuditCredibilityPoints,
   automationAuditFaqs,
   automationAuditFinalCta,
@@ -15,11 +15,9 @@ import {
   automationAuditHeroVariants,
   automationAuditNotFit,
   automationAuditOfferName,
-  automationAuditPainPoints,
   automationAuditPrimaryCta,
   automationAuditProcess,
   automationAuditProcessNote,
-  automationAuditProofDisclaimer,
   automationAuditReassurance,
   automationSolutions,
   automationWorkflowStages,
@@ -34,7 +32,9 @@ const variantKey: AutomationAuditHeroVariant = configuredVariant in automationAu
   ? configuredVariant as AutomationAuditHeroVariant
   : defaultAutomationAuditHeroVariant;
 const hero = automationAuditHeroVariants[variantKey];
-const productProof = caseStudies.filter((study) => study.caseStudyType === "product").slice(0, 2);
+const featuredAuditReview = featuredCustomerReviews.find((review) => review.name === "Chiggy Combs");
+const frontierFenceProof = caseStudies.find((study) => study.slug === "frontier-fence-digital-systems");
+const productProof = caseStudies.filter((study) => study.caseStudyType === "product").slice(0, 1);
 const pageTitle = `${automationAuditOfferName} | Velixon`;
 const pageDescription = "Request a Free Business Systems Audit and receive a personalized one-page scorecard with 3 prioritized recommendations within 3 business days.";
 const auditLogo = "/velixon-v-mark.png";
@@ -113,6 +113,16 @@ const structuredData = [
           </ol>
           <div class="audit-workflow-footer"><span><i></i> System healthy</span><small>Illustrative workflow</small></div>
         </div>
+
+        <details class="audit-workflow-mobile">
+          <summary>See an example connected workflow <span aria-hidden="true">+</span></summary>
+          <ol>
+            {automationWorkflowStages.map((stage, index) => (
+              <li><span>{String(index + 1).padStart(2, "0")}</span>{stage}</li>
+            ))}
+          </ol>
+          <p>Illustrative workflow. The audit recommendations are based on the business context you provide.</p>
+        </details>
       </div>
     </section>
 
@@ -137,21 +147,61 @@ const structuredData = [
       </div>
     </section>
 
-    <section class="audit-section audit-pain" aria-labelledby="pain-title">
+    <section class="audit-section audit-results" id="results" aria-labelledby="results-title">
       <div class="audit-container">
         <div class="audit-section-heading audit-section-heading-split" data-audit-reveal>
-          <div><p class="audit-kicker">Where margin disappears</p><h2 id="pain-title">Your Business May Be Losing Money Between the Steps</h2></div>
-          <p>Operational drag is often quiet: one delayed reply, one duplicated entry, one status update, and one missed handoff at a time.</p>
+          <div><p class="audit-kicker">Proof you can inspect</p><h2 id="results-title">Real client work. Public customer feedback.</h2></div>
+          <p>This evidence is limited to authorized work, live systems, and an exact public-review excerpt. No revenue, ROI, lead-volume, or time-saving result is implied.</p>
         </div>
-        <div class="audit-pain-grid">
-          {automationAuditPainPoints.map((item, index) => (
-            <article class="audit-pain-card" data-audit-reveal>
-              <div><span>{String(index + 1).padStart(2, "0")}</span><i aria-hidden="true"></i></div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
+
+        <div class="audit-evidence-grid">
+          {frontierFenceProof && frontierFenceProof.media && (
+            <article class="audit-client-proof" data-audit-reveal>
+              <figure>
+                <img
+                  src={frontierFenceProof.media.src}
+                  width={frontierFenceProof.media.width}
+                  height={frontierFenceProof.media.height}
+                  alt={frontierFenceProof.media.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>{frontierFenceProof.media.caption}</figcaption>
+              </figure>
+              <div class="audit-client-proof-copy">
+                <p><span></span>{frontierFenceProof.evidenceLabel}</p>
+                <h3>{frontierFenceProof.headline}</h3>
+                <p>{frontierFenceProof.summary}</p>
+                <small>{frontierFenceProof.evidenceNote}</small>
+                <div class="audit-proof-links">
+                  <a href={`/case-studies/${frontierFenceProof.slug}/`}>Read the Frontier Fence case study <span aria-hidden="true">→</span></a>
+                  {frontierFenceProof.subjectUrl && <a href={frontierFenceProof.subjectUrl} target="_blank" rel="noopener noreferrer">Visit the live client site <span aria-hidden="true">↗</span></a>}
+                </div>
+              </div>
             </article>
-          ))}
+          )}
+
+          {featuredAuditReview && (
+            <figure class="audit-review-proof" data-audit-reveal>
+              <p class="audit-kicker">Public Google review</p>
+              <div class="audit-review-stars" role="img" aria-label={`${featuredAuditReview.stars} out of 5 stars`}>
+                <span aria-hidden="true">★★★★★</span>
+              </div>
+              <blockquote lang="en">“{featuredAuditReview.featuredQuote}”</blockquote>
+              <figcaption><strong>{featuredAuditReview.name}</strong><span>{featuredAuditReview.service}</span></figcaption>
+              <a href={googleReviewsUrl} target="_blank" rel="noopener noreferrer" data-analytics-event="review_source_clicked" data-analytics-location="free-audit-proof">View source on Google <span aria-hidden="true">↗</span></a>
+              <small>This complete-sentence excerpt comes from a public Google review. No performance claim has been added.</small>
+            </figure>
+          )}
         </div>
+
+        {productProof.map((study) => (
+          <aside class="audit-supporting-proof" data-audit-reveal aria-label="Additional product evidence">
+            <div><span>{study.evidenceLabel}</span><strong>{study.headline}</strong></div>
+            <p>{study.summary}</p>
+            <a href={`/case-studies/${study.slug}/`}>Inspect the product case study <span aria-hidden="true">→</span></a>
+          </aside>
+        ))}
       </div>
     </section>
 
@@ -238,49 +288,6 @@ const structuredData = [
       <div class="audit-container"><p class="audit-process-note">{automationAuditProcessNote}</p></div>
     </section>
 
-    <section class="audit-section audit-results" id="results" aria-labelledby="results-title">
-      <div class="audit-container">
-        <div class="audit-section-heading audit-section-heading-split" data-audit-reveal>
-          <div><p class="audit-kicker">Proof without inflated claims</p><h2 id="results-title">See the Systems, Not Made-Up Metrics</h2></div>
-          <p>Velixon shows first-party product work and capability evidence clearly. Client metrics and testimonials only appear when the underlying evidence supports them.</p>
-        </div>
-
-        <div class="audit-capability-proof" aria-label="Velixon automation capabilities">
-          {automationAuditCapabilityProof.map((item, index) => (
-            <article data-audit-reveal><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.description}</p></div></article>
-          ))}
-        </div>
-        <p class="audit-proof-disclaimer">{automationAuditProofDisclaimer}</p>
-
-        <div class="audit-product-proof">
-          {productProof.map((study) => (
-            <article class="audit-product-card" data-audit-reveal>
-              <div class="audit-product-media">
-                {study.media?.type === "image" ? (
-                  <img src={study.media.src} width={study.media.width} height={study.media.height} alt={study.media.alt} loading="lazy" decoding="async" />
-                ) : study.media?.poster ? (
-                  <img src={study.media.poster} width="1200" height="630" alt={study.media.alt} loading="lazy" decoding="async" />
-                ) : null}
-              </div>
-              <div class="audit-product-copy">
-                <p><span></span>{study.evidenceLabel}</p>
-                <h3>{study.headline}</h3>
-                <p>{study.summary}</p>
-                <small>{study.evidenceNote}</small>
-                <a href={`/case-studies/${study.slug}/`}>Read the evidence-bounded case study <span aria-hidden="true">↗</span></a>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div hidden aria-hidden="true" data-case-study-placeholder-library>
-          <article data-proof-placeholder>
-            <span data-client-logo>Client logo</span><span data-industry>Industry</span><span data-problem>Problem</span><span data-solution>Solution</span><span data-before-after-metric>Verified before-and-after metric</span><blockquote data-testimonial>Verified testimonial</blockquote><span data-screenshot>Product screenshot</span><span data-case-study-link>Case-study link</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section class="audit-section audit-fit" aria-labelledby="fit-title">
       <div class="audit-container">
         <div class="audit-section-heading" data-audit-reveal>
@@ -349,18 +356,48 @@ const structuredData = [
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const mobileAuditCta = document.querySelector<HTMLElement>("[data-mobile-audit-cta]");
       const auditFormSection = auditPage.querySelector<HTMLElement>("#book-audit");
+      const heroAuditCta = auditPage.querySelector<HTMLElement>(".audit-hero [data-audit-cta]");
 
       if (mobileAuditCta && auditFormSection) {
-        const syncMobileCta = (formIsNear: boolean) => {
-          mobileAuditCta.hidden = formIsNear;
+        let formIsNear = false;
+        let heroCtaIsVisible = false;
+        let consentBannerVisible = document.documentElement.dataset.consentBannerVisible === "true";
+        const renderMobileCta = () => {
+          mobileAuditCta.hidden = formIsNear || heroCtaIsVisible || consentBannerVisible;
         };
+        const syncMobileCta = (nextFormIsNear: boolean) => {
+          formIsNear = nextFormIsNear;
+          renderMobileCta();
+        };
+        const syncHeroCta = (nextHeroCtaIsVisible: boolean) => {
+          heroCtaIsVisible = nextHeroCtaIsVisible;
+          renderMobileCta();
+        };
+        const syncConsentBanner = (event: Event) => {
+          const detail = (event as CustomEvent<{ visible?: boolean }>).detail;
+          consentBannerVisible = typeof detail?.visible === "boolean"
+            ? detail.visible
+            : document.documentElement.dataset.consentBannerVisible === "true";
+          renderMobileCta();
+        };
+        window.addEventListener("velixon:consentbannerchange", syncConsentBanner);
         const rect = auditFormSection.getBoundingClientRect();
         syncMobileCta(rect.bottom >= 0 && rect.top <= window.innerHeight);
+        if (heroAuditCta) {
+          const heroRect = heroAuditCta.getBoundingClientRect();
+          syncHeroCta(heroRect.bottom >= 0 && heroRect.top <= window.innerHeight);
+        }
         if ("IntersectionObserver" in window) {
           const formObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => syncMobileCta(entry.isIntersecting));
           }, { rootMargin: "80px 0px", threshold: 0 });
           formObserver.observe(auditFormSection);
+          if (heroAuditCta) {
+            const heroObserver = new IntersectionObserver((entries) => {
+              entries.forEach((entry) => syncHeroCta(entry.isIntersecting));
+            }, { threshold: 0.1 });
+            heroObserver.observe(heroAuditCta);
+          }
         }
       }
 

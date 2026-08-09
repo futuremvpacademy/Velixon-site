@@ -1,28 +1,24 @@
 # Velixon off-site authority sprint
 
-Updated: July 15, 2026
+Updated: August 9, 2026
 
 This plan covers the work that turns Velixon's technical and content foundation into external authority. It is intentionally limited to truthful, relevant placements and first-party evidence. It excludes purchased links, fake reviews, bulk directories, keyword-swapped guest posts, and unverified partnership claims.
 
 ## Verified starting point
 
 - Google Search Console reported one external link to `velixon.net`, from `ksl.com`, in the July 15 snapshot.
-- The public site uses `velixon@velixon.net`.
-- `velixon.net` had no published MX record in the July 15 DNS check, so a working domain mailbox must be provisioned before the site or partner applications can safely publish `hello@velixon.net` or `partnerships@velixon.net`.
+- The verified public and outreach mailbox is `velixon@velixon.net`.
 - The site can honestly use FormEsque and ShareCal as first-party product evidence. It must not describe them as independent client outcomes or invent adoption, revenue, time-saving, or ROI figures.
 
 ## First 30 days
 
-### 1. Provision a domain mailbox
+### 1. Use the verified domain mailbox
 
-Owner action required: choose and provision a real mailbox or forwarding service at the current DNS provider. Verify both outbound delivery and replies before changing the public site.
+Use `velixon@velixon.net` for partner applications, media outreach, community outreach, and replies. Confirm outbound delivery and replies before each time-sensitive campaign.
 
-Preferred public addresses:
+Do not substitute an unverified alias in an application or outreach template. Dedicated addresses such as `hello@velixon.net` or `partnerships@velixon.net` may be introduced later only after their MX, SPF, DKIM, DMARC, outbound delivery, and reply handling have been verified.
 
-- `hello@velixon.net` for inquiries
-- `partnerships@velixon.net` for platform, media, and community outreach
-
-Do not publish either address until the MX, SPF, DKIM, and DMARC records have been configured and delivery has been tested.
+Keep the sender name and signature consistent: Peter Munnich, Founder, Velixon; `velixon@velixon.net`; `https://velixon.net/`.
 
 ### 2. Assemble the partner proof pack
 

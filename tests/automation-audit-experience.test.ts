@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { featuredCustomerReviews } from "../src/data/customer-reviews";
+import { caseStudies } from "../src/data/seo/case-studies";
 import {
   automationAuditFaqs,
   automationAuditHeroVariants,
@@ -14,7 +16,10 @@ import {
 const read = (path: string) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("business systems audit landing page contains the focused conversion path and one clear promise", async () => {
-  const page = await read("src/pages/free-audit.astro");
+  const [page, styles] = await Promise.all([
+    read("src/pages/free-audit.astro"),
+    read("src/styles/automation-audit.css")
+  ]);
 
   assert.equal(automationAuditOfferName, "Free Business Systems Audit");
   assert.match(page, /pageTitle = `\$\{automationAuditOfferName\} \| Velixon`/);
@@ -28,11 +33,26 @@ test("business systems audit landing page contains the focused conversion path a
     assert.match(page, new RegExp(`id=["']${section}["']`));
   }
   assert.ok(page.indexOf('id="book-audit"') < page.indexOf('id="solutions"'), "the request form must appear before supporting detail");
+  assert.ok(page.indexOf('id="book-audit"') < page.indexOf('id="results"'), "customer proof must follow the request form");
+  assert.ok(page.indexOf('id="results"') < page.indexOf('id="calculator"'), "proof must appear before the ROI calculator");
+  assert.ok(page.indexOf('id="results"') < page.indexOf('id="process"'), "proof must appear before process detail");
+  assert.ok(featuredCustomerReviews.some((review) => review.name === "Chiggy Combs" && Boolean(review.featuredQuote)));
+  assert.ok(caseStudies.some((study) => study.slug === "frontier-fence-digital-systems" && study.caseStudyType === "client"));
+  assert.match(page, /featuredCustomerReviews\.find\(\(review\) => review\.name === "Chiggy Combs"\)/);
+  assert.match(page, /frontier-fence-digital-systems/);
+  assert.match(page, /View source on Google/);
+  assert.match(page, /Read the Frontier Fence case study/);
+  assert.match(page, /No revenue, ROI, lead-volume, or time-saving result is implied/);
+  assert.doesNotMatch(page, /data-case-study-placeholder-library/);
   assert.match(page, /data-mobile-audit-cta/);
-  assert.match(page, /mobileAuditCta\.hidden = formIsNear/);
+  assert.match(page, /mobileAuditCta\.hidden = formIsNear \|\| heroCtaIsVisible \|\| consentBannerVisible/);
   assert.match(page, /formObserver\.observe\(auditFormSection\)/);
-  assert.match(page, /data-case-study-placeholder-library/);
-  assert.match(page, /hidden aria-hidden="true"/);
+  assert.match(page, /heroObserver\.observe\(heroAuditCta\)/);
+  assert.match(page, /dataset\.consentBannerVisible/);
+  assert.match(page, /velixon:consentbannerchange/);
+  assert.match(page, /class="audit-workflow-mobile"/);
+  assert.match(styles, /html\[data-consent-banner-visible="false"\] \.audit-mobile-cta/);
+  assert.match(styles, /@media \(max-width: 680px\)[\s\S]*?\.audit-workflow-card\s*\{\s*display: none;/);
   assert.match(automationAuditProofDisclaimer, /not presented as measured client outcomes/i);
   assert.doesNotMatch(page, /guaranteed (revenue|savings|results)/i);
   assert.equal(automationAuditFaqs.length, 12);
@@ -58,7 +78,7 @@ test("simplified audit request validates one step, retains attribution, and offe
 
   assert.equal((form.match(/data-form-step="[0-9]+"/g) || []).length, 1);
   for (const field of [
-    "firstName", "lastName", "businessName", "workEmail", "phone", "website",
+    "firstName", "lastName", "businessName", "workEmail", "website",
     "mainOperationalProblem", "processingConsent"
   ]) {
     assert.match(form, new RegExp(`name=["']${field}["']`));
@@ -70,10 +90,8 @@ test("simplified audit request validates one step, retains attribution, and offe
     assert.doesNotMatch(form, new RegExp(`name=["']${legacyField}["']`));
     assert.doesNotMatch(form, new RegExp(`${legacyField}:\\s*text\\(`));
   }
-  const phoneInput = form.match(/<input[^>]*name="phone"[^>]*>/)?.[0] || "";
   const websiteInput = form.match(/<input[^>]*name="website"[^>]*>/)?.[0] || "";
-  assert.ok(phoneInput && websiteInput, "optional contact fields should remain available");
-  assert.doesNotMatch(phoneInput, /\brequired\b/);
+  assert.ok(websiteInput, "the optional website field should remain available for audit context");
   assert.doesNotMatch(websiteInput, /\brequired\b/);
   for (const attributionKey of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid"]) {
     assert.match(form, new RegExp(attributionKey));

@@ -48,11 +48,7 @@ const { variant } = Astro.props;
           <span>Work email <b aria-hidden="true">*</b></span>
           <input type="email" name="workEmail" autocomplete="email" inputmode="email" maxlength="254" required />
         </label>
-        <label>
-          <span>Phone number <small>Optional</small></span>
-          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" pattern={"[+0-9 .\\(\\)\\-]{7,40}"} />
-        </label>
-        <label>
+        <label class="audit-form-field-wide">
           <span>Website <small>Optional</small></span>
           <input type="url" name="website" autocomplete="url" inputmode="url" maxlength="300" placeholder="https://example.com" />
         </label>

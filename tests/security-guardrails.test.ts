@@ -32,6 +32,77 @@ test("browser policy uses Astro-generated hashes and allowlisted sources instead
   }
 });
 
+test("response policy, asset caching, and responsive audit media preserve safe browser behavior", async () => {
+  const [netlifyConfig, layout, auditVideo] = await Promise.all([
+    read("netlify.toml"),
+    read("src/layouts/MainLayout.astro"),
+    read("src/components/AuditPromoVideo.astro")
+  ]);
+
+  const responsePolicy = netlifyConfig.match(/Content-Security-Policy = "([^"]+)"/)?.[1] || "";
+  assert.match(responsePolicy, /connect-src 'self'/);
+  assert.match(responsePolicy, /font-src 'self' data:/);
+  assert.match(responsePolicy, /form-action 'self'/);
+  assert.match(responsePolicy, /frame-src 'none'/);
+  assert.match(responsePolicy, /img-src 'self' data:/);
+  assert.match(responsePolicy, /media-src 'self'/);
+  assert.match(responsePolicy, /worker-src 'self'/);
+  assert.doesNotMatch(responsePolicy, /\b(?:default|script|style)-src\b/);
+  for (const provider of [
+    "https://www.googletagmanager.com",
+    "https://*.google-analytics.com",
+    "https://*.analytics.google.com",
+    "https://www.googleadservices.com",
+    "https://googleads.g.doubleclick.net",
+    "https://stats.g.doubleclick.net",
+    "https://*.clarity.ms",
+    "https://c.bing.com"
+  ]) {
+    assert.ok(responsePolicy.includes(provider), `Missing CSP provider: ${provider}`);
+  }
+
+  const headerBlock = (path: string) => {
+    const marker = `for = "${path}"`;
+    const start = netlifyConfig.indexOf(marker);
+    assert.notEqual(start, -1, `Missing Netlify header block for ${path}`);
+    const next = netlifyConfig.indexOf("[[headers]]", start + marker.length);
+    return netlifyConfig.slice(start, next === -1 ? undefined : next);
+  };
+
+  assert.match(headerBlock("/*"), /max-age=0, must-revalidate/);
+  assert.match(headerBlock("/_astro/*"), /max-age=31536000, immutable/);
+  for (const path of [
+    "/og.png",
+    "/business-systems-audit-social.png",
+    "/images/*",
+    "/videos/*",
+    "/favicon-*",
+    "/favicon.ico",
+    "/apple-touch-icon.png",
+    "/velixon-logo.webp"
+  ]) {
+    const block = headerBlock(path);
+    assert.match(block, /max-age=2592000, stale-while-revalidate=604800/);
+    assert.doesNotMatch(block, /immutable/);
+  }
+
+  assert.match(auditVideo, /\/\.netlify\/images\?url=/);
+  assert.match(auditVideo, /srcset=\{posterSrcset\}/);
+  assert.match(auditVideo, /sizes="\(max-width: 900px\) calc\(100vw - 2rem\), 50vw"/);
+  assert.match(auditVideo, /data-audit-film-poster aria-hidden="true"/);
+  assert.match(auditVideo, /data-audit-film-poster-image/);
+  assert.match(auditVideo, /width="960"[\s\S]*height="540"/);
+  assert.match(auditVideo, /posterImage\.removeAttribute\("srcset"\)/);
+  assert.match(auditVideo, /posterImage\?\.complete && posterImage\.naturalWidth === 0/);
+  assert.match(auditVideo, /video\.addEventListener\("playing"/);
+  assert.match(auditVideo, /poster\?\.removeAttribute\("hidden"\)/);
+  assert.doesNotMatch(auditVideo, /\sposter="/);
+
+  assert.doesNotMatch(layout, /googleAdsBookingLabel|booking_cta_clicked/);
+  assert.match(layout, /if \(getConsent\(\) === "granted"\)/);
+  assert.match(layout, /const eventName = explicitEventName \|\| "cta_click"/);
+});
+
 test("public audit endpoint has layered abuse and response protections", async () => {
   const endpoint = await read("netlify/functions/free-audit.ts");
 

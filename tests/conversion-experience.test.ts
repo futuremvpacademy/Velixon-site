@@ -88,6 +88,24 @@ test("project estimates are the single detailed project-intake lane", async () =
   assert.match(dialog, /"\/estimate-request"/);
 });
 
+test("the audit form stays concise and consent visibility coordinates fixed mobile layers", async () => {
+  const [form, banner, globalStyles] = await Promise.all([
+    read("src/components/FreeAuditForm.astro"),
+    read("src/components/ConsentBanner.astro"),
+    read("src/styles/global.css")
+  ]);
+
+  assert.doesNotMatch(form, /<input[^>]+name="phone"/);
+  assert.match(form, /phone:\s*text\("phone"\)/);
+  assert.match(banner, /dataset\.consentBannerVisible\s*=\s*visible\s*\?\s*"true"\s*:\s*"false"/);
+  assert.match(banner, /CustomEvent\("velixon:consentbannerchange"/);
+  assert.match(banner, /detail:\s*\{\s*visible\s*\}/);
+  assert.match(banner, /focus\(\{\s*preventScroll:\s*true\s*\}\)/);
+  assert.match(globalStyles, /\.consent-banner\s*\{[\s\S]*bottom:\s*max\(1rem, env\(safe-area-inset-bottom\)\)/);
+  assert.match(globalStyles, /\.consent-banner\s*\{[\s\S]*max-height:\s*calc\(100dvh/);
+  assert.match(globalStyles, /\.consent-banner\s*\{[\s\S]*overscroll-behavior:\s*contain/);
+});
+
 test("site motion stays progressive, pointer-aware, and reduced-motion safe", async () => {
   const [homepage, motion, layout] = await Promise.all([
     read("src/pages/index.astro"),

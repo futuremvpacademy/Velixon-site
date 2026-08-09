@@ -233,7 +233,7 @@
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    Content-Security-Policy = "base-uri 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests"
+    Content-Security-Policy = "base-uri 'self'; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.clarity.ms https://c.bing.com; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.clarity.ms https://c.bing.com; manifest-src 'self'; media-src 'self'; object-src 'none'; worker-src 'self'; upgrade-insecure-requests"
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Resource-Policy = "same-origin"
     Referrer-Policy = "strict-origin-when-cross-origin"
@@ -253,22 +253,22 @@
 [[headers]]
   for = "/og.png"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/business-systems-audit-social.png"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/images/*"
   [headers.values]
-    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/videos/*"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/sitemap-index.xml"
@@ -303,22 +303,22 @@
 [[headers]]
   for = "/favicon-*"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/favicon.ico"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/apple-touch-icon.png"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/velixon-logo.webp"
   [headers.values]
-    Cache-Control = "public, max-age=604800, stale-while-revalidate=2592000"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/0ee966b99042118dcf10a3ec65908121.txt"

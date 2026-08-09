@@ -284,7 +284,6 @@ Astro.csp?.insertScriptHash(structuredDataHash);
       const clarityProjectId = analyticsConfig.dataset.clarityProjectId || "";
       const googleAdsId = analyticsConfig.dataset.googleAdsId || "";
       const googleAdsAuditLabel = analyticsConfig.dataset.googleAdsAuditLabel || "";
-      const googleAdsBookingLabel = analyticsConfig.dataset.googleAdsBookingLabel || "";
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -601,7 +600,7 @@ Astro.csp?.insertScriptHash(structuredDataHash);
             analytics.track("contact_click", { contact_method: "email", page_path: window.location.pathname });
           } else if (link.matches(".button, .mobile-nav-cta, .vx-button, [data-analytics-cta], [data-analytics-event]")) {
             const explicitEventName = link.getAttribute("data-analytics-event") || "";
-            const eventName = explicitEventName || (/strategy call/i.test(linkText) ? "booking_cta_clicked" : "cta_click");
+            const eventName = explicitEventName || "cta_click";
             analytics.track(eventName, {
               content_type: "call_to_action",
               item_id: normalizedDestination,
