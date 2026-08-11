@@ -183,7 +183,7 @@ test("lead forms use a successful one-time handoff before the shared Google Ads 
   assert.match(form, /privacy-acknowledgment/);
   assert.doesNotMatch(form, /name="budget-range"/);
   assert.match(thankYouPage, /Inquiry received/);
-  assert.match(thankYouPage, /Thank you — we’ll be in touch soon/);
+  assert.match(thankYouPage, /Thank you, we’ll be in touch soon/);
   assert.match(thankYouPage, /within 1 business day/);
   assert.match(thankYouPage, /noIndex/);
   assert.match(thankYouPage, /LEAD_CONVERSION_PROCESSED_KEY/);
