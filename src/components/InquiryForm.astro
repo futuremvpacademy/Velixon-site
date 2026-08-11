@@ -6,8 +6,6 @@ interface Props {
   formLocation: "popup" | "contact_page";
   heading?: string;
   description?: string;
-  showBusiness?: boolean;
-  showProjectType?: boolean;
   compact?: boolean;
 }
 
@@ -16,8 +14,6 @@ const {
   formLocation,
   heading,
   description,
-  showBusiness = false,
-  showProjectType = false,
   compact = false
 } = Astro.props;
 
@@ -81,13 +77,6 @@ const detailsHelpId = `${id}-details-help`;
         <input type="text" name="full-name" autocomplete="name" maxlength="120" required />
       </label>
 
-      {showBusiness && (
-        <label class="inquiry-field">
-          <span>Business name <small>Optional</small></span>
-          <input type="text" name="business-name" autocomplete="organization" maxlength="120" />
-        </label>
-      )}
-
       <label class="inquiry-field">
         <span>Email <span aria-hidden="true">*</span></span>
         <input type="email" name="email" autocomplete="email" inputmode="email" maxlength="254" required />
@@ -97,20 +86,6 @@ const detailsHelpId = `${id}-details-help`;
         <span>Phone <small>Optional</small></span>
         <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" />
       </label>
-
-      {showProjectType && (
-        <label class="inquiry-field inquiry-field-wide">
-          <span>What do you need? <span aria-hidden="true">*</span></span>
-          <select name="project-type" required>
-            <option value="">Choose the closest fit</option>
-            <option value="website">Website or redesign</option>
-            <option value="ai-automation">AI or workflow automation</option>
-            <option value="custom-software">Custom software or application</option>
-            <option value="business-systems">Connected business systems</option>
-            <option value="not-sure">Not sure yet</option>
-          </select>
-        </label>
-      )}
 
       <label class="inquiry-field inquiry-field-wide">
         <span>What would you like to improve? <span aria-hidden="true">*</span></span>
