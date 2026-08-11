@@ -534,11 +534,6 @@ h2,
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: 1px solid rgba(172, 162, 190, 0.1);
-  border-radius: 999px;
-  padding: 0.42rem 0.7rem;
-  background: rgba(13, 10, 19, 0.48);
-  box-shadow: inset 0 1px 0 rgba(220, 209, 245, 0.04);
 }
 
 .hero h1 {
@@ -572,10 +567,6 @@ h2,
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.7rem 0.95rem;
-  border: 1px solid rgba(172, 162, 190, 0.12);
-  border-radius: 999px;
-  background: rgba(11, 8, 17, 0.76);
   color: var(--text-secondary);
   font-size: 0.92rem;
 }
@@ -1002,9 +993,6 @@ h2,
 .preview-kicker {
   display: inline-flex;
   width: fit-content;
-  border-radius: 999px;
-  padding: 0.42rem 0.8rem;
-  background: rgba(203, 189, 242, 0.1);
   color: var(--primary-bright);
   font-size: 0.8rem;
   font-weight: 700;
@@ -1091,10 +1079,6 @@ h2,
 }
 
 .preview-footer span {
-  border: 1px solid rgba(172, 162, 190, 0.14);
-  border-radius: 999px;
-  padding: 0.6rem 0.85rem;
-  background: rgba(10, 7, 17, 0.75);
   color: var(--text-secondary);
   font-size: 0.92rem;
 }
@@ -1348,7 +1332,6 @@ h2,
 .why-velixon-index {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -1356,8 +1339,6 @@ h2,
 }
 
 .work-preview-tag {
-  padding: 0.45rem 0.7rem;
-  background: rgba(154, 140, 255, 0.1);
   color: var(--primary-bright);
 }
 
@@ -1595,7 +1576,7 @@ h2,
   display: inline-flex;
   align-items: center;
   padding: 0.42rem 0.72rem;
-  border-radius: 999px;
+  border-radius: 4px;
   background: rgba(5, 5, 5, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.84);
@@ -1991,9 +1972,6 @@ h2,
 .pricing-plan-badge {
   display: inline-flex;
   width: fit-content;
-  padding: 0.46rem 0.72rem;
-  border-radius: 999px;
-  background: rgba(203, 189, 242, 0.12);
   color: var(--primary-bright);
   font-size: 0.78rem;
   font-weight: 800;
@@ -2251,10 +2229,6 @@ h2,
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.72rem 0.92rem;
-  border: 1px solid rgba(172, 162, 190, 0.14);
-  border-radius: 999px;
-  background: rgba(10, 7, 17, 0.72);
   color: var(--text-secondary);
   font-size: 0.92rem;
 }
@@ -2512,10 +2486,6 @@ h2,
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.72rem 0.92rem;
-  border: 1px solid rgba(172, 162, 190, 0.14);
-  border-radius: 999px;
-  background: rgba(10, 7, 17, 0.72);
   color: var(--text-secondary);
   font-size: 0.92rem;
 }
@@ -2695,10 +2665,6 @@ h2,
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.7rem 0.9rem;
-  border: 1px solid rgba(172, 162, 190, 0.14);
-  border-radius: 999px;
-  background: rgba(10, 7, 17, 0.72);
   color: var(--text-secondary);
   font-size: 0.9rem;
 }

@@ -289,11 +289,7 @@
 }
 
 .roi-model-label {
-  padding: 0.45rem 0.7rem;
-  border: 1px solid rgba(154, 140, 255, 0.18);
-  border-radius: 999px;
   color: #c7c0e6;
-  background: rgba(154, 140, 255, 0.07);
   font-size: 0.66rem;
   font-weight: 750;
   white-space: nowrap;
@@ -564,10 +560,7 @@
 }
 
 .roi-scenario-card header span {
-  padding: 0.3rem 0.45rem;
-  border-radius: 999px;
   color: #beb7dd;
-  background: rgba(154, 140, 255, 0.1);
   font-size: 0.56rem;
   font-weight: 800;
   white-space: nowrap;

@@ -339,10 +339,6 @@
 }
 
 .resource-topic-list span {
-  padding: 0.42rem 0.68rem;
-  border: 1px solid rgba(154, 140, 255, 0.14);
-  border-radius: 999px;
-  background: rgba(154, 140, 255, 0.055);
   color: #bcb6db;
   font-size: 0.8rem;
 }
