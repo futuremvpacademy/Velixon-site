@@ -45,7 +45,7 @@ test("public identity, pricing, and offer positioning use approved business fact
   assert.doesNotMatch(publicCopy, /Velixon\.web@gmail\.com/);
 });
 
-test("project estimates are the single detailed project-intake lane", async () => {
+test("project estimates use a concise four-field intake lane", async () => {
   const [page, styles, proposal, contact, inquiry, netlify, dialog, pageHero, analyticsDocumentation] = await Promise.all([
     read("src/pages/estimate-request.astro"),
     read("src/styles/estimate-request.css"),
@@ -68,6 +68,14 @@ test("project estimates are the single detailed project-intake lane", async () =
   assert.match(page, /name="estimate-request"/);
   assert.match(page, /data-netlify="true"/);
   assert.match(page, /Request My Project Estimate/);
+  assert.match(page, /name="full-name"/);
+  assert.match(page, /name="email"/);
+  assert.match(page, /name="phone"/);
+  assert.match(page, /name="project-details"/);
+  assert.doesNotMatch(page, /name="company"/);
+  assert.doesNotMatch(page, /name="service"/);
+  assert.doesNotMatch(page, /name="budget"/);
+  assert.doesNotMatch(page, /name="timeline"/);
   assert.match(page, /Custom software & SaaS/);
   assert.match(page, /Workflow automation/);
   assert.match(page, /AI systems & agents/);
