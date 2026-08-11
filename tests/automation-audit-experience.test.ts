@@ -164,7 +164,7 @@ test("SEO, social image, and scheduler-free CSP are ready for the audit route", 
   assert.match(page, /"@type": "Service"/);
   assert.match(page, /"@type": "FAQPage"/);
   assert.match(page, /socialImage="\/business-systems-audit-social\.png"/);
-  assert.match(astroConfig, /frame-src 'none'/);
+  assert.match(astroConfig, /frame-src https:\/\/www\.googletagmanager\.com/);
   assert.doesNotMatch(`${netlify}\n${astroConfig}`, /cal\.com|calendly/i);
   assert.equal(socialImage.readUInt32BE(16), 1200);
   assert.equal(socialImage.readUInt32BE(20), 630);

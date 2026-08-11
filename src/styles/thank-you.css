@@ -1,0 +1,175 @@
+.thank-you-page {
+  min-height: min(760px, calc(100dvh - 5rem));
+  background: #070708;
+}
+
+.thank-you-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(4.5rem, 9vw, 8rem) 0;
+}
+
+.thank-you-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 82%);
+  content: "";
+}
+
+.thank-you-glow {
+  position: absolute;
+  z-index: -1;
+  top: -25rem;
+  left: 10%;
+  width: 52rem;
+  height: 52rem;
+  border-radius: 50%;
+  background: rgba(133, 115, 248, 0.16);
+  filter: blur(100px);
+}
+
+.thank-you-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.7fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: center;
+}
+
+.thank-you-confirmation {
+  max-width: 760px;
+}
+
+.thank-you-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid rgba(185, 178, 217, 0.28);
+  border-radius: 50%;
+  color: #d2ccff;
+  background: rgba(154, 140, 255, 0.12);
+  box-shadow: 0 0 40px rgba(154, 140, 255, 0.14);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.thank-you-eyebrow {
+  margin: 0 0 1rem;
+  color: #b8aff8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.thank-you-confirmation h1 {
+  max-width: 11ch;
+  margin: 0;
+  font-size: clamp(3.2rem, 7vw, 6.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.062em;
+  text-wrap: balance;
+}
+
+.thank-you-lede {
+  max-width: 42rem;
+  margin: 1.5rem 0 0;
+  color: #aaa7b1;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.thank-you-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.thank-you-next {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(20, 20, 24, 0.98), rgba(10, 10, 12, 0.98));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.32);
+}
+
+.thank-you-next h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  line-height: 1.03;
+  letter-spacing: -0.05em;
+}
+
+.thank-you-next ol {
+  display: grid;
+  gap: 0;
+  margin: 2rem 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  list-style: none;
+}
+
+.thank-you-next li {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.thank-you-next li > span {
+  color: #8f80ff;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.thank-you-next h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.thank-you-next li p {
+  margin: 0;
+  color: #93919b;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .thank-you-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .thank-you-confirmation h1 {
+    max-width: 13ch;
+  }
+
+  .thank-you-next {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 600px) {
+  .thank-you-hero {
+    padding-top: 3.4rem;
+  }
+
+  .thank-you-confirmation h1 {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+
+  .thank-you-actions,
+  .thank-you-actions .button {
+    width: 100%;
+  }
+}

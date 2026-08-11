@@ -43,10 +43,12 @@ const detailsHelpId = `${id}-details-help`;
     id={id}
     name="website-inquiry"
     method="POST"
+    action="/thank-you/"
     accept-charset="UTF-8"
     data-netlify="true"
     data-netlify-honeypot="bot-field"
     data-inquiry-form
+    data-success-path="/thank-you/"
     data-form-location={formLocation}
     aria-labelledby={heading ? headingId : undefined}
     aria-describedby={description ? descriptionId : undefined}
@@ -137,14 +139,11 @@ const detailsHelpId = `${id}-details-help`;
     </div>
   </form>
 
-  <section class="inquiry-success" data-inquiry-success role="status" tabindex="-1" hidden>
-    <p class="inquiry-kicker">Message received</p>
-    <h2>Thanks — your message is with Velixon.</h2>
-    <p>We’ll review it and reply within 1 business day using the contact details you provided. You do not need to submit another form.</p>
-  </section>
 </section>
 
 <script>
+  import { createLeadConversionHandoff, LEAD_CONVERSION_PENDING_KEY } from "../lib/google-ads";
+
   type AnalyticsApi = {
     track: (name: string, parameters?: Record<string, unknown>) => void;
   };
@@ -228,8 +227,6 @@ const detailsHelpId = `${id}-details-help`;
     if (form.dataset.inquiryReady === "true") return;
     form.dataset.inquiryReady = "true";
 
-    const shell = form.closest<HTMLElement>("[data-inquiry-shell]");
-    const success = shell?.querySelector<HTMLElement>("[data-inquiry-success]");
     const error = form.querySelector<HTMLElement>("[data-inquiry-error]");
     const submit = form.querySelector<HTMLButtonElement>("[data-inquiry-submit]");
     const formLocation = safeDimension(form.dataset.formLocation, "unknown");
@@ -288,23 +285,24 @@ const detailsHelpId = `${id}-details-help`;
 
         submitted = true;
         const leadSource = safeLeadSource((form.elements.namedItem("source") as HTMLInputElement | null)?.value);
-        analytics()?.track("generate_lead", {
-          form_name: "website-inquiry",
-          form_location: formLocation,
-          lead_source: leadSource,
-          page_path: window.location.pathname
+        const leadHandoff = createLeadConversionHandoff({
+          formName: "website-inquiry",
+          formLocation,
+          leadSource,
+          pagePath: window.location.pathname
         });
-
-        form.hidden = true;
-        if (success) {
-          success.hidden = false;
-          success.focus({ preventScroll: true });
+        try {
+          sessionStorage.setItem(LEAD_CONVERSION_PENDING_KEY, JSON.stringify(leadHandoff));
+        } catch {
+          // Without a trustworthy handoff, show confirmation without recording a conversion.
         }
+
         form.dispatchEvent(new CustomEvent("velixon:inquiry-submitted", {
           bubbles: true,
           detail: { formLocation }
         }));
         form.reset();
+        window.location.assign(form.dataset.successPath || "/thank-you/");
       } catch {
         analytics()?.track("form_error", {
           form_name: "website-inquiry",

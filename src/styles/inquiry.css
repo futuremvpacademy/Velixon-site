@@ -2,8 +2,7 @@
 .inquiry-form,
 .inquiry-field-grid,
 .inquiry-field,
-.inquiry-form-intro,
-.inquiry-success {
+.inquiry-form-intro {
   display: grid;
 }
 
@@ -16,20 +15,16 @@
 }
 
 .inquiry-form-intro h2,
-.inquiry-form-intro p,
-.inquiry-success h2,
-.inquiry-success p {
+.inquiry-form-intro p {
   margin: 0;
 }
 
-.inquiry-form-intro h2,
-.inquiry-success h2 {
+.inquiry-form-intro h2 {
   font-size: clamp(1.45rem, 3vw, 2rem);
   line-height: 1.08;
 }
 
-.inquiry-form-intro p,
-.inquiry-success p {
+.inquiry-form-intro p {
   color: var(--text-secondary);
 }
 
@@ -161,21 +156,9 @@
 }
 
 .inquiry-error[hidden],
-.inquiry-success[hidden],
 .inquiry-form[hidden],
 .inquiry-invitation[hidden] {
   display: none;
-}
-
-.inquiry-success {
-  gap: 0.75rem;
-  padding: 1rem 0;
-  outline: none;
-}
-
-.inquiry-success .button {
-  width: fit-content;
-  margin-top: 0.35rem;
 }
 
 .inquiry-kicker {
@@ -393,9 +376,6 @@ body.inquiry-dialog-open {
     bottom: calc(0.75rem + env(safe-area-inset-bottom));
   }
 
-  .inquiry-success .button {
-    width: 100%;
-  }
 }
 
 @media (max-width: 360px) {

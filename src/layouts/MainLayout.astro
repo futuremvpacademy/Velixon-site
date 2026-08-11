@@ -14,6 +14,7 @@ import MotionExperience from "../components/MotionExperience.astro";
 import { seo, siteContent } from "../data/site";
 import { isPublicIndexablePath } from "../data/seo/indexing";
 import { inspectAnalyticsConfiguration } from "../lib/free-audit-config";
+import { GOOGLE_ADS_LEAD_CONVERSION } from "../lib/google-ads";
 import {
   absoluteUrl,
   buildBreadcrumbSchema,
@@ -71,12 +72,16 @@ const analyticsConfiguration = inspectAnalyticsConfiguration({
   googleAdsConversionId: import.meta.env.PUBLIC_GOOGLE_ADS_CONVERSION_ID,
   googleAdsAuditLabel: import.meta.env.PUBLIC_GOOGLE_ADS_AUDIT_CONVERSION_LABEL
 });
-const analyticsId = analyticsConfiguration.gaMeasurementId;
-const gtmContainerId = analyticsConfiguration.gtmContainerId;
-const clarityProjectId = analyticsConfiguration.clarityProjectId;
-const googleAdsConversionId = analyticsConfiguration.googleAdsConversionId;
-const googleAdsAuditLabel = analyticsConfiguration.googleAdsAuditLabel;
+const analyticsConfigurationUsable = analyticsConfiguration.state !== "invalid";
+const analyticsId = analyticsConfigurationUsable ? analyticsConfiguration.gaMeasurementId : "";
+const gtmContainerId = analyticsConfigurationUsable ? analyticsConfiguration.gtmContainerId : "";
+const clarityProjectId = analyticsConfigurationUsable ? analyticsConfiguration.clarityProjectId : "";
+const googleAdsConversionId = analyticsConfigurationUsable ? analyticsConfiguration.googleAdsConversionId : "";
+const googleAdsAuditLabel = analyticsConfigurationUsable ? analyticsConfiguration.googleAdsAuditLabel : "";
 const googleAdsId = googleAdsConversionId;
+const googleAdsLeadLabel = googleAdsId === GOOGLE_ADS_LEAD_CONVERSION.conversionId
+  ? GOOGLE_ADS_LEAD_CONVERSION.conversionLabel
+  : "";
 const analyticsEnabled = Boolean(analyticsId || gtmContainerId || clarityProjectId || analyticsConfiguration.directGoogleAdsConfigured);
 if (analyticsConfiguration.state === "invalid") {
   console.warn(`[analytics] ${analyticsConfiguration.issues.join(" ")} Invalid destinations will not load.`);
@@ -252,6 +257,7 @@ Astro.csp?.insertScriptHash(structuredDataHash);
       data-clarity-project-id={clarityProjectId}
       data-google-ads-id={googleAdsId}
       data-google-ads-audit-label={googleAdsAuditLabel}
+      data-google-ads-lead-label={googleAdsLeadLabel}
     />}
   </head>
   <body>
@@ -284,6 +290,7 @@ Astro.csp?.insertScriptHash(structuredDataHash);
       const clarityProjectId = analyticsConfig.dataset.clarityProjectId || "";
       const googleAdsId = analyticsConfig.dataset.googleAdsId || "";
       const googleAdsAuditLabel = analyticsConfig.dataset.googleAdsAuditLabel || "";
+      const googleAdsLeadLabel = analyticsConfig.dataset.googleAdsLeadLabel || "";
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -456,8 +463,20 @@ Astro.csp?.insertScriptHash(structuredDataHash);
 
         const sendGoogleAdsConversion = (eventName) => {
           if (!googleAdsId) return;
-          const label = eventName === "qualify_lead" ? googleAdsAuditLabel : "";
+          const label = eventName === "qualify_lead"
+            ? googleAdsAuditLabel
+            : eventName === "generate_lead"
+              ? googleAdsLeadLabel
+              : "";
           if (!label) return;
+          if (eventName === "generate_lead") {
+            gtag("event", "conversion", {
+              send_to: `${googleAdsId}/${label}`,
+              value: 1.0,
+              currency: "USD"
+            });
+            return;
+          }
           gtag("event", "conversion", { send_to: `${googleAdsId}/${label}` });
         };
 
@@ -516,6 +535,7 @@ Astro.csp?.insertScriptHash(structuredDataHash);
         };
 
         window.velixonAnalytics = { getConsent, setConsent: updateConsent, track };
+        window.dispatchEvent(new CustomEvent("velixon:analyticsready"));
 
         if (getConsent() === "granted") {
           gtag("consent", "update", {

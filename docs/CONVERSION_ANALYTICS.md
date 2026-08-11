@@ -9,7 +9,7 @@ This file is the source of truth for the Free Business Systems Audit landing-pag
 | `PUBLIC_GA_MEASUREMENT_ID` | `G-...` | Loads direct GA4 after analytics consent. Invalid or blank values are ignored. |
 | `PUBLIC_GTM_CONTAINER_ID` | `GTM-...` | Loads Google Tag Manager after analytics consent. Canonical events are pushed to `window.dataLayer`. |
 | `PUBLIC_CLARITY_PROJECT_ID` | 5–64 letters or digits | Loads Microsoft Clarity after analytics consent and sends an analytics-storage consent signal. Clarity is for consented session diagnostics; the event wrapper does not send custom event properties to Clarity. |
-| `PUBLIC_GOOGLE_ADS_CONVERSION_ID` | `AW-...` | Optional direct Google Ads destination. Loads the Google tag only after analytics consent. |
+| `PUBLIC_GOOGLE_ADS_CONVERSION_ID` | `AW-...` | Direct Google Ads destination shared by the validated audit action and the approved contact/estimate lead action. Loads the existing Google tag only after analytics consent. |
 | `PUBLIC_GOOGLE_ADS_AUDIT_CONVERSION_LABEL` | Google Ads event-snippet label | Sends one direct `conversion` for `qualify_lead`. Requires the conversion ID. |
 | `PUBLIC_AUTOMATION_AUDIT_HERO_VARIANT` | `a`, `b`, or `c` | Selects the configured hero variant. Traffic is not split automatically. |
 
@@ -45,6 +45,7 @@ All landing-page events use lowercase snake case. `page_path` contains only the 
 | `estimate_request_started` | First meaningful interaction with the Project Estimate form. | `form_name`, `page_path` | None | No |
 | `estimate_request_submitted` | Netlify accepts the Project Estimate form. | `form_name`, `page_path` | `source` | Yes |
 | `estimate_request_error` | The Project Estimate form passes local validation but delivery fails. | `form_name`, `page_path` | None | No |
+| `generate_lead` | The Thank You page consumes a one-time session handoff created only after Netlify accepts a contact or Project Estimate form. | `form_name`, `form_location`, `lead_source`, `page_path` | None | Yes; Google Ads contact/estimate action |
 | `review_source_clicked` | A visitor opens the public Google review source from the customer-feedback section. | `location`, `page_path` | `item_id`, `link_text` | Supporting intent only |
 | `faq_opened` | An FAQ disclosure changes from closed to open. | `faq_id`, `page_path` | `hero_variant` | No |
 | `scroll_depth` | The page crosses 25%, 50%, 75%, or 90% for the first time in the current page lifecycle. | `percent`, `page_path` | `page_type`, `hero_variant` | No |
@@ -105,6 +106,7 @@ Before enabling Clarity, verify the project belongs to Velixon, enable the appro
 Mark these as key events in the chosen reporting destination only after production verification:
 
 1. `qualify_lead`, emitted only for an `audit_submitted` response where `duplicate` is `false`.
+2. `generate_lead`, emitted only from `/thank-you/` after a successful `website-inquiry` or `estimate-request` response. The per-submission session token is consumed once, so a direct visit or reload does not repeat it.
 
 Treat CTA clicks, calculator completion, phone clicks, and email clicks as supporting intent. They do not prove that a qualified lead exists. Optional strategy calls are arranged manually after audit delivery and are not a browser conversion event.
 
@@ -122,7 +124,7 @@ Use this path when GTM owns Google Ads conversion delivery.
    - View-through window: **1 day**
    - Attribution: **Data-driven**
    - Primary action: **Yes**
-3. Copy the action's conversion ID (`AW-...`) and conversion label. Do not paste them into source files.
+3. Copy the action's conversion ID (`AW-...`) and conversion label. Public tag identifiers may be site configuration; never treat them as credentials or combine them with account access tokens.
 4. In GTM, create this Custom Event trigger:
    - `CE - qualify_lead`: Event name exactly `qualify_lead`, regex matching off
 5. Create a **Conversion Linker** tag with the trigger **All Pages**. Do not add cross-domain linking without a separately verified need.
@@ -151,7 +153,7 @@ Use this only when GTM does not own the audit conversion tag.
 
 3. Leave both values blank to disable direct conversion delivery. Do not put API keys, OAuth tokens, customer IDs, email addresses, or form values in these variables.
 4. Remove or pause equivalent Google Ads conversion tags in GTM before enabling the direct variables.
-5. After analytics consent, the site loads one Google tag and maps `qualify_lead` to a `conversion` command with `send_to` set to the configured ID/label. It sends no value, currency, transaction ID, enhanced-conversion data, contact data, or click ID.
+5. After analytics consent, the site loads one Google tag. It maps `qualify_lead` to the separately configured audit label and maps the one-time Thank You `generate_lead` event to `AW-18088634031/IvyFCKHRw98cEK_NqrFD` with value `1.0` and currency `USD`. Neither path sends a transaction ID, enhanced-conversion data, contact data, or click ID.
 6. Verify with Tag Assistant and the Google Ads conversion-action diagnostics before making the action primary.
 
 ## Google Ads optimization guardrails
@@ -175,10 +177,11 @@ Use test properties or destination preview modes; never commit production IDs.
 7. Change calculator inputs repeatedly. Confirm one `calculator_started` and one `calculator_completed`, with no raw inputs or result values in the payload.
 8. Move forward, backward, and forward again through the form. Confirm each validated step fires once per page attempt and invalid steps do not fire.
 9. Test accepted, duplicate, validation-error, storage-error, and offline submissions. Only an accepted non-duplicate submission is a primary conversion.
-10. Confirm no public booking URL, scheduler iframe, provider script, calendar event, or booked-call event appears.
-11. Open and close the same FAQ repeatedly and verify the chosen once-per-open behavior matches the implementation without sending the answer text.
-12. Cross 25%, 50%, 75%, and 90% in both directions and confirm each threshold fires once per page lifecycle.
-13. Open the Google review source from the summary and from a review card. Confirm one `review_source_clicked` event per activation, distinct from the audit CTA event, with no reviewer name, excerpt, or Google query string.
-14. Inspect every event object for names, emails, phone numbers, free-form text, raw attribution, budget, revenue, timeline, and calculator values.
-15. Withdraw consent after granting it. Confirm subsequent GA4/GTM events are blocked and Clarity receives denied analytics storage.
-16. Configure an invalid `AW-...` ID or label in a safe local build. Confirm the value is rejected, no conversion destination loads, and diagnostics print only variable names—not configured values.
+10. Test accepted and rejected contact and Project Estimate submissions. Only a 2xx response may navigate to `/thank-you/`; direct visits and reloads must not emit `generate_lead` or the contact/estimate Ads conversion again.
+11. Confirm no public booking URL, scheduler iframe, provider script, calendar event, or booked-call event appears.
+12. Open and close the same FAQ repeatedly and verify the chosen once-per-open behavior matches the implementation without sending the answer text.
+13. Cross 25%, 50%, 75%, and 90% in both directions and confirm each threshold fires once per page lifecycle.
+14. Open the Google review source from the summary and from a review card. Confirm one `review_source_clicked` event per activation, distinct from the audit CTA event, with no reviewer name, excerpt, or Google query string.
+15. Inspect every event object for names, emails, phone numbers, free-form text, raw attribution, budget, revenue, timeline, and calculator values.
+16. Withdraw consent after granting it. Confirm subsequent GA4/GTM events are blocked and Clarity receives denied analytics storage.
+17. Configure an invalid `AW-...` ID or label in a safe local build. Confirm the value is rejected, no conversion destination loads, and diagnostics print only variable names—not configured values.

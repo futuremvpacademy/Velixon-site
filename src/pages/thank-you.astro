@@ -1,0 +1,129 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import { siteContent } from "../data/site";
+import "../styles/thank-you.css";
+
+const { companyName, logo, nav, cta } = siteContent;
+---
+
+<MainLayout
+  title="Message Received | Velixon"
+  description="Thank you for contacting Velixon. Your message has been received and will be reviewed within one business day."
+  canonicalPath="/thank-you/"
+  noIndex
+>
+  <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/thank-you/" />
+
+  <main id="main-content" class="thank-you-page">
+    <section class="thank-you-hero" aria-labelledby="thank-you-title">
+      <div class="thank-you-glow" aria-hidden="true"></div>
+      <div class="container thank-you-shell">
+        <div class="thank-you-confirmation">
+          <span class="thank-you-mark" aria-hidden="true">✓</span>
+          <p class="thank-you-eyebrow">Inquiry received</p>
+          <h1 id="thank-you-title">Thank you — we’ll be in touch soon.</h1>
+          <p class="thank-you-lede">Your inquiry has been received. The Velixon team will review what you sent and follow up within 1 business day using the contact details you provided.</p>
+
+          <nav class="thank-you-actions" aria-label="Continue browsing">
+            <a class="button" href="/" data-analytics-location="thank-you-page">Return to the homepage</a>
+            <a class="button button-secondary" href="/resources/" data-analytics-location="thank-you-page">Explore resources</a>
+          </nav>
+        </div>
+
+        <aside class="thank-you-next" aria-labelledby="thank-you-next-title">
+          <p class="thank-you-eyebrow">What happens next</p>
+          <h2 id="thank-you-next-title">A real person reviews your note.</h2>
+          <ol>
+            <li>
+              <span>01</span>
+              <div>
+                <h3>We read the details</h3>
+                <p>Your message goes directly to Velixon for review.</p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h3>We reply directly</h3>
+                <p>Expect an answer, a useful follow-up question, or the right next step within 1 business day.</p>
+              </div>
+            </li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import {
+      LEAD_CONVERSION_PENDING_KEY,
+      LEAD_CONVERSION_PROCESSED_KEY,
+      parseLeadConversionHandoff,
+      type LeadConversionHandoff
+    } from "../lib/google-ads";
+
+    type AnalyticsApi = {
+      getConsent: () => "granted" | "denied" | null;
+      track: (name: string, parameters?: Record<string, unknown>) => void;
+    };
+
+    const analyticsWindow = window as Window & { velixonAnalytics?: AnalyticsApi };
+
+    const processLeadConversion = () => {
+      let handoff: LeadConversionHandoff | null = null;
+      try {
+        const stored = sessionStorage.getItem(LEAD_CONVERSION_PENDING_KEY);
+        handoff = parseLeadConversionHandoff(stored);
+        if (stored && !handoff) sessionStorage.removeItem(LEAD_CONVERSION_PENDING_KEY);
+      } catch {
+        return;
+      }
+      if (!handoff) return;
+
+      const analytics = analyticsWindow.velixonAnalytics;
+      if (!analytics) {
+        window.addEventListener("velixon:analyticsready", processLeadConversion, { once: true });
+        return;
+      }
+
+      const discardPending = () => {
+        try { sessionStorage.removeItem(LEAD_CONVERSION_PENDING_KEY); } catch {}
+      };
+      const sendOnce = () => {
+        try {
+          if (sessionStorage.getItem(LEAD_CONVERSION_PROCESSED_KEY) === handoff.token) {
+            discardPending();
+            return;
+          }
+          sessionStorage.setItem(LEAD_CONVERSION_PROCESSED_KEY, handoff.token);
+          discardPending();
+        } catch {
+          // Do not send when the one-time conversion claim cannot be persisted.
+          return;
+        }
+
+        analytics.track("generate_lead", {
+          form_name: handoff.formName,
+          form_location: handoff.formLocation,
+          lead_source: handoff.leadSource,
+          page_path: handoff.pagePath
+        });
+      };
+
+      const consent = analytics.getConsent();
+      if (consent === "granted") {
+        sendOnce();
+      } else if (consent === "denied") {
+        discardPending();
+      } else {
+        window.addEventListener("velixon:consentchange", (event) => {
+          if (event instanceof CustomEvent && event.detail === "granted") sendOnce();
+          else discardPending();
+        }, { once: true });
+      }
+    };
+
+    processLeadConversion();
+  </script>
+</MainLayout>

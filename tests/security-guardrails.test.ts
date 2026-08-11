@@ -18,7 +18,7 @@ test("browser policy uses Astro-generated hashes and allowlisted sources instead
   assert.match(astroConfig, /security:\s*\{\s*csp:/);
   assert.match(astroConfig, /algorithm:\s*"SHA-384"/);
   assert.match(astroConfig, /https:\/\/www\.googletagmanager\.com/);
-  assert.match(astroConfig, /frame-src 'none'/);
+  assert.match(astroConfig, /frame-src https:\/\/www\.googletagmanager\.com/);
   assert.doesNotMatch(astroConfig, /cal\.com|calendly/i);
   const scriptDirective = astroConfig.split("scriptDirective:")[1]?.split("styleDirective:")[0] || "";
   assert.doesNotMatch(scriptDirective, /'unsafe-inline'/);
@@ -43,7 +43,7 @@ test("response policy, asset caching, and responsive audit media preserve safe b
   assert.match(responsePolicy, /connect-src 'self'/);
   assert.match(responsePolicy, /font-src 'self' data:/);
   assert.match(responsePolicy, /form-action 'self'/);
-  assert.match(responsePolicy, /frame-src 'none'/);
+  assert.match(responsePolicy, /frame-src https:\/\/www\.googletagmanager\.com/);
   assert.match(responsePolicy, /img-src 'self' data:/);
   assert.match(responsePolicy, /media-src 'self'/);
   assert.match(responsePolicy, /worker-src 'self'/);
@@ -53,7 +53,10 @@ test("response policy, asset caching, and responsive audit media preserve safe b
     "https://*.google-analytics.com",
     "https://*.analytics.google.com",
     "https://www.googleadservices.com",
+    "https://pagead2.googlesyndication.com",
     "https://googleads.g.doubleclick.net",
+    "https://ad.doubleclick.net",
+    "https://www.google.com",
     "https://stats.g.doubleclick.net",
     "https://*.clarity.ms",
     "https://c.bing.com"

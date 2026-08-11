@@ -13,11 +13,11 @@ export default defineConfig({
       directives: [
         "default-src 'self'",
         "base-uri 'self'",
-        "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.clarity.ms https://c.bing.com",
+        "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.google.com https://google.com https://stats.g.doubleclick.net https://*.clarity.ms https://c.bing.com",
         "font-src 'self' data:",
         "form-action 'self'",
-        "frame-src 'none'",
-        "img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.clarity.ms https://c.bing.com",
+        "frame-src https://www.googletagmanager.com",
+        "img-src 'self' data: https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://www.googleadservices.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com https://google.com https://stats.g.doubleclick.net https://*.clarity.ms https://c.bing.com",
         "manifest-src 'self'",
         "media-src 'self'",
         "object-src 'none'",
@@ -29,6 +29,9 @@ export default defineConfig({
           "'self'",
           "https://www.googletagmanager.com",
           "https://www.googleadservices.com",
+          "https://pagead2.googlesyndication.com",
+          "https://googleads.g.doubleclick.net",
+          "https://www.google.com",
           "https://www.clarity.ms"
         ]
       },

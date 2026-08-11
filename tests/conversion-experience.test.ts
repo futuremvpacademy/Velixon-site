@@ -73,6 +73,9 @@ test("project estimates are the single detailed project-intake lane", async () =
   assert.match(page, /AI systems & agents/);
   assert.match(page, /estimate_request_started/);
   assert.match(page, /estimate_request_submitted/);
+  assert.match(page, /action="\/thank-you\/"/);
+  assert.match(page, /LEAD_CONVERSION_PENDING_KEY/);
+  assert.match(page, /window\.location\.assign\(form\.dataset\.successPath \|\| "\/thank-you\/"\)/);
   assert.match(pageHero, /href === "#estimate-request-form"[\s\S]*estimate_request_cta_clicked/);
   assert.match(analyticsDocumentation, /\| `estimate_request_cta_clicked` \|/);
   assert.match(page, /privacy-acknowledgment/);
@@ -87,8 +90,7 @@ test("project estimates are the single detailed project-intake lane", async () =
   assert.match(contact, /\/estimate-request\/\?source=contact-page#estimate-request-form/);
   assert.doesNotMatch(contact, /\/proposal-request\/|showBusiness|showProjectType/);
   assert.doesNotMatch(inquiry, /Start the Full Free Audit|inquiry-success#book-audit/);
-  assert.match(inquiry, /You do not need to submit another form/);
-  assert.match(inquiry, /within 1 business day/);
+  assert.match(inquiry, /action="\/thank-you\/"/);
   assert.match(dialog, /"\/estimate-request"/);
 });
 
@@ -160,20 +162,40 @@ test("premium typography is self-hosted and preserves a readable UI hierarchy", 
   assert.equal(packageJson.dependencies["@fontsource-variable/outfit"], undefined);
 });
 
-test("quick contact is a short accessible Netlify form with safe funnel events", async () => {
-  const [form, dialog, layout, navbar, inquiryStyles] = await Promise.all([
+test("lead forms use a successful one-time handoff before the shared Google Ads thank-you conversion", async () => {
+  const [form, dialog, layout, navbar, inquiryStyles, thankYouPage, indexing, googleAds] = await Promise.all([
     read("src/components/InquiryForm.astro"),
     read("src/components/QuickContactDialog.astro"),
     read("src/layouts/MainLayout.astro"),
     read("src/components/Navbar.astro"),
-    read("src/styles/inquiry.css")
+    read("src/styles/inquiry.css"),
+    read("src/pages/thank-you.astro"),
+    read("src/data/seo/indexing.ts"),
+    read("src/lib/google-ads.ts")
   ]);
 
   assert.match(form, /name="website-inquiry"/);
   assert.match(form, /data-netlify="true"/);
+  assert.match(form, /action="\/thank-you\/"/);
+  assert.match(form, /window\.location\.assign\(form\.dataset\.successPath \|\| "\/thank-you\/"\)/);
+  assert.match(form, /sessionStorage\.setItem\(LEAD_CONVERSION_PENDING_KEY/);
+  assert.doesNotMatch(form, /track\("generate_lead"/);
   assert.match(form, /privacy-acknowledgment/);
   assert.doesNotMatch(form, /name="budget-range"/);
+  assert.match(thankYouPage, /Inquiry received/);
+  assert.match(thankYouPage, /Thank you — we’ll be in touch soon/);
+  assert.match(thankYouPage, /within 1 business day/);
+  assert.match(thankYouPage, /noIndex/);
+  assert.match(thankYouPage, /LEAD_CONVERSION_PROCESSED_KEY/);
+  assert.match(thankYouPage, /sessionStorage\.removeItem\(LEAD_CONVERSION_PENDING_KEY\)/);
+  assert.match(thankYouPage, /track\("generate_lead"/);
+  assert.match(googleAds, /AW-18088634031\/IvyFCKHRw98cEK_NqrFD/);
+  assert.match(layout, /eventName === "generate_lead"/);
+  assert.match(layout, /value: 1\.0/);
+  assert.match(layout, /currency: "USD"/);
+  assert.match(indexing, /"\/thank-you\/"/);
   assert.match(dialog, /<dialog/);
+  assert.match(dialog, /"\/thank-you"/);
   assert.match(dialog, /contact_prompt_viewed/);
   assert.match(dialog, /contact_form_opened/);
   assert.match(dialog, /scrollFrame/);

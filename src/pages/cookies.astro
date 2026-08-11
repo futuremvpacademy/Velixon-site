@@ -10,7 +10,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 
 <MainLayout
   title="Cookie & Browser Storage Policy | Velixon"
-  description="Learn how velixon.net uses essential browser storage, optional analytics cookies, session attribution, audit progress, quiz progress, and checklist data."
+  description="Learn how velixon.net uses essential browser storage, session attribution, and consent-based analytics and conversion measurement."
 >
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/cookies" />
   <main id="main-content" class="legal-page">
@@ -20,13 +20,13 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <h1>Storage should have a clear purpose.</h1>
         <p class="legal-lede">This policy explains the cookies and browser storage velixon.net may use, what each category does, and how you can control optional analytics.</p>
         <p class="legal-meta">
-          <span><strong>Effective:</strong> <time datetime="2026-08-08">August 8, 2026</time></span>
+          <span><strong>Effective:</strong> <time datetime="2026-08-11">August 11, 2026</time></span>
           <span><strong>Applies to:</strong> velixon.net</span>
         </p>
 
         <div class="legal-summary" aria-label="Cookie and storage policy summary">
           <div class="legal-summary-item"><span class="legal-summary-number">01 · OPERATIONAL</span><p>First-party storage supports attribution, audit progress, quiz progress, and checklists.</p></div>
-          <div class="legal-summary-item"><span class="legal-summary-number">02 · OPTIONAL</span><p>Google Analytics loads only when it is configured and you allow analytics.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">02 · OPTIONAL</span><p>Google analytics and conversion measurement load only when configured and allowed.</p></div>
           <div class="legal-summary-item"><span class="legal-summary-number">03 · YOUR CONTROL</span><p>You can revisit analytics preferences or clear site data in your browser.</p></div>
         </div>
       </div>
@@ -71,9 +71,9 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <section class="legal-section" id="analytics">
           <p class="legal-section-label">03 · Optional analytics</p>
           <h2>Analytics loads only after permission</h2>
-          <p>If Velixon configures a verified Google Analytics property, Google Tag Manager container, or Microsoft Clarity project, the applicable library loads only after you select <strong>Allow analytics</strong>. Those services may then use cookies or similar browser technologies to distinguish visits and measure how the website is used.</p>
+          <p>If Velixon configures a verified Google Analytics property, Google Ads conversion destination, Google Tag Manager container, or Microsoft Clarity project, the applicable library loads only after you select <strong>Allow analytics</strong>. Those services may then use cookies or similar browser technologies to distinguish visits, measure how the website is used, and record a completed inquiry as a conversion.</p>
           <p>Advertising storage, advertising user-data storage, and ad-personalization storage remain denied. Velixon does not use the website's consent choice to enable advertising cookies.</p>
-          <p>If analytics is configured, local storage remembers whether your choice is granted or denied so the website can respect it on later visits. When analytics is not configured, no analytics preference or Google Analytics cookie is needed.</p>
+          <p>If optional measurement is configured, local storage remembers whether your choice is granted or denied so the website can respect it on later visits. When measurement is not configured, no analytics preference or Google measurement cookie is needed.</p>
         </section>
 
         <section class="legal-section" id="providers">

@@ -20,13 +20,13 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
         <h1>Privacy should be understandable.</h1>
         <p class="legal-lede">This policy explains what Velixon collects through this website, why we use it, when we share it, and the choices available to you.</p>
         <p class="legal-meta">
-          <span><strong>Effective:</strong> <time datetime="2026-08-08">August 8, 2026</time></span>
+          <span><strong>Effective:</strong> <time datetime="2026-08-11">August 11, 2026</time></span>
           <span><strong>Applies to:</strong> velixon.net</span>
         </p>
 
         <div class="legal-summary" aria-label="Privacy policy summary">
           <div class="legal-summary-item"><span class="legal-summary-number">01 · YOU DECIDE</span><p>We collect the contact and project information you choose to send us.</p></div>
-          <div class="legal-summary-item"><span class="legal-summary-number">02 · YOUR CHOICE</span><p>Optional Google Analytics does not load unless you grant analytics consent.</p></div>
+          <div class="legal-summary-item"><span class="legal-summary-number">02 · YOUR CHOICE</span><p>Optional Google analytics and conversion measurement do not load unless you grant consent.</p></div>
           <div class="legal-summary-item"><span class="legal-summary-number">03 · NO DATA SALES</span><p>We do not sell personal information or share it for cross-context behavioral advertising.</p></div>
         </div>
       </div>
@@ -70,7 +70,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <h3>Operational website data</h3>
           <p>Netlify and other infrastructure providers may process limited server and network information needed to deliver and protect the site, such as an IP address, request time, requested page, browser or user-agent information, and error or security events. This operational processing can occur when the site is accessed and is separate from optional Google Analytics.</p>
           <h3>Optional analytics data</h3>
-          <p>If Velixon configures Google Analytics, Google Tag Manager, or Microsoft Clarity, those services may process page views, browser and device information, referring pages, approximate region, site interactions, and performance or session-replay information only after you grant analytics consent. Their libraries do not load before that choice and do not load when their verified project or container values are absent. Form field values are not intentionally sent as analytics event properties.</p>
+          <p>If Velixon configures Google Analytics, Google Ads conversion measurement, Google Tag Manager, or Microsoft Clarity, those services may process page views, browser and device information, referring pages, approximate region, site interactions, completed-inquiry events, and performance or session-replay information only after you grant analytics consent. Their libraries do not load before that choice and do not load when their verified destination values are absent. Form field values are not intentionally sent as analytics or conversion event properties.</p>
           <h3>Information from ongoing conversations</h3>
           <p>If you continue a conversation with us, we may retain the messages, files, requirements, scheduling details, and other business information you provide so we can evaluate or deliver the requested work.</p>
           <div class="legal-callout">
@@ -88,7 +88,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
             <li>Evaluate Free Business Systems Audit and Project Estimate requests, prepare findings, and recommend practical next steps.</li>
             <li>Generate self-serve quiz results separately from audit-request review.</li>
             <li>Provide, operate, maintain, and improve the website and our services.</li>
-            <li>When optional analytics is configured and consent is granted, understand site traffic, performance, and which content is useful.</li>
+            <li>When optional measurement is configured and consent is granted, understand site traffic, performance, useful content, and completed inquiries.</li>
             <li>Protect the website, prevent spam or abuse, and investigate security concerns.</li>
             <li>Maintain business records and comply with legal obligations.</li>
             <li>Send service-related communications and marketing you separately requested or that applicable law otherwise permits, with an available opt-out.</li>
@@ -99,14 +99,14 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           <p class="legal-section-label">04 · Sharing</p>
           <h2>When information is shared</h2>
           <p>We may share information with service providers that help host the website, process forms, store audit requests, deliver communications, support business systems, deliver professional services, or—when you grant consent—provide analytics. These providers receive only the information reasonably needed for their role.</p>
-          <p>The current website uses Netlify for hosting, operational delivery, server-level protection, form processing, audit-function execution, and audit-request storage. Resend may be configured to deliver the visitor confirmation and internal audit notification. Optional strategy calls are arranged manually only after audit delivery; this website does not embed or link to a public scheduling service. Google Analytics, Google Tag Manager, and Microsoft Clarity may be enabled for optional site measurement only when their verified identifiers are configured and analytics consent is granted. Their handling of information is also governed by the <a href="https://www.netlify.com/privacy/">Netlify Privacy Statement</a>, <a href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</a>, <a href="https://policies.google.com/privacy">Google Privacy Policy</a>, and <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.</p>
+          <p>The current website uses Netlify for hosting, operational delivery, server-level protection, form processing, audit-function execution, and audit-request storage. Resend may be configured to deliver the visitor confirmation and internal audit notification. Optional strategy calls are arranged manually only after audit delivery; this website does not embed or link to a public scheduling service. Google Analytics, Google Ads conversion measurement, Google Tag Manager, and Microsoft Clarity may be enabled for optional site measurement only when their verified identifiers are configured and analytics consent is granted. Their handling of information is also governed by the <a href="https://www.netlify.com/privacy/">Netlify Privacy Statement</a>, <a href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</a>, <a href="https://policies.google.com/privacy">Google Privacy Policy</a>, and <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.</p>
           <p>We may also disclose information when reasonably necessary to comply with law, protect rights or safety, investigate misuse, or support a merger, financing, acquisition, or sale of all or part of the business. Velixon does not sell personal information or share it for cross-context behavioral advertising. If that practice changes, this policy and any legally required choice mechanism must be updated before the change begins.</p>
         </section>
 
         <section class="legal-section" id="analytics">
           <p class="legal-section-label">05 · Analytics</p>
           <h2>Analytics consent and browser storage</h2>
-          <p>Optional analytics may be disabled entirely. When a verified Google Analytics, Google Tag Manager, or Microsoft Clarity value is configured, the applicable library does not load unless you select “Allow analytics.” If you decline—or if no analytics destination is configured—the optional measurement libraries do not load.</p>
+          <p>Optional measurement may be disabled entirely. When a verified Google Analytics, Google Ads, Google Tag Manager, or Microsoft Clarity value is configured, the applicable library does not load unless you select “Allow analytics.” If you decline—or if no measurement destination is configured—the optional libraries do not load.</p>
           <p>Advertising storage, advertising user-data storage, and ad-personalization storage remain disabled regardless of your choice. Google signals and advertising-personalization signals are also disabled. Granting analytics consent does not enable advertising features on this website.</p>
           <p>The site uses local browser storage to remember your analytics choice and optional checklist progress. Session storage retains inquiry-attribution details and may retain unfinished audit-request fields in the current tab for up to 24 hours so progress can be restored. That draft is removed after a successful submission and can be removed sooner by closing the tab or clearing site data. Quiz progress remains separate. Session-stored information is separate from optional analytics.</p>
           <p>You can review or change your choice at any time through <strong>Analytics preferences</strong> in the website footer. Withdrawing consent applies to future analytics activity; information previously processed may remain subject to the provider's applicable retention practices.</p>

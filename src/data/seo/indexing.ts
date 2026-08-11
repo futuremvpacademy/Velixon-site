@@ -13,6 +13,7 @@ export const nonIndexablePaths = [
   "/404.html/",
   "/proposal-request/",
   "/review/",
+  "/thank-you/",
   // Thin legacy hubs that overlap stronger principal pages.
   "/results/",
   "/services/automation/",

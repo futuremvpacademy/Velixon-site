@@ -79,9 +79,10 @@ const services = [
             id="estimate-request-form"
             name="estimate-request"
             method="POST"
-            action="/estimate-request/?submitted=true"
+            action="/thank-you/"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
+            data-success-path="/thank-you/"
             data-contact-email={contactInfo.email}
           >
             <input type="hidden" name="form-name" value="estimate-request" />
@@ -161,16 +162,6 @@ const services = [
             <p class="contact-note">An estimate is not a final proposal. Pricing may change if requirements, integrations, or project boundaries change.</p>
           </form>
 
-          <div class="contact-form-card contact-form-status" id="estimate-success" role="status" hidden>
-            <p class="tech-label">Estimate request received</p>
-            <h2 tabindex="-1" id="estimate-success-heading">We have your project details.</h2>
-            <p>Velixon will review the service, desired outcome, timeline, and budget you provided, then reply with the clearest next step within 1 business day.</p>
-            <div class="contact-success-actions">
-              <a class="button" href="/case-studies/">View Our Work</a>
-              <a class="button button-secondary" href="/">Return Home</a>
-            </div>
-          </div>
-
           <aside class="contact-side">
             <div class="detail-card">
               <p class="tech-label">What happens next</p>
@@ -220,6 +211,7 @@ const services = [
 
 <script>
   import { sanitizeAnalyticsSource } from "../lib/analytics";
+  import { createLeadConversionHandoff, LEAD_CONVERSION_PENDING_KEY } from "../lib/google-ads";
 
   const params = new URLSearchParams(window.location.search);
   const setValue = (selector: string, value: string) => {
@@ -235,8 +227,6 @@ const services = [
   setValue("#estimate-referrer", attribution.referrer || document.referrer || "direct");
 
   const form = document.querySelector<HTMLFormElement>("#estimate-request-form");
-  const success = document.querySelector<HTMLElement>("#estimate-success");
-  const successHeading = document.querySelector<HTMLElement>("#estimate-success-heading");
   const errorMessage = document.querySelector<HTMLElement>("#estimate-error");
   const analytics = (window as Window & { velixonAnalytics?: { track: (name: string, parameters?: Record<string, unknown>) => void } }).velixonAnalytics;
   const estimateAnalyticsSource = () => sanitizeAnalyticsSource(
@@ -276,16 +266,24 @@ const services = [
       });
       if (!response.ok) throw new Error("Submission failed");
 
-      try { sessionStorage.setItem("velixon_estimate_submitted", "true"); } catch {}
+      const leadSource = estimateAnalyticsSource();
+      const leadHandoff = createLeadConversionHandoff({
+        formName: "estimate-request",
+        formLocation: "estimate_request",
+        leadSource,
+        pagePath: window.location.pathname
+      });
+      try {
+        sessionStorage.setItem(LEAD_CONVERSION_PENDING_KEY, JSON.stringify(leadHandoff));
+      } catch {
+        // Without a trustworthy handoff, show confirmation without recording a conversion.
+      }
       analytics?.track("estimate_request_submitted", {
-        source: estimateAnalyticsSource(),
+        source: leadSource,
         form_name: "estimate-request",
         page_path: window.location.pathname
       });
-      form.hidden = true;
-      if (success) success.hidden = false;
-      successHeading?.focus();
-      window.history.replaceState({}, "", "/estimate-request/?submitted=true");
+      window.location.assign(form.dataset.successPath || "/thank-you/");
     } catch {
       if (button) {
         button.disabled = false;
@@ -303,16 +301,4 @@ const services = [
       });
     }
   });
-
-  let verifiedSubmission = false;
-  try {
-    verifiedSubmission = sessionStorage.getItem("velixon_estimate_submitted") === "true";
-    if (verifiedSubmission) sessionStorage.removeItem("velixon_estimate_submitted");
-  } catch {}
-
-  if (params.get("submitted") === "true" && verifiedSubmission) {
-    if (form) form.hidden = true;
-    if (success) success.hidden = false;
-    successHeading?.focus();
-  }
 </script>
