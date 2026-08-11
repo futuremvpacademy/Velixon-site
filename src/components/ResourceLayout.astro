@@ -127,10 +127,10 @@ const faqSchema = faqs.length > 0 ? {
 
   <main id="main-content" class="resource-article-page">
     <header class="resource-article-hero">
-      <div class="resource-orb resource-orb-one" aria-hidden="true"></div>
-      <div class="resource-orb resource-orb-two" aria-hidden="true"></div>
-      <div class="container resource-article-hero-shell">
-        <nav class="resource-breadcrumbs" aria-label="Breadcrumb">
+      <div class="resource-orb resource-orb-one" aria-hidden="true" data-motion-ambient></div>
+      <div class="resource-orb resource-orb-two" aria-hidden="true" data-motion-ambient></div>
+      <div class="container resource-article-hero-shell" data-motion-stagger>
+        <nav class="resource-breadcrumbs" aria-label="Breadcrumb" data-motion-reveal="fade">
           <ol>
             <li><a href="/">Home</a></li>
             <li><a href={sectionHref}>{sectionLabel}</a></li>
@@ -138,11 +138,11 @@ const faqSchema = faqs.length > 0 ? {
           </ol>
         </nav>
 
-        <p class="eyebrow">{category}</p>
-        <h1>{headline}</h1>
-        <p class="resource-article-summary">{summary}</p>
+        <p class="eyebrow" data-motion-reveal="left">{category}</p>
+        <h1 data-motion-reveal="left">{headline}</h1>
+        <p class="resource-article-summary" data-motion-reveal="left">{summary}</p>
 
-        <div class="resource-byline" aria-label="Article details">
+        <div class="resource-byline" aria-label="Article details" data-motion-reveal="fade">
           <span>By <a href="/about/" rel="author"><strong>Velixon</strong></a></span>
           <span aria-hidden="true">•</span>
           <span>Published <time datetime={publishedDate}>{displayPublishedDate}</time></span>
@@ -152,7 +152,7 @@ const faqSchema = faqs.length > 0 ? {
           <span>{readTime}</span>
         </div>
 
-        <div class="resource-topic-list" aria-label="Topics">
+        <div class="resource-topic-list" aria-label="Topics" data-motion-reveal="fade">
           {topics.map((topic) => <span>{topic}</span>)}
         </div>
       </div>
@@ -160,7 +160,7 @@ const faqSchema = faqs.length > 0 ? {
 
     <div class="container resource-article-grid">
       <aside class="resource-toc" aria-label="Article navigation">
-        <div class="resource-toc-card">
+        <div class="resource-toc-card" data-motion-reveal="left">
           <p class="resource-toc-label">In this guide</p>
           <nav>
             <ol>
@@ -172,7 +172,7 @@ const faqSchema = faqs.length > 0 ? {
       </aside>
 
       <article class="resource-prose">
-        <section class="resource-takeaways" aria-labelledby="key-takeaways">
+        <section class="resource-takeaways" aria-labelledby="key-takeaways" data-motion-reveal="fade">
           <p class="resource-kicker">Decision brief</p>
           <h2 id="key-takeaways">Key takeaways</h2>
           <ul>
@@ -202,14 +202,14 @@ const faqSchema = faqs.length > 0 ? {
 
     <section class="resource-related" aria-labelledby="related-resources-heading">
       <div class="container">
-        <div class="resource-section-heading">
+        <div class="resource-section-heading" data-motion-reveal="left">
           <div>
             <p class="eyebrow">Keep exploring</p>
             <h2 id="related-resources-heading">Related decision guides</h2>
           </div>
           <a href="/resources/">View all resources <span aria-hidden="true">→</span></a>
         </div>
-        <div class="resource-card-grid resource-card-grid-three">
+        <div class="resource-card-grid resource-card-grid-three" data-motion-stagger>
           {related.map((resource) => (
             <article class="resource-card">
               <p class="resource-card-category">{resource.category}</p>

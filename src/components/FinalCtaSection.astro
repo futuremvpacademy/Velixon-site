@@ -25,14 +25,14 @@ const analyticsEventForHref = (href: string) => {
 
 <section class="final-cta" id="contact">
   <div class="container">
-    <div class="final-cta-shell">
-      <div class="final-cta-copy">
+    <div class="final-cta-shell" data-motion-stagger>
+      <div class="final-cta-copy" data-motion-reveal="left">
         <p class="eyebrow">{cta.eyebrow}</p>
         <h2>{cta.title}</h2>
         <p>{cta.description}</p>
       </div>
 
-      <div class="final-cta-side">
+      <div class="final-cta-side" data-motion-reveal="right">
         <div class="final-cta-points">
           {cta.points.map((point) => <span>{point}</span>)}
         </div>

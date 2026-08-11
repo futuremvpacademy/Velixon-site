@@ -92,8 +92,8 @@ const pageSchema = [
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/resources" />
   <main id="main-content" class="checklist-page">
     <header class="checklist-page-hero">
-      <div class="resource-orb resource-orb-one" aria-hidden="true"></div>
-      <div class="resource-orb resource-orb-two" aria-hidden="true"></div>
+      <div class="resource-orb resource-orb-one" aria-hidden="true" data-motion-ambient></div>
+      <div class="resource-orb resource-orb-two" aria-hidden="true" data-motion-ambient></div>
       <div class="container">
         <nav class="checklist-breadcrumbs" aria-label="Breadcrumb">
           <ol>
@@ -103,7 +103,7 @@ const pageSchema = [
             <li aria-current="page">{checklist.shortTitle}</li>
           </ol>
         </nav>
-        <div class="checklist-page-hero-grid">
+        <div class="checklist-page-hero-grid" data-motion-stagger>
           <div>
             <p class="checklist-page-kicker">Free interactive checklist · {totalItems} checks</p>
             <h1>{checklist.title}</h1>
@@ -125,11 +125,11 @@ const pageSchema = [
 
     <section class="checklist-faq resource-faq" aria-labelledby="checklist-faq-heading">
       <div class="container checklist-faq-layout">
-        <div>
+        <div data-motion-reveal="left">
           <p class="checklist-page-kicker">Using this resource</p>
           <h2 id="checklist-faq-heading">Checklist questions</h2>
         </div>
-        <div class="resource-faq-list">
+        <div class="resource-faq-list" data-motion-stagger>
           {faqs.map((faq) => (
             <details>
               <summary>{faq.question}</summary>
@@ -142,14 +142,14 @@ const pageSchema = [
 
     <section class="checklist-related" aria-labelledby="related-checklists-heading">
       <div class="container">
-        <div class="resource-section-heading">
+        <div class="resource-section-heading" data-motion-reveal>
           <div>
             <p class="eyebrow">Keep improving</p>
             <h2 id="related-checklists-heading">Related business checklists</h2>
           </div>
           <a href="/resources/#checklists">View all checklists <span aria-hidden="true">→</span></a>
         </div>
-        <div class="resource-card-grid resource-card-grid-three">
+        <div class="resource-card-grid resource-card-grid-three" data-motion-stagger="scale">
           {relatedChecklists.map((item) => (
             <article class="resource-card">
               <p class="resource-card-category">Interactive checklist</p>

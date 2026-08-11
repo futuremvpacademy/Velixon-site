@@ -73,11 +73,11 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
   <main id="main-content" class="directory-page">
     <header class="directory-hero">
       <div class="cluster-grid" aria-hidden="true"></div>
-      <div class="container">
-        <p class="cluster-eyebrow">{eyebrow}</p>
-        <h1>{headline}</h1>
-        <p>{summary}</p>
-        <div class="cluster-actions">
+      <div class="container" data-motion-stagger>
+        <p class="cluster-eyebrow" data-motion-reveal="left">{eyebrow}</p>
+        <h1 data-motion-reveal="left">{headline}</h1>
+        <p data-motion-reveal="left">{summary}</p>
+        <div class="cluster-actions" data-motion-reveal="fade">
           <a class="button" href={primaryAction.href} data-analytics-event={primaryAction.href.startsWith("/free-audit") ? "free_audit_cta_clicked" : undefined} data-analytics-location="directory-hero">{primaryAction.label}</a>
           <a class="button button-secondary" href={secondaryAction.href}>{secondaryAction.label}</a>
         </div>
@@ -87,7 +87,7 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
       {statusNotice && (
         <section class="directory-group" aria-labelledby="directory-status-title">
           <div class="container">
-            <div class="cluster-answer">
+            <div class="cluster-answer" data-motion-reveal="scale">
               <span>{statusNotice.eyebrow}</span>
               <h2 id="directory-status-title">{statusNotice.title}</h2>
               <p>{statusNotice.description}</p>
@@ -98,7 +98,7 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
       {selectionGuidance && (
         <section class="directory-group" aria-labelledby="directory-selection-title">
           <div class="container">
-            <div class="cluster-heading cluster-heading-wide">
+            <div class="cluster-heading cluster-heading-wide" data-motion-reveal="left">
               <h2 id="directory-selection-title">{selectionTitle ?? "Choose the right starting point"}</h2>
               <p>{selectionGuidance}</p>
             </div>
@@ -108,11 +108,11 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
       {groups.map((group) => (
         <section class="directory-group">
           <div class="container">
-            <div class="cluster-heading cluster-heading-wide">
+            <div class="cluster-heading cluster-heading-wide" data-motion-reveal="left">
               <h2>{group.title}</h2>
               <p>{group.description}</p>
             </div>
-            <div class="directory-grid">
+            <div class="directory-grid" data-motion-stagger>
               {group.items.map((item) => (
                 <a href={item.href}><span>{item.label ?? "Capability"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>
               ))}
@@ -123,12 +123,12 @@ const directorySchema = buildDirectorySchema({ title, description, headline, pat
       {pathways && (
         <section class="directory-group" aria-labelledby="directory-pathways-title">
           <div class="container">
-            <div class="cluster-heading cluster-heading-wide">
+            <div class="cluster-heading cluster-heading-wide" data-motion-reveal="left">
               {pathways.eyebrow && <p class="cluster-eyebrow">{pathways.eyebrow}</p>}
               <h2 id="directory-pathways-title">{pathways.title}</h2>
               <p>{pathways.description}</p>
             </div>
-            <div class="directory-grid">
+            <div class="directory-grid" data-motion-stagger>
               {pathways.items.map((item) => (
                 <a href={item.href}>
                   <span>{item.label ?? "Related capability"}</span>

@@ -143,9 +143,9 @@ const collectionSchema = {
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/resources" />
   <main id="main-content" class="resources-page">
     <section class="resources-hero">
-      <div class="resource-orb resource-orb-one" aria-hidden="true"></div>
-      <div class="resource-orb resource-orb-two" aria-hidden="true"></div>
-      <div class="container resources-hero-shell">
+      <div class="resource-orb resource-orb-one" aria-hidden="true" data-motion-ambient></div>
+      <div class="resource-orb resource-orb-two" aria-hidden="true" data-motion-ambient></div>
+      <div class="container resources-hero-shell" data-motion-stagger>
         <p class="eyebrow">Free audit + practical tools</p>
         <h1>Find what to improve first.</h1>
         <p class="resources-hero-copy">Start with a personalized audit, or use focused tools to assess, plan, and compare your next move.</p>
@@ -163,14 +163,14 @@ const collectionSchema = {
 
     <section class="resources-section resources-assess" id="assess" aria-labelledby="assess-heading">
       <div class="container">
-        <div class="resource-section-heading">
+        <div class="resource-section-heading" data-motion-reveal>
           <div>
             <p class="eyebrow">Assess</p>
             <h2 id="assess-heading">See where the friction is.</h2>
           </div>
           <p class="resource-section-note">Use a quick score or a focused checklist.</p>
         </div>
-        <div class="resources-assess-grid">
+        <div class="resources-assess-grid" data-motion-stagger="scale">
           <article class="resources-quiz-feature">
             <div>
               <p class="resource-card-category">Fast self-assessment</p>
@@ -186,11 +186,11 @@ const collectionSchema = {
           </article>
 
           <div class="resources-checklist-panel" id="checklists">
-            <div class="resources-subheading">
+            <div class="resources-subheading" data-motion-reveal>
               <div><p class="resource-card-category">Interactive checklists</p><h3>Check one workflow at a time.</h3></div>
               <p>No email required. Progress stays on your device.</p>
             </div>
-            <div class="resource-card-grid resources-checklist-grid">
+            <div class="resource-card-grid resources-checklist-grid" data-motion-stagger="scale">
               {linkedChecklistResources.map((checklist) => (
                 <article class="resource-card resource-tool-card">
                   <p class="resource-card-category">{checklist.category}</p>
@@ -207,14 +207,14 @@ const collectionSchema = {
 
     <section class="resources-section resources-plan" id="plan" aria-labelledby="plan-heading">
       <div class="container">
-        <div class="resource-section-heading">
+        <div class="resource-section-heading" data-motion-reveal>
           <div>
             <p class="eyebrow">Plan</p>
             <h2 id="plan-heading">Make the next decision clearly.</h2>
           </div>
           <p class="resource-section-note">Costs, readiness, ROI, and build strategy.</p>
         </div>
-        <div class="resource-card-grid resources-plan-grid">
+        <div class="resource-card-grid resources-plan-grid" data-motion-stagger="scale">
           {planningResources.map((resource) => (
             <article class="resource-card">
               <p class="resource-card-category">{resource.category}</p>
@@ -229,14 +229,14 @@ const collectionSchema = {
 
     <section class="resources-section resources-explore" id="explore" aria-labelledby="explore-heading">
       <div class="container">
-        <div class="resource-section-heading">
+        <div class="resource-section-heading" data-motion-reveal>
           <div>
             <p class="eyebrow">Compare &amp; explore</p>
             <h2 id="explore-heading">Choose with better evidence.</h2>
           </div>
           <p class="resource-section-note">Guides, comparisons, and first-party product evidence.</p>
         </div>
-        <div class="resource-card-grid resource-card-grid-three">
+        <div class="resource-card-grid resource-card-grid-three" data-motion-stagger="scale">
           {resourceCollections.map((collection) => (
             <article class="resource-card">
               <p class="resource-card-category">{collection.category}</p>

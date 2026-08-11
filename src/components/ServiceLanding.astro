@@ -160,15 +160,15 @@ const faqSchema = {
 
     <section class="service-overview" aria-labelledby="service-overview-title">
       <div class="container service-overview-grid">
-        <div class="service-section-heading">
+        <div class="service-section-heading" data-motion-reveal="left">
           <p class="eyebrow">The objective</p>
           <h2 id="service-overview-title">{overviewTitle}</h2>
         </div>
 
-        <div class="service-overview-copy">
+        <div class="service-overview-copy" data-motion-reveal="fade">
           <p class="service-lead">{overviewLead}</p>
           <p>{overviewBody}</p>
-          <ul class="service-signal-list" aria-label="Common reasons to consider this service">
+          <ul class="service-signal-list" aria-label="Common reasons to consider this service" data-motion-stagger>
             {signals.map((signal) => <li>{signal}</li>)}
           </ul>
         </div>
@@ -177,13 +177,13 @@ const faqSchema = {
 
     <section class="service-content-section" id="deliverables" aria-labelledby="service-deliverables-title">
       <div class="container">
-        <div class="service-section-heading service-section-heading-wide">
+        <div class="service-section-heading service-section-heading-wide" data-motion-reveal="left">
           <p class="eyebrow">What we build</p>
           <h2 id="service-deliverables-title">{deliverablesTitle}</h2>
           <p>{deliverablesDescription}</p>
         </div>
 
-        <div class="service-deliverable-grid">
+        <div class="service-deliverable-grid" data-motion-stagger>
           {deliverables.map((item, index) => (
             <article class="service-card-detail">
               <span class="service-card-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -197,13 +197,13 @@ const faqSchema = {
 
     <section class="service-content-section service-outcome-section" aria-labelledby="service-outcomes-title">
       <div class="container">
-        <div class="service-section-heading service-section-heading-wide">
+        <div class="service-section-heading service-section-heading-wide" data-motion-reveal="left">
           <p class="eyebrow">Operational value</p>
           <h2 id="service-outcomes-title">{outcomesTitle}</h2>
           <p>{outcomesDescription}</p>
         </div>
 
-        <div class="service-outcome-grid">
+        <div class="service-outcome-grid" data-motion-stagger>
           {outcomes.map((item) => (
             <article class="service-outcome-card">
               <span class="service-outcome-mark" aria-hidden="true"></span>
@@ -217,14 +217,14 @@ const faqSchema = {
 
     <section class="service-content-section" aria-labelledby="service-process-title">
       <div class="container service-process-layout">
-        <div class="service-section-heading service-process-heading">
+        <div class="service-section-heading service-process-heading" data-motion-reveal="left">
           <p class="eyebrow">Delivery</p>
           <h2 id="service-process-title">A clear path from discovery to production</h2>
           <p>{processIntro}</p>
           <a class="service-text-link" href="/process/">Explore the full Velixon process <span aria-hidden="true">→</span></a>
         </div>
 
-        <ol class="service-process-list">
+        <ol class="service-process-list" data-motion-path>
           {process.map((item) => (
             <li>
               <span class="service-process-label">{item.label}</span>
@@ -240,12 +240,12 @@ const faqSchema = {
 
     <section class="service-fit-section" aria-labelledby="service-fit-title">
       <div class="container service-fit-shell">
-        <div class="service-section-heading">
+        <div class="service-section-heading" data-motion-reveal="left">
           <p class="eyebrow">Good fit</p>
           <h2 id="service-fit-title">{fitTitle}</h2>
           <p>{fitDescription}</p>
         </div>
-        <ul class="service-fit-list">
+        <ul class="service-fit-list" data-motion-stagger>
           {fitSignals.map((item) => <li>{item}</li>)}
         </ul>
       </div>
@@ -253,7 +253,7 @@ const faqSchema = {
 
     <section class="service-content-section service-faq-section" aria-labelledby="service-faq-title">
       <div class="container service-faq-layout">
-        <div class="service-section-heading service-faq-heading">
+        <div class="service-section-heading service-faq-heading" data-motion-reveal="left">
           <p class="eyebrow">Questions</p>
           <h2 id="service-faq-title">Frequently asked questions</h2>
           <p>Clear answers about scope, technology, ownership, security, and what it takes to begin.</p>
@@ -272,13 +272,13 @@ const faqSchema = {
 
     <section class="service-related-section" aria-labelledby="service-related-title">
       <div class="container">
-        <div class="service-section-heading service-section-heading-wide">
+        <div class="service-section-heading service-section-heading-wide" data-motion-reveal="left">
           <p class="eyebrow">Connected capabilities</p>
           <h2 id="service-related-title">Build the complete operating system</h2>
           <p>Most high-value systems combine more than one capability. Explore the services that commonly support this work.</p>
         </div>
 
-        <div class="service-related-grid">
+        <div class="service-related-grid" data-motion-stagger>
           {relatedServices.map((item) => (
             <a class="service-related-card" href={item.href}>
               <span class="service-related-label">Related service</span>

@@ -16,9 +16,9 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
   <Navbar companyName={companyName} logo={logo} nav={nav} cta={cta} currentPath="/contact" />
   <main id="main-content" class="contact-clean">
     <section class="contact-clean-hero">
-      <div class="contact-clean-glow" aria-hidden="true"></div>
+      <div class="contact-clean-glow" aria-hidden="true" data-motion-ambient></div>
       <div class="container contact-clean-layout">
-        <div class="contact-clean-copy">
+        <div class="contact-clean-copy" data-motion-reveal="left">
           <p class="contact-clean-eyebrow">Questions and support</p>
           <h1>Ask a question or <em>send a quick note.</em></h1>
           <p>Use this page for a general question, support need, partnership note, or anything that does not require a full project brief.</p>
@@ -34,7 +34,7 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
           </div>
         </div>
 
-        <div class="contact-clean-form">
+        <div class="contact-clean-form" data-motion-reveal="right">
           <InquiryForm
             id="contact-form"
             formLocation="contact_page"
@@ -47,11 +47,11 @@ const phoneHref = `tel:${contactInfo.phone.replace(/[^0-9+]/g, "")}`;
 
     <section class="contact-clean-next" aria-labelledby="contact-next-title">
       <div class="container">
-        <div class="contact-clean-next-heading">
+        <div class="contact-clean-next-heading" data-motion-reveal="left">
           <p class="contact-clean-eyebrow">What happens next</p>
           <h2 id="contact-next-title">A direct response without a project intake form.</h2>
         </div>
-        <ol>
+        <ol data-motion-stagger="scale">
           <li><span>01</span><div><h3>We read the message</h3><p>We review the question or context you chose to share.</p></div></li>
           <li><span>02</span><div><h3>You get a direct reply</h3><p>Within 1 business day, we answer, ask one useful follow-up, or point you to the right resource.</p></div></li>
           <li><span>03</span><div><h3>Projects use one clear lane</h3><p>If project intake is the right next step, we direct you to either the audit or Project Estimate.</p></div></li>

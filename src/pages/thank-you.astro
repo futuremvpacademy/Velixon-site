@@ -17,10 +17,10 @@ const { companyName, logo, nav, cta } = siteContent;
 
   <main id="main-content" class="thank-you-page">
     <section class="thank-you-hero" aria-labelledby="thank-you-title">
-      <div class="thank-you-glow" aria-hidden="true"></div>
+      <div class="thank-you-glow" aria-hidden="true" data-motion-ambient></div>
       <div class="container thank-you-shell">
-        <div class="thank-you-confirmation">
-          <span class="thank-you-mark" aria-hidden="true">✓</span>
+        <div class="thank-you-confirmation" data-motion-stagger>
+          <span class="thank-you-mark" aria-hidden="true" data-motion-reveal="scale">✓</span>
           <p class="thank-you-eyebrow">Inquiry received</p>
           <h1 id="thank-you-title">Thank you, we’ll be in touch soon.</h1>
           <p class="thank-you-lede">Your inquiry has been received. The Velixon team will review what you sent and follow up within 1 business day using the contact details you provided.</p>
@@ -31,7 +31,7 @@ const { companyName, logo, nav, cta } = siteContent;
           </nav>
         </div>
 
-        <aside class="thank-you-next" aria-labelledby="thank-you-next-title">
+        <aside class="thank-you-next" aria-labelledby="thank-you-next-title" data-motion-reveal="right">
           <p class="thank-you-eyebrow">What happens next</p>
           <h2 id="thank-you-next-title">A real person reviews your note.</h2>
           <ol>

@@ -50,13 +50,13 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="container footer-conversion">
-    <div class="footer-conversion-copy">
+  <div class="container footer-conversion" data-motion-stagger>
+    <div class="footer-conversion-copy" data-motion-reveal="left">
       <p class="footer-conversion-kicker">Free Business Systems Audit</p>
       <h2>Find the gap. Fix the right system first.</h2>
       <p>Receive a personalized one-page scorecard and three prioritized recommendations within three business days.</p>
     </div>
-    <div class="footer-conversion-action">
+    <div class="footer-conversion-action" data-motion-reveal="right">
       <a
         class="button"
         href={cta.href}
@@ -77,7 +77,7 @@ const currentYear = new Date().getFullYear();
   </div>
 
   <div class="container footer-shell">
-    <div class="footer-brand">
+    <div class="footer-brand" data-motion-reveal="left">
       <div class="footer-brand-top">
         <img class="footer-brand-logo" src={logo} alt="" width="432" height="288" loading="lazy" decoding="async" />
         <p class="footer-title">{companyName}</p>
@@ -98,9 +98,9 @@ const currentYear = new Date().getFullYear();
       </nav>
     </div>
 
-    <div class="footer-navigation">
+    <div class="footer-navigation" data-motion-stagger>
       {nav.map((group) => (
-        <div class="footer-column">
+        <div class="footer-column" data-motion-reveal="fade">
           <p class="footer-heading">{group.heading}</p>
           <nav class="footer-nav" aria-label={group.ariaLabel}>
             {group.items.map((item) => <a href={item.href} data-navigation-location="footer">{item.label}</a>)}
@@ -110,11 +110,11 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 
-  <div class="container footer-disclosure">
+  <div class="container footer-disclosure" data-motion-reveal="fade">
     <p>Website content and estimates are general information and do not guarantee project or business results.</p>
   </div>
 
-  <div class="container footer-bottom">
+  <div class="container footer-bottom" data-motion-reveal="fade">
     <p>© {currentYear} {businessInfo.legalName}, doing business as {businessInfo.doingBusinessAs}. All rights reserved.</p>
     <nav class="footer-utility" aria-label="Footer utility navigation">
       <a href="/privacy/#choices">Privacy choices</a>

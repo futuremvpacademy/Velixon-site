@@ -21,16 +21,16 @@ const { eyebrow, title, description, items } = Astro.props;
 
 <section class="page-section">
   <div class="container">
-    <div class="section-intro">
+    <div class="section-intro" data-motion-reveal="left">
       <p class="eyebrow">{eyebrow}</p>
       <h2>{title}</h2>
       {description && <p>{description}</p>}
     </div>
 
-    <div class="detail-grid">
+    <div class="detail-grid" data-motion-stagger>
       {
         items.map((item) => (
-          <article class="detail-card" id={item.id}>
+          <article class="detail-card" id={item.id} data-motion-reveal="scale">
             {item.meta && <p class="detail-meta">{item.meta}</p>}
             <h3>{item.title}</h3>
             <p>{item.description}</p>

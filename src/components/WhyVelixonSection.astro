@@ -18,16 +18,16 @@ const { whyVelixon } = Astro.props;
 
 <section class="why-velixon-section">
   <div class="container why-velixon-shell">
-    <div class="section-intro why-velixon-intro">
+    <div class="section-intro why-velixon-intro" data-motion-reveal="left">
       <p class="eyebrow">{whyVelixon.eyebrow}</p>
       <h2>{whyVelixon.title}</h2>
       <p>{whyVelixon.description}</p>
     </div>
 
-    <div class="why-velixon-grid">
+    <div class="why-velixon-grid" data-motion-stagger>
       {
         whyVelixon.items.map((item, index) => (
-          <article class="why-velixon-card">
+          <article class="why-velixon-card" data-motion-reveal="scale">
             <span class="why-velixon-index">0{index + 1}</span>
             <h3>{item.title}</h3>
             <p>{item.description}</p>

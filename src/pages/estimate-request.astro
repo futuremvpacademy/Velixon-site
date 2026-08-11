@@ -67,7 +67,7 @@ const services = [
 
     <section class="page-section estimate-page" aria-labelledby="estimate-services-title">
       <div class="container">
-        <div class="estimate-form-heading">
+        <div class="estimate-form-heading" data-motion-reveal="left">
           <p class="eyebrow">Project Estimate</p>
           <h2>Give us the project essentials.</h2>
           <p>We will review your request and respond with questions, a recommended first step, or an estimate when the scope is clear enough.</p>
@@ -84,6 +84,7 @@ const services = [
             data-netlify-honeypot="bot-field"
             data-success-path="/thank-you/"
             data-contact-email={contactInfo.email}
+            data-motion-reveal="left"
           >
             <input type="hidden" name="form-name" value="estimate-request" />
             <input type="hidden" name="subject" value="New Velixon estimate request" />
@@ -123,11 +124,11 @@ const services = [
             <p class="contact-note">An estimate is not a final proposal. Pricing may change if requirements, integrations, or project boundaries change.</p>
           </form>
 
-          <aside class="contact-side">
+          <aside class="contact-side" data-motion-stagger="right">
             <div class="detail-card">
               <p class="tech-label">What happens next</p>
               <h3>A practical review—not an instant guess.</h3>
-              <ol class="estimate-process-list">
+              <ol class="estimate-process-list" data-motion-path>
                 <li><span>01</span>We review the outcome and service fit.</li>
                 <li><span>02</span>We identify missing scope or integration details.</li>
                 <li><span>03</span>We reply with questions, a next step, or an estimate.</li>
@@ -148,7 +149,7 @@ const services = [
         </div>
 
         <div class="estimate-services">
-          <div class="estimate-services-heading">
+          <div class="estimate-services-heading" data-motion-reveal>
             <div>
               <p class="eyebrow">Project types</p>
               <h2 id="estimate-services-title">Projects Velixon can estimate.</h2>
@@ -156,7 +157,7 @@ const services = [
             <p>Select the closest fit. You do not need a finished specification, and projects can combine more than one service.</p>
           </div>
 
-          <div class="estimate-service-grid">
+          <div class="estimate-service-grid" data-motion-stagger="scale">
             {services.map((service, index) => (
               <article class="estimate-service-card" data-index={String(index + 1).padStart(2, "0")}>
                 <h3><a href={service.href}>{service.name}</a></h3>

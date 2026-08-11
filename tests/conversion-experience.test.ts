@@ -131,11 +131,16 @@ test("the audit form stays concise and consent visibility coordinates fixed mobi
   assert.match(globalStyles, /\.consent-banner\s*\{[\s\S]*overscroll-behavior:\s*contain/);
 });
 
-test("site motion stays progressive, pointer-aware, and reduced-motion safe", async () => {
-  const [homepage, motion, layout] = await Promise.all([
+test("site motion is coordinated across page families, bounded, and preference-aware", async () => {
+  const [homepage, motion, layout, pageHero, cardSection, serviceLanding, clusterLanding, resourceLayout] = await Promise.all([
     read("src/pages/index.astro"),
     read("src/components/MotionExperience.astro"),
-    read("src/layouts/MainLayout.astro")
+    read("src/layouts/MainLayout.astro"),
+    read("src/components/PageHero.astro"),
+    read("src/components/CardSection.astro"),
+    read("src/components/ServiceLanding.astro"),
+    read("src/components/ClusterLanding.astro"),
+    read("src/components/ResourceLayout.astro")
   ]);
 
   assert.match(layout, /MotionExperience/);
@@ -147,6 +152,23 @@ test("site motion stays progressive, pointer-aware, and reduced-motion safe", as
   assert.match(motion, /hover:\s*hover.*pointer:\s*fine/);
   assert.match(motion, /data-motion-magnetic/);
   assert.match(motion, /data-motion-parallax/);
+  assert.match(motion, /data-motion-ambient/);
+  assert.match(motion, /data-motion-reveal="scale"/);
+  assert.match(motion, /Math\.min\(delay, 320\)/);
+  assert.match(motion, /AbortController/);
+  assert.match(motion, /reducedMotion\.addEventListener\("change"/);
+  assert.match(motion, /precisePointer\.addEventListener\("change"/);
+  assert.match(motion, /motion-paused/);
+  assert.match(motion, /@view-transition/);
+  assert.match(motion, /revealSkippedNodes/);
+  assert.match(motion, /\.automation-audit-page, \.review-page/);
+  assert.doesNotMatch(motion, /filter:\s*blur\(8px\)/);
+  assert.match(pageHero, /data-motion-stagger/);
+  assert.match(pageHero, /data-motion-ambient/);
+  assert.match(cardSection, /data-motion-stagger/);
+  assert.match(serviceLanding, /data-motion-path/);
+  assert.match(clusterLanding, /data-motion-stagger/);
+  assert.match(resourceLayout, /data-motion-reveal="left"/);
   assert.doesNotMatch(motion, /gsap|animejs|three(?:\.js)?/i);
 });
 

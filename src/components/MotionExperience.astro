@@ -1,21 +1,45 @@
 <style is:global>
+  @view-transition {
+    navigation: auto;
+  }
+
   html.motion-ready [data-motion-reveal] {
+    --motion-reveal-x: 0;
+    --motion-reveal-y: clamp(0.8rem, 1.6vw, 1.4rem);
+    --motion-reveal-scale: 1;
     opacity: 0;
-    filter: blur(8px);
-    transform: translate3d(0, 2rem, 0) scale(0.985);
+    transform:
+      translate3d(var(--motion-reveal-x), var(--motion-reveal-y), 0)
+      scale(var(--motion-reveal-scale));
     transition:
-      opacity 760ms cubic-bezier(0.2, 0.75, 0.2, 1),
-      filter 760ms cubic-bezier(0.2, 0.75, 0.2, 1),
-      transform 860ms cubic-bezier(0.16, 1, 0.3, 1);
+      opacity 640ms cubic-bezier(0.2, 0.75, 0.2, 1),
+      filter 640ms cubic-bezier(0.2, 0.75, 0.2, 1),
+      transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: var(--motion-delay, 0ms);
   }
 
   html.motion-ready [data-motion-reveal="left"] {
-    transform: translate3d(-2rem, 1rem, 0) scale(0.985);
+    --motion-reveal-x: clamp(-1.5rem, -2vw, -0.85rem);
+    --motion-reveal-y: 0.3rem;
   }
 
   html.motion-ready [data-motion-reveal="right"] {
-    transform: translate3d(2rem, 1rem, 0) scale(0.985);
+    --motion-reveal-x: clamp(0.85rem, 2vw, 1.5rem);
+    --motion-reveal-y: 0.3rem;
+  }
+
+  html.motion-ready [data-motion-reveal="fade"] {
+    --motion-reveal-y: 0;
+  }
+
+  html.motion-ready [data-motion-reveal="scale"] {
+    --motion-reveal-y: 0.65rem;
+    --motion-reveal-scale: 0.965;
+  }
+
+  html.motion-ready [data-motion-reveal="blur"] {
+    --motion-reveal-y: 0.65rem;
+    filter: blur(6px);
   }
 
   html.motion-ready [data-motion-reveal].is-motion-visible {
@@ -85,8 +109,12 @@
 
   html.motion-ready [data-motion-reveal][data-motion-tilt] {
     transform:
-      translate3d(0, calc(2rem + var(--motion-parallax-y)), 0)
-      scale(0.985)
+      translate3d(
+        var(--motion-reveal-x),
+        calc(var(--motion-reveal-y) + var(--motion-parallax-y)),
+        0
+      )
+      scale(var(--motion-reveal-scale))
       perspective(1000px)
       rotateX(var(--motion-tilt-x))
       rotateY(var(--motion-tilt-y));
@@ -101,7 +129,21 @@
       rotateY(var(--motion-tilt-y));
   }
 
+  html.motion-ready [data-motion-path] > li {
+    opacity: 0.48;
+    transition:
+      opacity 420ms ease,
+      border-color 420ms ease,
+      filter 420ms ease,
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html.motion-ready [data-motion-path] > li.is-motion-active {
+    opacity: 1;
+  }
+
   .motion-ready .site-header {
+    view-transition-name: velixon-header;
     animation: motionHeaderArrival 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
@@ -117,6 +159,41 @@
     transform: rotate(-5deg) scale(1.08);
   }
 
+  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+    html.motion-ready [data-motion-ambient] {
+      animation: motionAmbientDrift 15s ease-in-out infinite alternate;
+    }
+
+    html.motion-ready [data-motion-ambient]:nth-of-type(even) {
+      animation-delay: -7s;
+      animation-direction: alternate-reverse;
+      animation-duration: 18s;
+    }
+
+    html.motion-ready .cluster-grid[data-motion-ambient] {
+      animation-name: motionGridDrift;
+      transform: none;
+    }
+
+    html.motion-paused [data-motion-ambient] {
+      animation-play-state: paused;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html.motion-ready details[open] > :not(summary) {
+      animation: motionDetailsContent 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    ::view-transition-old(root) {
+      animation: motionPageOut 170ms ease-in both;
+    }
+
+    ::view-transition-new(root) {
+      animation: motionPageIn 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+  }
+
   @keyframes motionHeaderArrival {
     from {
       opacity: 0;
@@ -125,6 +202,49 @@
     to {
       opacity: 1;
       transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes motionAmbientDrift {
+    from {
+      transform: translate3d(-5px, 2px, 0) scale(0.98);
+    }
+    to {
+      transform: translate3d(9px, -8px, 0) scale(1.035);
+    }
+  }
+
+  @keyframes motionGridDrift {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 14px 10px;
+    }
+  }
+
+  @keyframes motionDetailsContent {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -0.45rem, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes motionPageOut {
+    to {
+      opacity: 0;
+      transform: translate3d(0, -0.3rem, 0);
+    }
+  }
+
+  @keyframes motionPageIn {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.45rem, 0);
     }
   }
 
@@ -142,13 +262,35 @@
     }
   }
 
+  @media (max-width: 760px) {
+    html.motion-ready [data-motion-reveal],
+    html.motion-ready [data-motion-reveal="left"],
+    html.motion-ready [data-motion-reveal="right"],
+    html.motion-ready [data-motion-reveal="scale"],
+    html.motion-ready [data-motion-reveal="blur"] {
+      --motion-reveal-x: 0;
+      --motion-reveal-y: 0.75rem;
+      --motion-reveal-scale: 1;
+      filter: none;
+      transition-duration: 520ms, 520ms, 620ms;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html.motion-ready [data-motion-reveal],
     html.motion-ready [data-motion-reveal="left"],
-    html.motion-ready [data-motion-reveal="right"] {
+    html.motion-ready [data-motion-reveal="right"],
+    html.motion-ready [data-motion-reveal="fade"],
+    html.motion-ready [data-motion-reveal="scale"],
+    html.motion-ready [data-motion-reveal="blur"] {
       opacity: 1;
       filter: none;
       transform: none;
+      transition: none;
+    }
+
+    html.motion-ready [data-motion-path] > li {
+      opacity: 1;
       transition: none;
     }
 
@@ -161,7 +303,11 @@
       transition: none;
     }
 
-    .motion-ready .site-header {
+    .motion-ready .site-header,
+    html.motion-ready [data-motion-ambient],
+    html.motion-ready details[open] > :not(summary),
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
       animation: none;
     }
   }
@@ -173,6 +319,7 @@
       motionReveal?: string;
       motionMagnetic?: string;
       motionTilt?: string;
+      motionStagger?: string;
     };
   };
 
@@ -182,73 +329,117 @@
   root.classList.add("motion-ready");
 
   const revealNodes = new Set<MotionNode>();
-  document.querySelectorAll<MotionNode>("main > section:not(.home-hero), [data-motion-reveal]")
-    .forEach((node) => {
-      if (!node.hasAttribute("data-motion-reveal")) node.setAttribute("data-motion-reveal", "");
-      revealNodes.add(node);
-    });
+  const isSpecializedMotionArea = (node: Element) => Boolean(
+    node.closest(".automation-audit-page, .review-page, [data-motion-static]")
+  );
+
+  const registerReveal = (
+    node: HTMLElement,
+    variant = "",
+    delay?: number
+  ) => {
+    if (isSpecializedMotionArea(node)) return;
+    if (!node.hasAttribute("data-motion-reveal")) {
+      node.setAttribute("data-motion-reveal", variant);
+    }
+    if (delay !== undefined && !node.style.getPropertyValue("--motion-delay")) {
+      node.style.setProperty("--motion-delay", `${Math.min(delay, 320)}ms`);
+    }
+    revealNodes.add(node as MotionNode);
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-motion-reveal]")
+    .forEach((node) => registerReveal(node));
 
   document.querySelectorAll<HTMLElement>("[data-motion-stagger]").forEach((group) => {
+    if (isSpecializedMotionArea(group) || group.hasAttribute("data-motion-path")) return;
+    const groupVariant = group.dataset.motionStagger || "";
     Array.from(group.children).forEach((child, index) => {
       if (!(child instanceof HTMLElement)) return;
-      child.setAttribute("data-motion-reveal", child.dataset.motionReveal || "");
-      child.style.setProperty("--motion-delay", `${Math.min(index * 90, 540)}ms`);
-      revealNodes.add(child as MotionNode);
+      registerReveal(child, child.dataset.motionReveal || groupVariant, index * 72);
     });
   });
 
-  if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+  document.querySelectorAll<HTMLElement>("main > header").forEach((header) => {
+    if (isSpecializedMotionArea(header) || header.querySelector("[data-motion-reveal], [data-motion-stagger]")) return;
+    const shell = header.querySelector<HTMLElement>(":scope > .container") || header;
+    Array.from(shell.children)
+      .filter((child): child is HTMLElement => child instanceof HTMLElement && child.getAttribute("aria-hidden") !== "true")
+      .forEach((child, index) => {
+        const variant = child.matches("h1, h2") ? "left" : child.matches("aside") ? "right" : "fade";
+        registerReveal(child, variant, index * 64);
+      });
+  });
+
+  document.querySelectorAll<HTMLElement>("main > section:not(.home-hero)").forEach((section) => {
+    if (
+      isSpecializedMotionArea(section)
+      || section.querySelector("[data-motion-reveal], [data-motion-stagger], [data-motion-path]")
+      || section.closest(".legal-page")
+    ) return;
+    registerReveal(section);
+  });
+
+  document.querySelectorAll<HTMLElement>(
+    ".page-hero-orb, .resource-orb, .roi-tool-orb, .cluster-glow"
+  ).forEach((ambient) => ambient.setAttribute("data-motion-ambient", ""));
+
+  const pendingRevealNodes = new Set(revealNodes);
+  let revealObserver: IntersectionObserver | null = null;
+  const revealEverything = () => {
+    revealObserver?.disconnect();
+    revealObserver = null;
     revealNodes.forEach((node) => node.classList.add("is-motion-visible"));
+    pendingRevealNodes.clear();
+  };
+
+  if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+    revealEverything();
   } else {
-    const revealObserver = new IntersectionObserver((entries, observer) => {
+    revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-motion-visible");
+        pendingRevealNodes.delete(entry.target as MotionNode);
         observer.unobserve(entry.target);
       });
     }, {
-      rootMargin: "0px 0px -8% 0px",
-      threshold: 0.12
+      rootMargin: "0px 0px -7% 0px",
+      threshold: 0.1
     });
 
-    revealNodes.forEach((node) => revealObserver.observe(node));
+    revealNodes.forEach((node) => revealObserver?.observe(node));
   }
+
+  const revealSkippedNodes = () => {
+    pendingRevealNodes.forEach((node) => {
+      if (node.getBoundingClientRect().bottom >= 0) return;
+      node.classList.add("is-motion-visible");
+      revealObserver?.unobserve(node);
+      pendingRevealNodes.delete(node);
+    });
+  };
 
   const resetPointerStyles = (element: HTMLElement, properties: string[]) => {
     properties.forEach((property) => element.style.removeProperty(property));
   };
 
-  document.querySelectorAll<HTMLElement>(".button, [data-motion-magnetic]").forEach((button) => {
-    button.setAttribute("data-motion-magnetic", "");
-    if (reducedMotion.matches || !precisePointer.matches) return;
+  const magneticNodes = Array.from(document.querySelectorAll<HTMLElement>(
+    ".button, [data-motion-magnetic]"
+  ));
+  magneticNodes.forEach((button) => button.setAttribute("data-motion-magnetic", ""));
 
-    button.addEventListener("pointermove", (event) => {
-      const rect = button.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 11;
-      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 9;
-      button.style.setProperty("--motion-magnetic-x", `${x.toFixed(2)}px`);
-      button.style.setProperty("--motion-magnetic-y", `${y.toFixed(2)}px`);
-    });
+  const tiltNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-motion-tilt]"));
+  const motionHeroes = Array.from(document.querySelectorAll<HTMLElement>("[data-motion-hero]"));
+  let pointerController: AbortController | null = null;
 
-    button.addEventListener("pointerleave", () => {
+  const stopPointerMotion = () => {
+    pointerController?.abort();
+    pointerController = null;
+    magneticNodes.forEach((button) => {
       resetPointerStyles(button, ["--motion-magnetic-x", "--motion-magnetic-y"]);
     });
-  });
-
-  document.querySelectorAll<HTMLElement>("[data-motion-tilt]").forEach((card) => {
-    if (reducedMotion.matches || !precisePointer.matches) return;
-
-    card.addEventListener("pointermove", (event) => {
-      const rect = card.getBoundingClientRect();
-      const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-      const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
-      card.style.setProperty("--motion-tilt-x", `${((0.5 - py) * 6).toFixed(2)}deg`);
-      card.style.setProperty("--motion-tilt-y", `${((px - 0.5) * 7).toFixed(2)}deg`);
-      card.style.setProperty("--motion-glow-x", `${(px * 100).toFixed(1)}%`);
-      card.style.setProperty("--motion-glow-y", `${(py * 100).toFixed(1)}%`);
-    });
-
-    card.addEventListener("pointerleave", () => {
+    tiltNodes.forEach((card) => {
       resetPointerStyles(card, [
         "--motion-tilt-x",
         "--motion-tilt-y",
@@ -256,10 +447,57 @@
         "--motion-glow-y"
       ]);
     });
-  });
+    motionHeroes.forEach((hero) => {
+      resetPointerStyles(hero, [
+        "--hero-pointer-x",
+        "--hero-pointer-y",
+        "--hero-shift-x",
+        "--hero-shift-y"
+      ]);
+    });
+  };
 
-  const motionHeroes = Array.from(document.querySelectorAll<HTMLElement>("[data-motion-hero]"));
-  if (!reducedMotion.matches && precisePointer.matches) {
+  const startPointerMotion = () => {
+    stopPointerMotion();
+    if (reducedMotion.matches || !precisePointer.matches) return;
+    pointerController = new AbortController();
+    const { signal } = pointerController;
+
+    magneticNodes.forEach((button) => {
+      button.addEventListener("pointermove", (event) => {
+        const rect = button.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width - 0.5) * 11;
+        const y = ((event.clientY - rect.top) / rect.height - 0.5) * 9;
+        button.style.setProperty("--motion-magnetic-x", `${x.toFixed(2)}px`);
+        button.style.setProperty("--motion-magnetic-y", `${y.toFixed(2)}px`);
+      }, { signal });
+
+      button.addEventListener("pointerleave", () => {
+        resetPointerStyles(button, ["--motion-magnetic-x", "--motion-magnetic-y"]);
+      }, { signal });
+    });
+
+    tiltNodes.forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const px = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const py = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        card.style.setProperty("--motion-tilt-x", `${((0.5 - py) * 6).toFixed(2)}deg`);
+        card.style.setProperty("--motion-tilt-y", `${((px - 0.5) * 7).toFixed(2)}deg`);
+        card.style.setProperty("--motion-glow-x", `${(px * 100).toFixed(1)}%`);
+        card.style.setProperty("--motion-glow-y", `${(py * 100).toFixed(1)}%`);
+      }, { signal });
+
+      card.addEventListener("pointerleave", () => {
+        resetPointerStyles(card, [
+          "--motion-tilt-x",
+          "--motion-tilt-y",
+          "--motion-glow-x",
+          "--motion-glow-y"
+        ]);
+      }, { signal });
+    });
+
     motionHeroes.forEach((hero) => {
       let frame = 0;
       let pointerX = 50;
@@ -278,19 +516,53 @@
         pointerX = ((event.clientX - rect.left) / rect.width) * 100;
         pointerY = ((event.clientY - rect.top) / rect.height) * 100;
         if (!frame) frame = window.requestAnimationFrame(paint);
-      });
+      }, { signal });
 
       hero.addEventListener("pointerleave", () => {
         pointerX = 50;
         pointerY = 38;
         if (!frame) frame = window.requestAnimationFrame(paint);
-      });
+      }, { signal });
+
+      signal.addEventListener("abort", () => {
+        if (frame) window.cancelAnimationFrame(frame);
+      }, { once: true });
     });
-  }
+  };
 
   const parallaxNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-motion-parallax]"));
-  if (parallaxNodes.length && !reducedMotion.matches) {
-    let parallaxFrame = 0;
+  const processPaths = Array.from(document.querySelectorAll<HTMLElement>("[data-motion-path]"));
+  let scrollController: AbortController | null = null;
+  let parallaxFrame = 0;
+  let processFrame = 0;
+
+  const completeProcessPaths = () => {
+    processPaths.forEach((path) => {
+      path.style.setProperty("--motion-path-progress", "1");
+      path.querySelectorAll(":scope > li").forEach((step) => step.classList.add("is-motion-active"));
+    });
+  };
+
+  const stopScrollMotion = () => {
+    scrollController?.abort();
+    scrollController = null;
+    if (parallaxFrame) window.cancelAnimationFrame(parallaxFrame);
+    if (processFrame) window.cancelAnimationFrame(processFrame);
+    parallaxFrame = 0;
+    processFrame = 0;
+  };
+
+  const startScrollMotion = () => {
+    stopScrollMotion();
+    if (reducedMotion.matches) {
+      parallaxNodes.forEach((node) => node.style.removeProperty("--motion-parallax-y"));
+      completeProcessPaths();
+      return;
+    }
+
+    scrollController = new AbortController();
+    const { signal } = scrollController;
+
     const updateParallax = () => {
       parallaxFrame = 0;
       parallaxNodes.forEach((node) => {
@@ -303,18 +575,6 @@
       });
     };
 
-    const requestParallaxPaint = () => {
-      if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(updateParallax);
-    };
-
-    updateParallax();
-    window.addEventListener("scroll", requestParallaxPaint, { passive: true });
-    window.addEventListener("resize", requestParallaxPaint);
-  }
-
-  const processPaths = Array.from(document.querySelectorAll<HTMLElement>("[data-motion-path]"));
-  if (processPaths.length && !reducedMotion.matches) {
-    let processFrame = 0;
     const updateProcessPaths = () => {
       processFrame = 0;
       processPaths.forEach((path) => {
@@ -332,17 +592,36 @@
       });
     };
 
-    const requestProcessPaint = () => {
-      if (!processFrame) processFrame = window.requestAnimationFrame(updateProcessPaths);
+    const requestPaint = () => {
+      revealSkippedNodes();
+      if (parallaxNodes.length && !parallaxFrame) {
+        parallaxFrame = window.requestAnimationFrame(updateParallax);
+      }
+      if (processPaths.length && !processFrame) {
+        processFrame = window.requestAnimationFrame(updateProcessPaths);
+      }
     };
 
+    updateParallax();
     updateProcessPaths();
-    window.addEventListener("scroll", requestProcessPaint, { passive: true });
-    window.addEventListener("resize", requestProcessPaint);
-  } else {
-    processPaths.forEach((path) => {
-      path.style.setProperty("--motion-path-progress", "1");
-      path.querySelectorAll(":scope > li").forEach((step) => step.classList.add("is-motion-active"));
-    });
-  }
+    window.addEventListener("scroll", requestPaint, { passive: true, signal });
+    window.addEventListener("resize", requestPaint, { signal });
+  };
+
+  const applyMotionPreferences = () => {
+    if (reducedMotion.matches) revealEverything();
+    startPointerMotion();
+    startScrollMotion();
+  };
+
+  startPointerMotion();
+  startScrollMotion();
+  reducedMotion.addEventListener("change", applyMotionPreferences);
+  precisePointer.addEventListener("change", startPointerMotion);
+
+  const syncDocumentVisibility = () => {
+    root.classList.toggle("motion-paused", document.hidden);
+  };
+  syncDocumentVisibility();
+  document.addEventListener("visibilitychange", syncDocumentVisibility);
 </script>

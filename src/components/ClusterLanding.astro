@@ -79,9 +79,9 @@ const faqSchema = {
   <main id="main-content" class="cluster-page">
     <header class="cluster-hero">
       <div class="cluster-grid" aria-hidden="true"></div>
-      <div class="cluster-glow" aria-hidden="true"></div>
+      <div class="cluster-glow" aria-hidden="true" data-motion-ambient></div>
       <div class="container cluster-hero-shell">
-        <nav class="cluster-breadcrumbs" aria-label="Breadcrumb">
+        <nav class="cluster-breadcrumbs" aria-label="Breadcrumb" data-motion-reveal="fade">
           <ol>
             <li><a href="/">Home</a></li>
             <li><a href={`/${page.collection}/`}>{parentLabel}</a></li>
@@ -89,8 +89,8 @@ const faqSchema = {
           </ol>
         </nav>
 
-        <div class="cluster-hero-layout">
-          <div>
+        <div class="cluster-hero-layout" data-motion-stagger>
+          <div data-motion-reveal="left">
             <p class="cluster-eyebrow">{page.eyebrow}</p>
             <h1>{page.headline}</h1>
             <p class="cluster-summary">{page.summary}</p>
@@ -101,7 +101,7 @@ const faqSchema = {
             <p class="cluster-helper">Clear scope · Production-ready build · Your business owns the system</p>
           </div>
 
-          <aside class="cluster-answer" aria-labelledby="cluster-definition-title">
+          <aside class="cluster-answer" aria-labelledby="cluster-definition-title" data-motion-reveal="right">
             <span>{page.definitionLabel ?? "In plain English"}</span>
             <h2 id="cluster-definition-title">What is {page.name}?</h2>
             <p>{page.definition}</p>
@@ -124,12 +124,12 @@ const faqSchema = {
 
     <section class="cluster-section" aria-labelledby="cluster-challenges-title">
       <div class="container cluster-split">
-        <div class="cluster-heading">
+        <div class="cluster-heading" data-motion-reveal="left">
           <p class="cluster-eyebrow">The business problem</p>
           <h2 id="cluster-challenges-title">{page.challengesTitle}</h2>
           <p>{page.challengesIntro}</p>
         </div>
-        <div class="cluster-card-list">
+        <div class="cluster-card-list" data-motion-stagger>
           {page.challenges.map((item, index) => (
             <article>
               <span>{String(index + 1).padStart(2, "0")}</span>
@@ -142,12 +142,12 @@ const faqSchema = {
 
     <section class="cluster-section cluster-section-light" aria-labelledby="cluster-capabilities-title">
       <div class="container">
-        <div class="cluster-heading cluster-heading-wide">
+        <div class="cluster-heading cluster-heading-wide" data-motion-reveal="left">
           <p class="cluster-eyebrow">What Velixon builds</p>
           <h2 id="cluster-capabilities-title">{page.capabilitiesTitle}</h2>
           <p>{page.capabilitiesIntro}</p>
         </div>
-        <div class="cluster-card-grid">
+        <div class="cluster-card-grid" data-motion-stagger>
           {page.capabilities.map((item) => (
             <article><i aria-hidden="true"></i><h3>{item.title}</h3><p>{item.description}</p></article>
           ))}
@@ -157,12 +157,12 @@ const faqSchema = {
 
     <section class="cluster-section" aria-labelledby="cluster-outcomes-title">
       <div class="container">
-        <div class="cluster-heading cluster-heading-wide">
+        <div class="cluster-heading cluster-heading-wide" data-motion-reveal="left">
           <p class="cluster-eyebrow">Business outcomes</p>
           <h2 id="cluster-outcomes-title">{page.outcomesTitle}</h2>
           <p>{page.outcomesIntro}</p>
         </div>
-        <div class="cluster-outcome-grid">
+        <div class="cluster-outcome-grid" data-motion-stagger>
           {page.outcomes.map((item) => (
             <article><h3>{item.title}</h3><p>{item.description}</p></article>
           ))}
@@ -172,12 +172,12 @@ const faqSchema = {
 
     <section class="cluster-section cluster-examples" id="examples" aria-labelledby="cluster-examples-title">
       <div class="container cluster-split">
-        <div class="cluster-heading">
+        <div class="cluster-heading" data-motion-reveal="left">
           <p class="cluster-eyebrow">Applied examples</p>
           <h2 id="cluster-examples-title">{page.examplesTitle}</h2>
           <p>{page.examplesIntro}</p>
         </div>
-        <div class="cluster-example-list">
+        <div class="cluster-example-list" data-motion-stagger>
           {page.examples.map((item) => (
             <article><span aria-hidden="true">↗</span><div><h3>{item.title}</h3><p>{item.description}</p></div></article>
           ))}
@@ -188,12 +188,12 @@ const faqSchema = {
     {page.roi && (
       <section class="cluster-section cluster-roi" aria-labelledby="cluster-roi-title">
         <div class="container cluster-roi-shell">
-          <div>
+          <div data-motion-reveal="left">
             <p class="cluster-eyebrow">Estimate the opportunity</p>
             <h2 id="cluster-roi-title">{page.roi.title}</h2>
             <p>{page.roi.description}</p>
           </div>
-          <div class="cluster-roi-model">
+          <div class="cluster-roi-model" data-motion-reveal="right">
             <strong>{page.roi.formula}</strong>
             <ul>{page.roi.factors.map((factor) => <li>{factor}</li>)}</ul>
             <small>{page.roi.disclaimer}</small>
@@ -204,13 +204,13 @@ const faqSchema = {
 
     <section class="cluster-section cluster-section-light" aria-labelledby="cluster-process-title">
       <div class="container cluster-split">
-        <div class="cluster-heading cluster-sticky">
+        <div class="cluster-heading cluster-sticky" data-motion-reveal="left">
           <p class="cluster-eyebrow">Delivery process</p>
           <h2 id="cluster-process-title">From operational problem to working system</h2>
           <p>{page.processIntro}</p>
           <a class="cluster-text-link" href="/process/">Explore the complete process <span aria-hidden="true">→</span></a>
         </div>
-        <ol class="cluster-process">
+        <ol class="cluster-process" data-motion-path>
           {page.process.map((step) => (
             <li><span>{step.label}</span><div><h3>{step.title}</h3><p>{step.description}</p></div></li>
           ))}
@@ -220,22 +220,22 @@ const faqSchema = {
 
     <section class="cluster-section" aria-labelledby="cluster-fit-title">
       <div class="container cluster-fit-shell">
-        <div class="cluster-heading">
+        <div class="cluster-heading" data-motion-reveal="left">
           <p class="cluster-eyebrow">Right-fit signals</p>
           <h2 id="cluster-fit-title">{page.idealForTitle}</h2>
         </div>
-        <ul class="cluster-fit-list">{page.idealFor.map((item) => <li>{item}</li>)}</ul>
+        <ul class="cluster-fit-list" data-motion-stagger>{page.idealFor.map((item) => <li>{item}</li>)}</ul>
       </div>
     </section>
 
     <section class="cluster-section cluster-technology" aria-labelledby="cluster-technology-title">
       <div class="container cluster-tech-layout">
-        <div class="cluster-heading">
+        <div class="cluster-heading" data-motion-reveal="left">
           <p class="cluster-eyebrow">Technology</p>
           <h2 id="cluster-technology-title">The stack follows the system—not the trend.</h2>
           <p>{page.technologyNote}</p>
         </div>
-        <div class="cluster-tech-list" aria-label="Relevant technology">
+        <div class="cluster-tech-list" aria-label="Relevant technology" data-motion-stagger>
           {page.technology.map((technology) => <span>{technology}</span>)}
         </div>
       </div>
@@ -243,7 +243,7 @@ const faqSchema = {
 
     <section class="cluster-section cluster-faq" aria-labelledby="cluster-faq-title">
       <div class="container cluster-split">
-        <div class="cluster-heading cluster-sticky">
+        <div class="cluster-heading cluster-sticky" data-motion-reveal="left">
           <p class="cluster-eyebrow">Questions answered</p>
           <h2 id="cluster-faq-title">Frequently asked questions</h2>
           <p>Practical answers about scope, cost drivers, implementation, security, and ownership.</p>
@@ -256,11 +256,11 @@ const faqSchema = {
 
     <section class="cluster-section cluster-related" aria-labelledby="cluster-related-title">
       <div class="container">
-        <div class="cluster-heading cluster-heading-wide">
+        <div class="cluster-heading cluster-heading-wide" data-motion-reveal="left">
           <p class="cluster-eyebrow">Continue exploring</p>
           <h2 id="cluster-related-title">Related services, systems, and decision guides</h2>
         </div>
-        <div class="cluster-related-grid">
+        <div class="cluster-related-grid" data-motion-stagger>
           {page.related.map((item) => (
             <a href={item.href}><span>{item.label ?? "Related"}</span><h3>{item.title}</h3><p>{item.description}</p><b>Explore <i aria-hidden="true">→</i></b></a>
           ))}

@@ -19,20 +19,20 @@ const analyticsEventForHref = (href?: string) => {
 ---
 
 <section class="page-hero">
-  <div class="page-hero-orb page-hero-orb-one" aria-hidden="true"></div>
-  <div class="page-hero-orb page-hero-orb-two" aria-hidden="true"></div>
-  <div class="container page-hero-shell">
-    <p class="eyebrow">{eyebrow}</p>
-    <h1>{title}</h1>
-    <p class="page-hero-text">{description}</p>
+  <div class="page-hero-orb page-hero-orb-one" aria-hidden="true" data-motion-ambient></div>
+  <div class="page-hero-orb page-hero-orb-two" aria-hidden="true" data-motion-ambient></div>
+  <div class="container page-hero-shell" data-motion-stagger>
+    <p class="eyebrow" data-motion-reveal="fade">{eyebrow}</p>
+    <h1 data-motion-reveal="left">{title}</h1>
+    <p class="page-hero-text" data-motion-reveal="fade">{description}</p>
 
     {(cta || secondaryCta) && (
-      <div class="page-hero-actions">
+      <div class="page-hero-actions" data-motion-reveal="scale">
         {cta && ctaHref && <a class="button" href={ctaHref} data-analytics-event={analyticsEventForHref(ctaHref)} data-analytics-location="page-hero">{cta}</a>}
         {secondaryCta && secondaryCtaHref && <a class="button button-secondary" href={secondaryCtaHref} data-analytics-event={analyticsEventForHref(secondaryCtaHref)} data-analytics-location="page-hero-secondary">{secondaryCta}</a>}
       </div>
     )}
 
-    {helper && <p class="page-hero-helper">{helper}</p>}
+    {helper && <p class="page-hero-helper" data-motion-reveal="fade">{helper}</p>}
   </div>
 </section>
