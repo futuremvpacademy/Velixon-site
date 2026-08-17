@@ -1,6 +1,6 @@
 # Velixon website
 
-Production Astro site for Velixon, the trade name of Velixon Solutions LLC, a Utah single-member LLC founded by Peter Munnich. Public mailing address: 718 N 1130 W, Orem, UT 84057. The site is statically generated, deployed on Netlify, and uses data-driven landing-page systems for services, solutions, industries, integrations, and locations.
+Production Astro site for Velixon, the trade name of Velixon Solutions LLC, a Utah single-member LLC founded by Peter Munnich. Public mailing address: 180 S 1350 E St, Lehi, UT 84043. The site is statically generated, deployed on Netlify, and uses data-driven landing-page systems for services, solutions, industries, integrations, and locations.
 
 The primary public offer is the Free Business Systems Audit. The dedicated `/free-audit/` conversion page uses a short one-step request form and promises a personalized one-page scorecard and three prioritized recommendations within three business days for accepted complete requests. No call is required. After delivery, a recipient may reply to request an optional 20-minute strategy call, which Velixon arranges manually; the site has no public booking URL or scheduling embed. It captures first-touch campaign attribution even when optional analytics is disabled. The server endpoint validates and deduplicates submissions, stores trusted records in Netlify Blobs, and can send confirmation and internal notification emails when a verified Resend sender is configured.
 

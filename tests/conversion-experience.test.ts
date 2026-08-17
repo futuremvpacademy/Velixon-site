@@ -32,8 +32,8 @@ test("public identity, pricing, and offer positioning use approved business fact
   assert.match(publicCopy, /Velixon Solutions LLC/);
   assert.match(publicCopy, /Utah single-member/);
   assert.match(publicCopy, /Founder of Velixon/);
-  assert.match(publicCopy, /718 N 1130 W/);
-  assert.match(publicCopy, /Orem, UT 84057/);
+  assert.match(publicCopy, /180 S 1350 E St/);
+  assert.match(publicCopy, /Lehi, UT 84043/);
   assert.match(publicCopy, /Utah/);
   assert.match(publicCopy, /United States/);
   assert.match(publicCopy, /velixon@velixon\.net/);

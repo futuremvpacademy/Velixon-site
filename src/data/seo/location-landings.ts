@@ -13,7 +13,7 @@ export const locationLandingPages: SeoLandingData[] = [
     summary: "Velixon designs custom AI, workflow automation, and business software for Utah organizations—from field and professional services to advanced manufacturing, life sciences, healthcare, finance, fintech, and technology teams.",
     primaryKeyword: "AI automation agency in Utah",
     secondaryKeywords: ["Utah AI automation company", "business automation Utah", "custom AI software Utah", "AI consulting Utah"],
-    definition: "An AI automation agency serving Utah maps a company's real workflow, connects approved business systems, and builds governed software that can interpret information, move routine work, and surface exceptions. Local relevance comes from understanding the region's operating sectors and service expectations—not from repeating a city name or claiming an office that does not exist.",
+    definition: "An AI automation agency serving Utah maps a company's real workflow, connects approved business systems, and builds governed software that can interpret information, move routine work, and surface exceptions. Local relevance comes from understanding the region's operating sectors and service expectations, accurately identifying Velixon's verified Lehi office and mailing presence, and not inventing premises elsewhere.",
     definitionLabel: "What local service means",
     challengesTitle: "Utah growth can expose the limits of an improvised operating stack.",
     challengesIntro: "The right system depends on whether the company coordinates field crews, regulated client records, multi-entity finance, production work, software customers, or teams spread across the Wasatch Front and the rest of the state.",
@@ -68,7 +68,7 @@ export const locationLandingPages: SeoLandingData[] = [
       { label: "05", title: "Controlled Utah rollout", description: "Launch by workflow, team, location, territory, or customer cohort; compare evidence; and expand only after the system is stable." }
     ],
     technology: ["OpenAI", "Anthropic", "Google Gemini", "n8n", "Make", "Zapier", "Supabase", "PostgreSQL", "HubSpot", "QuickBooks", "Twilio", "Microsoft 365", "Google Workspace"],
-    technologyNote: "Technology depends on the workflow, data, risk, vendor access, and ownership model. Velixon publishes a mailing address in Orem, Utah; it is not represented as a walk-in office. Remote meetings are available, and any on-site work, travel, availability, or location requirement must be confirmed in the project scope.",
+    technologyNote: "Technology depends on the workflow, data, risk, vendor access, and ownership model. Velixon uses office space and publishes its mailing address in Lehi, Utah; it is not represented as a walk-in storefront. Remote meetings are available, and any on-site work, travel, availability, or location requirement must be confirmed in the project scope.",
     roi: {
       title: "Build a Utah automation case from local operating evidence.",
       description: "Use actual Utah team, customer, branch, project, or facility volume. Separate software-addressable coordination from travel, labor, market, regulatory, and physical constraints that remain.",
@@ -77,7 +77,7 @@ export const locationLandingPages: SeoLandingData[] = [
       disclaimer: "This is a planning framework, not a guarantee of Utah market growth, jobs, revenue, savings, compliance, or operational outcomes. Validate assumptions with company records."
     },
     faqs: [
-      { question: "Does Velixon have a physical office in Utah?", answer: "Velixon Solutions LLC has a public mailing address at 718 N 1130 W, Orem, UT 84057. It is not represented as a walk-in office. Confirm meeting format, on-site needs, travel, and availability directly for the proposed engagement." },
+      { question: "Does Velixon have a physical office in Utah?", answer: "Velixon Solutions LLC uses 180 S 1350 E St, Lehi, UT 84043 as office space and its public mailing address. It is not represented as a walk-in storefront. Confirm meeting format, on-site needs, travel, and availability directly for the proposed engagement." },
       { question: "Can Velixon serve businesses outside the Wasatch Front?", answer: "Yes, projects can be delivered remotely to Utah organizations. A statewide field or branch workflow should explicitly account for territory, travel, connectivity, and local process differences. Any on-site work is agreed case by case." },
       { question: "Which Utah industries are a strong fit for automation?", answer: "Strong fit depends on workflow rather than industry label. Utah's technology, advanced manufacturing, healthcare and life sciences, finance and fintech, aerospace, construction, field service, and professional firms can all have high-value processes when volume, rules, data, risk, and outcomes are clear." },
       { question: "Can you work with our existing Utah software vendor or IT provider?", answer: "Yes. Velixon can define responsibilities with internal IT, managed providers, software vendors, and security or compliance teams. Discovery confirms access, environments, change control, support ownership, and incident communication before production work." },
@@ -199,7 +199,7 @@ export const locationDirectory: DirectoryGroup[] = [
     description: "These pages contain distinct regional and industry context. Velixon has intentionally not generated thin pages for every city or state.",
     items: [
       { href: "/locations/utah/", label: "Statewide", title: "AI Automation Agency in Utah", description: "Systems for Utah technology, healthcare, life sciences, finance, manufacturing, construction, and service organizations." },
-      { href: "/locations/lehi/", label: "Lehi", title: "AI Automation & Custom Software in Lehi", description: "Systems for Utah County technology, professional, contractor, and service-business operations without a manufactured office claim." },
+      { href: "/locations/lehi/", label: "Lehi", title: "AI Automation & Custom Software in Lehi", description: "Systems for Utah County technology, professional, contractor, and service-business operations from Velixon's verified Lehi office and mailing presence." },
       { href: "/locations/salt-lake-city/", label: "Salt Lake City", title: "AI Automation Agency in Salt Lake City", description: "Automation for the city's finance, healthcare, logistics, distribution, manufacturing, outdoor, and growth economy." }
     ]
   }

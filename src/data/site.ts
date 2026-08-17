@@ -62,12 +62,12 @@ export const siteContent = {
     founderTitle: "Founder of Velixon",
     location: "Utah",
     mailingAddress: {
-      streetAddress: "718 N 1130 W",
-      addressLocality: "Orem",
+      streetAddress: "180 S 1350 E St",
+      addressLocality: "Lehi",
       addressRegion: "UT",
-      postalCode: "84057",
+      postalCode: "84043",
       addressCountry: "US",
-      formatted: "718 N 1130 W, Orem, UT 84057"
+      formatted: "180 S 1350 E St, Lehi, UT 84043"
     },
     serviceArea: "Businesses throughout the United States; projects are delivered remotely.",
     responseTime: "Project Estimates and general inquiries: within 1 business day",

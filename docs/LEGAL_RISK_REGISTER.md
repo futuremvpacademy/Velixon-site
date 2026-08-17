@@ -12,7 +12,7 @@ This is an operational checklist, not legal advice. No website language can prev
 ## Verified business facts reflected in the site
 
 - **Legal identity — resolved:** Velixon Solutions LLC is a Utah single-member limited liability company doing business as Velixon. Peter Munnich is the founder. Live Terms, Privacy, identity, contact, footer, security, and structured-data references use these facts.
-- **Public mailing address — resolved:** 718 N 1130 W, Orem, UT 84057. The site labels it as a mailing address and does not represent it as a walk-in office. Counsel should still confirm that each specific commercial-email program satisfies all applicable postal-address and disclosure rules before launch.
+- **Public mailing address — resolved:** 180 S 1350 E St, Lehi, UT 84043. The site identifies it as office space and a mailing address and does not represent it as a walk-in storefront. Counsel should still confirm that each specific commercial-email program satisfies all applicable postal-address and disclosure rules before launch.
 
 ## Website controls to maintain
 
@@ -51,7 +51,7 @@ This is an operational checklist, not legal advice. No website language can prev
 
 Before publishing a legal-page change, record:
 
-1. Verification that the published legal operator remains Velixon Solutions LLC, doing business as Velixon, and the public mailing address remains 718 N 1130 W, Orem, UT 84057.
+1. Verification that the published legal operator remains Velixon Solutions LLC, doing business as Velixon, and the public mailing address remains 180 S 1350 E St, Lehi, UT 84043.
 2. The production vendor/configuration inventory.
 3. Counsel’s approval date and the exact pages/agreement reviewed.
 4. The build, test, accessibility, form, and browser results for that release.

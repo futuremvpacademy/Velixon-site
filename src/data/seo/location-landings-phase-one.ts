@@ -9,10 +9,10 @@ export const phaseOneLocationLandingPages: SeoLandingData[] = [
     metaTitle: "Custom Software Company in Lehi, Utah | Velixon",
     metaDescription: "Velixon builds custom software, web applications, portals, CRM systems, integrations, and AI automation for Lehi and Utah County businesses.",
     headline: "Custom software and AI automation for Lehi businesses building the next operating system.",
-    summary: "Velixon serves companies in Lehi and the surrounding Utah County market with custom software, web applications, CRM systems, portals, integrations, and governed AI automation designed around the operation—not a manufactured local-office claim.",
+    summary: "From its verified Lehi office space and public mailing address, Velixon serves companies in Lehi and the surrounding Utah County market with custom software, web applications, CRM systems, portals, integrations, and governed AI automation designed around the operation.",
     primaryKeyword: "custom software company Lehi Utah",
     secondaryKeywords: ["custom software development Lehi", "custom software developer Lehi Utah", "custom software Utah County", "AI automation company Lehi", "business automation Lehi", "CRM development Lehi"],
-    definition: "A custom software and AI automation company serving Lehi can deliver discovery, product design, architecture, engineering, integration, testing, launch, and continued improvement for local businesses through a remote-first process. Any in-person work is discussed and scoped for the project; this page does not represent a Velixon office or storefront in Lehi.",
+    definition: "A custom software and AI automation company serving Lehi can deliver discovery, product design, architecture, engineering, integration, testing, launch, and continued improvement for local businesses through a remote-first process. Velixon maintains office space and its public mailing address at 180 S 1350 E St, Lehi, UT 84043; it is not represented as a walk-in storefront, and any in-person work is discussed and scoped for the project.",
     definitionLabel: "How Lehi engagements work",
     challengesTitle: "Lehi growth can turn fast-moving workarounds into operating constraints.",
     challengesIntro: "Lehi sits between the Salt Lake City and Provo markets along the Wasatch Front. Companies and service teams working across Utah County and neighboring areas often need systems that support distributed customers, employees, territories, and software without adding another disconnected tool.",
@@ -164,7 +164,7 @@ export const phaseOneLocationLandingPages: SeoLandingData[] = [
     faqs: [
       {
         question: "Does Velixon have a physical office in Lehi?",
-        answer: "This page does not claim a Velixon office or storefront in Lehi. Velixon serves Lehi and Utah County project clients through a remote-first delivery model. Any in-person discovery, observation, training, or rollout work is discussed and scoped explicitly when it adds project value."
+        answer: "Velixon Solutions LLC uses 180 S 1350 E St, Lehi, UT 84043 as office space and its public mailing address. It is not represented as a walk-in storefront. Any in-person discovery, observation, training, or rollout work is discussed and scoped explicitly when it adds project value."
       },
       {
         question: "What services does Velixon provide to Lehi businesses?",

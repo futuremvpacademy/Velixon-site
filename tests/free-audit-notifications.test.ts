@@ -119,7 +119,7 @@ test("confirmation and internal notification contain the new audit contract and 
   assert.match(String(messages[0]?.text), /optional 20-minute strategy call/);
   assert.match(String(messages[0]?.text), /arrange it with you manually/);
   assert.match(String(messages[0]?.text), /Velixon Solutions LLC, doing business as Velixon/);
-  assert.match(String(messages[0]?.text), /718 N 1130 W, Orem, UT 84057/);
+  assert.match(String(messages[0]?.text), /180 S 1350 E St, Lehi, UT 84043/);
   assert.doesNotMatch(String(messages[0]?.text), /book|calendar|schedul/i);
   assert.match(String(messages[1]?.subject), /New Business Systems Audit/);
   assert.match(String(messages[1]?.text), /Strategy call status: Not requested/);
